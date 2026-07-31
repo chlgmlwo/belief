@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Loc_Plaza
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationData
   locationId: loc_plaza
-  displayName: "\uAD11\uC7A5"
+  displayName: "\uC54C\uD604\uC2E4 \uC55E \uAD11\uC7A5"
   description: "\uB3C4\uC2DC \uC911\uC2EC\uC758 \uB113\uC740 \uAD11\uC7A5. \uC18C\uBB38\uC774
     \uAC00\uC7A5 \uBE60\uB974\uAC8C \uD37C\uC9C4\uB2E4."
   worldPosition: {x: -4.2, y: -1.6}
@@ -22,3 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
   - {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
   - {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
+  spreadSpeed: 0
+  npcDensity: 0
+  sensitiveInformationType: 0
+  accessType: 0
+  credibilityModifier: 0

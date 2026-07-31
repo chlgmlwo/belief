@@ -14,7 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MajorNpcData
   npcId: npc_major_lord
   displayName: "\uC601\uC8FC"
-  homeLocation: {fileID: 11400000, guid: cbfd6be4454d78a48a2443caff90c231, type: 2}
+  homeLocation: {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
+  gender: "\uB0A8\uC131"
+  job: "\uD074\uB808\uB974\uD3F0 \uC601\uC8FC"
+  affiliation: "4\uC2A4\uD14C\uC774\uC9C0 \uB3C4\uC2DC \uD1B5\uD569\xB7\uD30C\uC774\uB110"
+  gameplayRoleSummary: "\uCD5C\uC885 \uD074\uB9AC\uC5B4 \uBAA9\uD45C \uB300\uC0C1
+    - \uD50C\uB808\uC774\uC5B4\uAC00 \uC9C1\uC811 \uD754\uB4DC\uB294 \uB300\uC0C1\uC774
+    \uC544\uB2C8\uB77C \uB3C4\uC2DC \uC804\uCCB4 \uBD95\uAD34\uC758 \uACB0\uACFC\uB85C
+    \uC2E4\uAC01\uD558\uB294 \uCD5C\uC885 NPC."
+  aiNotes: []
   trustBias: 0.45
   skepticism: 0.5
   goal: "\uAC00\uBB38\uC758 \uBA85\uC608\uB97C \uC9C0\uD0A8\uB2E4."
@@ -26,3 +34,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bcdb4f54f283ba04ea0cad5c9bce062e, type: 2}
   - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}
   - {fileID: 11400000, guid: b6c54f46a39dd974b99de521aea86e0e, type: 2}
+  beliefDialogues:
+  - {fileID: 11400000, guid: 6592af38b73589e4fa2cdf8864fb7b9f, type: 2}
+  - {fileID: 11400000, guid: 5c0820740afefb845a40f7309a39944a, type: 2}
+  - {fileID: 11400000, guid: 4834f4a715797f54387896f33b1ebf42, type: 2}
+  - {fileID: 11400000, guid: 60fa36ba693ecb745bfe52b127e0a1e9, type: 2}
+  - {fileID: 11400000, guid: d13075fc295501647a3fadd93209e8af, type: 2}
+  movementCandidates:
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
+  preferredLocations:
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
+  avoidedLocations: []

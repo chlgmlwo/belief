@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Stage_04
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.StageData
   stageId: STAGE_04
-  stageNumber: 0
-  stageName: 
-  regionName: 
-  regionDescription: 
-  objective: 
+  stageNumber: 4
+  stageName: "\uB3C4\uC2DC \uD1B5\uD569 \xB7 \uD30C\uC774\uB110"
+  regionName: "\uD074\uB808\uB974\uD3F0 \uB300\uB3C4\uC2DC \uC804\uC5ED"
+  regionDescription: "\uBD81\uBB38\uC5D0\uC11C \uC800\uD0DD\uAE4C\uC9C0, \uC2EC\uC5B4\uB454
+    \uBAA8\uB4E0 \uC18C\uBB38\uC774 \uD558\uB098\uC758 \uC2E0\uD638\uC5D0 \uB9DE\uCDB0
+    \uB3D9\uC2DC\uC5D0 \uC6C0\uC9C1\uC774\uAE30 \uC2DC\uC791\uD55C\uB2E4."
+  objective: "\uAD8C\uB825 \uAE30\uBC18\uACFC \uAD70\uC0AC \uAC1C\uC785\uC744 \uBB34\uB108\uB728\uB9AC\uACE0
+    \uBBFC\uC2EC\uC744 \uD3ED\uBC1C\uC2DC\uCF1C \uC601\uC8FC\uB97C \uC2E4\uAC01\uC2DC\uD0A8\uB2E4."
   locations:
   - {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
   - {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}

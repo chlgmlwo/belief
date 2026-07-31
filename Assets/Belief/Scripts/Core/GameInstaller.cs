@@ -31,6 +31,13 @@ namespace Belief.Core
         [SerializeField] MissionData mission;
         [SerializeField] MissionConditionData instantFailCondition;
 
+        /// <summary>선택 항목 - 지정하면 이 씬이 최종 스테이지로 승리(GameOverEvent(true))할 때만
+        /// 순수 결과 연출(예: 최종 보스 NPC의 Belief를 Denied로)을 적용한다. 미판정 로직에는 전혀
+        /// 관여하지 않는다(StageFinalResultSystem 참고). 비워두면(null) 기존 씬과 동일하게 아무 일도
+        /// 하지 않는다 - 하위 호환.</summary>
+        [Header("Final Result (선택 - 최종 승리 결과 연출)")]
+        [SerializeField] StageFinalResultData finalResultData;
+
         [Header("Belief Tuning")]
         [SerializeField] BeliefTuningData beliefTuning;
         [SerializeField] MemoryTuningData memoryTuning;
@@ -125,6 +132,9 @@ namespace Belief.Core
 
             Turns = new TurnSystem(informationCards, delivery, minorBehavior, majorMovement, Mission, npcStates, locationStates, effectiveMaxTurns, instantFailCondition, EventBus, locationMechanics);
             turnSystemRef = Turns;
+
+            if (finalResultData != null)
+                new StageFinalResultSystem(finalResultData, npcStates, EventBus);
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             // NPC Decision Trace(Editor 전용 관찰 창)가 읽는 상위 문맥값 - 델리게이트만 등록할 뿐

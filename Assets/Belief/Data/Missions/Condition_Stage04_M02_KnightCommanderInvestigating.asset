@@ -17,4 +17,4 @@ MonoBehaviour:
   targetLocation: {fileID: 11400000, guid: aae10202969e7d546a41f9a4da180735, type: 2}
   requiredActor: {fileID: 11400000, guid: 6d76d44d879c888408a1d9d7bc8fd8ce, type: 2}
   requiredResultType: 0
-  requiredCategoryId: MILITARY
+  requiredCategoryId: 

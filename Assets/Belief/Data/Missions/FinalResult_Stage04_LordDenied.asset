@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1fecd2a22ea7f4d88f4dc0285a3598, type: 3}
+  m_Name: FinalResult_Stage04_LordDenied
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.StageFinalResultData
+  targetNpc: {fileID: 11400000, guid: b61f1196e7ee84945894e1c731022573, type: 2}
+  denialCards:
+  - {fileID: 11400000, guid: 543e6dd736790be4eaa182cf8b68db0b, type: 2}
+  - {fileID: 11400000, guid: 4f45c2fcc626128489c1eb629a148114, type: 2}
+  - {fileID: 11400000, guid: cabf2e3cafa848149b1bdf4b80b63ec2, type: 2}

@@ -610,6 +610,7 @@ MonoBehaviour:
   maxTurns: 12
   mission: {fileID: 11400000, guid: d560603516782a249bd5fb1063f8d00c, type: 2}
   instantFailCondition: {fileID: 0}
+  finalResultData: {fileID: 11400000, guid: 8f75051cfef353f4ab20e26521451d44, type: 2}
   beliefTuning: {fileID: 11400000, guid: 1bb3a34b5fe2d7e42b7201155d12638d, type: 2}
   memoryTuning: {fileID: 11400000, guid: 2cab1061d83833242986932687afe6d2, type: 2}
   repeatedLiesCategory: {fileID: 11400000, guid: 0175e68d365b81c48af6d2f59f0ee9c4, type: 2}
