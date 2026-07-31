@@ -4,7 +4,11 @@ using Belief.Events;
 
 namespace Belief.Systems
 {
-    /// <summary>MissionState의 유일한 쓰기 지점. 승리 판정 로직은 MissionConditionData(데이터)에 있다.</summary>
+    /// <summary>MissionState의 유일한 쓰기 지점. 승리 판정 로직은 MissionConditionData(데이터)에 있다.
+    /// 역할은 "현재 로드된 MissionData 하나"의 진행률 계산과 UI/로그용 이벤트 제공으로 한정된다 -
+    /// 최종 판정 권한(성공/실패/턴소진/전환/승리 확정, GameOverEvent 발행)은 전부
+    /// Belief.Core.ProgressionController에 있다. 아래 MissionCompletedEvent는 게임 흐름을 바꾸지
+    /// 않는다 - EventLogSystem이 로그 문구("임무 성공!")로만 소비하는 알림용이다.</summary>
     public class MissionSystem
     {
         MissionState state;

@@ -20,11 +20,16 @@ namespace Belief.Core
     }
 
     /// <summary>
-    /// 씬(구역) 진행을 담당하는 유일한 영속 오브젝트(DontDestroyOnLoad). 각 구역의
-    /// GameInstaller.mission(싱글 필드, 항상 완료되지 않는 더미로 배선됨)과는 별개로,
-    /// ProgressionData에 지정된 진짜 목표(MissionData 2~4개)를 매 턴 종료마다 직접 재평가해
-    /// 구역 완료 여부를 판정한다 - "미션 완료 상태"(기존 HUD MISSION 패널)와
-    /// "씬 진행 조건"(이 클래스)을 분리해서 관리한다.
+    /// 씬(구역) 진행을 담당하는 유일한 영속 오브젝트(DontDestroyOnLoad)이자, 미션 성공/실패/
+    /// 즉시실패/턴소진/목표전환/스테이지완료/최종승리·GameOverEvent 발행의 유일한 최종 판정
+    /// 주체다. ProgressionData에 지정된 진짜 목표(MissionData 2~4개)를 매 턴 종료마다 직접
+    /// 재평가한다. GameInstaller.Mission(=TurnSystem이 갖는 MissionSystem)은 더 이상 판정 권한이
+    /// 없고, 현재 목표 하나의 진행률 계산과 UI/로그용 이벤트(MissionProgressChangedEvent/
+    /// MissionCompletedEvent) 제공으로 역할이 제한된다 - "진행률 계산"(MissionSystem)과
+    /// "최종 판정"(이 클래스)을 분리해서 관리한다. TurnSystem은 판정에 필요한 신호
+    /// (TurnEndedEvent.InstantFailTriggered, CurrentTurn/MaxTurns)만 계산해 전달할 뿐, 스스로
+    /// GameOverEvent를 발행하지 않는다(단, StageData가 없는 씬의 레거시 폴백은 예외 - §ReevaluateCurrentStage
+    /// 상단 조건 참고).
     ///
     /// 미션/구역 완료는 즉시 진행되지 않는다 - 목표가 완료되는 순간 턴 진행을 얼려두고(FreezeTurnAdvance)
     /// Pending* 이벤트만 발행한 뒤, HUD가 보여주는 확인 팝업에서 플레이어가 버튼을 눌러야만
@@ -82,7 +87,7 @@ namespace Belief.Core
             if (Data == null)
                 Debug.LogError("ProgressionController: Resources/ProgressionData.asset을 찾을 수 없습니다.");
 
-            turnEndedHandler = _ => ReevaluateCurrentStage();
+            turnEndedHandler = e => ReevaluateCurrentStage(e.InstantFailTriggered, turnJustEnded: true);
             SceneManager.sceneLoaded += OnSceneLoaded;
             // 씬 로드 이벤트를 놓쳤을 경우를 대비한 안전망 - 이미 로드된 씬이 있다면 즉시 한 번 시도한다.
             OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -130,7 +135,9 @@ namespace Belief.Core
         {
             yield return null;
             deferredEvaluateRoutine = null;
-            ReevaluateCurrentStage();
+            // 씬 시작 직후 1회성 초기 평가 - 아직 어떤 턴도 끝나지 않았으므로 즉시실패/턴소진 신호는
+            // 존재하지 않는다(instantFailTriggered=false, turnJustEnded=false로 턴소진 체크도 건너뜀).
+            ReevaluateCurrentStage(instantFailTriggered: false, turnJustEnded: false);
         }
 
         void DetachFromCurrentInstaller()
@@ -139,16 +146,37 @@ namespace Belief.Core
             currentInstaller = null;
         }
 
-        void ReevaluateCurrentStage()
+        /// <summary>최종 판정 권한 단일화 - 미션 성공/실패/즉시실패/턴소진/목표전환/스테이지완료/
+        /// 최종승리를 전부 이 메서드 하나가 확정하고, GameOverEvent를 포함한 모든 결과 이벤트도
+        /// 여기서만 발행한다. 우선순위(같은 턴에 여러 조건이 겹칠 때): 1) instantFailTriggered
+        /// (씬 레벨 즉시실패) 2) 현재 목표의 명시적 failureConditions 3) 성공 조건(마지막 턴이어도
+        /// 성공이 확인되면 성공으로 인정) 4) 턴 소진 실패. TurnSystem/MissionSystem은 이 결과를
+        /// 직접 확정하거나 GameOverEvent를 발행하지 않는다 - 계산된 신호(instantFailTriggered 등)만
+        /// 전달한다.
+        /// StageData가 배선되지 않은 씬(currentStage==null, 현재 정식 4개 스테이지는 전부 배선되어
+        /// 있어 해당 없음)에서는 이 메서드가 맨 위에서 즉시 반환하고, TurnSystem 자신의 레거시
+        /// 폴백(FinishTurnAsync 하단)이 대신 동작한다 - 실행 순서에 암묵적으로 기대는 게 아니라
+        /// currentStage==null이라는 명시적 조건으로 두 경로가 갈린다.</summary>
+        void ReevaluateCurrentStage(bool instantFailTriggered, bool turnJustEnded)
         {
             if (currentStage == null || currentInstaller == null || awaitingConfirmation) return;
+
+            // 우선순위 1) 씬 레벨 즉시 실패 - 미션 상태/턴 예산과 무관하게 최우선으로 게임을 끝낸다.
+            // TurnSystem이 이미 계산해 이번 TurnEndedEvent에 실어 보낸 신호를 그대로 읽기만 한다
+            // (여기서 instantFailCondition을 다시 계산하지 않는다 - 단일 계산 지점 유지).
+            if (instantFailTriggered)
+            {
+                currentInstaller.Turns.FreezeTurnAdvance();
+                var installer = currentInstaller;
+                installer.EventBus.Publish(new GameOverEvent(false));
+                return;
+            }
 
             var context = new MissionEvaluationContext(
                 currentInstaller.Locations, currentInstaller.Npcs, currentInstaller.Turns.DeliveredInformationCards);
 
-            // failureConditions는 "지금 목표인 미션"에 한해서만 검사한다 - GameInstaller.instantFailCondition
-            // (씬 레벨, 항상 검사됨)과는 별개의 추가 판정 레이어. 완료 판정보다 먼저 봐서, 실패와 완료가
-            // 같은 턴에 동시에 충족되면 실패가 우선하도록 한다.
+            // 우선순위 2) failureConditions는 "지금 목표인 미션"에 한해서만 검사한다. 완료 판정보다
+            // 먼저 봐서, 실패와 완료가 같은 턴에 동시에 충족되면 실패가 우선하도록 한다.
             var current = CurrentObjective();
             if (current != null && current.IsAnyFailureConditionMet(context))
             {
@@ -158,6 +186,8 @@ namespace Belief.Core
                 return;
             }
 
+            // 우선순위 3) 성공 조건 - 마지막 허용 턴이어도 이 시점에 충족되면 턴 소진보다 항상 먼저
+            // 확인되므로 성공으로 인정된다(아래 4번 턴소진 체크보다 앞서 실행/반환됨).
             MissionData newlyCompleted = null;
             bool allDone = true;
             foreach (var objective in EffectiveObjectives())
@@ -171,7 +201,19 @@ namespace Belief.Core
 
             if (newlyCompleted == null)
             {
-                // 완료는 없지만 진행도(X/Y)는 바뀌었을 수 있다 - HUD 갱신만 알린다.
+                // 우선순위 4) 턴 소진 실패 - 이번 턴이 현재 미션에 허용된 마지막 턴이었고(더 진행할
+                // 턴 예산이 없고) 그런데도 성공이 확정되지 않았다면 실패로 끝낸다. 씬 로드 직후의
+                // 1회성 초기 평가(turnJustEnded=false)에서는 검사하지 않는다 - 아직 아무 턴도 끝나지
+                // 않았으므로 턴 소진일 수 없다.
+                if (turnJustEnded && currentInstaller.Turns.CurrentTurn >= currentInstaller.Turns.MaxTurns)
+                {
+                    currentInstaller.Turns.FreezeTurnAdvance();
+                    var installer = currentInstaller;
+                    installer.EventBus.Publish(new GameOverEvent(false));
+                    return;
+                }
+
+                // 완료도 실패도 없지만 진행도(X/Y)는 바뀌었을 수 있다 - HUD 갱신만 알린다.
                 ObjectivesChanged?.Invoke();
                 return;
             }

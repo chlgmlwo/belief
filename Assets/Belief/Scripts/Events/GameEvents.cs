@@ -125,9 +125,17 @@ namespace Belief.Events
     {
         public readonly int Turn;
 
-        public TurnEndedEvent(int turn)
+        /// <summary>이번 턴 종료 시 씬 레벨 즉시 실패 조건(GameInstaller.instantFailCondition)이
+        /// 충족됐는지 - TurnSystem이 계산만 해서 전달하고, 실제 실패 판정과 GameOverEvent 발행은
+        /// 이 신호를 읽는 구독자(ProgressionController, 없으면 TurnSystem 자신의 레거시 폴백)가
+        /// 전담한다. 최종 판정 권한을 한 곳으로 모으기 위한 필드일 뿐, 별도의 새 이벤트 체계는
+        /// 아니다.</summary>
+        public readonly bool InstantFailTriggered;
+
+        public TurnEndedEvent(int turn, bool instantFailTriggered)
         {
             Turn = turn;
+            InstantFailTriggered = instantFailTriggered;
         }
     }
 

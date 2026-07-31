@@ -156,29 +156,25 @@ namespace Belief.Systems
             await majorMovement.MoveMajorNpcsAsync(allNpcs.Values, CurrentTurn);
             mission.Evaluate(BuildMissionContext());
 
+            // 씬 레벨 즉시 실패 조건 - 계산만 여기서 하고 TurnEndedEvent에 실어 보낸다. 실제 실패
+            // 판정/GameOverEvent 발행 권한은 이 신호를 읽는 ProgressionController에 있다(최종 판정
+            // 권한 단일화) - TurnSystem은 더 이상 이 조건만으로 직접 GameOverEvent를 끝내지 않는다.
             bool instantFail = instantFailCondition != null &&
                 instantFailCondition.GetCurrentProgress(BuildMissionContext()) >= instantFailCondition.TargetCount;
 
             SelectedCard = null;
             resetRequestedThisTurn = false;
-            eventBus.Publish(new TurnEndedEvent(CurrentTurn));
+            eventBus.Publish(new TurnEndedEvent(CurrentTurn, instantFail));
 
-            if (instantFail)
-            {
-                if (!gameOverAnnounced)
-                {
-                    gameOverAnnounced = true;
-                    eventBus.Publish(new GameOverEvent(false));
-                }
-                return;
-            }
-
-            // TurnEndedEvent 구독자(ProgressionController)가 방금 다음 미션으로 넘어가며
-            // ResetForNewMission을 호출했다면, 그 값(턴 1 / 새 MaxTurns)을 그대로 두고 여기서는
-            // 더 이상 증가시키거나 게임오버를 판정하지 않는다 - 새 미션의 턴 1을 곧바로 소모한 것으로
-            // 잘못 계산하지 않기 위함이다.
+            // TurnEndedEvent 구독자(ProgressionController)가 이번 턴에 성공/실패/즉시실패/턴소진 중
+            // 하나를 확정하며 FreezeTurnAdvance(또는 그 결과로 ResetForNewMission)를 호출했다면, 그
+            // 결과를 그대로 두고 여기서는 더 이상 증가시키거나 게임오버를 판정하지 않는다 - 최종 판정
+            // 권한은 ProgressionController에 있다.
             if (resetRequestedThisTurn) return;
 
+            // ---- 아래는 ProgressionController가 관여하지 않을 때(StageData 미배선 레거시/테스트
+            // 씬)만 실행되는 폴백 경로다. 정식 4개 스테이지(StageData 배선, 전부 ProgressionData에
+            // 등록됨)에서는 위 freeze가 항상 먼저 걸려 이 블록에 도달하지 않는다. ----
             CurrentTurn++;
             StageTurn++;
 
