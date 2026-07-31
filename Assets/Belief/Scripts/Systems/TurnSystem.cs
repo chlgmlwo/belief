@@ -168,10 +168,12 @@ namespace Belief.Systems
 
         /// <summary>HUD의 "MISSION FAILED" 팝업에서 [재시작]을 눌렀을 때 호출된다. ResetForNewMission과
         /// 달리 새 스냅샷을 찍지 않고, 이 미션이 시작될 때(StartGame 또는 마지막 ResetForNewMission
-        /// 시점)의 카드 pool/owned/delivered, NPC 위치/Belief/기억/받은 정보, 장소의 소문/조사기록/
-        /// SiteState, 반복거짓말 스트릭을 전부 그 시점 값으로 되돌린 뒤 턴만 재설정한다 - 실패한
-        /// 시도가 남긴 카드 소모/오염된 NPC 상태가 재시도마다 누적되어 카드 pool이 고갈되는 문제를
-        /// 막는다. ProgressionController.Progress(CompletedMissionIds 등)는 건드리지 않는다.</summary>
+        /// 시점)의 카드 pool/delivered, NPC 위치/Belief/기억/받은 정보, 장소의 소문/조사기록/SiteState,
+        /// 반복거짓말 스트릭을 전부 그 시점 값으로 되돌린 뒤 턴만 재설정한다 - 실패한 시도가 남긴 카드
+        /// 소모/오염된 NPC 상태가 재시도마다 누적되어 카드 pool이 고갈되는 문제를 막는다. 손패(owned)는
+        /// 예외적으로 그 시점 그대로 복원하지 않고 새로 뽑는다 - 그대로 복원하면 나쁜 손패가 재시도마다
+        /// 고정되어 버리기 때문(InformationCardSystem.RestoreSnapshotForRestart 참고).
+        /// ProgressionController.Progress(CompletedMissionIds 등)는 건드리지 않는다.</summary>
         public void RestartMissionAttempt(int newMaxTurns)
         {
             CurrentTurn = 1;
@@ -206,7 +208,7 @@ namespace Belief.Systems
         {
             if (!hasSnapshot) return; // StartGame이 항상 먼저 캡처하므로 정상 흐름에서는 발생하지 않는다.
 
-            cards.RestoreSnapshot(cardSnapshot);
+            cards.RestoreSnapshotForRestart(cardSnapshot);
 
             foreach (var kv in allNpcs)
                 if (npcSnapshots.TryGetValue(kv.Key, out var snap))

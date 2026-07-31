@@ -88,38 +88,41 @@ namespace Belief.Systems
             return true;
         }
 
-        /// <summary>미션 시도 시작 시점의 pool/owned/delivered 스냅샷(RestartCurrentMission 복원용).
-        /// 세 리스트 모두 방어적으로 복사한다 - 이후 실제 진행(Draw/Deliver)이 원본을 계속 바꿔도
-        /// 스냅샷 내용은 캡처 시점 그대로 남는다.</summary>
+        /// <summary>미션 시도 시작 시점의 pool/delivered 스냅샷(RestartCurrentMission 복원용). owned(손패)는
+        /// 의도적으로 포함하지 않는다 - RestoreSnapshotForRestart가 항상 새로 뽑기 때문에 그 시점 손패를
+        /// 따로 들고 있을 이유가 없다. 두 리스트 모두 방어적으로 복사한다 - 이후 실제 진행(Draw/Deliver)이
+        /// 원본을 계속 바꿔도 스냅샷 내용은 캡처 시점 그대로 남는다.</summary>
         public readonly struct CardSystemSnapshot
         {
             public readonly List<InformationCardData> Pool;
-            public readonly List<InformationCardData> Owned;
             public readonly List<DeliveredCardRecord> Delivered;
 
-            public CardSystemSnapshot(List<InformationCardData> pool, List<InformationCardData> owned, List<DeliveredCardRecord> delivered)
+            public CardSystemSnapshot(List<InformationCardData> pool, List<DeliveredCardRecord> delivered)
             {
                 Pool = new List<InformationCardData>(pool);
-                Owned = new List<InformationCardData>(owned);
                 Delivered = new List<DeliveredCardRecord>(delivered);
             }
         }
 
-        public CardSystemSnapshot CaptureSnapshot() => new CardSystemSnapshot(pool, owned, delivered);
+        public CardSystemSnapshot CaptureSnapshot() => new CardSystemSnapshot(pool, delivered);
 
-        /// <summary>Draw()가 pool에서 영구히 제거해 온 카드까지 포함해 스냅샷 시점 그대로 되돌린다 -
-        /// 실패한 시도에서 뽑히거나 전달된 카드가 pool로 돌아오지 않아 반복 재시도마다 pool이
-        /// 고갈되던 문제(카드 시스템 자체의 뽑기/보충 규칙은 변경하지 않음, 상태만 되돌린다).</summary>
-        public void RestoreSnapshot(CardSystemSnapshot snapshot)
+        /// <summary>RestartCurrentMission 전용 복원. Draw()가 pool에서 영구히 제거해 온 카드까지 포함해
+        /// pool/delivered는 스냅샷 시점 그대로 되돌리지만, owned(손패)는 그 시점 그대로 복원하지 않고
+        /// 비운 뒤 같은 규칙(GrantInitialSupply)으로 다시 뽑는다 - 실패한 시도의 나쁜 손패가 재시도마다
+        /// 고정되는 문제를 막는다. pool을 먼저 복원한 뒤에 다시 뽑으므로, 실패한 시도에서 소비된 카드가
+        /// pool로 돌아왔다가 다시 InitialSupply장만 빠져나가는 것과 같다 - 몇 번을 재시도해도 누적
+        /// 소모량은 항상 "미션 시작 1회 지급분"으로 고정된다(고갈 방지 유지). 뽑기 확률/pool 구성 자체는
+        /// 건드리지 않는다(Draw()를 그대로 재사용).</summary>
+        public void RestoreSnapshotForRestart(CardSystemSnapshot snapshot)
         {
             pool.Clear();
             pool.AddRange(snapshot.Pool);
 
-            owned.Clear();
-            owned.AddRange(snapshot.Owned);
-
             delivered.Clear();
             delivered.AddRange(snapshot.Delivered);
+
+            owned.Clear();
+            GrantInitialSupply();
         }
     }
 }

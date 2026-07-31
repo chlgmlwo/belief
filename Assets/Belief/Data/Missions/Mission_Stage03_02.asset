@@ -19,7 +19,7 @@ MonoBehaviour:
   turnLimit: 4
   clearMode: 0
   successConditions:
-  - {fileID: 11400000, guid: 624646646b509984b95a292add4afef0, type: 2}
+  - {fileID: 11400000, guid: ddc44aff91dadca4f9a7d1e78e56b070, type: 2}
   - {fileID: 11400000, guid: e64f6c9eaef14994da5fec2bfc592a51, type: 2}
   failureConditions: []
   nextMissionId: 
