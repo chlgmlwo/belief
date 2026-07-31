@@ -69,6 +69,10 @@ namespace Belief.Core
 
         Coroutine deferredEvaluateRoutine;
 
+        /// <summary>이번 스테이지에서 완료 판정에 쓸 유효 missionId 목록 캐시 - OnSceneLoaded에서만
+        /// 초기화(null)하고, 첫 사용 시 1회만 계산/경고한다(매 턴 재검증/재경고하지 않기 위함).</summary>
+        List<string> requiredMissionIdsCache;
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Bootstrap()
         {
@@ -103,6 +107,7 @@ namespace Belief.Core
         {
             DetachFromCurrentInstaller();
             awaitingConfirmation = false;
+            requiredMissionIdsCache = null; // 새 스테이지 - 유효 missionId 캐시를 다시 계산하게 한다.
 
             if (Data == null || Data.stages == null) return;
 
@@ -186,17 +191,20 @@ namespace Belief.Core
                 return;
             }
 
-            // 우선순위 3) 성공 조건 - 마지막 허용 턴이어도 이 시점에 충족되면 턴 소진보다 항상 먼저
-            // 확인되므로 성공으로 인정된다(아래 4번 턴소진 체크보다 앞서 실행/반환됨).
+            // 우선순위 3) 성공 조건 - "지금 목표인 미션" 하나만 실제 세계 상태에서 재평가한다(마지막
+            // 허용 턴이어도 이 시점에 충족되면 턴 소진보다 항상 먼저 확인되므로 성공으로 인정된다,
+            // 아래 4번 턴소진 체크보다 앞서 실행/반환됨). 이미 CompletedMissionIds에 기록된 과거
+            // 미션의 조건은 다시 계산하지 않는다 - 이후 NPC 이동/상태 변화로 그 조건이 다시 거짓이
+            // 되어도 완료 기록은 영구히 유지된다("완료 미션 재평가 문제" 수정). 아직 현재 목표가 아닌
+            // 미래 미션도 여기서 평가하지 않는다 - 조건이 우연히 먼저 참이 되어도 자동 완료되지 않는다.
             MissionData newlyCompleted = null;
-            bool allDone = true;
-            foreach (var objective in EffectiveObjectives())
+            if (current != null && current.GetSuccessProgress(context) >= current.SuccessTarget)
             {
-                bool done = objective.GetSuccessProgress(context) >= objective.SuccessTarget;
                 // HashSet.Add는 새로 추가됐을 때만 true를 반환한다 - 완료 판정이 한 번만 발생하도록 보장.
-                if (done && Progress.CompletedMissionIds.Add(objective.missionId))
-                    newlyCompleted = objective;
-                allDone &= done;
+                if (!string.IsNullOrEmpty(current.missionId) && Progress.CompletedMissionIds.Add(current.missionId))
+                    newlyCompleted = current;
+                else if (string.IsNullOrEmpty(current.missionId))
+                    Debug.LogError($"[ProgressionController] {currentStage.stageId}: '{current.displayTitle}' 미션의 missionId가 비어 있어 완료 기록에 남길 수 없습니다 - 데이터를 확인하세요.");
             }
 
             if (newlyCompleted == null)
@@ -221,6 +229,10 @@ namespace Belief.Core
             // 확인 팝업이 뜨기 전까지 턴이 계속 흘러가거나 이 시점의 턴 소진이 "미션 실패"로 잘못
             // 판정되지 않도록, 이번 턴 종료 처리의 증가/게임오버 판정을 얼려 둔다.
             currentInstaller.Turns.FreezeTurnAdvance();
+
+            // 스테이지 전체 완료 여부 - 세계 상태를 다시 계산하지 않고 완료 기록(CompletedMissionIds)만
+            // 본다. 과거에 완료된 미션의 조건이 이후 상태 변화로 거짓이 되어도 이 판정은 흔들리지 않는다.
+            bool allDone = AllMissionsCompleted();
 
             if (allDone && !Progress.CompletedStageIds.Contains(currentStage.stageId))
             {
@@ -328,6 +340,58 @@ namespace Belief.Core
             if (stageData != null && stageData.missions != null && stageData.missions.Length > 0)
                 return OrderStartFirst(stageData.missions, stageData.startMission);
             return currentStage.objectives;
+        }
+
+        /// <summary>스테이지 전체 완료 여부 - 유효한 모든 missionId가 CompletedMissionIds에 기록되어
+        /// 있는지만 본다(세계 상태 재계산 없음). 유효 미션이 하나도 없으면(데이터 오류) 자동 완료
+        /// 처리하지 않고 false를 반환해 안전하게 멈춘다.</summary>
+        bool AllMissionsCompleted()
+        {
+            var required = RequiredMissionIdsForCompletion();
+            if (required.Count == 0) return false;
+
+            foreach (var id in required)
+                if (!Progress.CompletedMissionIds.Contains(id))
+                    return false;
+            return true;
+        }
+
+        /// <summary>완료 판정에 쓸 유효 missionId 목록을 계산한다 - null 미션은 제외(Warning), missionId가
+        /// 비어 있으면 완료 판정에서 제외(Error, 이 미션은 AllMissionsCompleted에서 영원히 만족될 수
+        /// 없으므로 데이터 수정이 필요함을 알린다), 중복 missionId는 한 논리 미션으로만 계산(Warning).
+        /// 스테이지가 바뀔 때(OnSceneLoaded)만 다시 계산하고 그 외에는 캐시를 재사용한다 - 매 턴마다
+        /// 같은 경고를 반복해서 남기지 않기 위함.</summary>
+        List<string> RequiredMissionIdsForCompletion()
+        {
+            if (requiredMissionIdsCache != null) return requiredMissionIdsCache;
+
+            var result = new List<string>();
+            var seen = new HashSet<string>();
+            foreach (var objective in EffectiveObjectives())
+            {
+                if (objective == null)
+                {
+                    Debug.LogWarning($"[ProgressionController] {currentStage.stageId}: missions 목록에 null 항목이 있어 완료 판정에서 제외합니다.");
+                    continue;
+                }
+                if (string.IsNullOrEmpty(objective.missionId))
+                {
+                    Debug.LogError($"[ProgressionController] {currentStage.stageId}: '{objective.displayTitle}' 미션의 missionId가 비어 있어 완료 판정에 포함할 수 없습니다 - 이 스테이지는 정상적으로 완료될 수 없으니 데이터를 확인하세요.");
+                    continue;
+                }
+                if (!seen.Add(objective.missionId))
+                {
+                    Debug.LogWarning($"[ProgressionController] {currentStage.stageId}: missionId 중복 '{objective.missionId}' - 하나의 논리 미션으로만 계산합니다.");
+                    continue;
+                }
+                result.Add(objective.missionId);
+            }
+
+            if (result.Count == 0)
+                Debug.LogError($"[ProgressionController] {currentStage.stageId}: 완료 판정에 쓸 수 있는 유효한 미션이 0개입니다 - 스테이지를 자동 완료 처리하지 않습니다.");
+
+            requiredMissionIdsCache = result;
+            return result;
         }
 
         static MissionData[] OrderStartFirst(MissionData[] missions, MissionData start)
