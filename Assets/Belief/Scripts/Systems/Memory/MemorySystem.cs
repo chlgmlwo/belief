@@ -61,5 +61,27 @@ namespace Belief.Systems
 
             state.RecordMemory(entry);
         }
+
+        /// <summary>미션 시도 시작 시점의 반복 거짓말 스트릭 카운터 스냅샷(RestartCurrentMission 복원용).
+        /// 이 카운터는 NpcState에 속하지 않는 MemorySystem 전용 상태라 별도로 캡처/복원해야 한다 -
+        /// 그렇지 않으면 실패한 시도에서 쌓인 스트릭이 재시도에 그대로 이어져, NpcState.LongMemory는
+        /// 되돌아갔는데도 "반복 거짓말" 기억이 실제보다 더 적은 카드 만에 조기 발생할 수 있다.</summary>
+        public readonly struct StreakSnapshot
+        {
+            public readonly Dictionary<(string npcId, string sourceId), int> Streaks;
+
+            public StreakSnapshot(Dictionary<(string npcId, string sourceId), int> streaks)
+            {
+                Streaks = new Dictionary<(string, string), int>(streaks);
+            }
+        }
+
+        public StreakSnapshot CaptureSnapshot() => new StreakSnapshot(falseInfoStreak);
+
+        public void RestoreSnapshot(StreakSnapshot snapshot)
+        {
+            falseInfoStreak.Clear();
+            foreach (var kv in snapshot.Streaks) falseInfoStreak[kv.Key] = kv.Value;
+        }
     }
 }

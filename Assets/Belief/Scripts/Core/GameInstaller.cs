@@ -111,7 +111,7 @@ namespace Belief.Core
             BeliefDebug = debugRepository;
             var beliefSystem = BuildBeliefSystem(debugRepository);
             var memorySelector = new MemorySelector();
-            new MemorySystem(EventBus, npcStates, repeatedLiesCategory);
+            var memorySystem = new MemorySystem(EventBus, npcStates, repeatedLiesCategory);
 
             var actionResolution = new ActionResolutionSystem(locationStates, EventBus);
 
@@ -130,7 +130,7 @@ namespace Belief.Core
             var informationCards = new InformationCardSystem(effectiveCardPool, EventBus);
             Mission = new MissionSystem(effectiveMission, EventBus);
 
-            Turns = new TurnSystem(informationCards, delivery, minorBehavior, majorMovement, Mission, npcStates, locationStates, effectiveMaxTurns, instantFailCondition, EventBus, locationMechanics);
+            Turns = new TurnSystem(informationCards, delivery, minorBehavior, majorMovement, Mission, npcStates, locationStates, effectiveMaxTurns, instantFailCondition, EventBus, locationMechanics, memorySystem);
             turnSystemRef = Turns;
 
             if (finalResultData != null)

@@ -91,5 +91,55 @@ namespace Belief.Domain
         public void SetBehaviorModifier(string modifierId) => CurrentBehaviorModifier = modifierId;
 
         public void SetCurrentAction(NpcActionData action) => CurrentAction = action;
+
+        /// <summary>미션 시도 시작 시점의 가변 상태 스냅샷(RestartCurrentMission 복원용). 컬렉션은
+        /// 생성 시점에 방어적으로 복사해 원본과 별개의 리스트/딕셔너리를 갖는다 - 이후 원본이
+        /// 계속 바뀌어도 스냅샷 내용은 캡처 시점 그대로 남는다.</summary>
+        public readonly struct NpcStateSnapshot
+        {
+            public readonly LocationData Location;
+            public readonly string Goal;
+            public readonly string BehaviorModifier;
+            public readonly NpcActionData Action;
+            public readonly Dictionary<InformationCardData, BeliefState> Beliefs;
+            public readonly List<MemoryEntry> LongMemory;
+            public readonly List<ReceivedInformationEntry> ReceivedInformation;
+
+            public NpcStateSnapshot(LocationData location, string goal, string behaviorModifier, NpcActionData action,
+                Dictionary<InformationCardData, BeliefState> beliefs, List<MemoryEntry> longMemory,
+                List<ReceivedInformationEntry> receivedInformation)
+            {
+                Location = location;
+                Goal = goal;
+                BehaviorModifier = behaviorModifier;
+                Action = action;
+                Beliefs = new Dictionary<InformationCardData, BeliefState>(beliefs);
+                LongMemory = new List<MemoryEntry>(longMemory);
+                ReceivedInformation = new List<ReceivedInformationEntry>(receivedInformation);
+            }
+        }
+
+        public NpcStateSnapshot CaptureSnapshot() =>
+            new NpcStateSnapshot(CurrentLocation, CurrentGoal, CurrentBehaviorModifier, CurrentAction, beliefs, longMemory, receivedInformation);
+
+        /// <summary>스냅샷 시점의 가변 상태로 되돌린다. CurrentLocation만 되돌리고 LocationState.PresentNpcs는
+        /// 건드리지 않는다 - 여러 NPC를 한꺼번에 복원할 때 호출자(TurnSystem)가 전체 NPC의 위치가 확정된
+        /// 뒤 한 번에 PresentNpcs를 재구성해야 장소별 목록이 어긋나지 않는다.</summary>
+        public void RestoreSnapshot(NpcStateSnapshot snapshot)
+        {
+            CurrentLocation = snapshot.Location;
+            CurrentGoal = snapshot.Goal;
+            CurrentBehaviorModifier = snapshot.BehaviorModifier;
+            CurrentAction = snapshot.Action;
+
+            beliefs.Clear();
+            foreach (var kv in snapshot.Beliefs) beliefs[kv.Key] = kv.Value;
+
+            longMemory.Clear();
+            longMemory.AddRange(snapshot.LongMemory);
+
+            receivedInformation.Clear();
+            receivedInformation.AddRange(snapshot.ReceivedInformation);
+        }
     }
 }

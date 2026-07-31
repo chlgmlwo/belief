@@ -297,15 +297,20 @@ namespace Belief.Core
         }
 
         /// <summary>HUD의 "MISSION FAILED" 팝업에서 [재시작] 버튼을 눌렀을 때 호출된다 - 목표 완료
-        /// 진행(CompletedMissionIds)은 건드리지 않고, 지금 진행 중인 미션을 같은 maxTurns로 처음부터
-        /// 다시 시작한다. 구역 내 세계 상태(NPC 위치/Belief/전달 기록/보유 카드)는 그대로 유지된다.</summary>
+        /// 진행(CompletedMissionIds)은 건드리지 않는다. 세계 상태(NPC 위치/Belief/전달 기록/보유 카드/
+        /// 장소 소문·조사기록)는 더 이상 실패한 시도 그대로 유지되지 않고, 지금 미션이 시작된 시점
+        /// (TurnSystem이 StartGame/ResetForNewMission에서 캡처해 둔 스냅샷)으로 복원된다 - 반복
+        /// 재시도마다 카드 pool이 고갈되거나 이전 실패의 흔적(오염된 Belief 등)이 다음 시도에
+        /// 넘어가던 문제를 막는다. LoadMission으로 MissionSystem의 진행도/완료통지 상태도 같은
+        /// 미션 기준으로 새로 고친다(ConfirmMissionComplete가 다음 미션에 하는 것과 동일한 패턴).</summary>
         public void RestartCurrentMission()
         {
             if (currentInstaller == null) return;
 
             var objective = CurrentObjective();
             int maxTurns = objective != null && objective.turnLimit > 0 ? objective.turnLimit : sceneDefaultMaxTurns;
-            currentInstaller.Turns.ResetForNewMission(maxTurns);
+            if (objective != null) currentInstaller.Mission.LoadMission(objective);
+            currentInstaller.Turns.RestartMissionAttempt(maxTurns);
             PlaybackDirector.Instance?.SkipAll();
             ObjectivesChanged?.Invoke();
         }

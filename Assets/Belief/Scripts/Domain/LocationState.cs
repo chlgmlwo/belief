@@ -25,5 +25,35 @@ namespace Belief.Domain
         {
             Data = data;
         }
+
+        /// <summary>미션 시도 시작 시점의 가변 상태 스냅샷(RestartCurrentMission 복원용). PresentNpcs는
+        /// 포함하지 않는다 - NpcState.CurrentLocation이 유일한 출처이고, 복원 후 TurnSystem이
+        /// 그 값들로부터 모든 장소의 PresentNpcs를 다시 구성한다(중복 소유 상태 방지).</summary>
+        public readonly struct LocationStateSnapshot
+        {
+            public readonly List<RumorState> ActiveRumors;
+            public readonly List<InformationWorldState> InvestigationStates;
+            public readonly LocationSiteState SiteState;
+
+            public LocationStateSnapshot(List<RumorState> activeRumors, List<InformationWorldState> investigationStates, LocationSiteState siteState)
+            {
+                ActiveRumors = new List<RumorState>(activeRumors);
+                InvestigationStates = new List<InformationWorldState>(investigationStates);
+                SiteState = siteState;
+            }
+        }
+
+        public LocationStateSnapshot CaptureSnapshot() => new LocationStateSnapshot(ActiveRumors, InvestigationStates, SiteState);
+
+        public void RestoreSnapshot(LocationStateSnapshot snapshot)
+        {
+            ActiveRumors.Clear();
+            ActiveRumors.AddRange(snapshot.ActiveRumors);
+
+            InvestigationStates.Clear();
+            InvestigationStates.AddRange(snapshot.InvestigationStates);
+
+            SiteState = snapshot.SiteState;
+        }
     }
 }

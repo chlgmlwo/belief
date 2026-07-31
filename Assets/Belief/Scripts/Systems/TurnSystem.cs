@@ -24,6 +24,17 @@ namespace Belief.Systems
         readonly MissionConditionData instantFailCondition;
         readonly IGameEventBus eventBus;
         readonly LocationMechanicsSettings locationMechanics;
+        readonly MemorySystem memorySystem;
+
+        /// <summary>"현재 미션이 시작된 시점"의 카드/NPC/장소/기억 스트릭 상태 - StartGame과
+        /// ResetForNewMission(새 미션으로 전환할 때)에서만 새로 캡처되고, RestartMissionAttempt는
+        /// 이 스냅샷을 다시 캡처하지 않고 그대로 복원만 한다. 그래야 몇 번을 재시도해도 항상 같은
+        /// "미션 시작 지점"으로 돌아간다(재시도 도중 상태가 누적되지 않는다).</summary>
+        InformationCardSystem.CardSystemSnapshot cardSnapshot;
+        Dictionary<NpcData, NpcState.NpcStateSnapshot> npcSnapshots;
+        Dictionary<LocationData, LocationState.LocationStateSnapshot> locationSnapshots;
+        MemorySystem.StreakSnapshot memoryStreakSnapshot;
+        bool hasSnapshot;
 
         public int CurrentTurn { get; private set; } = 1;
         public int MaxTurns { get; private set; }
@@ -42,6 +53,10 @@ namespace Belief.Systems
         public IReadOnlyList<InformationCardData> OwnedInformationCards => cards.OwnedInformationCards;
         public IReadOnlyList<DeliveredCardRecord> DeliveredInformationCards => cards.DeliveredInformationCards;
 
+        /// <summary>디버그/QA 전용 진단 값(InformationCardSystem.RemainingInPoolCount 그대로 통과). 게임
+        /// 로직은 이 값을 판단에 사용하지 않는다.</summary>
+        public int RemainingCardPoolCount => cards.RemainingInPoolCount;
+
         bool gameOverAnnounced;
 
         /// <summary>같은 턴 종료 처리 안에서 ResetForNewMission이 호출됐는지 표시한다 - FinishTurn의
@@ -59,7 +74,8 @@ namespace Belief.Systems
             int maxTurns,
             MissionConditionData instantFailCondition,
             IGameEventBus eventBus,
-            LocationMechanicsSettings locationMechanics)
+            LocationMechanicsSettings locationMechanics,
+            MemorySystem memorySystem)
         {
             this.cards = cards;
             this.delivery = delivery;
@@ -73,6 +89,7 @@ namespace Belief.Systems
             this.instantFailCondition = instantFailCondition;
             this.eventBus = eventBus;
             this.locationMechanics = locationMechanics;
+            this.memorySystem = memorySystem;
         }
 
         /// <summary>Location Mechanics V1(§7) - 이 장소를 "장소 전체" 대상으로 직접 지정할 수 있는지.
@@ -87,6 +104,7 @@ namespace Belief.Systems
         public void StartGame()
         {
             cards.GrantInitialSupply();
+            CaptureMissionAttemptSnapshot();
             mission.Evaluate(BuildMissionContext());
             eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
         }
@@ -141,7 +159,77 @@ namespace Belief.Systems
             // FinishTurn의 보충 호출이 동시에 일어나는 경우는 없으므로 중복 보충 걱정은 없다).
             cards.RefillIfNeeded();
 
+            // 여기서부터가 "새 미션(또는 최초 진입)의 시작 지점"이다 - 이후 RestartCurrentMission이
+            // 실패한 시도를 몇 번 되돌리든 항상 이 지점으로 복원되도록 스냅샷을 다시 찍는다.
+            CaptureMissionAttemptSnapshot();
+
             eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
+        }
+
+        /// <summary>HUD의 "MISSION FAILED" 팝업에서 [재시작]을 눌렀을 때 호출된다. ResetForNewMission과
+        /// 달리 새 스냅샷을 찍지 않고, 이 미션이 시작될 때(StartGame 또는 마지막 ResetForNewMission
+        /// 시점)의 카드 pool/owned/delivered, NPC 위치/Belief/기억/받은 정보, 장소의 소문/조사기록/
+        /// SiteState, 반복거짓말 스트릭을 전부 그 시점 값으로 되돌린 뒤 턴만 재설정한다 - 실패한
+        /// 시도가 남긴 카드 소모/오염된 NPC 상태가 재시도마다 누적되어 카드 pool이 고갈되는 문제를
+        /// 막는다. ProgressionController.Progress(CompletedMissionIds 등)는 건드리지 않는다.</summary>
+        public void RestartMissionAttempt(int newMaxTurns)
+        {
+            CurrentTurn = 1;
+            MaxTurns = newMaxTurns;
+            gameOverAnnounced = false;
+            SelectedCard = null;
+            resetRequestedThisTurn = true;
+
+            RestoreMissionAttemptSnapshot();
+
+            eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
+        }
+
+        void CaptureMissionAttemptSnapshot()
+        {
+            cardSnapshot = cards.CaptureSnapshot();
+
+            npcSnapshots = new Dictionary<NpcData, NpcState.NpcStateSnapshot>();
+            foreach (var kv in allNpcs)
+                npcSnapshots[kv.Key] = kv.Value.CaptureSnapshot();
+
+            locationSnapshots = new Dictionary<LocationData, LocationState.LocationStateSnapshot>();
+            foreach (var kv in allLocations)
+                locationSnapshots[kv.Key] = kv.Value.CaptureSnapshot();
+
+            if (memorySystem != null) memoryStreakSnapshot = memorySystem.CaptureSnapshot();
+
+            hasSnapshot = true;
+        }
+
+        void RestoreMissionAttemptSnapshot()
+        {
+            if (!hasSnapshot) return; // StartGame이 항상 먼저 캡처하므로 정상 흐름에서는 발생하지 않는다.
+
+            cards.RestoreSnapshot(cardSnapshot);
+
+            foreach (var kv in allNpcs)
+                if (npcSnapshots.TryGetValue(kv.Key, out var snap))
+                    kv.Value.RestoreSnapshot(snap);
+
+            foreach (var kv in allLocations)
+            {
+                kv.Value.PresentNpcs.Clear();
+                if (locationSnapshots.TryGetValue(kv.Key, out var snap))
+                    kv.Value.RestoreSnapshot(snap);
+            }
+
+            // PresentNpcs는 스냅샷 대상이 아니다 - 방금 되돌린 NpcState.CurrentLocation을 유일한
+            // 출처로 삼아 모든 장소의 재실 목록을 다시 구성한다(GameInstaller.BuildDomainState와
+            // 동일한 원칙).
+            foreach (var kv in allNpcs)
+            {
+                var loc = kv.Value.CurrentLocation;
+                if (loc != null && allLocations.TryGetValue(loc, out var locState))
+                    locState.PresentNpcs.Add(kv.Value);
+            }
+
+            if (memorySystem != null) memorySystem.RestoreSnapshot(memoryStreakSnapshot);
         }
 
         /// <summary>ResetForNewMission과 같은 가드를 사용하되 CurrentTurn/MaxTurns는 건드리지 않는다 -
