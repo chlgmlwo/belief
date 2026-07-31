@@ -129,7 +129,7 @@ namespace Belief.Systems
             }
             else
             {
-                var outcome = minorBehavior.HandleExposure(npc, card, where, turn);
+                var outcome = await minorBehavior.HandleExposureAsync(npc, card, where, turn);
                 belief = outcome.Belief;
             }
 

@@ -113,7 +113,7 @@ namespace Belief.Core
             IMajorNpcThinker thinker = ThinkerFactory.Create(thinkerMode, promptRepository, fakeTransportMode, llmTimeoutMs);
 
             var majorThinking = new MajorNpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus);
-            var minorBehavior = new MinorNpcBehaviorSystem(beliefSystem, actionResolution, EventBus);
+            var minorBehavior = new MinorNpcBehaviorSystem(beliefSystem, actionResolution, thinker, EventBus);
             var majorMovement = new MajorNpcMovementSystem(actionResolution, thinker);
 
             TurnSystem turnSystemRef = null;

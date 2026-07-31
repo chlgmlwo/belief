@@ -15,5 +15,15 @@ MonoBehaviour:
   npcId: npc_minor_smuggler_s2
   displayName: "\uBC00\uC218\uC5C5\uC790"
   homeLocation: {fileID: 11400000, guid: c64bc51fba05aeb43ba46e4d412a79f9, type: 2}
+  gender: 
+  job: 
+  affiliation: 
+  gameplayRoleSummary: 
+  aiNotes: []
   trustBias: 0.3
   skepticism: 0.6
+  availableActions:
+  - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
+  - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
+  - {fileID: 11400000, guid: bcdb4f54f283ba04ea0cad5c9bce062e, type: 2}
+  - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}

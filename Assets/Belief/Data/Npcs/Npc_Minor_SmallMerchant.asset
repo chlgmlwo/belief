@@ -15,5 +15,15 @@ MonoBehaviour:
   npcId: npc_minor_small_merchant
   displayName: "\uC18C\uC0C1\uC778"
   homeLocation: {fileID: 11400000, guid: 19033b22e5426dc4089787dee0e242ed, type: 2}
+  gender: 
+  job: 
+  affiliation: 
+  gameplayRoleSummary: 
+  aiNotes: []
   trustBias: 0.5
   skepticism: 0.4
+  availableActions:
+  - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
+  - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
+  - {fileID: 11400000, guid: bcdb4f54f283ba04ea0cad5c9bce062e, type: 2}
+  - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}
