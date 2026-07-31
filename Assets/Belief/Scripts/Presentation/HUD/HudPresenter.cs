@@ -30,6 +30,11 @@ namespace Belief.Presentation.HUD
         [SerializeField] CardTileView cardTilePrefab;
         [SerializeField] TMP_FontAsset koreanFont;
 
+        /// <summary>UI 아트 자산 테이블(리소스 폴더 기반) - 비어 있으면(null) 기존 단색 placeholder로
+        /// 그대로 동작한다(하위 호환). CreatePanel/CreateText의 sprite/font 오버로드가 이 값을 읽는다.
+        /// public - 에디터 스크립트가 SerializedObject 없이 씬 배선 시 직접 대입할 수 있게 한다.</summary>
+        [SerializeField] public PlayHudSkin skin;
+
         const int MaxLogLines = 12;
 
         static readonly Color PanelColor = new Color(0.09f, 0.12f, 0.10f, 0.95f);
@@ -47,7 +52,7 @@ namespace Belief.Presentation.HUD
         TMP_Text missionTitleText;
         TMP_Text missionDescText;
         Transform missionConditionsRoot;
-        readonly List<TMP_Text> missionConditionRows = new List<TMP_Text>();
+        readonly List<GameObject> missionConditionRows = new List<GameObject>();
         TMP_Text missionTurnsText;
         TMP_Text nextMissionText;
         TMP_Text logText;
@@ -81,6 +86,7 @@ namespace Belief.Presentation.HUD
         readonly List<TMP_Text> npcRelationshipRows = new List<TMP_Text>();
         TMP_Text npcHistoryText;
         NpcState selectedNpcState;
+        GameObject npcNoneStickerGo;
 
         GameObject overlayGo;
         CanvasGroup overlayCanvasGroup;
@@ -89,6 +95,16 @@ namespace Belief.Presentation.HUD
         GameObject overlayButtonGo;
         TMP_Text overlayButtonLabel;
         Button overlayButton;
+
+        // 작전 결과 화면(section 13) - 실패/승리 전용, Overlay와 별개 CanvasGroup.
+        GameObject resultScreenGo;
+        CanvasGroup resultCanvasGroup;
+        Image resultPanelImg;
+        Image resultPhotoFrameImg;
+        TMP_Text resultTitleText, resultDescText, resultStageTagText, resultTurnsText;
+        GameObject resultPrimaryButtonGo, resultSecondaryButtonGo;
+        TMP_Text resultPrimaryButtonLabel, resultSecondaryButtonLabel;
+        Button resultPrimaryButton, resultSecondaryButton;
 
         GameObject feedbackGo;
         CanvasGroup feedbackCanvasGroup;
@@ -183,23 +199,93 @@ namespace Belief.Presentation.HUD
                 () => pc?.ConfirmZoneComplete());
         }
 
+        /// <summary>작전 결과 화면(section 13) - 실패는 미션마다(턴 소진 시) 반복해서 뜬다(재시작
+        /// 가능), 승리는 GameOverEvent(true)가 게임 전체에서 정확히 한 번만 발행될 때만 뜬다.
+        /// MISSION COMPLETE/ZONE COMPLETE 같은 중간 전환 팝업은 이 화면을 쓰지 않는다 - 전용 아트
+        /// 자산이 없어 기존 Overlay(ShowGatedPopup)를 그대로 유지한다.</summary>
         void ShowMissionFailedPopup()
         {
             var pc = ProgressionController.Instance;
             string missionTitle = pc?.CurrentObjective()?.displayTitle ?? "";
-            ShowGatedPopup("MISSION FAILED", ErrorColor, $"{missionTitle}\n턴을 모두 소진했습니다.", "재시작",
-                () => pc?.RestartCurrentMission());
+            string stageTag = pc != null ? pc.CurrentStageDisplayName : "";
+            int turnsUsed = Mathf.Min(installer.Turns.CurrentTurn, installer.Turns.MaxTurns);
+            ShowResultScreen(false, missionTitle, "턴을 모두 소진했습니다.", stageTag, turnsUsed,
+                "재시작", () => pc?.RestartCurrentMission(),
+                "메인 화면", GoToMainMenu);
         }
 
         void ShowFinalVictory()
         {
-            overlayGo.SetActive(true);
-            overlayCanvasGroup.alpha = 0f;
-            overlayTitleText.text = "임무 성공";
-            overlayTitleText.color = AccentColor;
-            overlayDescText.text = "목표를 달성했습니다.";
-            overlayButtonGo.SetActive(false);
-            StartCoroutine(FadePopupIn());
+            var pc = ProgressionController.Instance;
+            string stageTag = pc != null ? pc.CurrentStageDisplayName : "";
+            int turnsUsed = Mathf.Min(installer.Turns.CurrentTurn, installer.Turns.MaxTurns);
+            ShowResultScreen(true, "임무 성공", "목표를 달성했습니다.", stageTag, turnsUsed,
+                "확인", GoToMainMenu, null, null);
+        }
+
+        void GoToMainMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+
+        void ShowResultScreen(bool won, string title, string desc, string stageTag, int turnsUsed,
+            string primaryLabel, Action onPrimary, string secondaryLabel, Action onSecondary)
+        {
+            resultScreenGo.SetActive(true);
+            resultCanvasGroup.alpha = 0f;
+
+            if (resultPanelImg != null && skin != null)
+                resultPanelImg.sprite = won ? skin.successPanel : skin.failurePanel;
+            if (resultPhotoFrameImg != null && skin != null)
+                resultPhotoFrameImg.sprite = won ? skin.successPhotoFrame : skin.failurePhotoFrame;
+
+            resultTitleText.text = title;
+            resultTitleText.color = won ? AccentColor : ErrorColor;
+            resultDescText.text = desc;
+            resultStageTagText.text = stageTag;
+            resultTurnsText.text = $"Turn {turnsUsed}";
+
+            resultPrimaryButtonLabel.text = primaryLabel;
+            resultPrimaryButton.interactable = true;
+            resultPrimaryButton.onClick.RemoveAllListeners();
+            resultPrimaryButton.onClick.AddListener(() => StartCoroutine(ConfirmResultRoutine(onPrimary)));
+
+            bool hasSecondary = !string.IsNullOrEmpty(secondaryLabel) && onSecondary != null;
+            resultSecondaryButtonGo.SetActive(hasSecondary);
+            if (hasSecondary)
+            {
+                resultSecondaryButtonLabel.text = secondaryLabel;
+                resultSecondaryButton.interactable = true;
+                resultSecondaryButton.onClick.RemoveAllListeners();
+                resultSecondaryButton.onClick.AddListener(() => StartCoroutine(ConfirmResultRoutine(onSecondary)));
+            }
+
+            StartCoroutine(FadeCanvasGroupRoutine(resultCanvasGroup, 0f, 1f, PopupFadeDuration));
+        }
+
+        IEnumerator ConfirmResultRoutine(Action onConfirm)
+        {
+            resultPrimaryButton.interactable = false;
+            if (resultSecondaryButton != null) resultSecondaryButton.interactable = false;
+            yield return FadeCanvasGroupRoutine(resultCanvasGroup, 1f, 0f, PopupFadeDuration);
+            resultScreenGo.SetActive(false);
+            onConfirm?.Invoke();
+        }
+
+        IEnumerator FadeCanvasGroupRoutine(CanvasGroup cg, float from, float to, float duration)
+        {
+            bool skip = false;
+            var playback = new DelegatePlayback(() => skip = true);
+            PlaybackDirector.Instance?.Register(playback);
+
+            float t = 0f;
+            cg.alpha = from;
+            while (t < duration && !skip)
+            {
+                t += Time.deltaTime;
+                cg.alpha = Mathf.Lerp(from, to, Mathf.SmoothStep(0f, 1f, t / duration));
+                yield return null;
+            }
+            cg.alpha = to;
+
+            PlaybackDirector.Instance?.Unregister(playback);
         }
 
         /// <summary>Intro/MissionComplete/MissionFailed/ZoneComplete가 전부 공유하는 확인 팝업 - 제목/본문/
@@ -444,9 +530,7 @@ namespace Belief.Presentation.HUD
                     if (condition == null) continue;
                     bool met = condition.GetCurrentProgress(context) >= condition.TargetCount;
                     string label = string.IsNullOrEmpty(condition.displayLabel) ? condition.name : condition.displayLabel;
-                    // KoreanUI SDF 폰트 에셋에 ☑/☐(U+2611/U+2610) 글리프가 없어 폴백 사각형(□)으로
-                    // 깨져 보이던 문제 - 폰트에 이미 있는 대괄호+ASCII 조합으로 대체한다.
-                    AddMissionConditionRow((met ? "[X] " : "[ ] ") + label);
+                    AddMissionConditionRow(label, met, missionConditionRows.Count);
                 }
             }
 
@@ -467,19 +551,46 @@ namespace Belief.Presentation.HUD
         /// 흐름에서 이어지는 경우) 이전 행이 실제로는 아직 살아있어 새 행과 함께 중복 표시된다.</summary>
         void ClearMissionConditionRows()
         {
-            foreach (var row in missionConditionRows) DestroyImmediate(row.gameObject);
+            foreach (var row in missionConditionRows) DestroyImmediate(row);
             missionConditionRows.Clear();
         }
 
-        void AddMissionConditionRow(string text)
+        /// <summary>미션 조건 한 줄(section 9) - Goal_1/2/3_UI 카드 아트를 슬롯 순서대로 순환 배정하고,
+        /// 조건 충족 시 성공 UI 배지를 겹쳐 보여준다. 이전엔 "[X]/[ ]" ASCII 접두사로 상태를 표시했으나
+        /// (KoreanUI SDF에 체크박스 글리프가 없어서 쓰던 임시 대체) 이제 실제 성공 배지 아트로 대체한다.</summary>
+        void AddMissionConditionRow(string label, bool met, int slotIndex)
         {
-            var row = CreateText(missionConditionsRoot, "ConditionRow", text, 14, TextAlignmentOptions.TopLeft);
-            row.textWrappingMode = TextWrappingModes.Normal;
-            // 조건 문구가 길어 2줄로 줄바꿈되면 고정 preferredHeight(기존 20)로는 다음 행과 겹친다 -
-            // ContentSizeFitter로 실제 줄바꿈된 높이만큼 행 높이가 늘어나게 한다.
-            var fitter = row.gameObject.AddComponent<ContentSizeFitter>();
-            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            missionConditionRows.Add(row);
+            Sprite cardSprite = skin != null
+                ? (slotIndex % 3 == 0 ? skin.goalCard1 : slotIndex % 3 == 1 ? skin.goalCard2 : skin.goalCard3)
+                : null;
+
+            var rowGo = CreatePanel(missionConditionsRoot, "ConditionRow", cardSprite, new Color(0, 0, 0, 0), Image.Type.Sliced);
+            var le = rowGo.AddComponent<LayoutElement>();
+            le.preferredHeight = 56;
+
+            var text = CreateText(rowGo.transform, "Label", label, 13, TextAlignmentOptions.MidlineLeft, skin?.lightFont);
+            text.textWrappingMode = TextWrappingModes.Normal;
+            text.rectTransform.anchorMin = new Vector2(0f, 0f);
+            text.rectTransform.anchorMax = new Vector2(0.82f, 1f);
+            text.rectTransform.offsetMin = new Vector2(10, 4);
+            text.rectTransform.offsetMax = new Vector2(-4, -4);
+
+            if (skin != null && skin.successBadge != null)
+            {
+                var badgeGo = CreatePanel(rowGo.transform, "SuccessBadge", skin.successBadge, Color.clear);
+                var brt = badgeGo.GetComponent<RectTransform>();
+                brt.anchorMin = new Vector2(0.82f, 0.15f);
+                brt.anchorMax = new Vector2(1f, 0.85f);
+                brt.offsetMin = Vector2.zero; brt.offsetMax = Vector2.zero;
+                badgeGo.SetActive(met);
+            }
+            else
+            {
+                // 배지 아트가 없을 때의 기존 fallback - 폰트에 있는 대괄호+ASCII로 상태만 표시한다.
+                text.text = (met ? "[X] " : "[ ] ") + label;
+            }
+
+            missionConditionRows.Add(rowGo);
         }
 
         // ------------------------------------------------------------ NPC 조사 파일 패널 (section 6)
@@ -496,6 +607,7 @@ namespace Belief.Presentation.HUD
         void RefreshNpcProfile()
         {
             ClearNpcRelationshipRows();
+            if (npcNoneStickerGo != null) npcNoneStickerGo.SetActive(selectedNpcState == null);
 
             if (selectedNpcState == null)
             {
@@ -569,7 +681,7 @@ namespace Belief.Presentation.HUD
 
         void AddNpcRelationshipRow(string text)
         {
-            var row = CreateText(npcRelationshipsRoot, "RelationshipRow", text, 13, TextAlignmentOptions.TopLeft);
+            var row = CreateText(npcRelationshipsRoot, "RelationshipRow", text, 12, TextAlignmentOptions.TopLeft, skin?.bodyFont);
             row.textWrappingMode = TextWrappingModes.Normal;
             // 관계 설명이 길어 줄바꿈되면 고정 preferredHeight로는 다음 행과 겹친다 - ConditionRow와
             // 동일하게 ContentSizeFitter로 실제 줄바꿈 높이에 맞춘다.
@@ -786,8 +898,19 @@ namespace Belief.Presentation.HUD
             BuildLocationNote(canvasGo.transform);
             BuildNpcProfilePanel(canvasGo.transform);
             BuildBottomPanel(canvasGo.transform);
+
+            // 화면 프레임(section 6) - 캔버스 전체를 덮는 액자 아트. 지금까지 만든 모든 HUD 패널보다
+            // 위, 아래에서 만들 팝업/결과화면보다는 아래가 되도록 여기서 만든다. 클릭을 막으면 안 되므로
+            // raycastTarget=false.
+            if (skin != null && skin.screenFrame != null)
+            {
+                var frameGo = CreatePanel(canvasGo.transform, "ScreenFrame", skin.screenFrame, Color.clear);
+                AnchorFill(frameGo.GetComponent<RectTransform>());
+            }
+
             BuildFeedbackBanner(canvasGo.transform);
             BuildOverlay(canvasGo.transform);
+            BuildResultScreen(canvasGo.transform);
 
             howToPlayPopup = canvasGo.AddComponent<HowToPlayPopup>();
             howToPlayPopup.Build(canvasGo.transform, koreanFont);
@@ -817,7 +940,7 @@ namespace Belief.Presentation.HUD
             hrt.offsetMin = new Vector2(24, 0);
             hrt.offsetMax = new Vector2(-24, 0);
 
-            var title = CreateText(header.transform, "Title", "BELIEF", 34, TextAlignmentOptions.Left);
+            var title = CreateText(header.transform, "Title", "BELIEF", 34, TextAlignmentOptions.Left, skin?.titleFont);
             title.fontStyle = FontStyles.Bold;
             title.color = AccentColor;
             title.rectTransform.anchorMin = new Vector2(0f, 0f);
@@ -825,15 +948,22 @@ namespace Belief.Presentation.HUD
 
             // 턴 티켓(section 11): STAGE TURN(구역 전체 누적)과 MISSION TURN(현재 미션 한정)을
             // 구분해 표시한다 - 둘 다 TurnSystem이 이미 들고 있는 값을 읽기만 한다(턴 로직 불변).
-            stageTurnText = CreateText(header.transform, "StageTurnText", "STAGE TURN 1/8", 18, TextAlignmentOptions.Right);
-            stageTurnText.color = MutedText;
-            stageTurnText.rectTransform.anchorMin = new Vector2(0.46f, 0.55f);
-            stageTurnText.rectTransform.anchorMax = new Vector2(0.94f, 1f);
+            // 턴 탭(skin.turnTab) 배경 위에 STAGE/MISSION 두 숫자를 함께 올린다.
+            GameObject turnTabGo = CreatePanel(header.transform, "TurnTab", skin?.turnTab, Color.clear);
+            var ttrt = turnTabGo.GetComponent<RectTransform>();
+            ttrt.anchorMin = new Vector2(0.46f, 0f);
+            ttrt.anchorMax = new Vector2(0.94f, 1f);
+            ttrt.offsetMin = Vector2.zero; ttrt.offsetMax = Vector2.zero;
 
-            missionTurnText = CreateText(header.transform, "MissionTurnText", "MISSION TURN 1/4", 24, TextAlignmentOptions.Right);
+            stageTurnText = CreateText(turnTabGo.transform, "StageTurnText", "STAGE TURN 1/8", 18, TextAlignmentOptions.Right, skin?.bodyFont);
+            stageTurnText.color = MutedText;
+            stageTurnText.rectTransform.anchorMin = new Vector2(0f, 0.55f);
+            stageTurnText.rectTransform.anchorMax = new Vector2(1f, 1f);
+
+            missionTurnText = CreateText(turnTabGo.transform, "MissionTurnText", "MISSION TURN 1/4", 24, TextAlignmentOptions.Right, skin?.numberFont);
             missionTurnText.fontStyle = FontStyles.Bold;
-            missionTurnText.rectTransform.anchorMin = new Vector2(0.46f, 0.1f);
-            missionTurnText.rectTransform.anchorMax = new Vector2(0.94f, 0.55f);
+            missionTurnText.rectTransform.anchorMin = new Vector2(0f, 0.1f);
+            missionTurnText.rectTransform.anchorMax = new Vector2(1f, 0.55f);
 
             var skipHint = CreateText(header.transform, "SkipHint", "연출 중 Space / 우클릭으로 건너뛰기", 12, TextAlignmentOptions.Right);
             skipHint.color = MutedText;
@@ -867,15 +997,19 @@ namespace Belief.Presentation.HUD
             mrt.anchorMax = new Vector2(0.21f, 0.91f);
             mrt.offsetMin = Vector2.zero; mrt.offsetMax = Vector2.zero;
 
-            var missionLabel = CreateText(mission.transform, "Label", "MISSION", 14, TextAlignmentOptions.TopLeft);
+            var missionLabelTabGo = CreatePanel(mission.transform, "LabelTab", skin?.missionTab, Color.clear);
+            var mltrt = missionLabelTabGo.GetComponent<RectTransform>();
+            mltrt.anchorMin = new Vector2(0f, 0.94f);
+            mltrt.anchorMax = new Vector2(1f, 1f);
+            mltrt.offsetMin = Vector2.zero; mltrt.offsetMax = Vector2.zero;
+
+            var missionLabel = CreateText(missionLabelTabGo.transform, "Label", "MISSION", 14, TextAlignmentOptions.TopLeft, skin?.numberFont);
             missionLabel.color = AccentColor;
             missionLabel.fontStyle = FontStyles.Bold;
-            missionLabel.rectTransform.anchorMin = new Vector2(0f, 0.94f);
-            missionLabel.rectTransform.anchorMax = new Vector2(1f, 1f);
             missionLabel.rectTransform.offsetMin = new Vector2(12, 0);
             missionLabel.rectTransform.offsetMax = new Vector2(-12, -4);
 
-            missionTitleText = CreateText(mission.transform, "Title", "", 19, TextAlignmentOptions.TopLeft);
+            missionTitleText = CreateText(mission.transform, "Title", "", 19, TextAlignmentOptions.TopLeft, skin?.titleFont);
             missionTitleText.fontStyle = FontStyles.Bold;
             missionTitleText.textWrappingMode = TextWrappingModes.Normal;
             missionTitleText.rectTransform.anchorMin = new Vector2(0f, 0.82f);
@@ -883,7 +1017,7 @@ namespace Belief.Presentation.HUD
             missionTitleText.rectTransform.offsetMin = new Vector2(12, 0);
             missionTitleText.rectTransform.offsetMax = new Vector2(-12, 0);
 
-            missionDescText = CreateText(mission.transform, "Desc", "", 14, TextAlignmentOptions.TopLeft);
+            missionDescText = CreateText(mission.transform, "Desc", "", 14, TextAlignmentOptions.TopLeft, skin?.lightFont);
             missionDescText.color = MutedText;
             missionDescText.textWrappingMode = TextWrappingModes.Normal;
             missionDescText.rectTransform.anchorMin = new Vector2(0f, 0.58f);
@@ -905,14 +1039,14 @@ namespace Belief.Presentation.HUD
             cvlg.spacing = 4;
             missionConditionsRoot = conditionsGo.transform;
 
-            missionTurnsText = CreateText(mission.transform, "Turns", "", 14, TextAlignmentOptions.TopLeft);
+            missionTurnsText = CreateText(mission.transform, "Turns", "", 14, TextAlignmentOptions.TopLeft, skin?.numberFont);
             missionTurnsText.color = AccentColor;
             missionTurnsText.rectTransform.anchorMin = new Vector2(0f, 0.12f);
             missionTurnsText.rectTransform.anchorMax = new Vector2(1f, 0.24f);
             missionTurnsText.rectTransform.offsetMin = new Vector2(12, 0);
             missionTurnsText.rectTransform.offsetMax = new Vector2(-12, 0);
 
-            nextMissionText = CreateText(mission.transform, "NextMission", "", 12, TextAlignmentOptions.TopLeft);
+            nextMissionText = CreateText(mission.transform, "NextMission", "", 12, TextAlignmentOptions.TopLeft, skin?.extraLightFont);
             nextMissionText.color = MutedText;
             nextMissionText.textWrappingMode = TextWrappingModes.Normal;
             nextMissionText.rectTransform.anchorMin = new Vector2(0f, 0f);
@@ -920,13 +1054,15 @@ namespace Belief.Presentation.HUD
             nextMissionText.rectTransform.offsetMin = new Vector2(12, 4);
             nextMissionText.rectTransform.offsetMax = new Vector2(-12, 0);
 
-            var logPanel = CreatePanel(canvasT, "LogPanel", PanelColor);
+            // 로그 패널 배경(section 10) - "log 메인UI"(종이더미 일러스트, 복합 레이어라 9-slice 대상 아님 -
+            // 자산 인벤토리 조사 결과)를 그대로 배경으로 쓴다.
+            var logPanel = CreatePanel(canvasT, "LogPanel", skin?.logMainBackground, PanelColor);
             var lrt = logPanel.GetComponent<RectTransform>();
             lrt.anchorMin = new Vector2(0.01f, 0.34f);
             lrt.anchorMax = new Vector2(0.21f, 0.51f);
             lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
 
-            var logLabel = CreateText(logPanel.transform, "Label", "사건 기록", 14, TextAlignmentOptions.TopLeft);
+            var logLabel = CreateText(logPanel.transform, "Label", "사건 기록", 14, TextAlignmentOptions.TopLeft, skin?.boldFont);
             logLabel.color = AccentColor;
             logLabel.fontStyle = FontStyles.Bold;
             logLabel.rectTransform.anchorMin = new Vector2(0f, 0.92f);
@@ -934,7 +1070,7 @@ namespace Belief.Presentation.HUD
             logLabel.rectTransform.offsetMin = new Vector2(12, 0);
             logLabel.rectTransform.offsetMax = new Vector2(-12, -4);
 
-            logText = CreateText(logPanel.transform, "LogText", "", 14, TextAlignmentOptions.TopLeft);
+            logText = CreateText(logPanel.transform, "LogText", "", 14, TextAlignmentOptions.TopLeft, skin?.bodyFont);
             logText.color = MutedText;
             logText.textWrappingMode = TextWrappingModes.Normal;
             logText.rectTransform.anchorMin = new Vector2(0f, 0f);
@@ -946,13 +1082,15 @@ namespace Belief.Presentation.HUD
         // 장소 특성 메모(section 2) - 좌측 하단, MissionPanel/LogPanel 아래에 배치한다.
         void BuildLocationNote(Transform canvasT)
         {
-            locationNoteGo = CreatePanel(canvasT, "LocationCharacteristicNote", PanelColor);
+            // 장소 세부 UI(section 7)를 배경으로 쓴다 - "여관" 예시처럼 #확산속도 #밀집도 등 태그형 정보와
+            // 궁합이 맞는 카드 형태 배경.
+            locationNoteGo = CreatePanel(canvasT, "LocationCharacteristicNote", skin?.locationDetailCard, PanelColor);
             var rt = locationNoteGo.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0.01f, 0.24f);
             rt.anchorMax = new Vector2(0.21f, 0.34f);
             rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
 
-            var label = CreateText(locationNoteGo.transform, "Label", "LOCATION NOTE", 13, TextAlignmentOptions.TopLeft);
+            var label = CreateText(locationNoteGo.transform, "Label", "LOCATION NOTE", 13, TextAlignmentOptions.TopLeft, skin?.numberFont);
             label.color = AccentColor;
             label.fontStyle = FontStyles.Bold;
             label.rectTransform.anchorMin = new Vector2(0f, 0.82f);
@@ -960,14 +1098,14 @@ namespace Belief.Presentation.HUD
             label.rectTransform.offsetMin = new Vector2(12, 0);
             label.rectTransform.offsetMax = new Vector2(-12, -4);
 
-            locationNoteTitleText = CreateText(locationNoteGo.transform, "Title", "", 17, TextAlignmentOptions.TopLeft);
+            locationNoteTitleText = CreateText(locationNoteGo.transform, "Title", "", 17, TextAlignmentOptions.TopLeft, skin?.semiBoldFont);
             locationNoteTitleText.fontStyle = FontStyles.Bold;
             locationNoteTitleText.rectTransform.anchorMin = new Vector2(0f, 0.66f);
             locationNoteTitleText.rectTransform.anchorMax = new Vector2(1f, 0.82f);
             locationNoteTitleText.rectTransform.offsetMin = new Vector2(12, 0);
             locationNoteTitleText.rectTransform.offsetMax = new Vector2(-12, 0);
 
-            locationNoteBodyText = CreateText(locationNoteGo.transform, "Body", "", 13, TextAlignmentOptions.TopLeft);
+            locationNoteBodyText = CreateText(locationNoteGo.transform, "Body", "", 13, TextAlignmentOptions.TopLeft, skin?.bodyFont);
             locationNoteBodyText.color = MutedText;
             locationNoteBodyText.textWrappingMode = TextWrappingModes.Normal;
             locationNoteBodyText.rectTransform.anchorMin = new Vector2(0f, 0f);
@@ -980,13 +1118,14 @@ namespace Belief.Presentation.HUD
         // 이 패널 하나의 내용만 클릭할 때마다 교체한다.
         void BuildNpcProfilePanel(Transform canvasT)
         {
-            npcProfileGo = CreatePanel(canvasT, "NpcProfilePanel", PanelColor);
+            // 조사 파일 패널 배경(section 11) - "프로필 파일 UI"(문서 일러스트)를 그대로 배경으로 쓴다.
+            npcProfileGo = CreatePanel(canvasT, "NpcProfilePanel", skin?.profileFileBackground, PanelColor);
             var rt = npcProfileGo.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0.79f, 0.23f);
             rt.anchorMax = new Vector2(0.99f, 0.91f);
             rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
 
-            var label = CreateText(npcProfileGo.transform, "Label", "INVESTIGATION FILE", 14, TextAlignmentOptions.TopLeft);
+            var label = CreateText(npcProfileGo.transform, "Label", "INVESTIGATION FILE", 14, TextAlignmentOptions.TopLeft, skin?.numberFont);
             label.color = AccentColor;
             label.fontStyle = FontStyles.Bold;
             label.rectTransform.anchorMin = new Vector2(0f, 0.965f);
@@ -994,65 +1133,105 @@ namespace Belief.Presentation.HUD
             label.rectTransform.offsetMin = new Vector2(14, 0);
             label.rectTransform.offsetMax = new Vector2(-14, -4);
 
-            npcNameText = CreateText(npcProfileGo.transform, "Name", "", 25, TextAlignmentOptions.TopLeft);
+            // 인물사진 프레임(section 11) - 폴라로이드+압정 장식. 정사각 비율 유지를 위해 preserveAspect.
+            if (skin != null && skin.npcPhotoFrame != null)
+            {
+                var photoGo = CreatePanel(npcProfileGo.transform, "PhotoFrame", skin.npcPhotoFrame, Color.clear);
+                var photoImg = photoGo.GetComponent<Image>();
+                photoImg.preserveAspect = true;
+                var photoRt = photoGo.GetComponent<RectTransform>();
+                photoRt.anchorMin = new Vector2(0.5f, 0.80f);
+                photoRt.anchorMax = new Vector2(0.5f, 0.80f);
+                photoRt.pivot = new Vector2(0.5f, 0.5f);
+                photoRt.sizeDelta = new Vector2(150, 150);
+                photoRt.anchoredPosition = Vector2.zero;
+
+                if (skin.pin != null)
+                {
+                    var pinGo = CreatePanel(photoGo.transform, "Pin", skin.pin, Color.clear);
+                    var pinRt = pinGo.GetComponent<RectTransform>();
+                    pinRt.anchorMin = new Vector2(0.5f, 1f);
+                    pinRt.anchorMax = new Vector2(0.5f, 1f);
+                    pinRt.pivot = new Vector2(0.5f, 0.5f);
+                    pinRt.sizeDelta = new Vector2(20, 28);
+                    pinRt.anchoredPosition = new Vector2(0, 6);
+                }
+
+                // 미선택 상태(section 11: "NPC 선택 전에는 None 스티커...를 사용한다") - 사진 프레임
+                // 위에 겹쳐 두고, NPC를 클릭하면(RefreshNpcProfile) 숨긴다.
+                if (skin.noneSticker != null)
+                {
+                    npcNoneStickerGo = CreatePanel(photoGo.transform, "NoneSticker", skin.noneSticker, Color.clear);
+                    var noneImg = npcNoneStickerGo.GetComponent<Image>();
+                    noneImg.preserveAspect = true;
+                    var noneRt = npcNoneStickerGo.GetComponent<RectTransform>();
+                    noneRt.anchorMin = new Vector2(0.5f, 0.5f);
+                    noneRt.anchorMax = new Vector2(0.5f, 0.5f);
+                    noneRt.pivot = new Vector2(0.5f, 0.5f);
+                    noneRt.sizeDelta = new Vector2(90, 25);
+                    noneRt.anchoredPosition = Vector2.zero;
+                }
+            }
+
+            npcNameText = CreateText(npcProfileGo.transform, "Name", "", 25, TextAlignmentOptions.TopLeft, skin?.titleFont);
             npcNameText.fontStyle = FontStyles.Bold;
-            npcNameText.rectTransform.anchorMin = new Vector2(0f, 0.91f);
-            npcNameText.rectTransform.anchorMax = new Vector2(1f, 0.965f);
+            npcNameText.rectTransform.anchorMin = new Vector2(0f, 0.735f);
+            npcNameText.rectTransform.anchorMax = new Vector2(1f, 0.78f);
             npcNameText.rectTransform.offsetMin = new Vector2(14, 0);
             npcNameText.rectTransform.offsetMax = new Vector2(-14, 0);
 
-            npcBasicInfoText = CreateText(npcProfileGo.transform, "BasicInfo", "", 14, TextAlignmentOptions.TopLeft);
+            npcBasicInfoText = CreateText(npcProfileGo.transform, "BasicInfo", "", 13, TextAlignmentOptions.TopLeft, skin?.bodyFont);
             npcBasicInfoText.color = MutedText;
             npcBasicInfoText.textWrappingMode = TextWrappingModes.Normal;
-            npcBasicInfoText.rectTransform.anchorMin = new Vector2(0f, 0.835f);
-            npcBasicInfoText.rectTransform.anchorMax = new Vector2(1f, 0.91f);
+            npcBasicInfoText.rectTransform.anchorMin = new Vector2(0f, 0.665f);
+            npcBasicInfoText.rectTransform.anchorMax = new Vector2(1f, 0.735f);
             npcBasicInfoText.rectTransform.offsetMin = new Vector2(14, 0);
             npcBasicInfoText.rectTransform.offsetMax = new Vector2(-14, 0);
 
-            npcRoleText = CreateText(npcProfileGo.transform, "Role", "", 14, TextAlignmentOptions.TopLeft);
+            npcRoleText = CreateText(npcProfileGo.transform, "Role", "", 13, TextAlignmentOptions.TopLeft, skin?.lightFont);
             npcRoleText.textWrappingMode = TextWrappingModes.Normal;
-            npcRoleText.rectTransform.anchorMin = new Vector2(0f, 0.76f);
-            npcRoleText.rectTransform.anchorMax = new Vector2(1f, 0.835f);
+            npcRoleText.rectTransform.anchorMin = new Vector2(0f, 0.6f);
+            npcRoleText.rectTransform.anchorMax = new Vector2(1f, 0.665f);
             npcRoleText.rectTransform.offsetMin = new Vector2(14, 0);
             npcRoleText.rectTransform.offsetMax = new Vector2(-14, 0);
 
-            var beliefLabel = CreateText(npcProfileGo.transform, "BeliefLabel", "현재 믿음", 13, TextAlignmentOptions.TopLeft);
+            var beliefLabel = CreateText(npcProfileGo.transform, "BeliefLabel", "현재 믿음", 12, TextAlignmentOptions.TopLeft, skin?.semiBoldFont);
             beliefLabel.color = AccentColor;
             beliefLabel.fontStyle = FontStyles.Bold;
-            beliefLabel.rectTransform.anchorMin = new Vector2(0f, 0.715f);
-            beliefLabel.rectTransform.anchorMax = new Vector2(1f, 0.76f);
+            beliefLabel.rectTransform.anchorMin = new Vector2(0f, 0.565f);
+            beliefLabel.rectTransform.anchorMax = new Vector2(1f, 0.6f);
             beliefLabel.rectTransform.offsetMin = new Vector2(14, 0);
             beliefLabel.rectTransform.offsetMax = new Vector2(-14, 0);
 
-            npcBeliefTierText = CreateText(npcProfileGo.transform, "BeliefTier", "", 18, TextAlignmentOptions.TopLeft);
+            npcBeliefTierText = CreateText(npcProfileGo.transform, "BeliefTier", "", 17, TextAlignmentOptions.TopLeft, skin?.boldFont);
             npcBeliefTierText.fontStyle = FontStyles.Bold;
-            npcBeliefTierText.rectTransform.anchorMin = new Vector2(0f, 0.66f);
-            npcBeliefTierText.rectTransform.anchorMax = new Vector2(1f, 0.715f);
+            npcBeliefTierText.rectTransform.anchorMin = new Vector2(0f, 0.52f);
+            npcBeliefTierText.rectTransform.anchorMax = new Vector2(1f, 0.565f);
             npcBeliefTierText.rectTransform.offsetMin = new Vector2(14, 0);
             npcBeliefTierText.rectTransform.offsetMax = new Vector2(-14, 0);
 
-            npcBeliefDialogueText = CreateText(npcProfileGo.transform, "BeliefDialogue", "", 13, TextAlignmentOptions.TopLeft);
+            npcBeliefDialogueText = CreateText(npcProfileGo.transform, "BeliefDialogue", "", 12, TextAlignmentOptions.TopLeft, skin?.lightFont);
             npcBeliefDialogueText.color = MutedText;
             npcBeliefDialogueText.fontStyle = FontStyles.Italic;
             npcBeliefDialogueText.textWrappingMode = TextWrappingModes.Normal;
-            npcBeliefDialogueText.rectTransform.anchorMin = new Vector2(0f, 0.59f);
-            npcBeliefDialogueText.rectTransform.anchorMax = new Vector2(1f, 0.66f);
+            npcBeliefDialogueText.rectTransform.anchorMin = new Vector2(0f, 0.46f);
+            npcBeliefDialogueText.rectTransform.anchorMax = new Vector2(1f, 0.52f);
             npcBeliefDialogueText.rectTransform.offsetMin = new Vector2(14, 0);
             npcBeliefDialogueText.rectTransform.offsetMax = new Vector2(-14, 0);
 
-            var relLabel = CreateText(npcProfileGo.transform, "RelationshipsLabel", "관계도", 13, TextAlignmentOptions.TopLeft);
+            var relLabel = CreateText(npcProfileGo.transform, "RelationshipsLabel", "관계도", 12, TextAlignmentOptions.TopLeft, skin?.semiBoldFont);
             relLabel.color = AccentColor;
             relLabel.fontStyle = FontStyles.Bold;
-            relLabel.rectTransform.anchorMin = new Vector2(0f, 0.545f);
-            relLabel.rectTransform.anchorMax = new Vector2(1f, 0.59f);
+            relLabel.rectTransform.anchorMin = new Vector2(0f, 0.42f);
+            relLabel.rectTransform.anchorMax = new Vector2(1f, 0.46f);
             relLabel.rectTransform.offsetMin = new Vector2(14, 0);
             relLabel.rectTransform.offsetMax = new Vector2(-14, 0);
 
             var relRootGo = new GameObject("RelationshipsList", typeof(RectTransform));
             relRootGo.transform.SetParent(npcProfileGo.transform, false);
             var relRt = (RectTransform)relRootGo.transform;
-            relRt.anchorMin = new Vector2(0f, 0.385f);
-            relRt.anchorMax = new Vector2(1f, 0.545f);
+            relRt.anchorMin = new Vector2(0f, 0.27f);
+            relRt.anchorMax = new Vector2(1f, 0.42f);
             relRt.offsetMin = new Vector2(14, 0); relRt.offsetMax = new Vector2(-14, 0);
             var relVlg = relRootGo.AddComponent<VerticalLayoutGroup>();
             relVlg.childAlignment = TextAnchor.UpperLeft;
@@ -1062,19 +1241,19 @@ namespace Belief.Presentation.HUD
             relVlg.spacing = 6;
             npcRelationshipsRoot = relRootGo.transform;
 
-            var historyLabel = CreateText(npcProfileGo.transform, "HistoryLabel", "History", 13, TextAlignmentOptions.TopLeft);
+            var historyLabel = CreateText(npcProfileGo.transform, "HistoryLabel", "History", 12, TextAlignmentOptions.TopLeft, skin?.numberFont);
             historyLabel.color = AccentColor;
             historyLabel.fontStyle = FontStyles.Bold;
-            historyLabel.rectTransform.anchorMin = new Vector2(0f, 0.34f);
-            historyLabel.rectTransform.anchorMax = new Vector2(1f, 0.385f);
+            historyLabel.rectTransform.anchorMin = new Vector2(0f, 0.22f);
+            historyLabel.rectTransform.anchorMax = new Vector2(1f, 0.27f);
             historyLabel.rectTransform.offsetMin = new Vector2(14, 0);
             historyLabel.rectTransform.offsetMax = new Vector2(-14, 0);
 
-            npcHistoryText = CreateText(npcProfileGo.transform, "History", "", 13, TextAlignmentOptions.TopLeft);
+            npcHistoryText = CreateText(npcProfileGo.transform, "History", "", 12, TextAlignmentOptions.TopLeft, skin?.lightFont);
             npcHistoryText.color = MutedText;
             npcHistoryText.textWrappingMode = TextWrappingModes.Normal;
             npcHistoryText.rectTransform.anchorMin = new Vector2(0f, 0.09f);
-            npcHistoryText.rectTransform.anchorMax = new Vector2(1f, 0.34f);
+            npcHistoryText.rectTransform.anchorMax = new Vector2(1f, 0.22f);
             npcHistoryText.rectTransform.offsetMin = new Vector2(14, 0);
             npcHistoryText.rectTransform.offsetMax = new Vector2(-14, 0);
 
@@ -1084,7 +1263,7 @@ namespace Belief.Presentation.HUD
             lockedRt.anchorMin = new Vector2(0f, 0f);
             lockedRt.anchorMax = new Vector2(1f, 0.085f);
             lockedRt.offsetMin = new Vector2(14, 4); lockedRt.offsetMax = new Vector2(-14, 0);
-            var lockedLabel = CreateText(lockedGo.transform, "Label", "미해금 정보  ???", 14, TextAlignmentOptions.Center);
+            var lockedLabel = CreateText(lockedGo.transform, "Label", "미해금 정보  ???", 14, TextAlignmentOptions.Center, skin?.lightFont);
             lockedLabel.color = MutedText;
             AnchorFill(lockedLabel.rectTransform);
         }
@@ -1097,7 +1276,7 @@ namespace Belief.Presentation.HUD
             prt.anchorMax = new Vector2(0.99f, 0.23f);
             prt.offsetMin = Vector2.zero; prt.offsetMax = Vector2.zero;
 
-            ownedCountLabel = CreateText(panel.transform, "Label", "보유 정보: 0", 17, TextAlignmentOptions.TopLeft);
+            ownedCountLabel = CreateText(panel.transform, "Label", "보유 정보: 0", 17, TextAlignmentOptions.TopLeft, skin?.boldFont);
             ownedCountLabel.fontStyle = FontStyles.Bold;
             ownedCountLabel.color = AccentColor;
             ownedCountLabel.rectTransform.anchorMin = new Vector2(0f, 0.86f);
@@ -1133,17 +1312,17 @@ namespace Belief.Presentation.HUD
             cirt.anchorMax = new Vector2(0.45f, 0.473f);
             cirt.offsetMin = new Vector2(16, 8); cirt.offsetMax = new Vector2(-8, 0);
 
-            cardTitleText = CreateText(cardInfoGo.transform, "CardTitle", "", 24, TextAlignmentOptions.TopLeft);
+            cardTitleText = CreateText(cardInfoGo.transform, "CardTitle", "", 24, TextAlignmentOptions.TopLeft, skin?.boldFont);
             cardTitleText.fontStyle = FontStyles.Bold;
             cardTitleText.rectTransform.anchorMin = new Vector2(0f, 0.55f);
             cardTitleText.rectTransform.anchorMax = new Vector2(1f, 1f);
 
-            cardDescText = CreateText(cardInfoGo.transform, "CardDesc", "", 15, TextAlignmentOptions.TopLeft);
+            cardDescText = CreateText(cardInfoGo.transform, "CardDesc", "", 15, TextAlignmentOptions.TopLeft, skin?.mediumFont);
             cardDescText.textWrappingMode = TextWrappingModes.Normal;
             cardDescText.rectTransform.anchorMin = new Vector2(0f, 0.20f);
             cardDescText.rectTransform.anchorMax = new Vector2(1f, 0.55f);
 
-            cardKindText = CreateText(cardInfoGo.transform, "CardKind", "", 14, TextAlignmentOptions.TopLeft);
+            cardKindText = CreateText(cardInfoGo.transform, "CardKind", "", 14, TextAlignmentOptions.TopLeft, skin?.numberFont);
             cardKindText.color = AccentColor;
             cardKindText.rectTransform.anchorMin = new Vector2(0f, 0f);
             cardKindText.rectTransform.anchorMax = new Vector2(1f, 0.20f);
@@ -1155,7 +1334,7 @@ namespace Belief.Presentation.HUD
             irt.anchorMax = new Vector2(1f, 0.473f);
             irt.offsetMin = new Vector2(8, 8); irt.offsetMax = new Vector2(-16, 0);
 
-            instructionText = CreateText(instructionGo.transform, "InstructionText", "", 17, TextAlignmentOptions.TopLeft);
+            instructionText = CreateText(instructionGo.transform, "InstructionText", "", 17, TextAlignmentOptions.TopLeft, skin?.lightFont);
             instructionText.textWrappingMode = TextWrappingModes.Normal;
             instructionText.rectTransform.anchorMin = new Vector2(0f, 0.25f);
             instructionText.rectTransform.anchorMax = new Vector2(1f, 1f);
@@ -1172,12 +1351,12 @@ namespace Belief.Presentation.HUD
             deliverButton = deliverButtonGo.AddComponent<Button>();
             deliverButton.targetGraphic = sdImg;
             deliverButton.onClick.AddListener(OnDeliverClicked);
-            var sdLabel = CreateText(deliverButtonGo.transform, "Label", "정보를 전달한다", 16, TextAlignmentOptions.Center);
+            var sdLabel = CreateText(deliverButtonGo.transform, "Label", "정보를 전달한다", 16, TextAlignmentOptions.Center, skin?.boldFont);
             sdLabel.color = Color.black;
             AnchorFill(sdLabel.rectTransform);
             deliverButtonGo.SetActive(false);
 
-            var hint = CreateText(panel.transform, "NoSelectionHint", "전달할 정보를 선택하세요.", 17, TextAlignmentOptions.Center);
+            var hint = CreateText(panel.transform, "NoSelectionHint", "전달할 정보를 선택하세요.", 17, TextAlignmentOptions.Center, skin?.lightFont);
             hint.color = MutedText;
             hint.rectTransform.anchorMin = new Vector2(0f, 0f);
             hint.rectTransform.anchorMax = new Vector2(1f, 0.473f);
@@ -1208,12 +1387,12 @@ namespace Belief.Presentation.HUD
             brt.anchorMax = new Vector2(0.66f, 0.63f);
             brt.offsetMin = Vector2.zero; brt.offsetMax = Vector2.zero;
 
-            overlayTitleText = CreateText(box.transform, "Title", "", 28, TextAlignmentOptions.Center);
+            overlayTitleText = CreateText(box.transform, "Title", "", 28, TextAlignmentOptions.Center, skin?.titleFont);
             overlayTitleText.fontStyle = FontStyles.Bold;
             overlayTitleText.rectTransform.anchorMin = new Vector2(0f, 0.66f);
             overlayTitleText.rectTransform.anchorMax = new Vector2(1f, 0.90f);
 
-            overlayDescText = CreateText(box.transform, "Desc", "", 14, TextAlignmentOptions.Center);
+            overlayDescText = CreateText(box.transform, "Desc", "", 14, TextAlignmentOptions.Center, skin?.lightFont);
             overlayDescText.textWrappingMode = TextWrappingModes.Normal;
             overlayDescText.rectTransform.anchorMin = new Vector2(0.10f, 0.36f);
             overlayDescText.rectTransform.anchorMax = new Vector2(0.90f, 0.62f);
@@ -1235,6 +1414,95 @@ namespace Belief.Presentation.HUD
             overlayButtonGo.SetActive(false);
 
             overlayGo.SetActive(false);
+        }
+
+        /// <summary>작전 성공/실패 전용 화면(section 13) - Overlay와 별개 CanvasGroup으로 완전히
+        /// 독립적으로 켜고 끈다. 배경(resultBackground) + 성공/실패 패널(successPanel/failurePanel,
+        /// ShowResultScreen에서 승패에 따라 스프라이트만 교체) + 사진 프레임 + 제목/설명/스테이지태그/
+        /// 사용 턴 + 재시작(or 확인)/메인화면 버튼으로 구성한다. 입력 차단은 Overlay와 동일하게
+        /// blocksInput=true 배경으로 처리한다.</summary>
+        void BuildResultScreen(Transform canvasT)
+        {
+            resultScreenGo = CreatePanel(canvasT, "ResultScreen", skin?.resultBackground, new Color(0.02f, 0.03f, 0.02f, 0.95f), Image.Type.Simple, blocksInput: true);
+            AnchorFill(resultScreenGo.GetComponent<RectTransform>());
+            resultCanvasGroup = resultScreenGo.AddComponent<CanvasGroup>();
+
+            // 결과 패널(성공/실패 스프라이트는 ShowResultScreen에서 교체) - 원본 비율(약 1607x1057)을
+            // 유지한 채 화면 중앙에 배치한다.
+            var panelGo = new GameObject("Panel", typeof(RectTransform));
+            panelGo.transform.SetParent(resultScreenGo.transform, false);
+            var panelRt = (RectTransform)panelGo.transform;
+            panelRt.anchorMin = new Vector2(0.5f, 0.5f);
+            panelRt.anchorMax = new Vector2(0.5f, 0.5f);
+            panelRt.pivot = new Vector2(0.5f, 0.5f);
+            panelRt.sizeDelta = new Vector2(1050, 690);
+            panelRt.anchoredPosition = Vector2.zero;
+            resultPanelImg = panelGo.AddComponent<Image>();
+            resultPanelImg.preserveAspect = true;
+            resultPanelImg.raycastTarget = false;
+
+            var photoGo = new GameObject("PhotoFrame", typeof(RectTransform));
+            photoGo.transform.SetParent(resultScreenGo.transform, false);
+            var photoRt = (RectTransform)photoGo.transform;
+            photoRt.anchorMin = new Vector2(0.5f, 0.5f);
+            photoRt.anchorMax = new Vector2(0.5f, 0.5f);
+            photoRt.pivot = new Vector2(0.5f, 0.5f);
+            photoRt.sizeDelta = new Vector2(230, 230);
+            photoRt.anchoredPosition = new Vector2(-430, 220);
+            resultPhotoFrameImg = photoGo.AddComponent<Image>();
+            resultPhotoFrameImg.preserveAspect = true;
+            resultPhotoFrameImg.raycastTarget = false;
+
+            resultStageTagText = CreateText(panelGo.transform, "StageTag", "", 20, TextAlignmentOptions.TopRight, skin?.boldFont);
+            resultStageTagText.rectTransform.anchorMin = new Vector2(0.55f, 0.78f);
+            resultStageTagText.rectTransform.anchorMax = new Vector2(0.97f, 0.92f);
+
+            resultTitleText = CreateText(panelGo.transform, "Title", "", 26, TextAlignmentOptions.TopLeft, skin?.titleFont);
+            resultTitleText.fontStyle = FontStyles.Bold;
+            resultTitleText.textWrappingMode = TextWrappingModes.Normal;
+            resultTitleText.rectTransform.anchorMin = new Vector2(0.06f, 0.60f);
+            resultTitleText.rectTransform.anchorMax = new Vector2(0.97f, 0.76f);
+
+            resultDescText = CreateText(panelGo.transform, "Desc", "", 16, TextAlignmentOptions.TopLeft, skin?.lightFont);
+            resultDescText.textWrappingMode = TextWrappingModes.Normal;
+            resultDescText.rectTransform.anchorMin = new Vector2(0.06f, 0.42f);
+            resultDescText.rectTransform.anchorMax = new Vector2(0.97f, 0.60f);
+
+            resultTurnsText = CreateText(panelGo.transform, "Turns", "", 24, TextAlignmentOptions.TopLeft, skin?.numberFont);
+            resultTurnsText.color = AccentColor;
+            resultTurnsText.rectTransform.anchorMin = new Vector2(0.06f, 0.32f);
+            resultTurnsText.rectTransform.anchorMax = new Vector2(0.5f, 0.42f);
+
+            resultPrimaryButtonGo = new GameObject("PrimaryButton", typeof(RectTransform));
+            resultPrimaryButtonGo.transform.SetParent(panelGo.transform, false);
+            var pbrt = (RectTransform)resultPrimaryButtonGo.transform;
+            pbrt.anchorMin = new Vector2(0.63f, 0.06f);
+            pbrt.anchorMax = new Vector2(0.97f, 0.20f);
+            pbrt.offsetMin = Vector2.zero; pbrt.offsetMax = Vector2.zero;
+            var pbImg = resultPrimaryButtonGo.AddComponent<Image>();
+            pbImg.color = AccentColor;
+            resultPrimaryButton = resultPrimaryButtonGo.AddComponent<Button>();
+            resultPrimaryButton.targetGraphic = pbImg;
+            resultPrimaryButtonLabel = CreateText(resultPrimaryButtonGo.transform, "Label", "", 16, TextAlignmentOptions.Center, skin?.boldFont);
+            resultPrimaryButtonLabel.color = Color.black;
+            resultPrimaryButtonLabel.fontStyle = FontStyles.Bold;
+            AnchorFill(resultPrimaryButtonLabel.rectTransform);
+
+            resultSecondaryButtonGo = new GameObject("SecondaryButton", typeof(RectTransform));
+            resultSecondaryButtonGo.transform.SetParent(panelGo.transform, false);
+            var sbrt = (RectTransform)resultSecondaryButtonGo.transform;
+            sbrt.anchorMin = new Vector2(0.06f, 0.06f);
+            sbrt.anchorMax = new Vector2(0.4f, 0.20f);
+            sbrt.offsetMin = Vector2.zero; sbrt.offsetMax = Vector2.zero;
+            var sbImg = resultSecondaryButtonGo.AddComponent<Image>();
+            sbImg.color = PanelColor;
+            resultSecondaryButton = resultSecondaryButtonGo.AddComponent<Button>();
+            resultSecondaryButton.targetGraphic = sbImg;
+            resultSecondaryButtonLabel = CreateText(resultSecondaryButtonGo.transform, "Label", "메인 화면", 15, TextAlignmentOptions.Center, skin?.boldFont);
+            resultSecondaryButtonLabel.color = MutedText;
+            AnchorFill(resultSecondaryButtonLabel.rectTransform);
+
+            resultScreenGo.SetActive(false);
         }
 
         // blocksInput: 이 배경이 아래(월드/다른 UI)로의 클릭을 실제로 막아야 하는지 여부.
@@ -1266,6 +1534,30 @@ namespace Belief.Presentation.HUD
             text.raycastTarget = false; // 순수 표시용 텍스트 - 클릭 대상이 아니다.
             AnchorFill(text.rectTransform);
             return text;
+        }
+
+        /// <summary>지정 폰트를 쓰는 오버로드 - skin의 각 굵기별 TMP_FontAsset을 전달한다(null이면
+        /// koreanFont로 자동 대체).</summary>
+        TMP_Text CreateText(Transform parent, string name, string content, int size, TextAlignmentOptions align, TMP_FontAsset font)
+        {
+            var text = CreateText(parent, name, content, size, align);
+            if (font != null) text.font = font;
+            return text;
+        }
+
+        /// <summary>Sprite가 있으면 그 아트를, 없으면(자산 누락 시) 기존 단색을 그대로 쓰는 Panel 생성자 -
+        /// 리소스 폴더가 일부만 채워져도 안전하게 동작한다.</summary>
+        GameObject CreatePanel(Transform parent, string name, Sprite sprite, Color fallbackColor, Image.Type imageType = Image.Type.Simple, bool blocksInput = false)
+        {
+            if (sprite == null) return CreatePanel(parent, name, fallbackColor, blocksInput);
+
+            var go = new GameObject(name, typeof(RectTransform));
+            go.transform.SetParent(parent, false);
+            var img = go.AddComponent<Image>();
+            img.sprite = sprite;
+            img.type = imageType;
+            img.raycastTarget = blocksInput;
+            return go;
         }
 
         void AnchorFill(RectTransform rt)

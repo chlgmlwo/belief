@@ -19,6 +19,7 @@ namespace Belief.Presentation.MainMenu
     {
         [SerializeField] TMP_FontAsset koreanFont;
         [SerializeField] string firstSceneName = "City";
+        [SerializeField] public Belief.Data.PlayHudSkin skin;
 
         static readonly Color PanelColor = new Color(0.09f, 0.12f, 0.10f, 0.95f);
         static readonly Color AccentColor = new Color(0.30f, 0.85f, 0.55f);
@@ -56,9 +57,21 @@ namespace Belief.Presentation.MainMenu
             rootCanvasGroup = canvasGo.AddComponent<CanvasGroup>();
             rootCanvasGroup.alpha = 0f;
 
-            // 3.배경: 새 아트 리소스 없이 어두운 단색 배경 + 아주 옅은 상단/하단 밴드로 은은한
-            // 세로 Gradient 느낌만 낸다("왕도의 어두운 실루엣" 대신 최소한의 색 대비로 표현).
-            var bg = CreatePanel(canvasGo.transform, "Background", BackgroundColor);
+            // 배경(section 12) - skin.briefingBackground("메인화면 UI")가 있으면 그 아트를,
+            // 없으면 기존 단색 placeholder + 상단/하단 밴드 Gradient를 그대로 쓴다.
+            GameObject bg;
+            if (skin != null && skin.briefingBackground != null)
+            {
+                bg = new GameObject("Background", typeof(RectTransform));
+                bg.transform.SetParent(canvasGo.transform, false);
+                var bgImg = bg.AddComponent<Image>();
+                bgImg.sprite = skin.briefingBackground;
+                bgImg.raycastTarget = false;
+            }
+            else
+            {
+                bg = CreatePanel(canvasGo.transform, "Background", BackgroundColor);
+            }
             AnchorFill(bg.GetComponent<RectTransform>());
 
             var topBand = CreatePanel(canvasGo.transform, "TopBand", new Color(0f, 0f, 0f, 0.25f));
@@ -74,6 +87,7 @@ namespace Belief.Presentation.MainMenu
             bbrt.offsetMin = Vector2.zero; bbrt.offsetMax = Vector2.zero;
 
             var title = CreateText(canvasGo.transform, "Title", "BELIEF", 72, TextAlignmentOptions.Center);
+            if (skin != null && skin.titleFont != null) title.font = skin.titleFont;
             title.fontStyle = FontStyles.Bold;
             title.color = AccentColor;
             title.rectTransform.anchorMin = new Vector2(0.2f, 0.60f);

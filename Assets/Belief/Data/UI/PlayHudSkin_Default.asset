@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf3b10bfa19a3104883fbf4d8039f1f6, type: 3}
+  m_Name: PlayHudSkin_Default
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.PlayHudSkin
+  titleFont: {fileID: 11400000, guid: b62f75a05f9a22e4699e71e1ff015ce6, type: 2}
+  boldFont: {fileID: 11400000, guid: 6a92e0c7a88499d4f878cb18e2eff9d0, type: 2}
+  semiBoldFont: {fileID: 11400000, guid: 242868204842bc74f856633cfbbc9ff4, type: 2}
+  bodyFont: {fileID: 11400000, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
+  mediumFont: {fileID: 11400000, guid: 3289341f9f493d44c876afce0382f56b, type: 2}
+  lightFont: {fileID: 11400000, guid: 149ca5aadb04e2a4f995f7fee945e5ef, type: 2}
+  extraLightFont: {fileID: 11400000, guid: ee40a8c08f070b84999a817859a6d758, type: 2}
+  numberFont: {fileID: 11400000, guid: 1b641c8aa19e54c4db471e295f992ebf, type: 2}
+  screenFrame: {fileID: 21300000, guid: 69b56a290d9dba4488f3cff8a36e2e58, type: 3}
+  missionTab: {fileID: 21300000, guid: d61aad02318f32c4695e472fe02f8ea2, type: 3}
+  turnTab: {fileID: 21300000, guid: f708d62b506067642ba56f6c0c300ef2, type: 3}
+  stageNameTag: {fileID: 21300000, guid: 23808665c1d178342bd1f913fccbd06f, type: 3}
+  narrationBar: {fileID: 21300000, guid: 84a39f6114fc9054d9d16c146f3c4d62, type: 3}
+  goalCard1: {fileID: 21300000, guid: 975a82abe8b3fc24a96a18afee39588d, type: 3}
+  goalCard2: {fileID: 21300000, guid: 79d2e5c7e2361e84b8fd178fb578ef49, type: 3}
+  goalCard3: {fileID: 21300000, guid: b529e6b14dab0f542939cc96e0338249, type: 3}
+  goalConnector: {fileID: 21300000, guid: ca16dd7a0568f2948b5ee7c8cb5d1308, type: 3}
+  successBadge: {fileID: 21300000, guid: 606b04b8060e7d348ac9cd5e8a3bc597, type: 3}
+  missionClearedLine: {fileID: 21300000, guid: 31e007b58caf16d42a0c6bc24cfeb4d9, type: 3}
+  missionNotClearedLine: {fileID: 21300000, guid: 3824f0f632641584785b97b5f7fbb652, type: 3}
+  npcPhotoFrame: {fileID: 21300000, guid: 249f696ff98572447a185859b13e9634, type: 3}
+  npcDialogueBubble: {fileID: 21300000, guid: 543fbdf46654f064db27ff5ebb46f0df, type: 3}
+  profileFileBackground: {fileID: 21300000, guid: 494c29373c57bc048b005d59e0afcee3, type: 3}
+  pin: {fileID: 21300000, guid: ab968ff42629bba42a1156c65c5b4e12, type: 3}
+  hashtagChip: {fileID: 21300000, guid: ab3e60b8219941348a5e1c4f2b3df21b, type: 3}
+  noneSticker: {fileID: 21300000, guid: 26f08fcb7159084468aa02ea10e93a5f, type: 3}
+  logMainBackground: {fileID: 21300000, guid: 2dd6fdc21e6b5cb4ca947c99a22c74be, type: 3}
+  logNpcLine: {fileID: 21300000, guid: f4709ae5dcf9a49438607a3c4142cd1c, type: 3}
+  logNpcLine2: {fileID: 21300000, guid: 8a508022464d3df4a8d837e00b84e4e1, type: 3}
+  logDivider: {fileID: 21300000, guid: 92d53ddd53634d741be4ababf2c41efd, type: 3}
+  logStatChangeHeader: {fileID: 21300000, guid: 1d62def88e51a864e9c659d49fbd872b, type: 3}
+  infoCardFrame: {fileID: 21300000, guid: d0704a2a5da4b614bbb653095b39d6b2, type: 3}
+  spreadTag: {fileID: 21300000, guid: 82f9723f10aedce4f99eca9421afe2c5, type: 3}
+  spreadSelectedTag: {fileID: 21300000, guid: e316eda3d9af6274b8d7a2f8a5364f94, type: 3}
+  locationTag3: {fileID: 21300000, guid: 142b6371a4a22b54aa6e42a94dbbab14, type: 3}
+  locationTag5: {fileID: 21300000, guid: 04ecda186825a4441822fdf399409c31, type: 3}
+  locationImageFrame: {fileID: 21300000, guid: db5ffc9619692e440a326c53eadbd11d, type: 3}
+  locationDetailCard: {fileID: 21300000, guid: 029e30832c683e646906d15292d0bd99, type: 3}
+  blockedStamp: {fileID: 21300000, guid: d7360658276ac35488eee873c2c45172, type: 3}
+  briefingBackground: {fileID: 21300000, guid: 82f66940d8bc288448b678a57dfd7866, type: 3}
+  launchButton: {fileID: 21300000, guid: d47b700cd90ef4249bf390958c72de4d, type: 3}
+  launchButtonHoverUnderline: {fileID: 21300000, guid: 76b747d019b9766459c57f97d9b6ac0c, type: 3}
+  lockedStageIcon: {fileID: 21300000, guid: fdb409d047d8efc49960f264828c1e3b, type: 3}
+  currentStageIcon: {fileID: 21300000, guid: 7a75a1c9ea87f064ca508665274c619f, type: 3}
+  resultBackground: {fileID: 21300000, guid: 398295e20f8d5994282e815acab361ce, type: 3}
+  successPanel: {fileID: 21300000, guid: 7e22f503b96a1364681222adfac958a6, type: 3}
+  failurePanel: {fileID: 21300000, guid: bbac2bbfdbc9074488abc408df47ef9e, type: 3}
+  successPhotoFrame: {fileID: 21300000, guid: 40743e0354c0d79478f15ae6c9ebcc5d, type: 3}
+  failurePhotoFrame: {fileID: 21300000, guid: e0aedfa50b82d0843b309d7f66c5b301, type: 3}

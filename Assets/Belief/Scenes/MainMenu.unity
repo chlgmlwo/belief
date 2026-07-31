@@ -233,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Presentation.MainMenu.MainMenuPresenter
   koreanFont: {fileID: 11400000, guid: ad5e4e9f037dd5b4981c1dc086c4ca88, type: 2}
   firstSceneName: City
+  skin: {fileID: 11400000, guid: 42ea88bdba813664a8296bb65edf49bc, type: 2}
 --- !u!4 &1715329691
 Transform:
   m_ObjectHideFlags: 0

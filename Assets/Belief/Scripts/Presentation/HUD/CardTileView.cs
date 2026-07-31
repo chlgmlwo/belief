@@ -80,12 +80,19 @@ namespace Belief.Presentation.HUD
                 tagsText.text = tags != null && tags.Length > 0 ? $"태그: {string.Join(", ", tags)}" : "";
             }
 
-            if (background != null) background.color = selected ? SelectedColor : NormalColor;
+            // 배경에 카드 프레임 아트(정보카드 UI)가 물려 있으면 원래 색을 짙게 덮어씌우지 않는다 -
+            // 대신 옅은 강조색만 얹어 선택 상태를 표시한다(placeholder 단색 배경일 때만 기존처럼
+            // 완전히 채운 색으로 표시).
+            bool hasArt = background != null && background.sprite != null;
+            if (background != null)
+                background.color = hasArt
+                    ? (selected ? new Color(1f, 1f, 0.75f, 1f) : Color.white)
+                    : (selected ? SelectedColor : NormalColor);
 
             // 선택 시 밝은 배경 위에 흰 글자는 대비가 낮아진다 - 검은 글자로 바꿔 가독성을 유지한다.
-            var textColor = selected ? Color.black : Color.white;
+            var textColor = hasArt ? Color.black : (selected ? Color.black : Color.white);
             if (titleText != null) titleText.color = textColor;
-            if (kindText != null) kindText.color = selected ? Color.black : new Color(0.72f, 0.78f, 0.74f);
+            if (kindText != null) kindText.color = hasArt ? new Color(0.15f, 0.12f, 0.08f) : (selected ? Color.black : new Color(0.72f, 0.78f, 0.74f));
         }
 
         /// <summary>접힘/펼침/사용중/제거중 상태를 전환한다. 펼침 상태는 손패 전체에서 한 장만
@@ -156,7 +163,13 @@ namespace Belief.Presentation.HUD
                 yield return null;
             }
 
-            if (background != null) background.color = isSelected ? SelectedColor : NormalColor;
+            if (background != null)
+            {
+                bool hasArt = background.sprite != null;
+                background.color = hasArt
+                    ? (isSelected ? new Color(1f, 1f, 0.75f, 1f) : Color.white)
+                    : (isSelected ? SelectedColor : NormalColor);
+            }
 
             PlaybackDirector.Instance?.Unregister(highlightPlayback);
             highlightPlayback = null;
