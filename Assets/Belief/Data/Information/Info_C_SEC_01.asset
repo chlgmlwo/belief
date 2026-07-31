@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_SEC_01
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_sec_01
+  title: "\uC57C\uAC04 \uC21C\uCC30 \uC778\uC6D0 \uAC10\uC18C"
+  description: "\uC0C1\uC5C5\uC9C0\uAD6C \uC778\uADFC\uC5D0\uC11C \uC57C\uAC04 \uC21C\uCC30
+    \uC778\uC6D0\uC774 \uC904\uC5C8\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uB3C8\uB2E4."
+  importance: 0.5
+  tags:
+  - SECURITY
+  - PATROL
+  - NIGHT
+  categoryId: SECURITY
+  informationType: 1
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

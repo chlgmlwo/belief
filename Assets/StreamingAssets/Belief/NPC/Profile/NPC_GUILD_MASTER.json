@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_GUILD_MASTER",
+  "displayName": "길드장",
+  "stageId": "STAGE_02",
+  "basicInfo": {
+    "gender": "남성",
+    "job": "상인조합 길드장",
+    "affiliation": "2스테이지 상업지구·시장가",
+    "defaultLocationId": "LOC_EXCHANGE"
+  },
+  "gameplayRole": {
+    "role": "2스테이지 클리어 목표이자 승리 조건 판정 대상",
+    "functions": [
+      "상인조합 운영",
+      "시장 지위 유지",
+      "거래와 재정 판단"
+    ],
+    "playerRelationship": "플레이어가 재정·뒷거래 정보를 통해 믿음을 흔들어야 하는 핵심 NPC"
+  },
+  "dailyRoles": [
+    "상인조합과 시장의 거래를 관리한다.",
+    "자신의 재정과 지위를 관리한다.",
+    "숫자와 문서를 바탕으로 독립적으로 결정한다."
+  ],
+  "defaultGoals": [
+    "시장에서 신뢰와 지위를 유지한다.",
+    "손해를 피하고 이익을 확보한다.",
+    "자금 사정과 뒷거래가 외부에 드러나지 않게 한다."
+  ],
+  "values": [
+    "이익",
+    "시장 신뢰",
+    "독립적 판단"
+  ],
+  "traits": {
+    "caution": "VeryHigh",
+    "curiosity": "Normal",
+    "altruism": "Low",
+    "suspicion": "High",
+    "responsibility": "High"
+  },
+  "informationSensitivities": [
+    {
+      "level": "High",
+      "categories": [
+        "자신의 재정과 뒷거래 정보",
+        "구체적인 숫자와 문서",
+        "시장 신뢰에 관한 정보"
+      ]
+    },
+    {
+      "level": "Normal",
+      "categories": [
+        "장부관리인의 보고",
+        "세관 조사 정보"
+      ]
+    },
+    {
+      "level": "Low",
+      "categories": [
+        "감정적 하소연",
+        "확인되지 않은 소문"
+      ]
+    }
+  ],
+  "initialBeliefs": [
+    {
+      "informationId": "INFO_GUILD_MASTER_01",
+      "statement": "시장은 자신이 있는 한 안정적이다",
+      "initialLevel": "Trust",
+      "displayLevel": "신뢰함",
+      "description": "자신의 지위와 시장 통제력에 확신이 있다."
+    },
+    {
+      "informationId": "INFO_GUILD_MASTER_02",
+      "statement": "최근 시장 상황이 흔들릴 수 있다",
+      "initialLevel": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "description": "겉으로는 태연하지만 재계산할 필요를 느낀다."
+    },
+    {
+      "informationId": "INFO_GUILD_MASTER_03",
+      "statement": "자신의 재정과 뒷거래를 겨냥한 근거가 존재한다",
+      "initialLevel": "NeedVerification",
+      "displayLevel": "확인이 필요하다고 판단함",
+      "description": "구체적인 문서가 제시되면 직접 조사한다."
+    }
+  ],
+  "locationPreference": {
+    "preferredLocationIds": [
+      "LOC_EXCHANGE",
+      "LOC_MARKET_SQUARE"
+    ],
+    "avoidedLocationIds": [
+      "LOC_CUSTOMS_POST"
+    ]
+  },
+  "movement": {
+    "priorityLocationIds": [
+      "LOC_EXCHANGE",
+      "LOC_MARKET_SQUARE",
+      "LOC_WAREHOUSE_STREET"
+    ],
+    "rules": [
+      "재정과 지위 관리를 위해 환전소를 우선한다.",
+      "시장 여론을 살피려면 시장 광장으로 이동한다.",
+      "뒷거래 확인이 필요할 때만 창고 거리로 이동한다."
+    ]
+  },
+  "beliefDialogues": [
+    {
+      "level": "Trust",
+      "displayLevel": "신뢰함",
+      "line": "시장은 내가 있는 한 흔들리지 않는다."
+    },
+    {
+      "level": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "line": "요즘 좀 시끄럽긴 하군… 지켜봐야겠다."
+    },
+    {
+      "level": "NeedVerification",
+      "displayLevel": "확인이 필요하다고 판단함",
+      "line": "직접 알아봐야겠다. 섣불리 움직이지 않는다."
+    },
+    {
+      "level": "Doubt",
+      "displayLevel": "의심함",
+      "line": "장부까지 나왔다면… 이야기가 달라진다."
+    },
+    {
+      "level": "Reject",
+      "displayLevel": "부정함",
+      "line": "누군가 나를 노리고 있다. 이건 우연이 아니야."
+    }
+  ],
+  "relationships": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_BOOKKEEPER",
+      "targetName": "장부관리인",
+      "relationshipType": "부하·실무 신뢰",
+      "trust": "High",
+      "intimacy": "Normal",
+      "influence": "High",
+      "description": "보고를 신뢰하며 장부관리인의 동요 자체도 중요한 근거로 받아들인다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_SMUGGLER",
+      "targetName": "밀수업자",
+      "relationshipType": "암묵적 거래 파트너·이중 관계",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "High",
+      "description": "이해관계가 얽혀 있어 정보를 받을 때 배신 가능성도 함께 의심한다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_CUSTOMS_OFFICER",
+      "targetName": "세관원",
+      "relationshipType": "행정 압박원",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "High",
+      "description": "직접 친분은 없으나 공권력의 조사 정보는 무시하지 못한다."
+    }
+  ],
+  "aiNotes": [
+    "대대로 상인 가문 출신이며 상인조합의 정점까지 올랐다.",
+    "규정 사이의 틈을 이용하고 창고 거리의 뒷거래에도 관여한다.",
+    "무리한 확장으로 자금 사정이 빠듯해졌다는 사실을 숨기고 있다.",
+    "표정 관리에 능하고 감정적 호소에는 흔들리지 않는다."
+  ],
+  "ruleOnly": {
+    "judgmentTag": "#신중형",
+    "beliefChangeRule": "기본적으로 변화하지 않는다. 자신의 재정·뒷거래를 직접 겨냥한 근거성 정보를 받으면 의심 방향으로 1단계 하락한다.",
+    "offlineBehaviorRule": "이동하지 않고 현재 위치에 머문다.",
+    "offlineFixedLines": [
+      "…좀 더 지켜봐야겠군.",
+      "아직은 판단하기 이르다."
+    ],
+    "winLossRule": "의심함 도달이 2스테이지 승리 방향이다. 관련 카드가 반복 전달될 때만 천천히 진행된다."
+  },
+  "sourceDocument": "BELIEF_NPC_AI_Profile_길드장.docx"
+}

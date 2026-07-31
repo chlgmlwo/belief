@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e8952af62164bb48bd644172bd1dd46, type: 3}
+  m_Name: Condition_Stage01_M02_GuardInvestigatingPolitics
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAnyBeliefReachedCondition
+  TargetCount: 1
+  displayLabel: "경비대장이 명령 계통을 의심함"
+  targetNpc: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
+  thresholdState: 1
+  atOrBelow: 1

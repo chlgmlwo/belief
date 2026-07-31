@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_MAID",
+  "runtimeStatus": {
+    "currentStageId": "STAGE_03",
+    "currentLocationId": "LOC_SERVANTS_QUARTERS",
+    "isActive": true,
+    "isAvailable": true,
+    "lastUpdatedTurn": 0
+  },
+  "currentGoal": {
+    "goalId": "",
+    "goalType": "None",
+    "reasonInformationId": "",
+    "targetLocationId": "",
+    "status": "None"
+  },
+  "currentMove": {
+    "targetLocationId": "",
+    "reasonGoalId": "",
+    "status": "Idle",
+    "startedTurn": -1
+  },
+  "beliefStates": [
+    {
+      "informationId": "INFO_MAID_01",
+      "currentLevel": "Trust",
+      "previousLevel": "Trust",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_MAID_02",
+      "currentLevel": "Possible",
+      "previousLevel": "Possible",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_MAID_03",
+      "currentLevel": "Doubt",
+      "previousLevel": "Doubt",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    }
+  ],
+  "workingMemory": {
+    "knownInformationIds": [
+      "INFO_MAID_01",
+      "INFO_MAID_02",
+      "INFO_MAID_03"
+    ],
+    "recentInformationIds": [],
+    "recentEventIds": [],
+    "observedNpcIds": []
+  },
+  "relationshipStates": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_HEAD_MAID",
+      "trust": "High",
+      "intimacy": "Normal",
+      "influence": "High",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_LORDS_WIFE",
+      "trust": "High",
+      "intimacy": "High",
+      "influence": "High",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_RIVAL_NOBLEWOMAN",
+      "trust": "Low",
+      "intimacy": "Low",
+      "influence": "Normal",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    }
+  ]
+}

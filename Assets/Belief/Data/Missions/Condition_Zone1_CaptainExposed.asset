@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b4bc72bdab46a4ba7363afed8e5cc9, type: 3}
+  m_Name: Condition_Zone1_CaptainExposed
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.AnyOfConditions
+  TargetCount: 1
+  subConditions:
+  - {fileID: 11400000, guid: dbdeccdbd31ade5419fc96ae556e840e, type: 2}
+  - {fileID: 11400000, guid: 55a787e31af155d448335960b7aac465, type: 2}

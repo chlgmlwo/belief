@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_KNIGHT_COMMANDER",
+  "displayName": "기사단장",
+  "stageId": "STAGE_03",
+  "basicInfo": {
+    "gender": "남성",
+    "job": "기사단장",
+    "affiliation": "3스테이지 귀족가·영주 저택 인근",
+    "defaultLocationId": "LOC_TRAINING_GROUND"
+  },
+  "gameplayRole": {
+    "role": "영주 측 무력과 분위기 조성을 담당하며 직접 판정 대상은 아님",
+    "functions": [
+      "귀족가 안전 총괄",
+      "기사 지휘",
+      "위협 조사"
+    ],
+    "playerRelationship": "플레이어의 위협 정보를 근거 중심으로 검토하는 서사 NPC"
+  },
+  "dailyRoles": [
+    "영주의 기사단을 지휘한다.",
+    "귀족가의 안전과 경계를 총괄한다.",
+    "위협 정보를 직접 조사한다."
+  ],
+  "defaultGoals": [
+    "귀족가의 안전을 유지한다.",
+    "확인되지 않은 정보로 병력을 움직이지 않는다.",
+    "근거를 확보한 뒤 대응한다."
+  ],
+  "values": [
+    "안전",
+    "경계",
+    "검증된 근거"
+  ],
+  "traits": {
+    "caution": "VeryHigh",
+    "curiosity": "Low",
+    "altruism": "Normal",
+    "suspicion": "VeryHigh",
+    "responsibility": "VeryHigh"
+  },
+  "informationSensitivities": [
+    {
+      "level": "High",
+      "categories": [
+        "군사적 위협 정보",
+        "직접 확인된 근거",
+        "안전과 경계 관련 정보"
+      ]
+    },
+    {
+      "level": "Normal",
+      "categories": [
+        "신관의 정보",
+        "영주의 명령"
+      ]
+    },
+    {
+      "level": "Low",
+      "categories": [
+        "하녀의 소문",
+        "사교적 이야기",
+        "군사와 무관한 잡담"
+      ]
+    }
+  ],
+  "initialBeliefs": [
+    {
+      "informationId": "INFO_KNIGHT_COMMANDER_01",
+      "statement": "귀족가는 현재 안전하다",
+      "initialLevel": "Trust",
+      "displayLevel": "신뢰함",
+      "description": "현재 경계 체계에 큰 이상이 없다고 본다."
+    },
+    {
+      "informationId": "INFO_KNIGHT_COMMANDER_02",
+      "statement": "귀족가에 위협이 있을 수 있다",
+      "initialLevel": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "description": "자체 조사와 경계 강화를 검토한다."
+    },
+    {
+      "informationId": "INFO_KNIGHT_COMMANDER_03",
+      "statement": "확인되지 않은 소문만으로 병력을 움직여야 한다",
+      "initialLevel": "Reject",
+      "displayLevel": "부정함",
+      "description": "근거 확인 전에는 행동하지 않는다."
+    }
+  ],
+  "locationPreference": {
+    "preferredLocationIds": [
+      "LOC_TRAINING_GROUND",
+      "LOC_MANOR_RECEPTION"
+    ],
+    "avoidedLocationIds": [
+      "LOC_BACK_ALLEY"
+    ]
+  },
+  "movement": {
+    "priorityLocationIds": [
+      "LOC_TRAINING_GROUND",
+      "LOC_MANOR_RECEPTION",
+      "LOC_GARDEN"
+    ],
+    "rules": [
+      "기본적으로 기사단 훈련장에서 경계를 지휘한다.",
+      "영주 측 안전 확인이 필요하면 대저택 응접실로 이동한다.",
+      "근거 없이 뒷골목으로 이동하지 않는다."
+    ]
+  },
+  "beliefDialogues": [
+    {
+      "level": "Trust",
+      "displayLevel": "신뢰함",
+      "line": "이상 없다. 경계 태세 유지한다."
+    },
+    {
+      "level": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "line": "음… 확인이 필요해 보인다."
+    },
+    {
+      "level": "NeedVerification",
+      "displayLevel": "확인이 필요하다고 판단함",
+      "line": "증거부터 확보하겠다."
+    },
+    {
+      "level": "Doubt",
+      "displayLevel": "의심함",
+      "line": "확인하기 전까지는 움직이지 않는다."
+    },
+    {
+      "level": "Reject",
+      "displayLevel": "부정함",
+      "line": "이건 단순한 이야기가 아니다. 조사한다."
+    }
+  ],
+  "relationships": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_LORDS_WIFE",
+      "targetName": "영주부인",
+      "relationshipType": "업무적 거리",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "Normal",
+      "description": "사교적 문제는 자신의 관할이 아니라고 선을 긋는다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_PRIEST",
+      "targetName": "신관",
+      "relationshipType": "상호 존중",
+      "trust": "High",
+      "intimacy": "Normal",
+      "influence": "Normal",
+      "description": "종교적 권위를 존중하고 필요시 정보를 공유한다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_MAID",
+      "targetName": "하녀",
+      "relationshipType": "직무상 무관심",
+      "trust": "Low",
+      "intimacy": "Low",
+      "influence": "Low",
+      "description": "하녀의 소문을 가볍게 여긴다."
+    }
+  ],
+  "aiNotes": [
+    "국경 전투에서 잔뼈가 굵은 노기사다.",
+    "오랜 복무 중 동료를 잃은 경험으로 안전과 경계를 중시한다.",
+    "영주 직속이지만 영주부인의 사교 영역에는 거리를 둔다.",
+    "말수가 적고 직설적이며 의례보다 실용을 중시한다."
+  ],
+  "ruleOnly": {
+    "judgmentTag": "#의심형",
+    "beliefChangeRule": "카드 유형과 관계없이 거의 변화하지 않는다. 미션 판정 대상이 아닌 분위기 조성용 NPC다.",
+    "offlineBehaviorRule": "이동하지 않고 현재 위치에 머문다.",
+    "offlineFixedLines": [
+      "확인하기 전까지는 움직이지 않는다."
+    ],
+    "winLossRule": "미션 성공 조건과 직접 관련이 없으며 분위기와 서사적 긴장감을 담당한다."
+  },
+  "sourceDocument": "BELIEF_NPC_AI_Profile_기사단장.docx"
+}

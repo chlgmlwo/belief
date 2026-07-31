@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_MIL_02
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_mil_02
+  title: "\uBB34\uAE30 \uAC70\uB798 \uAE09\uC99D"
+  description: "\uBB34\uAE30 \uAC70\uB798\uB7C9\uC774 \uCD5C\uADFC \uAE09\uC99D\uD588\uB2E4\uB294
+    \uC815\uBCF4\uAC00 \uC788\uB2E4."
+  importance: 0.5
+  tags:
+  - MILITARY
+  - WEAPON_TRADE
+  - ECONOMY_LINK
+  categoryId: MILITARY
+  informationType: 2
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

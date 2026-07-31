@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_tax_fraud
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_tax_fraud
+  title: "\uADC0\uC871\uB4E4\uC774 \uD0C8\uC138\uB97C \uC800\uC9C8\uB800\uB2E4"
+  description: "\uC77C\uBD80 \uADC0\uC871\uB4E4\uC774 \uC138\uAE08\uC744 \uD68C\uD53C\uD574\uC654\uB2E4\uB294
+    \uC0AC\uC2E4."
+  importance: 0.65
+  tags: []
+  categoryId: 
+  baseCredibility: 0.4
+  spreadPower: 0.5
+  isActuallyTrue: 1

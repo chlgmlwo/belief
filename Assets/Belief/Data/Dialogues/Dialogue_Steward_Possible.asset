@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10ef08cb602afa4e9e96eecc8052254, type: 3}
+  m_Name: Dialogue_Steward_Possible
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.DialogueLineData
+  contextTag: Possible
+  text: "\u2026\uCD5C\uADFC \uC0C1\uD669\uC774 \uC2EC\uC0C1\uCE58 \uC54A\uAD70\uC694.
+    \uC8FC\uC758\uB294 \uD544\uC694\uD569\uB2C8\uB2E4."

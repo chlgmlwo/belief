@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5b115c1f9660e48806b10fc92ca108, type: 3}
+  m_Name: Loc_tavern
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationData
+  locationId: loc_tavern
+  displayName: "\uC120\uC220\uC9D1"
+  description: "\uBC43\uC0AC\uB78C\uB4E4\uC774 \uC220\uC794\uC744 \uAE30\uC6B8\uC774\uBA70
+    \uC628\uAC16 \uC18C\uBB38\uC744 \uC8FC\uACE0\uBC1B\uB294 \uACF3."
+  worldPosition: {x: 14, y: 3}
+  spreadModifier: 1.3
+  connectedLocations:
+  - {fileID: 11400000, guid: f2b4d63f3f13b1d46908099d3f410dee, type: 2}
+  - {fileID: 11400000, guid: 4a969e85b1860ff42948e88534b9250b, type: 2}
+  - {fileID: 11400000, guid: b71f17dbe795dec4987c15224400c866, type: 2}

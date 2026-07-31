@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_CUSTOMS_OFFICER",
+  "displayName": "세관원",
+  "stageId": "STAGE_02",
+  "basicInfo": {
+    "gender": "남성",
+    "job": "하급 행정관·세관원",
+    "affiliation": "2스테이지 상업지구·시장가",
+    "defaultLocationId": "LOC_CUSTOMS_POST"
+  },
+  "gameplayRole": {
+    "role": "행정 라인이자 미션 2 판정 대상",
+    "functions": [
+      "통행세·관세 징수",
+      "규정 위반 확인",
+      "상부 보고"
+    ],
+    "playerRelationship": "플레이어가 행정 근거를 통해 의심과 보고를 유도하는 NPC"
+  },
+  "dailyRoles": [
+    "세관 초소에서 통행세와 관세를 걷는다.",
+    "규정 위반 여부를 확인한다.",
+    "이상 상황을 상부에 보고하고 지시를 기다린다."
+  ],
+  "defaultGoals": [
+    "문제없이 정년까지 자리를 지킨다.",
+    "규정집을 그대로 따른다.",
+    "상부에 밉보일 행동을 피한다."
+  ],
+  "values": [
+    "규정",
+    "상부 명령",
+    "직무 안정"
+  ],
+  "traits": {
+    "caution": "High",
+    "curiosity": "Low",
+    "altruism": "Low",
+    "suspicion": "Normal",
+    "responsibility": "High"
+  },
+  "informationSensitivities": [
+    {
+      "level": "High",
+      "categories": [
+        "관청과 상부의 지시",
+        "공식 행정 문서",
+        "밀수·관세 위반 정보"
+      ]
+    },
+    {
+      "level": "Normal",
+      "categories": [
+        "규정 위반 정황",
+        "길드 관련 거래 정보"
+      ]
+    },
+    {
+      "level": "Low",
+      "categories": [
+        "개인 하소연",
+        "공식 절차 밖의 소문"
+      ]
+    }
+  ],
+  "initialBeliefs": [
+    {
+      "informationId": "INFO_CUSTOMS_OFFICER_01",
+      "statement": "길드의 상거래는 규정에 따라 처리되고 있다",
+      "initialLevel": "Trust",
+      "displayLevel": "신뢰함",
+      "description": "현재 업무가 문제없이 운영된다고 본다."
+    },
+    {
+      "informationId": "INFO_CUSTOMS_OFFICER_02",
+      "statement": "길드의 거래에 규정 위반이 있을 수 있다",
+      "initialLevel": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "description": "직접 단정하지 않고 더 살핀다."
+    },
+    {
+      "informationId": "INFO_CUSTOMS_OFFICER_03",
+      "statement": "공식 행정 자료가 없는 개인 하소연은 조사 근거다",
+      "initialLevel": "Doubt",
+      "displayLevel": "의심함",
+      "description": "민원만으로 움직이지 않고 공식 절차를 요구한다."
+    }
+  ],
+  "locationPreference": {
+    "preferredLocationIds": [
+      "LOC_CUSTOMS_POST",
+      "LOC_WAREHOUSE_STREET"
+    ],
+    "avoidedLocationIds": [
+      "LOC_BACK_ALLEY"
+    ]
+  },
+  "movement": {
+    "priorityLocationIds": [
+      "LOC_CUSTOMS_POST",
+      "LOC_WAREHOUSE_STREET",
+      "LOC_MARKET_SQUARE"
+    ],
+    "rules": [
+      "기본적으로 세관 초소에서 근무한다.",
+      "밀수 정황을 확인할 때 창고 거리로 이동한다.",
+      "상부 지시 없이 뒷골목으로 이동하지 않는다."
+    ]
+  },
+  "beliefDialogues": [
+    {
+      "level": "Trust",
+      "displayLevel": "신뢰함",
+      "line": "규정대로 처리되고 있습니다. 문제없습니다."
+    },
+    {
+      "level": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "line": "흠… 조금 더 살펴봐야 할 것 같긴 합니다."
+    },
+    {
+      "level": "NeedVerification",
+      "displayLevel": "확인이 필요하다고 판단함",
+      "line": "제가 판단할 사안이 아닙니다. 먼저 확인해보겠습니다."
+    },
+    {
+      "level": "Doubt",
+      "displayLevel": "의심함",
+      "line": "이거… 위에 보고해야 하나."
+    },
+    {
+      "level": "Reject",
+      "displayLevel": "부정함",
+      "line": "이건 명백한 규정 위반입니다. 즉시 보고하겠습니다."
+    }
+  ],
+  "relationships": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_GUILD_MASTER",
+      "targetName": "길드장",
+      "relationshipType": "감시·단속 대상",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "Normal",
+      "description": "친분 없이 규정 위반 여부만으로 판단한다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_SMALL_MERCHANT",
+      "targetName": "소상인",
+      "relationshipType": "민원인",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "Low",
+      "description": "하소연을 개인 민원으로 보고 공식 절차 밖에서는 잘 움직이지 않는다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_SMUGGLER",
+      "targetName": "밀수업자",
+      "relationshipType": "간접 단속 대상",
+      "trust": "Low",
+      "intimacy": "VeryLow",
+      "influence": "High",
+      "description": "밀수 정보는 직무와 직결되어 매우 민감하게 반응한다."
+    }
+  ],
+  "aiNotes": [
+    "관청에서 파견된 하급 행정관이다.",
+    "규정집을 그대로 따르는 것이 가장 안전하다고 믿는다.",
+    "큰 야망 없이 문제없이 자리를 지키는 것이 목표다.",
+    "소심하고 규정에 집착하며 남의 눈치를 많이 본다."
+  ],
+  "ruleOnly": {
+    "judgmentTag": "#순응형",
+    "beliefChangeRule": "행정 관련 카드를 받으면 의심 방향으로 1단계 하락하고 그 외에는 변화하지 않는다.",
+    "offlineBehaviorRule": "이동하지 않고 현재 위치에 머문다.",
+    "offlineFixedLines": [
+      "이거… 위에 보고해야 하나."
+    ],
+    "winLossRule": "미션 2 판정 대상이며 의심함 도달이 클리어 조건 중 하나다."
+  },
+  "sourceDocument": "BELIEF_NPC_AI_Profile_세관원.docx"
+}

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f18e02d566237418d0e388cef1b29d, type: 3}
+  m_Name: Npc_Major_Steward
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MajorNpcData
+  npcId: npc_major_steward
+  displayName: "\uC9D1\uC0AC"
+  homeLocation: {fileID: 11400000, guid: 0f1e4801687d47ea97b53024ca1fe1ed, type: 2}
+  gender: "\uB0A8\uC131"
+  job: "\uC601\uC8FC \uC800\uD0DD \uC9D1\uC0AC"
+  affiliation: "1\uC2A4\uD14C\uC774\uC9C0 \uBC30\uACBD \uB4F1\uC7A5(\uC774\uD6C4
+    \uBBF8\uB4F1\uC7A5)"
+  gameplayRoleSummary: "\uBA85\uB839\uC11C \uBC1C\uC2E0\uC790\uC774\uC790 \uBE44\uACF5\uB7B5
+    \uBC30\uACBD \uC778\uBB3C"
+  aiNotes:
+  - "\uB2E4\uB978 \uAC00\uBB38\uC5D0\uC11C \uC7AC\uBB34\xB7\uC601\uC9C0 \uAD00\uB9AC\uB97C
+    \uB9E1\uB2E4\uAC00 \uB2A5\uB825\uC744 \uC778\uC815\uBC1B\uC544 \uBC1C\uD0C1\uB410\uB2E4."
+  - "\uC6D0\uCE59\uACFC \uACA9\uC2DD\uC740 \uC2E0\uC559\uC801 \uCDA9\uC131\uBCF4\uB2E4
+    \uC9C0\uC704\uB97C \uC9C0\uD0A4\uAE30 \uC704\uD55C \uACC4\uC0B0\uC5D0 \uAC00\uAE5D\uB2E4."
+  - "\uCE68\uCC29\uD558\uACE0 \uBE48\uD2C8\uC5C6\uC9C0\uB9CC \uC774\uB294 \uCCA0\uC800\uD55C
+    \uC790\uAE30 \uAD00\uB9AC\uC5D0\uC11C \uB098\uC628\uB2E4."
+  - "\uC2A4\uD14C\uC774\uC9C0 1\uACFC 3 \uBAA8\uB450 \uC9C1\uC811 \uACF5\uB7B5 \uB300\uC0C1\uC774
+    \uC544\uB2C8\uB2E4."
+  trustBias: 0.55
+  skepticism: 0.45
+  goal: "\uC601\uC8FC \uC800\uD0DD\uC5D0\uC11C\uC758 \uC785\uC9C0\uB97C \uC9C0\uD0A4\uBA70,
+    \uC6D0\uCE59\uACFC \uACA9\uC2DD\uC5D0 \uB530\uB77C \uC18C\uC784\uC744 \uB2E4\uD55C\uB2E4."
+  loyalty: 0.45
+  relationships:
+  - other: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
+    type: {fileID: 0}
+    strength: 0.3
+    relationshipTypeLabel: "\uBD80\uD558\xB7\uBA85\uB839 \uC218\uD589\uC790"
+    relationshipDescription: "\uC5C5\uBB34 \uB2A5\uB825\uC740 \uC2E0\uB8B0\uD558\uC9C0\uB9CC
+      \uACB0\uACFC\uC5D0 \uB300\uD55C \uCC45\uC784\uC744 \uC5C4\uACA9\uD788 \uBB3B\uB294\uB2E4."
+  availableActions:
+  - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
+  - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
+  - {fileID: 11400000, guid: 17d4ddaa3dd120246ba39ad0744c12a9, type: 2}
+  - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}
+  beliefDialogues:
+  - {fileID: 11400000, guid: 0f6b2ab8ce021aa44a22ee016231390e, type: 2}
+  - {fileID: 11400000, guid: 9372ddfcf3c92be43abf54ced67a7432, type: 2}
+  - {fileID: 11400000, guid: 4704c541dedadbc478b7d49c358f9161, type: 2}
+  - {fileID: 11400000, guid: 69d49e3f8e724ff44b5c4026dce46613, type: 2}
+  - {fileID: 11400000, guid: 0df44e6ab97afd54283c494eaaa95c9c, type: 2}
+  movementCandidates:
+  - {fileID: 11400000, guid: 0f1e4801687d47ea97b53024ca1fe1ed, type: 2}
+  - {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
+  preferredLocations:
+  - {fileID: 11400000, guid: 0f1e4801687d47ea97b53024ca1fe1ed, type: 2}
+  - {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
+  avoidedLocations:
+  - {fileID: 11400000, guid: d9df1ab9864b415f8c8cdfef418992d2, type: 2}

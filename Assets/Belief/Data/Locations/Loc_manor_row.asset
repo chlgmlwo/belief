@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5b115c1f9660e48806b10fc92ca108, type: 3}
+  m_Name: Loc_manor_row
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationData
+  locationId: loc_manor_row
+  displayName: "\uC800\uD0DD\uAC00"
+  description: "\uADC0\uC871\uB4E4\uC758 \uC800\uD0DD\uC774 \uB298\uC5B4\uC120 \uAC70\uB9AC."
+  worldPosition: {x: -18, y: 3}
+  spreadModifier: 1
+  connectedLocations:
+  - {fileID: 11400000, guid: 094a1d5382db9be4081b7e437df265d7, type: 2}
+  - {fileID: 11400000, guid: f84d055ed33cdf148954436912830eb8, type: 2}
+  - {fileID: 11400000, guid: 7c062e15b21fb8c4ba86217a84a320a7, type: 2}

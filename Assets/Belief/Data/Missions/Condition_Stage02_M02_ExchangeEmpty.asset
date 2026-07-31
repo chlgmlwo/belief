@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6c2e639b771e2041a8c8661f9b424ee, type: 3}
+  m_Name: Condition_Stage02_M02_ExchangeEmpty
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcsLeaveLocationCondition
+  TargetCount: 2
+  displayLabel: "\uD658\uC804\uC18C\uC5D0 \uC0C1\uC778\uC774 \uB0A8\uC9C0 \uC54A\uC74C"
+  watchedLocation: {fileID: 11400000, guid: 40858fb8ee9999b4eb99d6bbbed06936, type: 2}
+  watchedNpcs:
+  - {fileID: 11400000, guid: 7affddfbafc05c445bdc0fc15115a23c, type: 2}
+  - {fileID: 11400000, guid: 4febb1b6d554c674c94eef84b79c170f, type: 2}

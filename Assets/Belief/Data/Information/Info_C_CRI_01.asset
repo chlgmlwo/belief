@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_CRI_01
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_cri_01
+  title: "\uC18C\uB9E4\uCE58\uAE30 \uC99D\uAC00"
+  description: "\uC0C1\uC5C5\uC9C0\uAD6C\uC5D0\uC11C \uC18C\uB9E4\uCE58\uAE30\uAC00
+    \uB298\uC5C8\uB2E4\uB294 \uC18C\uBB38\uC774 \uB3C8\uB2E4."
+  importance: 0.5
+  tags:
+  - CRIME
+  - THEFT
+  - MARKET
+  categoryId: CRIME
+  informationType: 1
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f18e02d566237418d0e388cef1b29d, type: 3}
+  m_Name: Npc_Major_KnightCommander
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MajorNpcData
+  npcId: npc_major_knight_commander
+  displayName: "\uAE30\uC0AC\uB2E8\uC7A5"
+  homeLocation: {fileID: 11400000, guid: aae10202969e7d546a41f9a4da180735, type: 2}
+  gender: 
+  job: 
+  affiliation: 
+  gameplayRoleSummary: 
+  aiNotes: []
+  trustBias: 0.65
+  skepticism: 0.3
+  goal: "\uC601\uC8FC\uC640 \uB3C4\uC2DC\uC758 \uC548\uC804\uC744 \uC9C0\uD0A8\uB2E4."
+  loyalty: 0.8
+  relationships: []
+  availableActions:
+  - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
+  - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
+  - {fileID: 11400000, guid: 36e1a5e99b52ba74fbb6371e7f05205a, type: 2}
+  - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}
+  - {fileID: 11400000, guid: b6c54f46a39dd974b99de521aea86e0e, type: 2}
+  beliefDialogues:
+  - {fileID: 11400000, guid: e08f98759c4b9eb4ebc048e24c68919a, type: 2}
+  - {fileID: 11400000, guid: 9d02b9729a35689429a145ac80dbb9bf, type: 2}
+  - {fileID: 11400000, guid: 6d974f431a132c6498232e3fdaac803d, type: 2}
+  - {fileID: 11400000, guid: 61a04172cc3761d4eb6c5c8dbfef21c9, type: 2}
+  - {fileID: 11400000, guid: db2ce4d54841de841be0b8163916c103, type: 2}
+  movementCandidates:
+  - {fileID: 11400000, guid: aae10202969e7d546a41f9a4da180735, type: 2}
+  - {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}
+  preferredLocations:
+  - {fileID: 11400000, guid: aae10202969e7d546a41f9a4da180735, type: 2}
+  avoidedLocations:
+  - {fileID: 11400000, guid: d9df1ab9864b415f8c8cdfef418992d2, type: 2}

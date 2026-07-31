@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5b115c1f9660e48806b10fc92ca108, type: 3}
+  m_Name: Loc_Barracks
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationData
+  locationId: LOC_GUARD_POST
+  displayName: "\uACBD\uBE44 \uCD08\uC18C"
+  description: "\uBD81\uBB38 \uACBD\uBE44\uB300\uAC00 \uC8FC\uB454\uD558\uB294 \uC7A5\uC18C.
+    \uACBD\uBE44\uB300\uC7A5\uC758 \uC704\uCE58\uC774\uC790 \uC2B9\uD328 \uD310\uC815\uC758
+    \uC911\uC2EC \uAD6C\uC5ED\uC774\uB2E4. \uAD70\uC0AC \uC815\uBCF4\uC640 \uBA85\uB839\uC11C\uC5D0
+    \uBBFC\uAC10\uD558\uB2E4."
+  worldPosition: {x: 0, y: 3}
+  spreadModifier: 0.8
+  connectedLocations:
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
+  - {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
+  - {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
+  - {fileID: 11400000, guid: 0f1e4801687d47ea97b53024ca1fe1ed, type: 2}
+  spreadSpeed: 1
+  npcDensity: 2
+  sensitiveInformationType: 3
+  accessType: 2
+  credibilityModifier: 3

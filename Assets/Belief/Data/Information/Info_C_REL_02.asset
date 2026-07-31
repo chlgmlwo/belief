@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_REL_02
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_rel_02
+  title: "\uAD50\uB9AC \uC704\uBC18 \uBC1C\uC5B8"
+  description: "\uD2B9\uC815 \uC131\uC9C1\uC790\uAC00 \uAD50\uB9AC\uC5D0 \uC5B4\uAE0B\uB098\uB294
+    \uBC1C\uC5B8\uC744 \uD588\uB2E4\uB294 \uC81C\uBCF4\uAC00 \uC788\uB2E4."
+  importance: 0.5
+  tags:
+  - RELIGION
+  - DOCTRINE
+  - CLERGY
+  categoryId: RELIGION
+  informationType: 2
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

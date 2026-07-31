@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f18e02d566237418d0e388cef1b29d, type: 3}
+  m_Name: Npc_Major_HeadMaid
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MajorNpcData
+  npcId: npc_major_head_maid
+  displayName: "\uC2DC\uB140\uC7A5"
+  homeLocation: {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}
+  gender: 
+  job: 
+  affiliation: 
+  gameplayRoleSummary: 
+  aiNotes: []
+  trustBias: 0.8
+  skepticism: 0.7
+  goal: "\uC601\uC8FC\uBD80\uC778\uC744 \uAC00\uAE4C\uC774\uC11C \uBCF4\uD544\uD558\uBA70
+    \uC800\uD0DD\uC758 \uC9C8\uC11C\uB97C \uC9C0\uD0A8\uB2E4."
+  loyalty: 0.85
+  relationships:
+  - other: {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}
+    type: {fileID: 0}
+    strength: 0.8
+    relationshipTypeLabel: 
+    relationshipDescription: 
+  - other: {fileID: 11400000, guid: 6477404e365cb9f47b6edca2591b5846, type: 2}
+    type: {fileID: 0}
+    strength: 0.4
+    relationshipTypeLabel: 
+    relationshipDescription: 
+  availableActions:
+  - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
+  - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
+  - {fileID: 11400000, guid: bcdb4f54f283ba04ea0cad5c9bce062e, type: 2}
+  - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}
+  - {fileID: 11400000, guid: b6c54f46a39dd974b99de521aea86e0e, type: 2}
+  beliefDialogues:
+  - {fileID: 11400000, guid: 16966ef47e05fe5439895ab8cccf5f36, type: 2}
+  - {fileID: 11400000, guid: a9ead603496a8654da3b69c70bd137df, type: 2}
+  - {fileID: 11400000, guid: 23054e77684e401458204f69ed6c3d3e, type: 2}
+  - {fileID: 11400000, guid: 50b954f7efda85c4f831b720fce5ec89, type: 2}
+  - {fileID: 11400000, guid: 7ccbe3947eeddf441b8dd81f1fff36e4, type: 2}
+  movementCandidates:
+  - {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}
+  - {fileID: 11400000, guid: bbd7eddf854b7ea49961419069a30f82, type: 2}
+  - {fileID: 11400000, guid: f89dbfbdbe6867b449119cc4075222a2, type: 2}
+  preferredLocations:
+  - {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}
+  avoidedLocations:
+  - {fileID: 11400000, guid: d9df1ab9864b415f8c8cdfef418992d2, type: 2}

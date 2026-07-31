@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_SMALL_MERCHANT",
+  "displayName": "소상인",
+  "stageId": "STAGE_02",
+  "basicInfo": {
+    "gender": "여성",
+    "job": "소상인",
+    "affiliation": "2스테이지 상업지구·시장가",
+    "defaultLocationId": "LOC_MARKET_SQUARE"
+  },
+  "gameplayRole": {
+    "role": "소문 확산원이자 미션 1의 간접 매개",
+    "functions": [
+      "좌판 운영",
+      "이웃 상인과 정보 교환",
+      "시장 소문 확산"
+    ],
+    "playerRelationship": "플레이어가 흘린 소문에 빠르게 반응해 확산하는 NPC"
+  },
+  "dailyRoles": [
+    "시장의 작은 좌판에서 장사한다.",
+    "이웃 상인들과 정보를 주고받는다.",
+    "불안한 소문을 빠르게 퍼뜨린다."
+  ],
+  "defaultGoals": [
+    "하루 생계를 유지한다.",
+    "위험한 상황에 먼저 대비한다.",
+    "시장 변화로 인한 손실을 피한다."
+  ],
+  "values": [
+    "생계 안전",
+    "빠른 대비",
+    "이웃 정보망"
+  ],
+  "traits": {
+    "caution": "Low",
+    "curiosity": "High",
+    "altruism": "Normal",
+    "suspicion": "High",
+    "responsibility": "Normal"
+  },
+  "informationSensitivities": [
+    {
+      "level": "High",
+      "categories": [
+        "시장 소문",
+        "세관 관련 소식",
+        "생계 위협 정보"
+      ]
+    },
+    {
+      "level": "Normal",
+      "categories": [
+        "이웃 상인의 이야기",
+        "길드 관련 정보"
+      ]
+    },
+    {
+      "level": "Low",
+      "categories": [
+        "숫자 중심 설명",
+        "딱딱한 공식 표현"
+      ]
+    }
+  ],
+  "initialBeliefs": [
+    {
+      "informationId": "INFO_SMALL_MERCHANT_01",
+      "statement": "길드와 길드장은 시장 상인들의 생계를 지탱한다",
+      "initialLevel": "Trust",
+      "displayLevel": "신뢰함",
+      "description": "멀리 있는 권력이지만 현재 질서를 유지한다고 본다."
+    },
+    {
+      "informationId": "INFO_SMALL_MERCHANT_02",
+      "statement": "시장 분위기가 나빠지고 있을 수 있다",
+      "initialLevel": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "description": "혹시 모른다는 불안으로 주변 반응을 살핀다."
+    },
+    {
+      "informationId": "INFO_SMALL_MERCHANT_03",
+      "statement": "세관 조사 소문은 장사에 영향을 줄 수 있다",
+      "initialLevel": "NeedVerification",
+      "displayLevel": "확인이 필요하다고 판단함",
+      "description": "정확한 확인보다 먼저 대비하고 전파하려는 경향이 있다."
+    }
+  ],
+  "locationPreference": {
+    "preferredLocationIds": [
+      "LOC_MARKET_SQUARE"
+    ],
+    "avoidedLocationIds": [
+      "LOC_CUSTOMS_POST"
+    ]
+  },
+  "movement": {
+    "priorityLocationIds": [
+      "LOC_MARKET_SQUARE",
+      "LOC_EXCHANGE"
+    ],
+    "rules": [
+      "장사를 위해 시장 광장을 우선한다.",
+      "경제 정보가 필요하면 환전소로 이동할 수 있다.",
+      "단속 위험을 느끼면 세관 초소를 피한다."
+    ]
+  },
+  "beliefDialogues": [
+    {
+      "level": "Trust",
+      "displayLevel": "신뢰함",
+      "line": "길드장님 덕에 그래도 먹고사는 거지."
+    },
+    {
+      "level": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "line": "요즘 분위기가 좀 이상하긴 해."
+    },
+    {
+      "level": "NeedVerification",
+      "displayLevel": "확인이 필요하다고 판단함",
+      "line": "에이, 확실한 건 아니지? 좀 더 들어봐야겠어."
+    },
+    {
+      "level": "Doubt",
+      "displayLevel": "의심함",
+      "line": "다들 그러던데, 심상치 않아!"
+    },
+    {
+      "level": "Reject",
+      "displayLevel": "부정함",
+      "line": "이거 진짜 큰일 난 거 아니야? 장사 접어야 하나…"
+    }
+  ],
+  "relationships": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_GUILD_MASTER",
+      "targetName": "길드장",
+      "relationshipType": "먼 권력·조합장",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "High",
+      "description": "직접 대면이 거의 없어 소문으로 판단하고 쉽게 흔들린다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_CUSTOMS_OFFICER",
+      "targetName": "세관원",
+      "relationshipType": "단속 관계",
+      "trust": "Low",
+      "intimacy": "Low",
+      "influence": "High",
+      "description": "세관 소식에 유독 민감하고 과장해 전달하는 경향이 있다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_SMUGGLER",
+      "targetName": "밀수업자",
+      "relationshipType": "암묵적 인지",
+      "trust": "Low",
+      "intimacy": "Low",
+      "influence": "Normal",
+      "description": "직접 언급은 피하지만 뒷거래 소문을 알고 있다는 티를 낸다."
+    }
+  ],
+  "aiNotes": [
+    "시장 한켠의 좌판에서 10년째 장사한다.",
+    "길드장은 자신을 지켜주는 존재보다 멀리 있는 권력으로 느낀다.",
+    "정보 검증보다 혹시 모를 위험에 대비하려는 생존 본능이 강하다.",
+    "사교적이고 말이 많다."
+  ],
+  "ruleOnly": {
+    "judgmentTag": "#충동형",
+    "beliefChangeRule": "소문성 카드를 받으면 항상 의심 방향으로 1단계 하락한다.",
+    "offlineBehaviorRule": "이동하지 않고 현재 위치에 머문다.",
+    "offlineFixedLines": [
+      "그러게 내 뭐랬어!",
+      "이거 심상치 않은데."
+    ],
+    "winLossRule": "미션 1의 간접 매개다. 직접 클리어 조건은 아니지만 밀수업자발 정보가 확산되는 경유지다."
+  },
+  "sourceDocument": "BELIEF_NPC_AI_Profile_소상인.docx"
+}

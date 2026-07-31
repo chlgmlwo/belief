@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32fb552e2515464ebf9e936b322b5a8, type: 3}
+  m_Name: Card_C_MIL_03
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationCardData
+  cardId: C-MIL-03
+  information: {fileID: 11400000, guid: 1b4cc747d16d76141a5965a355a56953, type: 2}
+  source: {fileID: 11400000, guid: 082b9f56207dc194fb684896f70b3ab6, type: 2}
+  cardType: 0

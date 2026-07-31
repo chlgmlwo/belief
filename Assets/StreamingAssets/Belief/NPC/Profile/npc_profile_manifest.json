@@ -1,0 +1,21 @@
+{
+    "schemaVersion": 1,
+    "profileFiles": [
+        "NPC_BOOKKEEPER.json",
+        "NPC_BUTLER.json",
+        "NPC_CUSTOMS_OFFICER.json",
+        "NPC_GUARD_CAPTAIN.json",
+        "NPC_GUILD_MASTER.json",
+        "NPC_HEAD_MAID.json",
+        "NPC_INNKEEPER.json",
+        "NPC_JUNIOR_GUARD.json",
+        "NPC_KNIGHT_COMMANDER.json",
+        "NPC_LORDS_WIFE.json",
+        "NPC_MAID.json",
+        "NPC_MERCHANT.json",
+        "NPC_PRIEST.json",
+        "NPC_RIVAL_NOBLEWOMAN.json",
+        "NPC_SMALL_MERCHANT.json",
+        "NPC_SMUGGLER.json"
+    ]
+}

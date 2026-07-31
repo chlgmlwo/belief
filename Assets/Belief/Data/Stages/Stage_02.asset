@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24150632b7ead4c4ca48e5b58034b324, type: 3}
+  m_Name: Stage_02
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.StageData
+  stageId: STAGE_02
+  stageNumber: 2
+  stageName: "\uC0C1\uC5C5\uC9C0\uAD6C \xB7 \uC2DC\uC7A5\uAC00"
+  regionName: "\uC0C1\uC5C5\uC9C0\uAD6C \xB7 \uC2DC\uC7A5\uAC00"
+  regionDescription: "\uBD81\uBB38\uC744 \uB118\uC740 \uC18C\uBB38\uC740 \uC5B4\uB290\uC0C8
+    \uC2DC\uC7A5 \uACE8\uBAA9\uAE4C\uC9C0 \uBC88\uC838 \uC788\uB2E4. \uC0C1\uC778\uB4E4
+    \uC0AC\uC774\uC5D0 \uBD88\uC548\uD55C \uC148\uBC95\uC774 \uC624\uAC04\uB2E4."
+  objective: "\uAE38\uB4DC\uC7A5\uC758 \uBBFF\uC74C\uC744 \uBB34\uB108\uB728\uB824,
+    \uC0C1\uC5C5\uC9C0\uAD6C\uC758 \uACBD\uC81C\xB7\uC5EC\uB860 \uC2E0\uB8B0\uB97C
+    \uBB34\uB108\uB728\uB9B0\uB2E4"
+  locations:
+  - {fileID: 11400000, guid: 19033b22e5426dc4089787dee0e242ed, type: 2}
+  - {fileID: 11400000, guid: 40858fb8ee9999b4eb99d6bbbed06936, type: 2}
+  - {fileID: 11400000, guid: c64bc51fba05aeb43ba46e4d412a79f9, type: 2}
+  - {fileID: 11400000, guid: 34e7ab9f748b1c4458b0d3972829ae02, type: 2}
+  npcPlacements:
+  - npc: {fileID: 11400000, guid: 7affddfbafc05c445bdc0fc15115a23c, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  - npc: {fileID: 11400000, guid: 4febb1b6d554c674c94eef84b79c170f, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  - npc: {fileID: 11400000, guid: 3b6c1c8ed9409ea44807665c423530af, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  - npc: {fileID: 11400000, guid: edd7b0ba482ba8147ac42357d8abedce, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  - npc: {fileID: 11400000, guid: a27482ef6e129d147a681d2d7b59dadb, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  locationLayout:
+  - location: {fileID: 11400000, guid: 40858fb8ee9999b4eb99d6bbbed06936, type: 2}
+    position: {x: 0, y: 4.2}
+  - location: {fileID: 11400000, guid: 19033b22e5426dc4089787dee0e242ed, type: 2}
+    position: {x: -4.5, y: 1.4}
+  - location: {fileID: 11400000, guid: c64bc51fba05aeb43ba46e4d412a79f9, type: 2}
+    position: {x: 4.5, y: 1.4}
+  - location: {fileID: 11400000, guid: 34e7ab9f748b1c4458b0d3972829ae02, type: 2}
+    position: {x: 0, y: -1.4}
+  cardPool: {fileID: 11400000, guid: 9fe9e7d462e145afa8f2a19c1f48492f, type: 2}
+  missions:
+  - {fileID: 11400000, guid: e3faf09b2d6ed4641aafe8218035a57c, type: 2}
+  - {fileID: 11400000, guid: 08098624cecc307498bfd99406437040, type: 2}
+  startMission: {fileID: 11400000, guid: e3faf09b2d6ed4641aafe8218035a57c, type: 2}
+  maxTurns: 8

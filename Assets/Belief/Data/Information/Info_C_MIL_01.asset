@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_MIL_01
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_mil_01
+  title: "\uAD6D\uACBD \uBCD1\uB825 \uC774\uB3D9"
+  description: "\uAD6D\uACBD \uC778\uADFC\uC5D0\uC11C \uBCD1\uB825\uC774 \uC774\uB3D9
+    \uC911\uC774\uB77C\uB294 \uC18C\uC2DD\uC774 \uC804\uD574\uC9C4\uB2E4."
+  importance: 0.5
+  tags:
+  - MILITARY
+  - TROOP_MOVEMENT
+  - BORDER
+  categoryId: MILITARY
+  informationType: 2
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

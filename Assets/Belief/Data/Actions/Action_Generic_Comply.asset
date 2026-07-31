@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e97586ef8ef7c74aa5e85a1db54c29e, type: 3}
+  m_Name: Action_Generic_Comply
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcActionData
+  actionId: act_generic_comply
+  displayLabel: "\uBC1B\uC544\uB4E4\uC774\uACE0 \uC21C\uC751\uD55C\uB2E4"
+  intent: 0
+  effect: {fileID: 11400000, guid: 88eebaa30f1b23d489b7686e55dbb7fd, type: 2}

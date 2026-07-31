@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a32c6485b831fe4595d27f5849c7257, type: 3}
+  m_Name: Condition_Stage04_M01_LordsWifeScandalToLord
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcBeliefReachedCondition
+  TargetCount: 1
+  displayLabel: 
+  targetNpc: {fileID: 11400000, guid: b61f1196e7ee84945894e1c731022573, type: 2}
+  referenceCard: {fileID: 11400000, guid: cabf2e3cafa848149b1bdf4b80b63ec2, type: 2}
+  thresholdState: 2
+  atOrBelow: 1

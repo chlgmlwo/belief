@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5b115c1f9660e48806b10fc92ca108, type: 3}
+  m_Name: Loc_courthouse
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationData
+  locationId: loc_courthouse
+  displayName: "\uC7AC\uD310\uC18C"
+  description: "\uBD84\uC7C1\uACFC \uC18C\uC1A1\uC744 \uB2E4\uB8E8\uB294 \uC7AC\uD310\uC18C.
+    \uC774\uACF3\uC5D0\uC11C \uCC98\uB9AC\uD558\uB294 \uC0AC\uAC74 \uC911 \uC77C\uBD80\uB294
+    \uC544\uC9C1 \uC774\uB984\uC870\uCC28 \uC54C\uB824\uC9C0\uC9C0 \uC54A\uC740 \uBCC0\uB450\uB9AC
+    \uAD6C\uC5ED\uC5D0\uC11C \uC628\uB2E4."
+  worldPosition: {x: -18, y: -2}
+  spreadModifier: 0.85
+  connectedLocations:
+  - {fileID: 11400000, guid: 094a1d5382db9be4081b7e437df265d7, type: 2}
+  - {fileID: 11400000, guid: cbfd6be4454d78a48a2443caff90c231, type: 2}
+  - {fileID: 11400000, guid: f84d055ed33cdf148954436912830eb8, type: 2}

@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63555b347a3d0f44e87d1b730fb3750a, type: 3}
+  m_Name: Effect_GuardCaptain_Ignore_MoveToInn
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MoveToLocationEffect
+  destination: {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}

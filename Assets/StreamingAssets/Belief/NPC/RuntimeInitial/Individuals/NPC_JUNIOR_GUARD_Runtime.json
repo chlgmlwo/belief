@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_JUNIOR_GUARD",
+  "runtimeStatus": {
+    "currentStageId": "STAGE_01",
+    "currentLocationId": "LOC_GUARD_POST",
+    "isActive": true,
+    "isAvailable": true,
+    "lastUpdatedTurn": 0
+  },
+  "currentGoal": {
+    "goalId": "",
+    "goalType": "None",
+    "reasonInformationId": "",
+    "targetLocationId": "",
+    "status": "None"
+  },
+  "currentMove": {
+    "targetLocationId": "",
+    "reasonGoalId": "",
+    "status": "Idle",
+    "startedTurn": -1
+  },
+  "beliefStates": [
+    {
+      "informationId": "INFO_JUNIOR_GUARD_01",
+      "currentLevel": "Trust",
+      "previousLevel": "Trust",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_JUNIOR_GUARD_02",
+      "currentLevel": "Possible",
+      "previousLevel": "Possible",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_JUNIOR_GUARD_03",
+      "currentLevel": "Doubt",
+      "previousLevel": "Doubt",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    }
+  ],
+  "workingMemory": {
+    "knownInformationIds": [
+      "INFO_JUNIOR_GUARD_01",
+      "INFO_JUNIOR_GUARD_02",
+      "INFO_JUNIOR_GUARD_03"
+    ],
+    "recentInformationIds": [],
+    "recentEventIds": [],
+    "observedNpcIds": []
+  },
+  "relationshipStates": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_GUARD_CAPTAIN",
+      "trust": "High",
+      "intimacy": "Normal",
+      "influence": "VeryHigh",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Role",
+      "targetId": "ROLE_PATROL_GUARD",
+      "trust": "High",
+      "intimacy": "High",
+      "influence": "Normal",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Role",
+      "targetId": "ROLE_HIGH_AUTHORITY",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "VeryHigh",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    }
+  ]
+}

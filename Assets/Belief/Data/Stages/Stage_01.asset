@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24150632b7ead4c4ca48e5b58034b324, type: 3}
+  m_Name: Stage_01
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.StageData
+  stageId: STAGE_01
+  stageNumber: 0
+  stageName: 
+  regionName: "\uBD81\uBB38(\uC678\uACFD)"
+  regionDescription: "\uBD81\uBB38 \uACBD\uBE44\uB300\uAC00 \uC8FC\uB454\uD558\uB294
+    \uB3C4\uC2DC \uC678\uACFD\uC758 \uAD00\uBB38 \uC9C0\uC5ED."
+  objective: 
+  locations:
+  - {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
+  - {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
+  - {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
+  - {fileID: 11400000, guid: 0f1e4801687d47ea97b53024ca1fe1ed, type: 2}
+  npcPlacements:
+  - npc: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  - npc: {fileID: 11400000, guid: 4677f620c23745329d98e141b738510f, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  - npc: {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  - npc: {fileID: 11400000, guid: 57f9b30ac5617b24398c5f2e5273a3b4, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  - npc: {fileID: 11400000, guid: ea3287ffc1f349ae8a59b02b23150c98, type: 2}
+    startLocation: {fileID: 0}
+    initialBeliefs: []
+  locationLayout:
+  - location: {fileID: 11400000, guid: 0f1e4801687d47ea97b53024ca1fe1ed, type: 2}
+    position: {x: -2.8, y: 3.4}
+  - location: {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
+    position: {x: 2.8, y: 3.4}
+  - location: {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
+    position: {x: -2.8, y: -0.6}
+  - location: {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
+    position: {x: 2.8, y: -0.6}
+  cardPool: {fileID: 11400000, guid: 9fe9e7d462e145afa8f2a19c1f48492f, type: 2}
+  missions:
+  - {fileID: 11400000, guid: 070bf094d0c790d40b701af73a54a840, type: 2}
+  - {fileID: 11400000, guid: e92ae16e050d5fc47b89a5f8453948b2, type: 2}
+  startMission: {fileID: 11400000, guid: 070bf094d0c790d40b701af73a54a840, type: 2}
+  maxTurns: 8

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5b115c1f9660e48806b10fc92ca108, type: 3}
+  m_Name: Loc_temple
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationData
+  locationId: loc_temple
+  displayName: "\uC2E0\uC804"
+  description: "\uB3C4\uC2DC\uC758 \uC2E0\uC559\uC744 \uAD00\uC7A5\uD558\uB294 \uC2E0\uC804."
+  worldPosition: {x: -14, y: -2}
+  spreadModifier: 0.9
+  connectedLocations:
+  - {fileID: 11400000, guid: 094a1d5382db9be4081b7e437df265d7, type: 2}
+  - {fileID: 11400000, guid: cbfd6be4454d78a48a2443caff90c231, type: 2}
+  - {fileID: 11400000, guid: 7c062e15b21fb8c4ba86217a84a320a7, type: 2}

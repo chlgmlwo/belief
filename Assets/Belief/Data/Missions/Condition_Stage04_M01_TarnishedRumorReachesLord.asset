@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b4bc72bdab46a4ba7363afed8e5cc9, type: 3}
+  m_Name: Condition_Stage04_M01_TarnishedRumorReachesLord
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.AnyOfConditions
+  TargetCount: 1
+  displayLabel: "\uBB34\uB108\uC9C4 \uCE21\uADFC(\uC9D1\uC0AC/\uAE38\uB4DC\uC7A5/\uC601\uC8FC\uBD80\uC778)\uC758
+    \uC18C\uBB38\uC774 \uC601\uC8FC\uC5D0\uAC8C \uC804\uB2EC\uB428"
+  subConditions:
+  - {fileID: 11400000, guid: 166e3b8ec94f2044dac934f6e5bbbde7, type: 2}
+  - {fileID: 11400000, guid: 970d8cf1f39687648a81473907d3da28, type: 2}
+  - {fileID: 11400000, guid: c054867fb46268d48b045f937ac45233, type: 2}

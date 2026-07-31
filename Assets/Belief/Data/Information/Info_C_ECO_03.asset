@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_ECO_03
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_eco_03
+  title: "\uAD50\uC5ED\uB85C \uB2E8\uC808 \uC704\uAE30"
+  description: "\uC778\uADFC \uC9C0\uC5ED\uACFC\uC758 \uAD50\uC5ED\uB85C\uAC00 \uACE7
+    \uB04A\uAE38 \uC218 \uC788\uB2E4\uB294 \uC18C\uBB38\uC774 \uB3C8\uB2E4."
+  importance: 0.5
+  tags:
+  - ECONOMY
+  - TRADE_ROUTE
+  - DISRUPTION
+  categoryId: ECONOMY
+  informationType: 5
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

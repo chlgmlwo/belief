@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10ef08cb602afa4e9e96eecc8052254, type: 3}
+  m_Name: Dialogue_CustomsOfficer_Stage2_Trust
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.DialogueLineData
+  contextTag: Trust
+  text: "\uADDC\uC815\uB300\uB85C \uCC98\uB9AC\uB418\uACE0 \uC788\uC2B5\uB2C8\uB2E4.
+    \uBB38\uC81C\uC5C6\uC2B5\uB2C8\uB2E4."

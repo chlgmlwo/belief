@@ -1,0 +1,214 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using Belief.Core;
+using Belief.Data;
+using Belief.Events;
+
+namespace Belief.Presentation.World
+{
+    /// <summary>
+    /// 게임 로직을 직접 수정하지 않는다 - GameInstaller의 상태를 읽어 초기 배치만 하고,
+    /// 이후는 GameEventBus 구독으로만 갱신한다(폴링 없음). 상태 변경은 이미 끝난 뒤
+    /// 이벤트를 받아 연출(이동 보간, 강조, 대사 표시)만 재생한다.
+    /// World 오브젝트 클릭은 게임 로직을 직접 호출하지 않고 이벤트로만 바깥(TargetingController)에 알린다.
+    /// </summary>
+    public class WorldPresenter : MonoBehaviour
+    {
+        [SerializeField] GameInstaller installer;
+        [SerializeField] LocationSiteView locationSitePrefab;
+        [SerializeField] NpcActorView npcActorPrefab;
+        [SerializeField] Transform locationRoot;
+        [SerializeField] Transform npcRoot;
+
+        readonly Dictionary<LocationData, LocationSiteView> locationViews = new Dictionary<LocationData, LocationSiteView>();
+        readonly Dictionary<NpcData, NpcActorView> npcViews = new Dictionary<NpcData, NpcActorView>();
+
+        public IReadOnlyDictionary<LocationData, LocationSiteView> LocationViews => locationViews;
+        public IReadOnlyDictionary<NpcData, NpcActorView> NpcViews => npcViews;
+
+        public event Action<LocationData> LocationClicked;
+        public event Action<NpcData> NpcClicked;
+
+        // 장소 카드(3x1.8 world unit)와 NPC 스프라이트(0.6 scale)/이름표 기준으로 잡은 슬롯 격자값.
+        // 한 행에 최대 3명, 그 이상은 아래 행으로 넘어간다(section 4).
+        const int NpcMaxPerRow = 3;
+        const float NpcHorizontalSpacing = 1.6f;
+        const float NpcVerticalSpacing = 1.1f;
+        static readonly Vector2 NpcSlotOffset = new Vector2(0f, -0.9f);
+        static readonly Color ConnectionLineColor = new Color(0.6f, 0.55f, 0.4f, 0.5f);
+
+        /// <summary>StageData.locationLayout(스테이지별 수동 배치)을 조회용 사전으로 미리 펼쳐 둔다 -
+        /// 지정 안 된 장소는 LocationData.worldPosition을 그대로 쓴다(하위 호환).</summary>
+        Vector2 ResolveLocationPosition(LocationData location)
+        {
+            var layout = installer.StageAsset != null ? installer.StageAsset.locationLayout : null;
+            if (layout != null)
+                foreach (var entry in layout)
+                    if (entry.location == location) return entry.position;
+            return location.worldPosition;
+        }
+
+        void Start()
+        {
+            foreach (var kvp in installer.Locations)
+            {
+                var view = Instantiate(locationSitePrefab, locationRoot);
+                view.Bind(kvp.Key, ResolveLocationPosition(kvp.Key));
+                view.Clicked += d => LocationClicked?.Invoke(d);
+                locationViews[kvp.Key] = view;
+            }
+
+            DrawLocationConnections();
+
+            foreach (var kvp in installer.Npcs)
+            {
+                var view = Instantiate(npcActorPrefab, npcRoot);
+                view.Bind(kvp.Key);
+                view.Clicked += d => NpcClicked?.Invoke(d);
+                npcViews[kvp.Key] = view;
+            }
+
+            // 초기 배치도 슬롯 계산을 거쳐야 한 장소에 여러 NPC가 겹쳐 보이지 않는다.
+            foreach (var loc in installer.Locations.Keys)
+                SnapNpcSlots(loc);
+
+            installer.EventBus.Subscribe<NpcRelocatedEvent>(OnNpcRelocated);
+            installer.EventBus.Subscribe<LocationStateChangedEvent>(OnLocationStateChanged);
+            installer.EventBus.Subscribe<NpcSpokeEvent>(OnNpcSpoke);
+            installer.EventBus.Subscribe<InfoSpreadEvent>(OnInfoSpread);
+            installer.EventBus.Subscribe<InfoDeliveredEvent>(OnInfoDelivered);
+        }
+
+        void OnNpcRelocated(NpcRelocatedEvent e)
+        {
+            // 이동한 NPC뿐 아니라 출발지/도착지에 남은 다른 NPC들도 슬롯이 바뀌므로 함께 갱신한다.
+            if (e.From != null) RefreshNpcSlots(e.From);
+            RefreshNpcSlots(e.To);
+        }
+
+        /// <summary>장소 연결선(section 2) - LocationData.connectedLocations를 그대로 사용해 이번
+        /// 스테이지에 실제로 표시되는(installer.Locations에 포함된) 장소 사이만 선으로 잇는다.
+        /// 새로운 연결 데이터를 만들지 않고 기존 필드를 읽기만 하는 순수 시각 표현이다.</summary>
+        void DrawLocationConnections()
+        {
+            var drawn = new HashSet<(LocationData, LocationData)>();
+            foreach (var kvp in locationViews)
+            {
+                var from = kvp.Key;
+                if (from.connectedLocations == null) continue;
+
+                foreach (var to in from.connectedLocations)
+                {
+                    if (to == null || !locationViews.ContainsKey(to)) continue;
+
+                    var pair = from.GetInstanceID() < to.GetInstanceID() ? (from, to) : (to, from);
+                    if (!drawn.Add(pair)) continue;
+
+                    var lineGo = new GameObject($"Connection_{from.locationId}_{to.locationId}");
+                    lineGo.transform.SetParent(locationRoot, false);
+                    var line = lineGo.AddComponent<LineRenderer>();
+                    line.material = new Material(Shader.Find("Sprites/Default"));
+                    line.startColor = ConnectionLineColor;
+                    line.endColor = ConnectionLineColor;
+                    line.startWidth = 0.04f;
+                    line.endWidth = 0.04f;
+                    line.sortingOrder = -1;
+                    line.positionCount = 2;
+                    line.useWorldSpace = true;
+                    line.SetPosition(0, locationViews[from].transform.position);
+                    line.SetPosition(1, locationViews[to].transform.position);
+                }
+            }
+        }
+
+        /// <summary>한 장소 안에서 NPC가 겹치지 않도록 고정 격자 슬롯을 계산한다 - 임의 좌표를 쓰지 않고
+        /// 인원 수·순번만으로 결정되는 순수 함수다. NpcMaxPerRow를 넘는 인원은 아래 행으로 넘어간다.</summary>
+        Vector2 ComputeNpcSlot(LocationData location, int index, int count)
+        {
+            int row = index / NpcMaxPerRow;
+            int col = index % NpcMaxPerRow;
+            int itemsInRow = Mathf.Min(NpcMaxPerRow, count - row * NpcMaxPerRow);
+
+            float startX = -(itemsInRow - 1) * NpcHorizontalSpacing * 0.5f;
+            float x = startX + col * NpcHorizontalSpacing;
+            float y = -row * NpcVerticalSpacing;
+
+            Vector2 basePos = locationViews.TryGetValue(location, out var view)
+                ? (Vector2)view.transform.position : location.worldPosition;
+            return basePos + NpcSlotOffset + new Vector2(x, y);
+        }
+
+        void RefreshNpcSlots(LocationData location)
+        {
+            if (!installer.Locations.TryGetValue(location, out var locState)) return;
+
+            var present = locState.PresentNpcs;
+            for (int i = 0; i < present.Count; i++)
+            {
+                if (npcViews.TryGetValue(present[i].Data, out var view))
+                    view.AnimateTo(ComputeNpcSlot(location, i, present.Count));
+            }
+        }
+
+        void SnapNpcSlots(LocationData location)
+        {
+            if (!installer.Locations.TryGetValue(location, out var locState)) return;
+
+            var present = locState.PresentNpcs;
+            for (int i = 0; i < present.Count; i++)
+            {
+                if (npcViews.TryGetValue(present[i].Data, out var view))
+                    view.SetWorldPosition(ComputeNpcSlot(location, i, present.Count));
+            }
+        }
+
+        void OnLocationStateChanged(LocationStateChangedEvent e)
+        {
+            if (locationViews.TryGetValue(e.Location, out var view))
+                view.SetSiteState(e.NewState);
+        }
+
+        /// <summary>지금 말풍선이 떠 있는 NPC 하나 - 새 대사가 오면 이 NPC의 말풍선부터 즉시 정리한다
+        /// (section 3: "동시에 표시되는 주요 NPC 대사: 최대 1개").</summary>
+        NpcActorView currentSpeaker;
+
+        void OnNpcSpoke(NpcSpokeEvent e)
+        {
+            if (!npcViews.TryGetValue(e.Npc, out var view)) return;
+            string text = e.Dialogue.IsGenerated ? e.Dialogue.GeneratedText : e.Dialogue.PredefinedLine?.text;
+            if (string.IsNullOrEmpty(text)) return;
+
+            if (currentSpeaker != null && currentSpeaker != view)
+                currentSpeaker.HideDialogueImmediately();
+
+            currentSpeaker = view;
+            view.ShowDialogue(text);
+        }
+
+        void OnInfoSpread(InfoSpreadEvent e)
+        {
+            if (locationViews.TryGetValue(e.Location, out var view))
+                view.Highlight();
+        }
+
+        void OnInfoDelivered(InfoDeliveredEvent e)
+        {
+            if (npcViews.TryGetValue(e.Target, out var view))
+                view.Highlight();
+        }
+
+        /// <summary>TargetingController가 전달 대상으로 선택/해제한 장소를 알려줄 때 호출한다 -
+        /// 게임 상태는 건드리지 않는 순수 표시 갱신.</summary>
+        public void SetLocationSelected(LocationData location, bool selected)
+        {
+            if (locationViews.TryGetValue(location, out var view)) view.SetSelected(selected);
+        }
+
+        /// <summary>TargetingController가 전달 대상으로 선택/해제한 NPC를 알려줄 때 호출한다.</summary>
+        public void SetNpcSelected(NpcData npc, bool selected)
+        {
+            if (npcViews.TryGetValue(npc, out var view)) view.SetSelected(selected);
+        }
+    }
+}

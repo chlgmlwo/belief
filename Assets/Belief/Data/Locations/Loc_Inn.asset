@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d5b115c1f9660e48806b10fc92ca108, type: 3}
+  m_Name: Loc_Inn
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationData
+  locationId: LOC_INN
+  displayName: "\uC5EC\uAD00"
+  description: "\uC5EC\uD589\uAC1D\uACFC \uC77C\uAFBC\uB4E4\uC774 \uBB35\uC5B4\uAC00\uB294
+    \uC5EC\uAD00. \uC628\uAC16 \uC18C\uBB38\uC774 \uAC00\uC7A5 \uBA3C\uC800 \uBAA8\uC600\uB2E4\uAC00
+    \uD769\uC5B4\uC9C4\uB2E4."
+  worldPosition: {x: 8, y: 3}
+  spreadModifier: 1.2
+  connectedLocations:
+  - {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
+  - {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
+  - {fileID: 11400000, guid: d9df1ab9864b415f8c8cdfef418992d2, type: 2}
+  spreadSpeed: 3
+  npcDensity: 3
+  sensitiveInformationType: 1
+  accessType: 1
+  credibilityModifier: 1

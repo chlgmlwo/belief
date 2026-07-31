@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f18e02d566237418d0e388cef1b29d, type: 3}
+  m_Name: Npc_Major_Priest
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MajorNpcData
+  npcId: npc_major_priest
+  displayName: "\uC2E0\uAD00"
+  homeLocation: {fileID: 11400000, guid: 9f27dbef602f7834f9e01da0e5382ce1, type: 2}
+  gender: 
+  job: 
+  affiliation: 
+  gameplayRoleSummary: 
+  aiNotes: []
+  trustBias: 0.8
+  skepticism: 0.7
+  goal: "\uC2E0\uC804\uC758 \uAD8C\uC704\uC640 \uC2E0\uB3C4\uB4E4\uC758 \uC2E0\uB8B0\uB97C
+    \uC9C0\uD0A8\uB2E4."
+  loyalty: 0.7
+  relationships:
+  - other: {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}
+    type: {fileID: 0}
+    strength: 0.6
+    relationshipTypeLabel: 
+    relationshipDescription: 
+  - other: {fileID: 11400000, guid: 6477404e365cb9f47b6edca2591b5846, type: 2}
+    type: {fileID: 0}
+    strength: 0.3
+    relationshipTypeLabel: 
+    relationshipDescription: 
+  availableActions:
+  - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
+  - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
+  - {fileID: 11400000, guid: bcdb4f54f283ba04ea0cad5c9bce062e, type: 2}
+  - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}
+  - {fileID: 11400000, guid: b6c54f46a39dd974b99de521aea86e0e, type: 2}
+  beliefDialogues:
+  - {fileID: 11400000, guid: 7c90cdd9bbc4f9f45860e8bd87c7efd0, type: 2}
+  - {fileID: 11400000, guid: 8d35295621cea7c4baa25dcbf2475d98, type: 2}
+  - {fileID: 11400000, guid: 96320c0b629784244ba8e87b3dd28fc0, type: 2}
+  - {fileID: 11400000, guid: b6983a991741fa440bb2017333619c83, type: 2}
+  - {fileID: 11400000, guid: 7b9c1398c7e3eb840955e6a641be922c, type: 2}
+  movementCandidates:
+  - {fileID: 11400000, guid: 9f27dbef602f7834f9e01da0e5382ce1, type: 2}
+  - {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}
+  preferredLocations:
+  - {fileID: 11400000, guid: 9f27dbef602f7834f9e01da0e5382ce1, type: 2}
+  avoidedLocations:
+  - {fileID: 11400000, guid: d9df1ab9864b415f8c8cdfef418992d2, type: 2}

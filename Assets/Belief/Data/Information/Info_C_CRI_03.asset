@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_CRI_03
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_cri_03
+  title: "\uC815\uCCB4\uBD88\uBA85 \uBC94\uC8C4 \uC870\uC9C1"
+  description: "\uB3C4\uC2DC \uC678\uACFD\uC5D0 \uC815\uCCB4\uBD88\uBA85\uC758 \uBC94\uC8C4
+    \uC870\uC9C1\uC774 \uC790\uB9AC \uC7A1\uC558\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00
+    \uD37C\uC9C4\uB2E4."
+  importance: 0.5
+  tags:
+  - CRIME
+  - GANG
+  - OUTSKIRTS
+  categoryId: CRIME
+  informationType: 1
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

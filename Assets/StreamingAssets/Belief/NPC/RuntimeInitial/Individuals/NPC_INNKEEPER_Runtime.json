@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_INNKEEPER",
+  "runtimeStatus": {
+    "currentStageId": "STAGE_01",
+    "currentLocationId": "LOC_INN",
+    "isActive": true,
+    "isAvailable": true,
+    "lastUpdatedTurn": 0
+  },
+  "currentGoal": {
+    "goalId": "",
+    "goalType": "None",
+    "reasonInformationId": "",
+    "targetLocationId": "",
+    "status": "None"
+  },
+  "currentMove": {
+    "targetLocationId": "",
+    "reasonGoalId": "",
+    "status": "Idle",
+    "startedTurn": -1
+  },
+  "beliefStates": [
+    {
+      "informationId": "INFO_INNKEEPER_01",
+      "currentLevel": "Possible",
+      "previousLevel": "Possible",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_INNKEEPER_02",
+      "currentLevel": "Possible",
+      "previousLevel": "Possible",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_INNKEEPER_03",
+      "currentLevel": "Doubt",
+      "previousLevel": "Doubt",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    }
+  ],
+  "workingMemory": {
+    "knownInformationIds": [
+      "INFO_INNKEEPER_01",
+      "INFO_INNKEEPER_02",
+      "INFO_INNKEEPER_03"
+    ],
+    "recentInformationIds": [],
+    "recentEventIds": [],
+    "observedNpcIds": []
+  },
+  "relationshipStates": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_GUARD_CAPTAIN",
+      "trust": "Normal",
+      "intimacy": "Normal",
+      "influence": "Normal",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_MERCHANT",
+      "trust": "High",
+      "intimacy": "High",
+      "influence": "High",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Role",
+      "targetId": "ROLE_CITIZEN",
+      "trust": "Normal",
+      "intimacy": "High",
+      "influence": "Normal",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    }
+  ]
+}

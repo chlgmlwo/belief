@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70eca2b3aad97234d9a2a22dbb42e29c, type: 3}
+  m_Name: Mission_Stage03_02
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MissionData
+  missionId: MISSION_STAGE03_02
+  displayTitle: "\uAC00\uBA74\uC744 \uBC97\uACA8\uB77C"
+  objectiveText: "\uC601\uC8FC\uBD80\uC778\uC744 \uD5A5\uD55C \uC18C\uBB38\uC744
+    \uBCF8\uC778 \uADC0\uC5D0 \uB4E4\uC5B4\uAC00\uAC8C \uB9CC\uB4E4\uC5B4\uB77C."
+  turnLimit: 4
+  clearMode: 0
+  successConditions:
+  - {fileID: 11400000, guid: 624646646b509984b95a292add4afef0, type: 2}
+  - {fileID: 11400000, guid: e64f6c9eaef14994da5fec2bfc592a51, type: 2}
+  failureConditions: []
+  nextMissionId: 
+  nextMissionTitle: 
+  isHiddenUntilUnlocked: 1

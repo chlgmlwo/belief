@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8185b80ac124442943208cd7026cfc, type: 3}
+  m_Name: Effect_Generic_Escalate_Composite
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.CompositeEffect
+  effects:
+  - {fileID: 11400000, guid: 87cfc1a7659d2ec4a8aca6c22514e1ee, type: 2}
+  - {fileID: 11400000, guid: 07b950b3bbeafac4186cd1645c00f77b, type: 2}

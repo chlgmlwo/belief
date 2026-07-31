@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_BUTLER",
+  "displayName": "집사",
+  "stageId": "STAGE_01",
+  "basicInfo": {
+    "gender": "남성",
+    "job": "영주 저택 집사",
+    "affiliation": "1스테이지 배경 등장(이후 미등장)",
+    "defaultLocationId": "LOC_MANOR_FRONT"
+  },
+  "gameplayRole": {
+    "role": "명령서 발신자이자 비공략 배경 인물",
+    "functions": [
+      "영지·재무 관리",
+      "명령 전달",
+      "저택 관리"
+    ],
+    "playerRelationship": "플레이어가 직접 공략하지 않는 명령 계통의 배경 NPC"
+  },
+  "dailyRoles": [
+    "영주 저택의 관리 업무를 수행한다.",
+    "영주의 명령을 형식에 맞게 전달한다.",
+    "자신의 지위와 업무 성과를 관리한다."
+  ],
+  "defaultGoals": [
+    "현재의 지위를 유지한다.",
+    "원칙과 격식을 지켜 빈틈없이 일한다.",
+    "자신의 입지를 위협하는 상황을 피한다."
+  ],
+  "values": [
+    "지위의 안전",
+    "원칙과 격식",
+    "효율적인 관리"
+  ],
+  "traits": {
+    "caution": "High",
+    "curiosity": "Low",
+    "altruism": "Low",
+    "suspicion": "Normal",
+    "responsibility": "High"
+  },
+  "informationSensitivities": [
+    {
+      "level": "High",
+      "categories": [
+        "영주의 명령",
+        "자신의 입지에 관한 정보",
+        "권위 있는 인물·장소의 정보"
+      ]
+    },
+    {
+      "level": "Normal",
+      "categories": [
+        "업무 성과와 영지 관리 정보",
+        "경비대장의 보고"
+      ]
+    },
+    {
+      "level": "Low",
+      "categories": [
+        "감정적 언사",
+        "즉흥적이고 검증되지 않은 판단"
+      ]
+    }
+  ],
+  "initialBeliefs": [
+    {
+      "informationId": "INFO_BUTLER_01",
+      "statement": "영주를 섬기는 것은 현재 자신의 지위를 지키는 최선의 선택이다",
+      "initialLevel": "Trust",
+      "displayLevel": "신뢰함",
+      "description": "충성은 신념보다 안전한 선택이라는 계산에 가깝다."
+    },
+    {
+      "informationId": "INFO_BUTLER_02",
+      "statement": "저택의 상황이 자신의 입지를 위협할 수 있다",
+      "initialLevel": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "description": "영향을 계산하기 시작한다."
+    },
+    {
+      "informationId": "INFO_BUTLER_03",
+      "statement": "확인되지 않은 소문만으로 현재 지위를 버려야 한다",
+      "initialLevel": "Reject",
+      "displayLevel": "부정함",
+      "description": "정확한 사정을 확인하기 전에는 움직이지 않는다."
+    }
+  ],
+  "locationPreference": {
+    "preferredLocationIds": [
+      "LOC_MANOR_FRONT",
+      "LOC_GUARD_POST"
+    ],
+    "avoidedLocationIds": [
+      "LOC_BACK_ALLEY"
+    ]
+  },
+  "movement": {
+    "priorityLocationIds": [
+      "LOC_MANOR_FRONT",
+      "LOC_GUARD_POST"
+    ],
+    "rules": [
+      "명령 전달을 위해 영주 저택 앞을 우선한다.",
+      "경비 지시 확인이 필요하면 경비 초소로 이동한다.",
+      "공적인 이유 없이 뒷골목으로 이동하지 않는다."
+    ]
+  },
+  "beliefDialogues": [
+    {
+      "level": "Trust",
+      "displayLevel": "신뢰함",
+      "line": "영주님을 모시는 것이 저의 소임이자 최선의 길입니다."
+    },
+    {
+      "level": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "line": "…최근 상황이 심상치 않군요. 주의는 필요합니다."
+    },
+    {
+      "level": "NeedVerification",
+      "displayLevel": "확인이 필요하다고 판단함",
+      "line": "섣불리 움직이기 전에 정확한 사정을 알아야겠습니다."
+    },
+    {
+      "level": "Doubt",
+      "displayLevel": "의심함",
+      "line": "제 자리가 흔들릴 상황이라면, 다시 생각해봐야겠지요."
+    },
+    {
+      "level": "Reject",
+      "displayLevel": "부정함",
+      "line": "이 저택에 계속 남는 것이… 올바른 선택인지 모르겠습니다."
+    }
+  ],
+  "relationships": [
+    {
+      "targetType": "Role",
+      "targetId": "ROLE_LORD",
+      "targetName": "영주",
+      "relationshipType": "상관·충성 대상",
+      "trust": "High",
+      "intimacy": "Low",
+      "influence": "VeryHigh",
+      "description": "겉으로 절대 존중하지만 실리 계산이 흔들리면 먼저 재고한다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_GUARD_CAPTAIN",
+      "targetName": "경비대장",
+      "relationshipType": "부하·명령 수행자",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "High",
+      "description": "업무 능력은 신뢰하지만 결과에 대한 책임을 엄격히 묻는다."
+    },
+    {
+      "targetType": "Role",
+      "targetId": "ROLE_NOBLE_SPY",
+      "targetName": "귀족 측 밀정",
+      "relationshipType": "잠재적 경쟁자·입지 위협",
+      "trust": "Low",
+      "intimacy": "Low",
+      "influence": "High",
+      "description": "표면적으로 예의를 차리지만 자신의 자리를 노릴 가능성을 경계한다."
+    }
+  ],
+  "aiNotes": [
+    "다른 가문에서 재무·영지 관리를 맡다가 능력을 인정받아 발탁됐다.",
+    "원칙과 격식은 신앙적 충성보다 지위를 지키기 위한 계산에 가깝다.",
+    "침착하고 빈틈없지만 이는 철저한 자기 관리에서 나온다.",
+    "스테이지 1과 3 모두 직접 공략 대상이 아니다."
+  ],
+  "ruleOnly": {
+    "judgmentTag": "#순응형",
+    "beliefChangeRule": "전달형 카드는 신뢰 방향으로 1단계 상승하고 확산형 카드는 변화하지 않는다.",
+    "offlineBehaviorRule": "이동하지 않고 현재 위치에 머문다.",
+    "offlineFixedLines": [
+      "그렇다면 따르겠습니다.",
+      "알겠습니다."
+    ],
+    "winLossRule": "직접 승패 판정 대상이 아니다."
+  },
+  "sourceDocument": "BELIEF_NPC_AI_Profile_집사.docx"
+}

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 472f47af2ad244f4ea86a4db00e0cb49, type: 3}
+  m_Name: ProgressionData
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.ProgressionData
+  stages:
+  - stageId: zone1
+    displayName: "\uAD6C\uC5ED 1: \uAD6C\uC2DC\uAC00\uC9C0"
+    sceneName: Zone1
+    objectives:
+    - {fileID: 11400000, guid: 070bf094d0c790d40b701af73a54a840, type: 2}
+    - {fileID: 11400000, guid: e92ae16e050d5fc47b89a5f8453948b2, type: 2}
+    introSubtitle: "\uC815\uBCF4\uAC00 \uC544\uC9C1 \uC774 \uAC70\uB9AC\uB97C \uCC44\uC6B0\uC9C0
+      \uBABB\uD55C \uACF3"
+  - stageId: zone2
+    displayName: "\uAD6C\uC5ED 2: \uD56D\uAD6C \uC9C0\uAD6C"
+    sceneName: Zone2
+    objectives:
+    - {fileID: 11400000, guid: e3faf09b2d6ed4641aafe8218035a57c, type: 2}
+    - {fileID: 11400000, guid: 08098624cecc307498bfd99406437040, type: 2}
+    introSubtitle: "\uBB3C\uC790\uC640 \uC18C\uBB38\uC774 \uD568\uAED8 \uB4E4\uACE0
+      \uB098\uB294 \uACF3"
+  - stageId: zone3
+    displayName: "\uAD6C\uC5ED 3: \uADC0\uC871\uAC00"
+    sceneName: Zone3
+    objectives:
+    - {fileID: 11400000, guid: 26e429f11fb71264493a652020ca91e8, type: 2}
+    - {fileID: 11400000, guid: e45ee2bf7eb58344f873c815d92c6e4d, type: 2}
+    introSubtitle: "\uC6C3\uC74C \uB4A4\uC5D0 \uC148\uC774 \uC624\uAC00\uB294 \uACF3"
+  - stageId: metropolis
+    displayName: "\uB300\uB3C4\uC2DC"
+    sceneName: Metropolis
+    objectives:
+    - {fileID: 11400000, guid: bf39a21f919e7af4d9d239373c4f412d, type: 2}
+    - {fileID: 11400000, guid: 4c9618a932d261a408b0780b2f27b398, type: 2}
+    - {fileID: 11400000, guid: be9499168a702964e9c872b2947ba544, type: 2}
+    introSubtitle: "\uC655\uB3C4 \uC804\uCCB4\uAC00 \uC9C0\uCF1C\uBCF4\uB294 \uACF3"

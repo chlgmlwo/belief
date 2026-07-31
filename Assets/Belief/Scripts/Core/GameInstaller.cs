@@ -1,0 +1,226 @@
+using System.Collections.Generic;
+using UnityEngine;
+using Belief.AI;
+using Belief.AI.LLM;
+using Belief.Data;
+using Belief.Debugging;
+using Belief.Domain;
+using Belief.Events;
+using Belief.Systems;
+using Belief.Systems.BeliefEvaluators;
+
+namespace Belief.Core
+{
+    /// <summary>
+    /// 합성 루트. Data 에셋으로부터 Domain 상태를 만들고 전체 System 그래프를 조립한다.
+    /// InfoDeliverySystem은 "현재 턴"을 알아야 하고 TurnSystem은 InfoDeliverySystem을 갖고 있어야 하는
+    /// 상호 의존은 지연 캡처(turnSystemRef)로 끊는다 - 람다는 호출 시점에만 평가되므로 안전하다.
+    /// </summary>
+    public class GameInstaller : MonoBehaviour
+    {
+        [Header("Stage Data (지정하면 아래 raw 필드보다 우선 - 비워두면 기존 raw 필드로 하위 호환 동작)")]
+        [SerializeField] StageData stageData;
+
+        [Header("World Data (raw - stageData 미지정 시 사용)")]
+        [SerializeField] LocationData[] allLocations;
+        [SerializeField] NpcData[] allNpcs;
+
+        [Header("Information / Mission (raw - stageData 미지정 시 사용)")]
+        [SerializeField] InformationCardPoolData informationPool;
+        [SerializeField] int maxTurns = 6;
+        [SerializeField] MissionData mission;
+        [SerializeField] MissionConditionData instantFailCondition;
+
+        [Header("Belief Tuning")]
+        [SerializeField] BeliefTuningData beliefTuning;
+        [SerializeField] MemoryTuningData memoryTuning;
+        [SerializeField] MemoryCategoryData repeatedLiesCategory;
+
+        /// <summary>Location Mechanics V1의 유일한 수치 자산 - 모든 스테이지(씬)가 이 자산 하나를
+        /// 공유해야 한다(스테이지별로 다른 자산을 물리지 않는다).</summary>
+        [SerializeField] LocationMechanicsSettings locationMechanics;
+
+        [Header("AI (LLM Layer) - 실제 API 미연동, Fake로만 동작")]
+        [SerializeField] ThinkerMode thinkerMode = ThinkerMode.RuleOnly;
+        [SerializeField] FakeTransportMode fakeTransportMode = FakeTransportMode.AlwaysSuccess;
+
+        /// <summary>LLM 요청 Timeout의 유일한 설정 위치 - 여기 값 하나만 ThinkerFactory를 거쳐
+        /// LlmMajorThinker로 전달된다. 이 요청이 이 시간(ms) 안에 끝나지 않으면 그 판단 1회만
+        /// RuleBased 결과로 즉시 대체한다(늦게 도착하는 원래 응답은 폐기).</summary>
+        [SerializeField, Min(1)] int llmTimeoutMs = LlmMajorThinker.DefaultTimeoutMs;
+
+        readonly Dictionary<LocationData, LocationState> locationStates = new Dictionary<LocationData, LocationState>();
+        readonly Dictionary<NpcData, NpcState> npcStates = new Dictionary<NpcData, NpcState>();
+
+        public IReadOnlyDictionary<LocationData, LocationState> Locations => locationStates;
+        public IReadOnlyDictionary<NpcData, NpcState> Npcs => npcStates;
+
+        /// <summary>이 씬에 지정된 StageData 원본(정적 데이터) - 없으면 null. ProgressionController 등
+        /// 다른 시스템이 "이 구역이 StageData 기반인지"를 판단할 때 참조한다.</summary>
+        public StageData StageAsset => stageData;
+
+        /// <summary>Awake에서 구성한 런타임 상태 컨테이너(Locations/Npcs/Missions/Turn을 묶음). 게임 규칙은
+        /// 갖지 않는다 - 읽기 전용 참조 모음.</summary>
+        public StageState Stage { get; private set; }
+
+        public IGameEventBus EventBus { get; private set; }
+        public EventLogSystem Log { get; private set; }
+        public TurnSystem Turns { get; private set; }
+        public InfoDeliverySystem Delivery { get; private set; }
+        public MissionSystem Mission { get; private set; }
+        public IBeliefDebugRepository BeliefDebug { get; private set; }
+        public IPromptRepository PromptRepo { get; private set; }
+        public LocationMechanicsSettings LocationMechanics => locationMechanics;
+
+        public ThinkerMode CurrentThinkerMode => thinkerMode;
+
+        /// <summary>Debug Overlay가 "지금 RuleOnly인지 FakeLlm인지"를 한눈에 보여주기 위한 설명 문자열.</summary>
+        public string CurrentTransportDescription =>
+            thinkerMode == ThinkerMode.RuleOnly ? "없음 (RuleOnly)" : $"FakeTransport ({fakeTransportMode})";
+
+        // Awake()에서 전부 조립한다 - Unity는 씬의 모든 Awake()가 모든 Start()보다 먼저 끝나는 것을
+        // 보장하므로, WorldPresenter/HudPresenter/TargetingController가 자신의 Start()에서
+        // installer.EventBus/Turns 등을 안전하게 참조할 수 있다(Start() 간 순서는 보장되지 않는다).
+        void Awake()
+        {
+            EventBus = new GameEventBus();
+            Log = new EventLogSystem(EventBus);
+
+            if (stageData != null)
+                StageDataValidator.LogIssues(stageData, StageDataValidator.Validate(stageData));
+
+            var effectiveLocations = stageData != null && stageData.locations != null && stageData.locations.Length > 0
+                ? stageData.locations : allLocations;
+            var effectivePlacements = stageData != null ? stageData.npcPlacements : null;
+            var effectiveNpcs = effectivePlacements != null && effectivePlacements.Length > 0
+                ? PlacementNpcs(effectivePlacements) : allNpcs;
+            var effectiveCardPool = stageData != null && stageData.cardPool != null ? stageData.cardPool : informationPool;
+            var effectiveMaxTurns = stageData != null && stageData.maxTurns > 0 ? stageData.maxTurns : maxTurns;
+            var effectiveMission = stageData != null && stageData.startMission != null ? stageData.startMission : mission;
+
+            BuildDomainState(effectiveLocations, effectiveNpcs, effectivePlacements);
+
+            var debugRepository = new BeliefDebugRepository();
+            BeliefDebug = debugRepository;
+            var beliefSystem = BuildBeliefSystem(debugRepository);
+            var memorySelector = new MemorySelector();
+            new MemorySystem(EventBus, npcStates, repeatedLiesCategory);
+
+            var actionResolution = new ActionResolutionSystem(locationStates, EventBus);
+
+            var promptRepository = new PromptRepository();
+            PromptRepo = promptRepository;
+            IMajorNpcThinker thinker = ThinkerFactory.Create(thinkerMode, promptRepository, fakeTransportMode, llmTimeoutMs);
+
+            var majorThinking = new MajorNpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus);
+            var minorBehavior = new MinorNpcBehaviorSystem(beliefSystem, actionResolution, EventBus);
+            var majorMovement = new MajorNpcMovementSystem(actionResolution, thinker);
+
+            TurnSystem turnSystemRef = null;
+            var delivery = new InfoDeliverySystem(locationStates, majorThinking, minorBehavior, EventBus, () => turnSystemRef.CurrentTurn, locationMechanics);
+            Delivery = delivery;
+
+            var informationCards = new InformationCardSystem(effectiveCardPool, EventBus);
+            Mission = new MissionSystem(effectiveMission, EventBus);
+
+            Turns = new TurnSystem(informationCards, delivery, minorBehavior, majorMovement, Mission, npcStates, locationStates, effectiveMaxTurns, instantFailCondition, EventBus, locationMechanics);
+            turnSystemRef = Turns;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            // NPC Decision Trace(Editor 전용 관찰 창)가 읽는 상위 문맥값 - 델리게이트만 등록할 뿐
+            // 게임 판단에는 전혀 관여하지 않는다. GameInstaller가 Belief.Debugging을 참조하는 것은
+            // 순수 데이터 홀더(UnityEditor 네임스페이스 아님)라 플레이어 빌드/DEVELOPMENT_BUILD에서도 안전하다.
+            NpcDecisionTraceContext.StageIdProvider = () => stageData != null ? stageData.stageId : "";
+            NpcDecisionTraceContext.StageTurnProvider = () => turnSystemRef.StageTurn;
+            NpcDecisionTraceContext.MissionIdProvider = () =>
+            {
+                var pc = ProgressionController.Instance;
+                var objective = pc != null ? pc.CurrentObjective() : null;
+                return objective != null ? objective.missionId : "";
+            };
+            NpcDecisionTraceContext.MissionTurnProvider = () => turnSystemRef.CurrentTurn;
+            NpcDecisionTraceContext.ThinkerModeProvider = () => thinkerMode.ToString();
+#endif
+
+            var turnState = new TurnState(effectiveMaxTurns);
+            var missionStates = BuildMissionStates(stageData);
+            Stage = new StageState(stageData, locationStates, npcStates, missionStates, turnState);
+
+            EventBus.Publish(new GameInitializedEvent(effectiveLocations.Length, effectiveNpcs.Length, effectiveCardPool.cards.Length));
+
+            Turns.StartGame();
+        }
+
+        void BuildDomainState(LocationData[] locations, NpcData[] npcs, NpcPlacementEntry[] placements)
+        {
+            foreach (var location in locations)
+                locationStates[location] = new LocationState(location);
+
+            var placementByNpc = BuildPlacementLookup(placements);
+
+            foreach (var npc in npcs)
+            {
+                var state = new NpcState(npc);
+
+                if (placementByNpc.TryGetValue(npc, out var placement))
+                {
+                    var startLocation = placement.EffectiveStartLocation;
+                    if (startLocation != null) state.CurrentLocation = startLocation;
+
+                    if (placement.initialBeliefs != null)
+                        foreach (var belief in placement.initialBeliefs)
+                            if (belief.card != null) state.SetBelief(belief.card, belief.belief);
+                }
+
+                npcStates[npc] = state;
+
+                if (state.CurrentLocation != null && locationStates.TryGetValue(state.CurrentLocation, out var homeState))
+                    homeState.PresentNpcs.Add(state);
+            }
+        }
+
+        static Dictionary<NpcData, NpcPlacementEntry> BuildPlacementLookup(NpcPlacementEntry[] placements)
+        {
+            var map = new Dictionary<NpcData, NpcPlacementEntry>();
+            if (placements == null) return map;
+            foreach (var p in placements)
+                if (p.npc != null) map[p.npc] = p;
+            return map;
+        }
+
+        static NpcData[] PlacementNpcs(NpcPlacementEntry[] placements)
+        {
+            var list = new List<NpcData>(placements.Length);
+            foreach (var p in placements)
+                if (p.npc != null) list.Add(p.npc);
+            return list.ToArray();
+        }
+
+        /// <summary>StageData.missions 각각을 기존 MissionState로 감싼다 - 새 미션 판정 시스템이 아니라
+        /// StageState에 담아 둘 데이터 스냅샷일 뿐이다(실제 완료 판정은 지금까지와 동일하게
+        /// ProgressionController/MissionSystem이 각자 담당한다).</summary>
+        static List<MissionState> BuildMissionStates(StageData stage)
+        {
+            var list = new List<MissionState>();
+            if (stage == null || stage.missions == null) return list;
+            foreach (var m in stage.missions)
+                if (m != null) list.Add(new MissionState(m));
+            return list;
+        }
+
+        BeliefSystem BuildBeliefSystem(BeliefDebugRepository debugRepository)
+        {
+            var evaluators = new IBeliefEvaluator[]
+            {
+                new PersonalityEvaluator(),
+                new ExistingBeliefEvaluator(),
+                new CredibilityEvaluator(),
+                new SourceEvaluator(),
+                new GoalEvaluator(),
+                new SituationEvaluator(),
+                new MemoryEvaluator(memoryTuning),
+            };
+            return new BeliefSystem(evaluators, beliefTuning, debugRepository, locationMechanics);
+        }
+    }
+}

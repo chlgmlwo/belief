@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_shipwreck_omen
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_shipwreck_omen
+  title: "\uB09C\uD30C\uC120\uC758 \uC800\uC8FC"
+  description: "\uB09C\uD30C\uC120 \uC794\uD574\uC5D0 \uC190\uB300\uBA74 \uC800\uC8FC\uB97C
+    \uBC1B\uB294\uB2E4\uB294 \uBBF8\uC2E0."
+  importance: 0.2
+  tags: []
+  categoryId: 
+  baseCredibility: 0.25
+  spreadPower: 0.5
+  isActuallyTrue: 0

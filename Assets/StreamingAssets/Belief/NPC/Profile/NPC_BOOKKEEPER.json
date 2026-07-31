@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_BOOKKEEPER",
+  "displayName": "장부관리인",
+  "stageId": "STAGE_02",
+  "basicInfo": {
+    "gender": "여성",
+    "job": "길드 장부관리인",
+    "affiliation": "2스테이지 상업지구·시장가",
+    "defaultLocationId": "LOC_EXCHANGE"
+  },
+  "gameplayRole": {
+    "role": "길드장 측근이자 미션 1 판정 대상",
+    "functions": [
+      "길드 회계 관리",
+      "장부 검증",
+      "길드장 보고"
+    ],
+    "playerRelationship": "플레이어가 경제 근거를 통해 믿음을 변화시키는 판정 NPC"
+  },
+  "dailyRoles": [
+    "길드의 모든 장부를 관리한다.",
+    "수치의 오차를 확인한다.",
+    "확인된 사실을 길드장에게 보고한다."
+  ],
+  "defaultGoals": [
+    "장부의 정확성을 유지한다.",
+    "오차의 원인을 끝까지 확인한다.",
+    "길드를 보호하되 명확한 사실을 우선한다."
+  ],
+  "values": [
+    "정확한 숫자",
+    "길드에 대한 충성",
+    "검증된 사실"
+  ],
+  "traits": {
+    "caution": "VeryHigh",
+    "curiosity": "Low",
+    "altruism": "Normal",
+    "suspicion": "High",
+    "responsibility": "VeryHigh"
+  },
+  "informationSensitivities": [
+    {
+      "level": "High",
+      "categories": [
+        "장부와 회계 수치",
+        "경제 관련 근거성 정보",
+        "공식 문서"
+      ]
+    },
+    {
+      "level": "Normal",
+      "categories": [
+        "길드장의 지시",
+        "세관원의 공식 정보"
+      ]
+    },
+    {
+      "level": "Low",
+      "categories": [
+        "소상인의 추측",
+        "확인되지 않은 수치와 소문"
+      ]
+    }
+  ],
+  "initialBeliefs": [
+    {
+      "informationId": "INFO_BOOKKEEPER_01",
+      "statement": "길드장의 장부에는 이상이 없다",
+      "initialLevel": "Trust",
+      "displayLevel": "신뢰함",
+      "description": "오랫동안 직접 관리한 장부의 정확성을 믿는다."
+    },
+    {
+      "informationId": "INFO_BOOKKEEPER_02",
+      "statement": "장부의 미세한 오차에는 원인이 있다",
+      "initialLevel": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "description": "오차가 보이면 즉시 재검토한다."
+    },
+    {
+      "informationId": "INFO_BOOKKEEPER_03",
+      "statement": "근거 없는 장부 이상 소문은 사실이다",
+      "initialLevel": "Reject",
+      "displayLevel": "부정함",
+      "description": "수치나 문서가 없으면 받아들이지 않는다."
+    }
+  ],
+  "locationPreference": {
+    "preferredLocationIds": [
+      "LOC_EXCHANGE"
+    ],
+    "avoidedLocationIds": [
+      "LOC_BACK_ALLEY"
+    ]
+  },
+  "movement": {
+    "priorityLocationIds": [
+      "LOC_EXCHANGE",
+      "LOC_CUSTOMS_POST"
+    ],
+    "rules": [
+      "장부 확인을 위해 환전소를 우선한다.",
+      "공식 문서 확인이 필요할 때만 세관 초소로 이동한다.",
+      "근거 없이 뒷골목으로 이동하지 않는다."
+    ]
+  },
+  "beliefDialogues": [
+    {
+      "level": "Trust",
+      "displayLevel": "신뢰함",
+      "line": "장부는 정확합니다. 문제없습니다."
+    },
+    {
+      "level": "Possible",
+      "displayLevel": "가능성이 있다고 판단함",
+      "line": "음… 한 번 더 대조해볼 필요는 있겠군요."
+    },
+    {
+      "level": "NeedVerification",
+      "displayLevel": "확인이 필요하다고 판단함",
+      "line": "섣불리 말씀드릴 수 없습니다. 더 살펴보겠습니다."
+    },
+    {
+      "level": "Doubt",
+      "displayLevel": "의심함",
+      "line": "장부를 다시 확인해봐야겠습니다."
+    },
+    {
+      "level": "Reject",
+      "displayLevel": "부정함",
+      "line": "이건… 숫자가 명백히 맞지 않습니다."
+    }
+  ],
+  "relationships": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_GUILD_MASTER",
+      "targetName": "길드장",
+      "relationshipType": "상관",
+      "trust": "High",
+      "intimacy": "Normal",
+      "influence": "VeryHigh",
+      "description": "보호하려 하지만 수치 근거가 명확하면 충성보다 사실을 우선해 보고한다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_SMALL_MERCHANT",
+      "targetName": "소상인",
+      "relationshipType": "간접 접촉·조합원",
+      "trust": "Low",
+      "intimacy": "Low",
+      "influence": "Low",
+      "description": "소상인의 소문은 근거 없는 추측으로 보고 거의 신뢰하지 않는다."
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_CUSTOMS_OFFICER",
+      "targetName": "세관원",
+      "relationshipType": "행정 접촉",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "High",
+      "description": "공식 문서와 수치 기반 정보에는 높은 신뢰를 부여한다."
+    }
+  ],
+  "aiNotes": [
+    "어릴 때부터 길드 사무실에서 자라 회계를 배웠다.",
+    "십수 년째 길드의 모든 장부를 관리한다.",
+    "숫자는 거짓말하지 않는다고 믿는다.",
+    "꼼꼼하고 말이 적으며 숫자와 무관한 대화에는 잘 끼지 않는다."
+  ],
+  "ruleOnly": {
+    "judgmentTag": "#신중형",
+    "beliefChangeRule": "경제 관련 근거성 카드를 받으면 의심 방향으로 1단계 하락하고 그 외에는 변화하지 않는다.",
+    "offlineBehaviorRule": "이동하지 않고 현재 위치에 머문다.",
+    "offlineFixedLines": [
+      "장부를 다시 확인해봐야겠습니다."
+    ],
+    "winLossRule": "미션 1 판정 대상이며 의심함 도달이 클리어 조건 중 하나다."
+  },
+  "sourceDocument": "BELIEF_NPC_AI_Profile_장부관리인.docx"
+}

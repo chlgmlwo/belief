@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_GUILD_MASTER",
+  "runtimeStatus": {
+    "currentStageId": "STAGE_02",
+    "currentLocationId": "LOC_EXCHANGE",
+    "isActive": true,
+    "isAvailable": true,
+    "lastUpdatedTurn": 0
+  },
+  "currentGoal": {
+    "goalId": "",
+    "goalType": "None",
+    "reasonInformationId": "",
+    "targetLocationId": "",
+    "status": "None"
+  },
+  "currentMove": {
+    "targetLocationId": "",
+    "reasonGoalId": "",
+    "status": "Idle",
+    "startedTurn": -1
+  },
+  "beliefStates": [
+    {
+      "informationId": "INFO_GUILD_MASTER_01",
+      "currentLevel": "Trust",
+      "previousLevel": "Trust",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_GUILD_MASTER_02",
+      "currentLevel": "Possible",
+      "previousLevel": "Possible",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_GUILD_MASTER_03",
+      "currentLevel": "NeedVerification",
+      "previousLevel": "NeedVerification",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    }
+  ],
+  "workingMemory": {
+    "knownInformationIds": [
+      "INFO_GUILD_MASTER_01",
+      "INFO_GUILD_MASTER_02",
+      "INFO_GUILD_MASTER_03"
+    ],
+    "recentInformationIds": [],
+    "recentEventIds": [],
+    "observedNpcIds": []
+  },
+  "relationshipStates": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_BOOKKEEPER",
+      "trust": "High",
+      "intimacy": "Normal",
+      "influence": "High",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_SMUGGLER",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "High",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_CUSTOMS_OFFICER",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "High",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    }
+  ]
+}

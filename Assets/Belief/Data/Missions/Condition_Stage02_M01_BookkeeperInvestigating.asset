@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e8952af62164bb48bd644172bd1dd46, type: 3}
+  m_Name: Condition_Stage02_M01_BookkeeperInvestigating
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAnyBeliefReachedCondition
+  TargetCount: 1
+  displayLabel: "장부관리인이 길드장의 재정난을 의심함"
+  targetNpc: {fileID: 11400000, guid: 4febb1b6d554c674c94eef84b79c170f, type: 2}
+  thresholdState: 1
+  atOrBelow: 1

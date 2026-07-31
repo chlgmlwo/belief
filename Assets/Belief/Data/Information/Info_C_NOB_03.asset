@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_NOB_03
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_nob_03
+  title: "\uC0AC\uCE58\uD488 \uC18C\uBE44 \uAE09\uC99D"
+  description: "\uADC0\uC871\uAC00\uC5D0\uC11C \uC0AC\uCE58\uD488 \uC18C\uBE44\uAC00
+    \uAE09\uC99D\uD588\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uD37C\uC9C4\uB2E4."
+  importance: 0.5
+  tags:
+  - NOBILITY
+  - LUXURY
+  - SPENDING
+  categoryId: NOBILITY
+  informationType: 5
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8febfc19c47ae429c8ea0728e230ff, type: 3}
+  m_Name: Info_C_PUB_02
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationData
+  informationId: info_c_pub_02
+  title: "\uC778\uBB3C\uC5D0 \uB300\uD55C \uC2E0\uB9DD"
+  description: "\uD2B9\uC815 \uC778\uBB3C\uC774 \uC2DC\uBBFC\uB4E4 \uC0AC\uC774\uC5D0\uC11C
+    \uC2E0\uB9DD\uC744 \uC5BB\uACE0 \uC788\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uB4E4\uB9B0\uB2E4."
+  importance: 0.5
+  tags:
+  - PUBLIC
+  - REPUTATION
+  - TRUST
+  categoryId: PUBLIC
+  informationType: 1
+  baseCredibility: 0.5
+  spreadPower: 0.5
+  isActuallyTrue: 1

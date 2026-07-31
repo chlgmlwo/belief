@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7fd582fe6a4154cb2a962dc95d3e7e, type: 3}
+  m_Name: Condition_Stage01_M02_GuardAtInn
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAtLocationCondition
+  TargetCount: 1
+  displayLabel: "\uACBD\uBE44\uB300\uC7A5\uC774 \uC5EC\uAD00\uC73C\uB85C \uC774\uB3D9\uD568"
+  targetNpc: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
+  targetLocation: {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
