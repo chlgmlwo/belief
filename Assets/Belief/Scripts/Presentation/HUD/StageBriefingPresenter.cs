@@ -1,9 +1,7 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Belief.Core;
 using Belief.Data;
 
@@ -14,17 +12,19 @@ namespace Belief.Presentation.HUD
     /// 브리핑 화면 자산이었다). HudPresenter/TurnSystem 등 기존 게임 로직은 전혀 건드리지 않는다 -
     /// 이 화면은 HudCanvas보다 sortingOrder가 높은 별도 Canvas로 화면 전체를 덮어 입력만 차단하고,
     /// "작전 실행" 클릭 시 자기 자신을 비활성화할 뿐이다(아래 진행 중이던 게임 상태는 그대로 유지).
-    /// ProgressionData/StageData의 기존 필드만 읽는다 - 새 데이터를 추가하지 않는다.</summary>
+    /// ProgressionData/StageData의 기존 필드만 읽는다 - 새 데이터를 추가하지 않는다.
+    ///
+    /// 하이어라키는 런타임에 Instantiate하지 않고, StageBriefingCanvas.prefab의 인스턴스를 씬 파일에
+    /// 직접 배치해 둔다(CardTileView와 동일한 View 패턴이되, 프리팹 "에셋"이 아니라 씬에 미리 놓인
+    /// "인스턴스"를 참조한다) - 그래야 Edit 모드의 Hierarchy/Scene 뷰에서 바로 보이고 드래그로 조절할
+    /// 수 있다(런타임 Instantiate는 Play를 눌러야만 나타나는 문제가 있었다). 폰트/크기/색/앵커 같은
+    /// 정적 스타일은 프리팹에 구워져 있고, 여기서는 런타임에만 정해지는 값(텍스트 내용, 미니맵 진행
+    /// 상태)만 StageBriefingView.Bind/BindMap으로 채워 넣는다.</summary>
     public class StageBriefingPresenter : MonoBehaviour
     {
         [SerializeField] public PlayHudSkin skin;
-        [SerializeField] public TMP_FontAsset koreanFont;
+        [SerializeField] StageBriefingView view;
 
-        static readonly Color PanelColor = new Color(0.09f, 0.12f, 0.10f, 0.95f);
-        static readonly Color AccentColor = new Color(0.30f, 0.85f, 0.55f);
-        static readonly Color MutedText = new Color(0.72f, 0.78f, 0.74f);
-
-        GameObject rootGo;
         GameObject canvasGo;
         CanvasGroup canvasGroup;
 
@@ -37,20 +37,8 @@ namespace Belief.Presentation.HUD
 
         void BuildUI()
         {
-            canvasGo = new GameObject("StageBriefingCanvas", typeof(RectTransform));
-            canvasGo.transform.SetParent(transform, false);
-            var canvas = canvasGo.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.overrideSorting = true;
-            canvas.sortingOrder = 50; // HudCanvas(기본 0)보다 항상 위에 그려지도록.
-            var scaler = canvasGo.AddComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920, 1080);
-            canvasGo.AddComponent<GraphicRaycaster>();
-
-            rootGo = CreatePanel(canvasGo.transform, "Background", skin?.briefingBackground, new Color(0.04f, 0.05f, 0.04f, 1f), Image.Type.Simple, blocksInput: true);
-            AnchorFill(rootGo.GetComponent<RectTransform>());
-            canvasGroup = rootGo.AddComponent<CanvasGroup>();
+            canvasGo = view.gameObject;
+            canvasGroup = view.CanvasGroup;
 
             var pc = ProgressionController.Instance;
             var installer = FindFirstObjectByType<GameInstaller>();
@@ -66,117 +54,23 @@ namespace Belief.Presentation.HUD
                 ? stageAsset.regionDescription
                 : (pc != null ? pc.CurrentStageIntroSubtitle : "");
 
-            BuildTextBlock(canvasGo.transform, stageNumber, title, objectiveText, turnLimit, blurb);
-            BuildMap(canvasGo.transform, pc, stageIndex);
-            BuildLaunchButton(canvasGo.transform);
+            view.Bind(stageNumber, title, objectiveText, turnLimit, blurb);
+            BindMap(view, pc, stageIndex);
+
+            view.LaunchButton.onClick.AddListener(Dismiss);
+            view.BackButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
         }
 
-        void BuildTextBlock(Transform canvasT, int stageNumber, string title, string objectiveText, int turnLimit, string blurb)
-        {
-            var stageLabel = CreateText(canvasT, "StageLabel", $"STAGE {stageNumber}", 20, TextAlignmentOptions.TopLeft, skin?.numberFont);
-            stageLabel.color = new Color(0.85f, 0.35f, 0.30f);
-            stageLabel.fontStyle = FontStyles.Bold;
-            SetAnchors(stageLabel.rectTransform, 0.05f, 0.86f, 0.4f, 0.93f);
-
-            var titleText = CreateText(canvasT, "Title", title, 34, TextAlignmentOptions.TopLeft, skin?.titleFont);
-            titleText.fontStyle = FontStyles.Bold;
-            titleText.textWrappingMode = TextWrappingModes.Normal;
-            SetAnchors(titleText.rectTransform, 0.05f, 0.78f, 0.45f, 0.87f);
-
-            var objText = CreateText(canvasT, "Objective", objectiveText, 18, TextAlignmentOptions.TopLeft, skin?.lightFont);
-            objText.textWrappingMode = TextWrappingModes.Normal;
-            objText.color = MutedText;
-            SetAnchors(objText.rectTransform, 0.05f, 0.70f, 0.45f, 0.78f);
-
-            var turnLabel = CreateText(canvasT, "TurnLimitLabel", "TURN LIMIT", 16, TextAlignmentOptions.TopLeft, skin?.numberFont);
-            turnLabel.color = new Color(0.5f, 0.35f, 0.2f);
-            SetAnchors(turnLabel.rectTransform, 0.05f, 0.55f, 0.3f, 0.60f);
-
-            var turnValue = CreateText(canvasT, "TurnLimitValue", turnLimit > 0 ? turnLimit.ToString() : "-", 64, TextAlignmentOptions.TopLeft, skin?.numberFont);
-            turnValue.color = new Color(0.5f, 0.35f, 0.2f);
-            turnValue.fontStyle = FontStyles.Bold;
-            SetAnchors(turnValue.rectTransform, 0.05f, 0.38f, 0.3f, 0.55f);
-
-            var blurbGo = CreatePanel(canvasT, "BlurbCard", (Sprite)null, new Color(0.35f, 0.28f, 0.18f, 0.85f));
-            SetAnchors(blurbGo.GetComponent<RectTransform>(), 0.05f, 0.08f, 0.42f, 0.36f);
-            var blurbText = CreateText(blurbGo.transform, "Text", blurb, 15, TextAlignmentOptions.TopLeft, skin?.lightFont);
-            blurbText.textWrappingMode = TextWrappingModes.Normal;
-            blurbText.color = new Color(0.92f, 0.88f, 0.78f);
-            blurbText.rectTransform.anchorMin = new Vector2(0f, 0f);
-            blurbText.rectTransform.anchorMax = new Vector2(1f, 1f);
-            blurbText.rectTransform.offsetMin = new Vector2(16, 12);
-            blurbText.rectTransform.offsetMax = new Vector2(-16, -12);
-        }
-
-        /// <summary>미니맵(section 12) - 실제 지리적 좌표 데이터가 없으므로(StageData/ProgressionData에
-        /// 지도 좌표 필드가 없음) 세로 스택으로 근사한다. 현재 스테이지는 currentStageIcon, 이후
-        /// 스테이지는 lockedStageIcon으로, 이미 지난 스테이지는 표시하지 않는다(가이드 원본도 현재+
-        /// 이후만 보여준다).</summary>
-        void BuildMap(Transform canvasT, ProgressionController pc, int currentIndex)
+        /// <summary>실제 지리적 좌표 데이터가 없으므로(StageData/ProgressionData에 지도 좌표 필드가 없음)
+        /// 세로 스택으로 근사한다. 현재 스테이지는 currentStageIcon, 이후 스테이지는 lockedStageIcon으로,
+        /// 이미 지난 스테이지는 표시하지 않는다(가이드 원본도 현재+이후만 보여준다).</summary>
+        void BindMap(StageBriefingView view, ProgressionController pc, int currentIndex)
         {
             if (pc == null || pc.Data == null || pc.Data.stages == null) return;
-
-            var mapRoot = new GameObject("Map", typeof(RectTransform));
-            mapRoot.transform.SetParent(canvasT, false);
-            SetAnchors((RectTransform)mapRoot.transform, 0.55f, 0.1f, 0.97f, 0.85f);
-            var vlg = mapRoot.AddComponent<VerticalLayoutGroup>();
-            vlg.childAlignment = TextAnchor.UpperCenter;
-            vlg.spacing = 18;
-            vlg.childForceExpandWidth = false;
-            vlg.childForceExpandHeight = false;
-
             var stages = pc.Data.stages;
-            for (int i = currentIndex; i < stages.Length; i++)
-            {
-                bool isCurrent = i == currentIndex;
-                Sprite icon = isCurrent ? skin?.currentStageIcon : skin?.lockedStageIcon;
-
-                var markerGo = CreatePanel(mapRoot.transform, "Marker" + i, icon, Color.clear);
-                var le = markerGo.AddComponent<LayoutElement>();
-                le.preferredWidth = isCurrent ? 96 : 56;
-                le.preferredHeight = isCurrent ? 96 : 56;
-                var img = markerGo.GetComponent<Image>();
-                if (img != null) img.preserveAspect = true;
-
-                var nameText = CreateText(markerGo.transform, "Name", isCurrent ? stages[i].displayName : "???", 13,
-                    TextAlignmentOptions.Center, skin?.boldFont);
-                nameText.color = isCurrent ? Color.white : MutedText;
-                var nrt = nameText.rectTransform;
-                nrt.anchorMin = new Vector2(0f, -0.35f);
-                nrt.anchorMax = new Vector2(1f, 0f);
-            }
-        }
-
-        void BuildLaunchButton(Transform canvasT)
-        {
-            var btnGo = CreatePanel(canvasT, "LaunchButton", skin?.launchButton, AccentColor);
-            SetAnchors(btnGo.GetComponent<RectTransform>(), 0.80f, 0.06f, 0.97f, 0.22f);
-            var img = btnGo.GetComponent<Image>();
-            if (img != null) img.preserveAspect = skin?.launchButton != null;
-            var btn = btnGo.AddComponent<Button>();
-            btn.targetGraphic = img;
-            btn.onClick.AddListener(Dismiss);
-            var label = CreateText(btnGo.transform, "Label", "작전 실행", 22, TextAlignmentOptions.Center, skin?.boldFont);
-            label.color = skin?.launchButton != null ? new Color(0.25f, 0.18f, 0.1f) : Color.black;
-            label.fontStyle = FontStyles.Bold;
-            AnchorFill(label.rectTransform);
-
-            var backLink = CreateText(canvasT, "BackToTitle", "타이틀로", 16, TextAlignmentOptions.Center, skin?.extraLightFont);
-            backLink.color = MutedText;
-            SetAnchors(backLink.rectTransform, 0.80f, 0.0f, 0.97f, 0.05f);
-            var backGo = new GameObject("BackButton", typeof(RectTransform));
-            backGo.transform.SetParent(backLink.transform.parent, false);
-            var backRt = (RectTransform)backGo.transform;
-            backRt.anchorMin = backLink.rectTransform.anchorMin;
-            backRt.anchorMax = backLink.rectTransform.anchorMax;
-            backRt.offsetMin = Vector2.zero; backRt.offsetMax = Vector2.zero;
-            var backImg = backGo.AddComponent<Image>();
-            backImg.color = new Color(0, 0, 0, 0);
-            var backBtn = backGo.AddComponent<Button>();
-            backBtn.targetGraphic = backImg;
-            backBtn.onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
-            backLink.transform.SetParent(backGo.transform, false);
-            AnchorFill(backLink.rectTransform);
+            string currentName = currentIndex < stages.Length ? stages[currentIndex].displayName : "";
+            int remaining = stages.Length - currentIndex;
+            view.BindMap(currentName, remaining, skin?.currentStageIcon, skin?.lockedStageIcon);
         }
 
         void Dismiss()
@@ -205,58 +99,12 @@ namespace Belief.Presentation.HUD
             canvasGo.SetActive(false);
         }
 
-        // ------------------------------------------------------------ helpers (HudPresenter와 같은 관례)
-
         void EnsureEventSystem()
         {
             if (FindFirstObjectByType<EventSystem>() != null) return;
             var go = new GameObject("EventSystem");
             go.AddComponent<EventSystem>();
             go.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
-        }
-
-        void SetAnchors(RectTransform rt, float xMin, float yMin, float xMax, float yMax)
-        {
-            rt.anchorMin = new Vector2(xMin, yMin);
-            rt.anchorMax = new Vector2(xMax, yMax);
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
-        }
-
-        GameObject CreatePanel(Transform parent, string name, Sprite sprite, Color fallbackColor, Image.Type imageType = Image.Type.Simple, bool blocksInput = false)
-        {
-            var go = new GameObject(name, typeof(RectTransform));
-            go.transform.SetParent(parent, false);
-            if (sprite == null && fallbackColor.a <= 0f) return go;
-
-            var img = go.AddComponent<Image>();
-            if (sprite != null) { img.sprite = sprite; img.type = imageType; }
-            else img.color = fallbackColor;
-            img.raycastTarget = blocksInput;
-            return go;
-        }
-
-        TMP_Text CreateText(Transform parent, string name, string content, int size, TextAlignmentOptions align, TMP_FontAsset font)
-        {
-            var go = new GameObject(name, typeof(RectTransform));
-            go.transform.SetParent(parent, false);
-            var text = go.AddComponent<TextMeshProUGUI>();
-            text.font = font != null ? font : koreanFont;
-            text.text = content;
-            text.fontSize = size;
-            text.alignment = align;
-            text.color = Color.white;
-            text.raycastTarget = false;
-            AnchorFill(text.rectTransform);
-            return text;
-        }
-
-        void AnchorFill(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
         }
     }
 }

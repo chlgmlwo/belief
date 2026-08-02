@@ -8,8 +8,8 @@ using Belief.Data;
 namespace Belief.Presentation.World
 {
     /// <summary>
-    /// Placeholder 시각 표현(단색 사각형 + 라벨). 나중에 Sprite/Animator만 교체하면
-    /// 그대로 동작하도록 코드에서 Sprite를 직접 참조하지 않는다.
+    /// body(placeholder 단색 사각형)는 실제 인물 사진 자산이 없어 그대로 유지한다 - 대신 그 위에
+    /// frame/pin(프레임/압정) 장식만 얹는다(PlayHudSkin이 실제로 채워지면 Bind에서 적용).
     /// 이동/대사는 최소 연출(Coroutine 보간)만 제공하며 게임 상태는 건드리지 않는다 -
     /// 상태는 이미 확정된 뒤 이벤트로 재생만 한다.
     /// </summary>
@@ -19,6 +19,10 @@ namespace Belief.Presentation.World
         [SerializeField] TextMesh label;
         [SerializeField] GameObject dialogueRoot;
         [SerializeField] TextMeshPro dialogueLabel;
+        [SerializeField] SpriteRenderer dialogueBackground;
+        [SerializeField] SpriteRenderer frame;
+        [SerializeField] SpriteRenderer pin;
+        [SerializeField] SpriteRenderer nameTag;
 
         const float MoveDuration = 0.35f;
         const float DialogueDuration = 2.5f;
@@ -26,6 +30,8 @@ namespace Belief.Presentation.World
         const float SelectionTweenDuration = 0.18f;
         static readonly Color HighlightColor = new Color(0.95f, 0.85f, 0.30f);
         static readonly Color SelectionColor = new Color(0.95f, 0.75f, 0.25f);
+        static readonly Vector3 PinSelectedScaleMul = new Vector3(1.35f, 1.35f, 1f);
+        Vector3 pinBaseScale = Vector3.one;
 
         public NpcData BoundData { get; private set; }
         public event Action<NpcData> Clicked;
@@ -54,13 +60,24 @@ namespace Belief.Presentation.World
 
         Color baseColor;
 
-        public void Bind(NpcData data)
+        /// <summary>skin이 null이거나 필드가 비어 있으면 프레임/핑/대화창 아트를 조용히 생략하고
+        /// 기존 placeholder 표시만 남긴다(하위 호환).</summary>
+        public void Bind(NpcData data, PlayHudSkin skin)
         {
             BoundData = data;
             if (label != null) label.text = data.displayName;
-            baseColor = data.Rank == NpcRank.Major ? new Color(0.30f, 0.85f, 0.55f) : new Color(0.45f, 0.60f, 0.80f);
+            // 초록/파랑 원색 대신 중립 parchment 톤 - Major/Minor 구분은 미세한 명도차로만 남긴다.
+            baseColor = data.Rank == NpcRank.Major ? new Color(0.68f, 0.64f, 0.56f) : new Color(0.60f, 0.60f, 0.62f);
             if (body != null) body.color = baseColor;
             if (dialogueRoot != null) dialogueRoot.SetActive(false);
+            if (pin != null) pinBaseScale = pin.transform.localScale;
+
+            if (skin == null) return;
+            if (frame != null) frame.sprite = skin.npcPhotoFrame;
+            if (pin != null) pin.sprite = skin.pin;
+            if (nameTag != null && data.displayName != null)
+                nameTag.sprite = data.displayName.Length <= 3 ? skin.locationTag3 : skin.locationTag5;
+            if (dialogueBackground != null && skin.npcDialogueBubble != null) dialogueBackground.sprite = skin.npcDialogueBubble;
         }
 
         public void Highlight()
@@ -109,15 +126,20 @@ namespace Belief.Presentation.World
 
             Color from = body != null ? body.color : Color.white;
             Color to = toSelected ? SelectionColor : baseColor;
+            Vector3 pinFrom = pin != null ? pin.transform.localScale : Vector3.one;
+            Vector3 pinTo = toSelected ? Vector3.Scale(pinBaseScale, PinSelectedScaleMul) : pinBaseScale;
 
             float t = 0f;
             while (t < SelectionTweenDuration && !selectionSkipRequested)
             {
                 t += Time.deltaTime;
-                if (body != null) body.color = Color.Lerp(from, to, Mathf.SmoothStep(0f, 1f, t / SelectionTweenDuration));
+                float e = Mathf.SmoothStep(0f, 1f, t / SelectionTweenDuration);
+                if (body != null) body.color = Color.Lerp(from, to, e);
+                if (pin != null) pin.transform.localScale = Vector3.Lerp(pinFrom, pinTo, e);
                 yield return null;
             }
             if (body != null) body.color = to;
+            if (pin != null) pin.transform.localScale = pinTo;
 
             PlaybackDirector.Instance?.Unregister(selectionPlayback);
             selectionPlayback = null;

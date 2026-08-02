@@ -20,6 +20,7 @@ namespace Belief.Presentation.World
         [SerializeField] NpcActorView npcActorPrefab;
         [SerializeField] Transform locationRoot;
         [SerializeField] Transform npcRoot;
+        [SerializeField] public PlayHudSkin skin;
 
         readonly Dictionary<LocationData, LocationSiteView> locationViews = new Dictionary<LocationData, LocationSiteView>();
         readonly Dictionary<NpcData, NpcActorView> npcViews = new Dictionary<NpcData, NpcActorView>();
@@ -33,9 +34,14 @@ namespace Belief.Presentation.World
         // 장소 카드(3x1.8 world unit)와 NPC 스프라이트(0.6 scale)/이름표 기준으로 잡은 슬롯 격자값.
         // 한 행에 최대 3명, 그 이상은 아래 행으로 넘어간다(section 4).
         const int NpcMaxPerRow = 3;
-        const float NpcHorizontalSpacing = 1.6f;
+        // NPC 프레임 아트(NPC 프로필 UI) 자체에 장식이 좌우로 살짝 걸쳐 있어, 두 NPC가 가까이 붙으면
+        // 프레임끼리 맞닿아 마치 하나의 리본으로 이어진 것처럼 보였다(항목4: 장소/NPC가 겹치면 안 됨) -
+        // 프레임 폭(축소 후 약 130px)보다 확실히 넉넉한 간격으로 늘렸다.
+        const float NpcHorizontalSpacing = 2.3f;
         const float NpcVerticalSpacing = 1.1f;
-        static readonly Vector2 NpcSlotOffset = new Vector2(0f, -0.9f);
+        // 장소 카드가 커진 만큼(사진+리본 합산 세로 약 2.5~3유닛) NPC를 카드 아래로 더 떨어뜨려
+        // 사진/리본과 겹치지 않게 한다(기존 -0.9는 확대 전 작은 카드 기준값).
+        static readonly Vector2 NpcSlotOffset = new Vector2(0f, -1.8f);
         static readonly Color ConnectionLineColor = new Color(0.6f, 0.55f, 0.4f, 0.5f);
 
         /// <summary>StageData.locationLayout(스테이지별 수동 배치)을 조회용 사전으로 미리 펼쳐 둔다 -
@@ -54,7 +60,7 @@ namespace Belief.Presentation.World
             foreach (var kvp in installer.Locations)
             {
                 var view = Instantiate(locationSitePrefab, locationRoot);
-                view.Bind(kvp.Key, ResolveLocationPosition(kvp.Key));
+                view.Bind(kvp.Key, ResolveLocationPosition(kvp.Key), skin);
                 view.Clicked += d => LocationClicked?.Invoke(d);
                 locationViews[kvp.Key] = view;
             }
@@ -64,7 +70,7 @@ namespace Belief.Presentation.World
             foreach (var kvp in installer.Npcs)
             {
                 var view = Instantiate(npcActorPrefab, npcRoot);
-                view.Bind(kvp.Key);
+                view.Bind(kvp.Key, skin);
                 view.Clicked += d => NpcClicked?.Invoke(d);
                 npcViews[kvp.Key] = view;
             }
@@ -109,15 +115,33 @@ namespace Belief.Presentation.World
                     lineGo.transform.SetParent(locationRoot, false);
                     var line = lineGo.AddComponent<LineRenderer>();
                     line.material = new Material(Shader.Find("Sprites/Default"));
-                    line.startColor = ConnectionLineColor;
-                    line.endColor = ConnectionLineColor;
-                    line.startWidth = 0.04f;
-                    line.endWidth = 0.04f;
                     line.sortingOrder = -1;
                     line.positionCount = 2;
                     line.useWorldSpace = true;
-                    line.SetPosition(0, locationViews[from].transform.position);
-                    line.SetPosition(1, locationViews[to].transform.position);
+                    // 카드 중심이 아니라 압정 위치에 붙여야 지도 위에 그린 선처럼 보인다(카드를
+                    // 뚫고 지나가지 않음).
+                    line.SetPosition(0, locationViews[from].PinTransform.position);
+                    line.SetPosition(1, locationViews[to].PinTransform.position);
+
+                    // 실제 연결선 아트(장소간 연결 UI)가 있으면 타일링 텍스처로, 없으면 기존 단색으로.
+                    // 문서 지도에 손으로 그은 선처럼 보이도록 얇고 흐린 톤을 쓴다(과도하게 굵거나
+                    // 밝은 흰색 선은 금지 - 가이드 대비).
+                    if (skin != null && skin.locationConnector != null)
+                    {
+                        line.material.mainTexture = skin.locationConnector.texture;
+                        line.textureMode = LineTextureMode.Tile;
+                        line.startColor = ConnectionLineColor;
+                        line.endColor = ConnectionLineColor;
+                        line.startWidth = 0.035f;
+                        line.endWidth = 0.035f;
+                    }
+                    else
+                    {
+                        line.startColor = ConnectionLineColor;
+                        line.endColor = ConnectionLineColor;
+                        line.startWidth = 0.03f;
+                        line.endWidth = 0.03f;
+                    }
                 }
             }
         }

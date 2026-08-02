@@ -11,8 +11,10 @@ namespace Belief.Data
     public class PlayHudSkin : ScriptableObject
     {
         [Header("Fonts")]
-        public TMP_FontAsset titleFont;      // SeoulNamsanEB - 미션/스테이지/결과 큰 제목
-        public TMP_FontAsset boldFont;       // SUIT Bold - 라벨/버튼/카드제목/장소명
+        public TMP_FontAsset titleFont;      // SeoulNamsanEB - 스테이지/결과 대제목 전용(반복 등장 X, 1회성 헤드라인만)
+        public TMP_FontAsset extraBoldFont;  // SUIT ExtraBold - 관계도 태그값 등 강조 칩
+        public TMP_FontAsset heavyFont;      // SUIT Heavy - 카드 제목/CODE 배지
+        public TMP_FontAsset boldFont;       // SUIT Bold - 라벨/버튼/미션제목/장소명/카드제목(관계도)
         public TMP_FontAsset semiBoldFont;   // SUIT SemiBold - 서브헤더(수치변동, 장소상세 제목)
         public TMP_FontAsset bodyFont;       // SUIT Regular - 본문/로그
         public TMP_FontAsset mediumFont;     // SUIT Medium - 카드 본문
@@ -57,6 +59,7 @@ namespace Belief.Data
         public Sprite locationTag5;
         public Sprite locationImageFrame;
         public Sprite locationDetailCard;
+        public Sprite locationConnector; // 장소간 연결 UI - LocationSiteView 사이 LineRenderer 텍스처
         public Sprite blockedStamp; // 접선 UI - 전달 불가 상태
 
         [Header("Stage Briefing")]

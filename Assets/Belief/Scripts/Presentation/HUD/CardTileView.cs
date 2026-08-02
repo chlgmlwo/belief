@@ -33,7 +33,34 @@ namespace Belief.Presentation.HUD
         [SerializeField] TMP_Text tagsText;
         [SerializeField] LayoutElement layoutElement;
 
-        const float CollapsedHeight = 92f;
+        // 배치가이드 _ 기본 실측(1920x1080): 카드 폭 약 380px, 높이 약 190px, 카드 사이 간격 약 70px.
+        // HorizontalLayoutGroup은 childControlWidth/Height=false라 카드 크기에 관여하지 않으므로
+        // (레이아웃 그룹은 간격 정렬만, 크기는 ApplySlot이 RectTransform에 직접 대입) 여기서 폭/높이/
+        // 선택 시 상승/확대값을 명시적으로 관리한다.
+        const float CollapsedWidth = 380f;
+        const float CollapsedHeight = 190f;
+        const float CardSpacing = 106f;
+        const float SelectedRaise = 28f;
+        const float ExpandedScale = 1.05f;
+
+        /// <summary>손패 N장 중 index번째 카드의 위치/크기/선택 상승을 직접 계산해 적용한다 -
+        /// HorizontalLayoutGroup의 단순 균등 정렬에 맡기지 않고 카드별 좌표를 명시적으로 관리한다
+        /// (가이드: 선택 카드는 중앙 위로 상승, 전체 폭에 분산 배치).</summary>
+        public void ApplySlot(int index, int count, bool selected)
+        {
+            var rt = (RectTransform)transform;
+            rt.pivot = new Vector2(0.5f, 0f);
+            rt.anchorMin = new Vector2(0.5f, 0f);
+            rt.anchorMax = new Vector2(0.5f, 0f);
+
+            float totalWidth = count * CollapsedWidth + Mathf.Max(0, count - 1) * CardSpacing;
+            float startX = -totalWidth * 0.5f + CollapsedWidth * 0.5f;
+            float x = startX + index * (CollapsedWidth + CardSpacing);
+
+            rt.sizeDelta = new Vector2(CollapsedWidth, CollapsedHeight);
+            rt.anchoredPosition = new Vector2(x, selected ? SelectedRaise : 0f);
+            rt.localScale = Vector3.one * (selected ? ExpandedScale : 1f);
+        }
 
         static readonly Color NormalColor = new Color(0.10f, 0.15f, 0.13f);
         static readonly Color SelectedColor = new Color(0.30f, 0.85f, 0.55f);
@@ -101,14 +128,14 @@ namespace Belief.Presentation.HUD
         public void SetHandState(CardHandState state)
         {
             HandState = state;
-            bool expanded = state == CardHandState.Expanded;
 
             // ExpandedDetail(설명/태그 미리보기)은 항상 꺼둔다 - 아래 CardInfo 패널이 선택된 카드의
             // 제목/설명/출처를 이미 그대로 보여주고 있어 완전히 중복인데, 손패 줄 바로 위로 펼쳐지며
             // 월드 뷰(장소/NPC)를 가리는 문제가 있었다. 배경색(Bind의 SelectedColor)만으로 선택 상태를
             // 충분히 구분한다.
             if (expandedDetailRoot != null) expandedDetailRoot.SetActive(false);
-            if (layoutElement != null) layoutElement.preferredHeight = CollapsedHeight;
+            // 크기/위치/상승은 이제 ApplySlot이 RectTransform에 직접 대입한다(레이아웃 그룹이
+            // childControlWidth/Height=false라 LayoutElement.preferred*는 어차피 무시됐다).
 
             if (button != null) button.interactable = state != CardHandState.Using && state != CardHandState.Removed;
         }

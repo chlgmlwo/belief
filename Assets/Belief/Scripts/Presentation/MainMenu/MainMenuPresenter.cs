@@ -10,22 +10,21 @@ using Belief.Presentation.HUD;
 namespace Belief.Presentation.MainMenu
 {
     /// <summary>
-    /// 게임 실행 시 가장 먼저 표시되는 Main Menu. HudPresenter와 같은 "코드로 런타임 UI를 직접
-    /// 구성하는" 관례를 그대로 따른다 - 새 UI 시스템이 아니라 같은 CreatePanel/CreateText 패턴,
-    /// 같은 CanvasGroup 페이드, 같은 버튼 스타일을 재사용한다. 게임 방법 팝업도 HowToPlayPopup을
-    /// 그대로 재사용해 게임 중 [?] 버튼과 동일한 코드/데이터를 공유한다.
+    /// 게임 실행 시 가장 먼저 표시되는 Main Menu. 하이어라키는 런타임에 Instantiate하지 않고,
+    /// MainMenuCanvas.prefab의 인스턴스를 씬 파일에 직접 배치해 둔다(CardTileView/HudView와 동일한
+    /// View 패턴이되, 프리팹 "에셋"이 아니라 씬에 미리 놓인 "인스턴스"를 참조한다) - Edit 모드의
+    /// Hierarchy/Scene 뷰에서 바로 보이고 드래그로 조절할 수 있어야 하기 때문이다. 게임 방법 팝업은
+    /// HowToPlayPopup을 그대로 재사용해 게임 중 [?] 버튼과 동일한 코드/데이터를 공유한다(이 컴포넌트는
+    /// 여전히 절차적으로 자기 UI를 짓는다 - 이번 전환 범위 밖).
     /// </summary>
     public class MainMenuPresenter : MonoBehaviour
     {
         [SerializeField] TMP_FontAsset koreanFont;
-        [SerializeField] string firstSceneName = "City";
         [SerializeField] public Belief.Data.PlayHudSkin skin;
+        [SerializeField] MainMenuView view;
 
         static readonly Color PanelColor = new Color(0.09f, 0.12f, 0.10f, 0.95f);
         static readonly Color AccentColor = new Color(0.30f, 0.85f, 0.55f);
-        static readonly Color MutedText = new Color(0.72f, 0.78f, 0.74f);
-        static readonly Color DisabledColor = new Color(0.28f, 0.32f, 0.30f);
-        static readonly Color BackgroundColor = new Color(0.04f, 0.05f, 0.07f);
 
         const float FadeDuration = 0.25f;
 
@@ -46,122 +45,78 @@ namespace Belief.Presentation.MainMenu
 
         void BuildUI()
         {
-            var canvasGo = new GameObject("MainMenuCanvas", typeof(RectTransform));
-            canvasGo.transform.SetParent(transform, false);
-            var canvas = canvasGo.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            var scaler = canvasGo.AddComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920, 1080);
-            canvasGo.AddComponent<GraphicRaycaster>();
-            rootCanvasGroup = canvasGo.AddComponent<CanvasGroup>();
+            rootCanvasGroup = view.RootCanvasGroup;
             rootCanvasGroup.alpha = 0f;
 
-            // 배경(section 12) - skin.briefingBackground("메인화면 UI")가 있으면 그 아트를,
-            // 없으면 기존 단색 placeholder + 상단/하단 밴드 Gradient를 그대로 쓴다.
-            GameObject bg;
-            if (skin != null && skin.briefingBackground != null)
-            {
-                bg = new GameObject("Background", typeof(RectTransform));
-                bg.transform.SetParent(canvasGo.transform, false);
-                var bgImg = bg.AddComponent<Image>();
-                bgImg.sprite = skin.briefingBackground;
-                bgImg.raycastTarget = false;
-            }
-            else
-            {
-                bg = CreatePanel(canvasGo.transform, "Background", BackgroundColor);
-            }
-            AnchorFill(bg.GetComponent<RectTransform>());
+            view.StartButton.onClick.AddListener(OnStartClicked);
+            view.HowToPlayButton.onClick.AddListener(() => howToPlayPopup?.Show());
+            view.QuitButton.onClick.AddListener(OnQuitClicked);
 
-            var topBand = CreatePanel(canvasGo.transform, "TopBand", new Color(0f, 0f, 0f, 0.25f));
-            var tbrt = topBand.GetComponent<RectTransform>();
-            tbrt.anchorMin = new Vector2(0f, 0.7f);
-            tbrt.anchorMax = new Vector2(1f, 1f);
-            tbrt.offsetMin = Vector2.zero; tbrt.offsetMax = Vector2.zero;
+            WireHover(view.StartButton);
+            WireHover(view.HowToPlayButton);
+            WireHover(view.QuitButton);
 
-            var bottomBand = CreatePanel(canvasGo.transform, "BottomBand", new Color(0f, 0f, 0f, 0.30f));
-            var bbrt = bottomBand.GetComponent<RectTransform>();
-            bbrt.anchorMin = new Vector2(0f, 0f);
-            bbrt.anchorMax = new Vector2(1f, 0.3f);
-            bbrt.offsetMin = Vector2.zero; bbrt.offsetMax = Vector2.zero;
-
-            var title = CreateText(canvasGo.transform, "Title", "BELIEF", 72, TextAlignmentOptions.Center);
-            if (skin != null && skin.titleFont != null) title.font = skin.titleFont;
-            title.fontStyle = FontStyles.Bold;
-            title.color = AccentColor;
-            title.rectTransform.anchorMin = new Vector2(0.2f, 0.60f);
-            title.rectTransform.anchorMax = new Vector2(0.8f, 0.78f);
-
-            var subtitle = CreateText(canvasGo.transform, "Subtitle", "PROTOTYPE / MVP", 16, TextAlignmentOptions.Center);
-            subtitle.color = MutedText;
-            subtitle.rectTransform.anchorMin = new Vector2(0.2f, 0.55f);
-            subtitle.rectTransform.anchorMax = new Vector2(0.8f, 0.60f);
-
-            BuildButtons(canvasGo.transform);
-
-            howToPlayPopup = canvasGo.AddComponent<HowToPlayPopup>();
-            howToPlayPopup.Build(canvasGo.transform, koreanFont);
+            howToPlayPopup = view.gameObject.AddComponent<HowToPlayPopup>();
+            howToPlayPopup.Build(view.transform, koreanFont);
         }
 
-        void BuildButtons(Transform canvasT)
+        /// <summary>Hover 시 살짝 밝아지는 최소한의 반응 - 과도한 연출 없이 존재감만 준다. 색상 값
+        /// 자체는 런타임에만 정해지는 상태가 아니라 static 상수지만, ButtonHoverFeedback.Init이 받는
+        /// Image 참조는 프리팹 인스턴스 고유의 컴포넌트라 Instantiate 이후에만 연결할 수 있다.</summary>
+        void WireHover(Button btn)
         {
-            var row = new GameObject("ButtonRow", typeof(RectTransform));
-            row.transform.SetParent(canvasT, false);
-            var rrt = (RectTransform)row.transform;
-            rrt.anchorMin = new Vector2(0.30f, 0.22f);
-            rrt.anchorMax = new Vector2(0.70f, 0.40f);
-            rrt.offsetMin = Vector2.zero; rrt.offsetMax = Vector2.zero;
-            var layout = row.AddComponent<VerticalLayoutGroup>();
-            layout.spacing = 14;
-            layout.childForceExpandWidth = true;
-            layout.childForceExpandHeight = false;
-            layout.childAlignment = TextAnchor.UpperCenter;
-
-            CreateMenuButton(row.transform, "StartButton", "게임 시작", true, OnStartClicked);
-            CreateMenuButton(row.transform, "HowToPlayButton", "게임 방법", true, () => howToPlayPopup.Show());
-            CreateMenuButton(row.transform, "SettingsButton", "설정 (준비 중)", false, null);
-            CreateMenuButton(row.transform, "QuitButton", "종료", true, OnQuitClicked);
-        }
-
-        void CreateMenuButton(Transform parent, string name, string label, bool isEnabled, UnityEngine.Events.UnityAction onClick)
-        {
-            var go = new GameObject(name, typeof(RectTransform));
-            go.transform.SetParent(parent, false);
-            var le = go.AddComponent<LayoutElement>();
-            le.preferredHeight = 46;
-
-            var img = go.AddComponent<Image>();
-            img.color = isEnabled ? PanelColor : new Color(PanelColor.r, PanelColor.g, PanelColor.b, 0.6f);
-            var btn = go.AddComponent<Button>();
-            btn.targetGraphic = img;
-            btn.interactable = isEnabled;
-            if (isEnabled && onClick != null) btn.onClick.AddListener(onClick);
-
-            var labelText = CreateText(go.transform, "Label", label, 18, TextAlignmentOptions.Center);
-            labelText.fontStyle = FontStyles.Bold;
-            labelText.color = isEnabled ? AccentColor : DisabledColor;
-            AnchorFill(labelText.rectTransform);
-
-            // Hover 시 살짝 밝아지는 최소한의 반응 - 과도한 연출 없이 존재감만 준다.
-            if (isEnabled)
-            {
-                var hoverProxy = go.AddComponent<ButtonHoverFeedback>();
-                hoverProxy.Init(img, PanelColor, AccentColor * 0.35f + PanelColor * 0.65f);
-            }
+            if (btn == null) return;
+            var img = btn.GetComponent<Image>();
+            if (img == null) return;
+            var hoverProxy = btn.gameObject.AddComponent<ButtonHoverFeedback>();
+            hoverProxy.Init(img, PanelColor, AccentColor * 0.35f + PanelColor * 0.65f);
         }
 
         void OnStartClicked()
         {
             if (transitioning) return;
+
+            string sceneName = ResolveFirstSceneName();
+            if (string.IsNullOrEmpty(sceneName)) return; // 원인은 ResolveFirstSceneName이 이미 Error로 남겼다.
+
             transitioning = true;
-            StartCoroutine(StartGameRoutine());
+            StartCoroutine(StartGameRoutine(sceneName));
         }
 
-        IEnumerator StartGameRoutine()
+        /// <summary>ProgressionController.Awake()와 동일한 경로(Resources/ProgressionData)에서 첫
+        /// 스테이지의 sceneName을 읽는다 - 씬 이름을 여기 하드코딩하지 않는다. ProgressionData를 읽기만
+        /// 할 뿐 ProgressionController/게임 진행 로직 자체는 건드리지 않는다. 이름이 비어 있거나 활성
+        /// Build Profile/Shared Scene List에 등록되지 않은 씬이면 LoadScene을 시도하기 전에 명확한
+        /// Error를 남기고 null을 반환해 호출부가 안전하게 중단하게 한다.</summary>
+        string ResolveFirstSceneName()
+        {
+            var data = Resources.Load<Belief.Data.ProgressionData>("ProgressionData");
+            if (data == null || data.stages == null || data.stages.Length == 0)
+            {
+                Debug.LogError("[MainMenu] ProgressionData(Resources/ProgressionData)를 찾을 수 없거나 stages가 비어 있어 시작할 씬을 결정할 수 없습니다.");
+                return null;
+            }
+
+            string sceneName = data.stages[0].sceneName;
+            if (string.IsNullOrEmpty(sceneName))
+            {
+                Debug.LogError($"[MainMenu] ProgressionData 첫 스테이지({data.stages[0].stageId})의 sceneName이 비어 있어 시작할 씬을 결정할 수 없습니다.");
+                return null;
+            }
+
+            if (!Application.CanStreamedLevelBeLoaded(sceneName))
+            {
+                Debug.LogError($"[MainMenu] 씬 '{sceneName}'이 활성 Build Profile/Shared Scene List에 등록되어 있지 않아 로드할 수 없습니다.");
+                return null;
+            }
+
+            return sceneName;
+        }
+
+        IEnumerator StartGameRoutine(string sceneName)
         {
             yield return FadeCanvasGroup(rootCanvasGroup, 1f, 0f);
-            SceneManager.LoadScene(firstSceneName);
+            SceneManager.LoadScene(sceneName);
         }
 
         void OnQuitClicked()
@@ -187,47 +142,12 @@ namespace Belief.Presentation.MainMenu
             cg.alpha = to;
         }
 
-        // ------------------------------------------------------------ runtime UI helpers (HudPresenter와 같은 관례)
-
         void EnsureEventSystem()
         {
             if (FindFirstObjectByType<EventSystem>() != null) return;
             var go = new GameObject("EventSystem");
             go.AddComponent<EventSystem>();
             go.AddComponent<InputSystemUIInputModule>();
-        }
-
-        GameObject CreatePanel(Transform parent, string name, Color color)
-        {
-            var go = new GameObject(name, typeof(RectTransform));
-            go.transform.SetParent(parent, false);
-            var img = go.AddComponent<Image>();
-            img.color = color;
-            img.raycastTarget = false;
-            return go;
-        }
-
-        TMP_Text CreateText(Transform parent, string name, string content, int size, TextAlignmentOptions align)
-        {
-            var go = new GameObject(name, typeof(RectTransform));
-            go.transform.SetParent(parent, false);
-            var text = go.AddComponent<TextMeshProUGUI>();
-            if (koreanFont != null) text.font = koreanFont;
-            text.text = content;
-            text.fontSize = size;
-            text.alignment = align;
-            text.color = Color.white;
-            text.raycastTarget = false;
-            AnchorFill(text.rectTransform);
-            return text;
-        }
-
-        void AnchorFill(RectTransform rt)
-        {
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
         }
     }
 }

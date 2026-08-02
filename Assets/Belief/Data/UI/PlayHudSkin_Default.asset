@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: PlayHudSkin_Default
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.PlayHudSkin
   titleFont: {fileID: 11400000, guid: b62f75a05f9a22e4699e71e1ff015ce6, type: 2}
+  extraBoldFont: {fileID: 11400000, guid: 98318db3860302047af84e92aa58d0a1, type: 2}
+  heavyFont: {fileID: 11400000, guid: 7aa3075b9ed8e5b4cb0de7ad59a78021, type: 2}
   boldFont: {fileID: 11400000, guid: 6a92e0c7a88499d4f878cb18e2eff9d0, type: 2}
   semiBoldFont: {fileID: 11400000, guid: 242868204842bc74f856633cfbbc9ff4, type: 2}
   bodyFont: {fileID: 11400000, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
@@ -50,6 +52,7 @@ MonoBehaviour:
   locationTag5: {fileID: 21300000, guid: 04ecda186825a4441822fdf399409c31, type: 3}
   locationImageFrame: {fileID: 21300000, guid: db5ffc9619692e440a326c53eadbd11d, type: 3}
   locationDetailCard: {fileID: 21300000, guid: 029e30832c683e646906d15292d0bd99, type: 3}
+  locationConnector: {fileID: 21300000, guid: 620fa50cf57a88240911a1a040d715f7, type: 3}
   blockedStamp: {fileID: 21300000, guid: d7360658276ac35488eee873c2c45172, type: 3}
   briefingBackground: {fileID: 21300000, guid: 82f66940d8bc288448b678a57dfd7866, type: 3}
   launchButton: {fileID: 21300000, guid: d47b700cd90ef4249bf390958c72de4d, type: 3}
