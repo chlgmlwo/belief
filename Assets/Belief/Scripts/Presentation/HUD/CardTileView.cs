@@ -39,27 +39,67 @@ namespace Belief.Presentation.HUD
         // 선택 시 상승/확대값을 명시적으로 관리한다.
         const float CollapsedWidth = 380f;
         const float CollapsedHeight = 190f;
-        const float CardSpacing = 106f;
+        // 배치가이드 _ 기본 실측: 카드 사이 여백이 76px(카드 폭 384 / 시작점 간격 460)이다.
+        const float CardSpacing = 76f;
         const float SelectedRaise = 28f;
         const float ExpandedScale = 1.05f;
+        const float SelectAnimDuration = 0.18f;
+
+        Coroutine slotRoutine;
+        bool slotInitialized;
 
         /// <summary>손패 N장 중 index번째 카드의 위치/크기/선택 상승을 직접 계산해 적용한다 -
         /// HorizontalLayoutGroup의 단순 균등 정렬에 맡기지 않고 카드별 좌표를 명시적으로 관리한다
-        /// (가이드: 선택 카드는 중앙 위로 상승, 전체 폭에 분산 배치).</summary>
+        /// (가이드: 선택 카드는 중앙 위로 상승, 전체 폭에 분산 배치). 좌우 재배치(x)는 즉시 반영하고
+        /// 선택 상승(y/scale)만 부드럽게 보간한다 - 손패가 늘거나 줄 때 카드가 미끄러지지 않게.</summary>
         public void ApplySlot(int index, int count, bool selected)
         {
             var rt = (RectTransform)transform;
             rt.pivot = new Vector2(0.5f, 0f);
             rt.anchorMin = new Vector2(0.5f, 0f);
             rt.anchorMax = new Vector2(0.5f, 0f);
+            rt.sizeDelta = new Vector2(CollapsedWidth, CollapsedHeight);
 
             float totalWidth = count * CollapsedWidth + Mathf.Max(0, count - 1) * CardSpacing;
             float startX = -totalWidth * 0.5f + CollapsedWidth * 0.5f;
             float x = startX + index * (CollapsedWidth + CardSpacing);
 
-            rt.sizeDelta = new Vector2(CollapsedWidth, CollapsedHeight);
-            rt.anchoredPosition = new Vector2(x, selected ? SelectedRaise : 0f);
-            rt.localScale = Vector3.one * (selected ? ExpandedScale : 1f);
+            float targetY = selected ? SelectedRaise : 0f;
+            float targetScale = selected ? ExpandedScale : 1f;
+
+            if (slotRoutine != null) { StopCoroutine(slotRoutine); slotRoutine = null; }
+
+            // 최초 배치이거나 비활성 상태면 연출 없이 즉시 확정한다(코루틴이 돌 수 없는 상황).
+            if (!slotInitialized || !isActiveAndEnabled)
+            {
+                slotInitialized = true;
+                rt.anchoredPosition = new Vector2(x, targetY);
+                rt.localScale = Vector3.one * targetScale;
+                return;
+            }
+
+            slotRoutine = StartCoroutine(AnimateSlot(rt, x, targetY, targetScale));
+        }
+
+        IEnumerator AnimateSlot(RectTransform rt, float x, float targetY, float targetScale)
+        {
+            float startY = rt.anchoredPosition.y;
+            float startScale = rt.localScale.x;
+            rt.anchoredPosition = new Vector2(x, startY);
+
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.unscaledDeltaTime / SelectAnimDuration;
+                float e = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t));
+                rt.anchoredPosition = new Vector2(x, Mathf.Lerp(startY, targetY, e));
+                rt.localScale = Vector3.one * Mathf.Lerp(startScale, targetScale, e);
+                yield return null;
+            }
+
+            rt.anchoredPosition = new Vector2(x, targetY);
+            rt.localScale = Vector3.one * targetScale;
+            slotRoutine = null;
         }
 
         static readonly Color NormalColor = new Color(0.10f, 0.15f, 0.13f);
@@ -98,8 +138,10 @@ namespace Belief.Presentation.HUD
             string sourceName = card.source != null ? card.source.displayName : "?";
 
             if (titleText != null) titleText.text = card.information != null ? card.information.title : "?";
-            if (categoryText != null) categoryText.text = $"{categoryId} · {kind}";
-            if (kindText != null) kindText.text = $"출처: {sourceName}";
+            // 카드 아트의 슬롯 폭에 맞춘다 - 좁은 CODE 칸에는 카테고리만, 넓은 타입/타겟 칸에
+            // 종류와 출처를 함께 넣는다. 둘을 CODE 칸에 몰면 카드 오른쪽 경계를 넘어간다.
+            if (categoryText != null) categoryText.text = categoryId;
+            if (kindText != null) kindText.text = $"{kind} / {sourceName}";
             if (descriptionText != null) descriptionText.text = card.information != null ? card.information.description : "";
             if (tagsText != null)
             {
@@ -107,19 +149,20 @@ namespace Belief.Presentation.HUD
                 tagsText.text = tags != null && tags.Length > 0 ? $"태그: {string.Join(", ", tags)}" : "";
             }
 
-            // 배경에 카드 프레임 아트(정보카드 UI)가 물려 있으면 원래 색을 짙게 덮어씌우지 않는다 -
-            // 대신 옅은 강조색만 얹어 선택 상태를 표시한다(placeholder 단색 배경일 때만 기존처럼
-            // 완전히 채운 색으로 표시).
+            // 카드 프레임 아트(정보카드 UI)가 물려 있으면 아트를 그대로 살린다 - 배치가이드의 손패도
+            // 선택 카드에 색을 입히지 않고 위로 올려서(ApplySlot의 SelectedRaise) 구분한다.
+            // placeholder 단색 배경일 때만 기존처럼 색으로 선택 상태를 표시한다.
             bool hasArt = background != null && background.sprite != null;
             if (background != null)
                 background.color = hasArt
-                    ? (selected ? new Color(1f, 1f, 0.75f, 1f) : Color.white)
+                    ? Color.white
                     : (selected ? SelectedColor : NormalColor);
 
-            // 선택 시 밝은 배경 위에 흰 글자는 대비가 낮아진다 - 검은 글자로 바꿔 가독성을 유지한다.
-            var textColor = hasArt ? Color.black : (selected ? Color.black : Color.white);
-            if (titleText != null) titleText.color = textColor;
-            if (kindText != null) kindText.color = hasArt ? new Color(0.15f, 0.12f, 0.08f) : (selected ? Color.black : new Color(0.72f, 0.78f, 0.74f));
+            // 아트가 있으면 목업에서 확정한 색을 쓴다(제목은 헤더 위 밝은 글자, 타입/타겟은 어두운 글자).
+            if (titleText != null)
+                titleText.color = hasArt ? new Color(0.96f, 0.95f, 0.93f) : (selected ? Color.black : Color.white);
+            if (kindText != null)
+                kindText.color = hasArt ? new Color(0.16f, 0.13f, 0.11f) : (selected ? Color.black : new Color(0.72f, 0.78f, 0.74f));
         }
 
         /// <summary>접힘/펼침/사용중/제거중 상태를 전환한다. 펼침 상태는 손패 전체에서 한 장만
@@ -129,11 +172,11 @@ namespace Belief.Presentation.HUD
         {
             HandState = state;
 
-            // ExpandedDetail(설명/태그 미리보기)은 항상 꺼둔다 - 아래 CardInfo 패널이 선택된 카드의
-            // 제목/설명/출처를 이미 그대로 보여주고 있어 완전히 중복인데, 손패 줄 바로 위로 펼쳐지며
-            // 월드 뷰(장소/NPC)를 가리는 문제가 있었다. 배경색(Bind의 SelectedColor)만으로 선택 상태를
-            // 충분히 구분한다.
-            if (expandedDetailRoot != null) expandedDetailRoot.SetActive(false);
+            // ExpandedDetail(설명/태그)은 카드 아트 안에 그대로 얹혀 있으므로 항상 켜둔다 - 배치가이드의
+            // 손패도 카드 위에 설명/태그가 인쇄된 형태다. 접힌 카드는 화면 아래로 잘려 헤더만 보이고,
+            // 선택해서 위로 올라올 때 자연스럽게 전체 내용이 드러난다(ApplySlot의 SelectedRaise).
+            if (expandedDetailRoot != null && !expandedDetailRoot.activeSelf)
+                expandedDetailRoot.SetActive(true);
             // 크기/위치/상승은 이제 ApplySlot이 RectTransform에 직접 대입한다(레이아웃 그룹이
             // childControlWidth/Height=false라 LayoutElement.preferred*는 어차피 무시됐다).
 
@@ -158,6 +201,9 @@ namespace Belief.Presentation.HUD
 
         void CancelRunningRoutine()
         {
+            // 등장/퇴장 연출도 localScale을 건드리므로 선택 상승 보간과 겹치면 서로 값을 덮어쓴다.
+            if (slotRoutine != null) { StopCoroutine(slotRoutine); slotRoutine = null; }
+
             if (appearRoutine == null) return;
             StopCoroutine(appearRoutine);
             if (appearPlayback != null) PlaybackDirector.Instance?.Unregister(appearPlayback);
