@@ -53,6 +53,8 @@ MonoBehaviour:
   - location: {fileID: 11400000, guid: 34e7ab9f748b1c4458b0d3972829ae02, type: 2}
     position: {x: 0, y: -0.5}
   npcLayout: []
+  contactPoint: {fileID: 11400000, guid: d9df1ab9864b415f8c8cdfef418992d2, type: 2}
+  contactPointPosition: {x: -6.6, y: -1.9}
   cardPool: {fileID: 11400000, guid: 9fe9e7d462e145afa8f2a19c1f48492f, type: 2}
   missions:
   - {fileID: 11400000, guid: e3faf09b2d6ed4641aafe8218035a57c, type: 2}
