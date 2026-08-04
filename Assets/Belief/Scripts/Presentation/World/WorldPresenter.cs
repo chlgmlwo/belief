@@ -38,8 +38,10 @@ namespace Belief.Presentation.World
         // 측정) - Photo 크기가 바뀌면 이 값도 같이 갱신해야 한다.
         const float PhotoHalfWidth = 0.45f;
         const float NpcHalfWidth = 0.54f;
-        const float NpcFlankGap = 0.12f;
-        // 첫 슬롯(바로 옆)까지의 거리 - 사진 반폭 + 여백 + NPC 반폭.
+        // 음수 = 여백이 아니라 겹침 - 사용자 지시로 "완전히 붙게, 살짝 겹쳐도 됨"으로 변경
+        // (사진↔NPC, NPC↔NPC 둘 다 이 값만큼 겹친다).
+        const float NpcFlankGap = -0.15f;
+        // 첫 슬롯(바로 옆)까지의 거리 - 사진 반폭 + 여백(음수면 겹침) + NPC 반폭.
         const float NpcFlankBaseOffset = PhotoHalfWidth + NpcFlankGap + NpcHalfWidth;
         // 한 칸 더 바깥으로 밀려날 때마다 추가되는 거리 - NPC 폭 + 여백.
         const float NpcFlankStep = NpcHalfWidth * 2f + NpcFlankGap;

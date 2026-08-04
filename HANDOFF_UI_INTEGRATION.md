@@ -1768,6 +1768,23 @@ NPC라 오른쪽에만) — 설계한 공식과 정확히 일치. `Unity_SceneVi
 삭제, `PhotoHalfWidth`/`NpcHalfWidth`/`NpcFlankGap`/`NpcFlankBaseOffset`/`NpcFlankStep`/
 `NpcFlankVerticalOffset` 신규).
 
+### 3-54. NPC를 장소 이미지에 완전히 붙게(살짝 겹침 허용) 재조정 (2026-08-04, 3-53 보완)
+
+3-53으로 좌우 배치는 됐지만 사용자가 참고 스크린샷을 보여주며 더 가깝게, 완전히 붙어서 살짝 겹쳐도
+된다고 요청(사진↔NPC, NPC↔NPC 둘 다).
+
+**해결**: `NpcFlankGap`을 여백(+0.12) 대신 겹침(−0.15)으로 부호를 바꿨다 — `NpcFlankBaseOffset`/
+`NpcFlankStep` 계산식은 3-53과 동일하게 그대로 두고 이 상수 하나만 바꿔서, 사진 가장자리와 NPC
+가장자리가 0.15유닛만큼 겹치고, NPC끼리도 서로 0.15유닛씩 겹치도록 만들었다(계산식을 건드리지
+않고 파라미터 하나로 "여백↔겹침"을 뒤집을 수 있게 3-53에서 이미 그렇게 설계해 둔 덕분에 수정
+범위가 최소화됨).
+
+**검증**: 3-53과 동일하게 5명 전원을 프로덕션 이동 코드로 "여관"에 모은 뒤
+`Unity_SceneView_Capture2DScene` 스크린샷 확인 — 사용자가 보여준 참고 이미지처럼 NPC들이 장소
+이미지·서로와 자연스럽게 겹쳐 붙어 있는 것을 육안 확인. Console Error/Warning 0. 씬 변경 없음.
+
+**수정한 파일**: `WorldPresenter.cs`(`NpcFlankGap` 0.12→−0.15).
+
 ---
 
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
