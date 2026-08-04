@@ -801,21 +801,57 @@ namespace Belief.Presentation.HUD
                 return;
             }
 
-            // 값 칸 하나에 "라벨: 값"을 한 줄씩 합쳐서 넣는다 - 라벨 칸(Labels)과 값 칸(Values)을
-            // 나란히 세워 정렬을 맞추는 2단 레이아웃은, sensitiveInformationType처럼 값 이름이 길어
-            // (예: FactualInformation) 값 칸만 다음 줄로 줄바꿈되면 그 아래 모든 줄이 라벨 칸과
-            // 어긋나면서 패널 밖으로 텍스트가 흘러넘치는 문제가 있었다(2026-08-04 실측). 라벨+값을
-            // 같은 줄에 묶어두면 특정 줄이 길어서 줄바꿈되더라도 그 줄만 세로로 조금 늘어날 뿐
-            // 다른 줄과의 정렬이 깨지지 않는다 - 그래서 Labels 칸은 다시 끈다(Bind 쪽에서 비활성화).
+            // 라벨 칸(Labels, 프리팹에 고정 텍스트로 이미 있음)과 값 칸(Values)을 나란히 세운
+            // 2단 표 형태로 정렬한다 - 값이 전부 한글로 짧게 번역된 뒤(2026-08-04)라 어느 값도
+            // 칸 폭 안에서 줄바꿈되지 않음을 실측으로 확인했다(가장 긴 값 "사실 정보"/"매우 높음"도
+            // 폭 70 안에서 줄바꿈 없이 자연 폭 52 - 예전에 영문 enum 이름(FactualInformation 등)을
+            // 그대로 쓸 때는 이 표 레이아웃이 줄바꿈 시 라벨과 어긋나며 패널 밖으로 흘러넘쳤었다).
+            // 두 칸 다 같은 빈 줄 간격(\n\n)을 써서 줄 수·줄 높이가 항상 똑같이 맞물린다.
             // accessType(접근 권한)은 게임에서 실제로 아무것도 막지 않게 된 지 오래라
             // (LocationMechanicsSettings.CanTargetLocationDirectly 참고) 패널에서도 아예 뺐다(사용자 지시).
             locationNoteTitleText.text = selectedLocationData.displayName;
             locationNoteBodyText.text =
-                $"확산 속도: {selectedLocationData.spreadSpeed}\n" +
-                $"밀집도: {selectedLocationData.npcDensity}\n" +
-                $"민감 정보 유형: {selectedLocationData.sensitiveInformationType}\n" +
-                $"신뢰도 보정: {selectedLocationData.credibilityModifier}";
+                $"{SpreadSpeedKoreanLabel(selectedLocationData.spreadSpeed)}\n\n" +
+                $"{NpcDensityKoreanLabel(selectedLocationData.npcDensity)}\n\n" +
+                $"{SensitiveInfoTypeKoreanLabel(selectedLocationData.sensitiveInformationType)}\n\n" +
+                $"{CredibilityModifierKoreanLabel(selectedLocationData.credibilityModifier)}";
         }
+
+        static string SpreadSpeedKoreanLabel(LocationSpreadSpeed value) => value switch
+        {
+            LocationSpreadSpeed.Low => "하",
+            LocationSpreadSpeed.Medium => "중",
+            LocationSpreadSpeed.High => "상",
+            _ => "미지정"
+        };
+
+        static string NpcDensityKoreanLabel(LocationNpcDensity value) => value switch
+        {
+            LocationNpcDensity.Low => "하",
+            LocationNpcDensity.Medium => "중",
+            LocationNpcDensity.High => "상",
+            _ => "미지정"
+        };
+
+        static string SensitiveInfoTypeKoreanLabel(LocationSensitiveInfoType value) => value switch
+        {
+            LocationSensitiveInfoType.Rumor => "소문",
+            LocationSensitiveInfoType.Intelligence => "첩보",
+            LocationSensitiveInfoType.FactualInformation => "사실 정보",
+            LocationSensitiveInfoType.OrderDocument => "명령 문서",
+            LocationSensitiveInfoType.CriminalDeal => "범죄 거래",
+            LocationSensitiveInfoType.ForgedDocument => "위조 문서",
+            _ => "미지정"
+        };
+
+        static string CredibilityModifierKoreanLabel(LocationCredibilityModifier value) => value switch
+        {
+            LocationCredibilityModifier.Low => "낮음",
+            LocationCredibilityModifier.Neutral => "중립",
+            LocationCredibilityModifier.High => "높음",
+            LocationCredibilityModifier.VeryHigh => "매우 높음",
+            _ => "미지정"
+        };
 
         /// <summary>LocationInfoPaper(pivot 좌상단)의 화면 좌표를 그 장소 사진의 오른쪽 바로 옆으로
         /// 옮긴다 - HudCanvas가 Screen Space Overlay라 RectTransform.position에 화면 픽셀 좌표를

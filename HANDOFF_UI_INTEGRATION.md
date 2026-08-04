@@ -2216,6 +2216,52 @@ FactualInformation`)를 호버 - `TextMeshProUGUI.textBounds.size.y`(89.6)가 �
 
 ---
 
+### 3-66. LocationInfoPaper 값들을 한글로 번역 (2026-08-04, 사용자 지시 — "데이터값들 한글로 바꿔줘볼래?")
+
+`spreadSpeed`/`npcDensity`/`sensitiveInformationType`/`credibilityModifier` 4개 enum이 `ToString()`
+그대로(영문 `Low`/`FactualInformation`/`VeryHigh` 등) 표시되고 있었다. `HudPresenter.cs`에 이미 있던
+`BeliefKoreanLabel(BeliefState)` 패턴(로컬 `static string ... => value switch { ... }`)을 그대로
+따라 4개의 한글 라벨 변환 함수를 추가했다 - `SpreadSpeedKoreanLabel`/`NpcDensityKoreanLabel`은
+확산 속도·밀집도 둘 다 "상/중/하"(2026-08-04 이전에 남아있던 목업 텍스트가 쓰던 표기와 동일하게
+맞춤), `SensitiveInfoTypeKoreanLabel`은 "소문/첩보/사실 정보/명령 문서/범죄 거래/위조 문서",
+`CredibilityModifierKoreanLabel`은 "낮음/중립/높음/매우 높음"(마찬가지로 목업 텍스트의 "매우 높음"
+표기를 그대로 사용). 전부 `Unspecified` → "미지정"으로 통일.
+
+**검증**: 3-65에서 만든 "패널 밖으로 넘치면 안 된다" 제약이 한글 치환으로 깨지지 않는지 재확인 -
+실제 씬의 4개 장소 전부를 순회 호버하며 `textBounds.size`가 텍스트 칸(160×100) 안에 들어오는지
+코드로 직접 확인(전부 `overflow=False`, 한글 라벨이 영문보다 짧아 오히려 여유가 늘어남). Console
+Error/Warning 0. 씬 무수정(코드만).
+
+**수정한 파일**: `HudPresenter.cs`(`RefreshLocationNote()`에서 4개 enum을 한글 라벨 함수로 감싸고,
+4개의 `...KoreanLabel` 정적 메서드 추가). 프리팹/씬 무수정.
+
+---
+
+### 3-67. LocationInfoPaper 값 정렬 — 라벨/값 2단 표 레이아웃으로 재전환 (2026-08-04, 사용자 지시 — "데이터값들도 정렬 맞춰줄래?")
+
+"라벨: 값"을 한 줄에 합친 3-65 포맷은 라벨 길이가 제각각이라(`확산 속도`=4자, `민감 정보 유형`=7자)
+값이 시작하는 x 위치가 줄마다 달라 보였다 - 사용자가 "정렬을 맞춰달라"고 요청.
+
+3-65에서 2단 칸(라벨 칸/값 칸을 나란히 세워 x를 맞추는 표 레이아웃)을 폐기했던 이유는 그때 값이
+영문 enum 이름 그대로였고(`FactualInformation` 등 최대 19자) 그게 줄바꿈되면 라벨 칸과 어긋나며
+패널 밖으로 흘러넘쳤기 때문이었다. 그런데 3-66에서 값을 전부 한글로 번역하면서 가장 긴 값도
+"사실 정보"/"매우 높음"(5자 안팎)으로 줄어들었다 - `TextMeshProUGUI.GetPreferredValues`로 실측한
+결과 폭 70 안에서도 줄바꿈 없이 자연 폭 52.17이었다(라벨 칸도 폭 100 안에서 자연 폭 90.56, 둘 다
+7줄로 정확히 일치). 즉 2단 표 레이아웃을 막던 원인이 3-66에서 이미 사라진 상태였다.
+
+**해결**: `Labels`(정적 라벨 칸)를 다시 켜고, `Values`는 라벨 없이 값만(빈 줄로 구분, `Labels`와
+같은 줄 수) 넣도록 되돌렸다. 실측값에 여유를 두고 라벨 칸 100×135, 값 칸 75×135로 나란히 배치,
+패널 전체는 200×180으로 재조정.
+
+**검증**: 실제 씬의 장소 4곳 전부를 순회 호버하며 `Labels`/`Values` 둘 다 `textInfo.lineCount=7`로
+정확히 일치(줄바꿈 없음, 정렬 어긋남 없음)함을 코드로 확인, 둘 다 `overflow=False`. Console
+Error/Warning 0. 씬 무수정.
+
+**수정한 파일**: `HudPresenter.cs`(`RefreshLocationNote()` - 값만 빈 줄 구분 포맷으로 재변경),
+`PlayHudCanvas_New.prefab`(`Labels` 재활성화, `Labels`/`Values` 나란히 배치, 패널 200×180로 재조정).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```
