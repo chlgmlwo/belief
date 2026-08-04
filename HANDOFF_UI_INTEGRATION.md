@@ -1636,6 +1636,45 @@ Mode 세션을 끊어버려 삭제가 저장되지 않고 되돌아간 것으로
 
 **수정한 파일**: `LocationSiteView.prefab`(`Label.sortingOrder` 0→4, `Label.localPosition.y` -1.68→-0.54).
 
+### 3-50. 장소 이름표 텍스트 자동 크기 조절 — 이름 길이와 무관하게 리본 폭에 맞춰 자동 스케일 (2026-08-04, 3-50a에서 방식 정정됨)
+
+사용자 요청: 이름 길이(2~8자, 4개 스테이지 전체 실측 완료)에 관계없이 이름표 밖으로 안 나가게,
+폰트/크기는 알아서 판단해서 잘 보이게 자동 조절. 기존엔 `Label`(`TextMesh`)이 고정 스케일이라
+짧은 이름("여관", 2자)은 리본 대비 작게(폭 채움 32%), 긴 이름은 상대적으로 크게 보이는 등 이름마다
+일관성이 없었다.
+
+**1차 구현(→ 3-50a에서 정정됨)**: 이 장소 자신의 실제 이름 폭을 매번 측정해 리본 폭의 70%를 채우도록
+개별 스케일을 계산하는 방식으로 처음 구현했다. 결과적으로 이름마다 서로 다른 폰트 크기가 나왔는데
+(예: "여관" 2자는 배율 ~2.1배, "영주 저택 앞" 7자는 배율 ~1.18배), 사용자가 "폰트 크기는 통일되어야지
+글자수마다 다르면 안 된다"고 정정 — 장소마다 폰트 크기가 다른 건 원한 게 아니었다.
+
+**최종 방식(3-50a)**: `LocationSiteView.cs`에 **정적(static) 캐시** `cachedUniformFitScaleMultiplier`를
+추가 — 이 장소 자신의 실제 이름이 아니라 **게임 전체에서 가장 긴 장소 이름 하나**(`WorstCaseReferenceName`
+= "알현실 앞 광장", 2026-08-04 기준 4개 스테이지 전체 실측 결과 8자로 최장, Stage_04)를 기준으로
+"이 정도 폰트 크기면 가장 긴 이름도 가장 넓은 리본(`locationTag5`)의 85%를 넘지 않는다"는 스케일을
+**딱 한 번만** 계산해서 모든 `LocationSiteView` 인스턴스가 동일하게 재사용한다. 계산 방법
+(`ComputeUniformFitScaleMultiplier`): `label.text`를 최장 이름 문자열로 잠깐 바꿔치기해
+`MeshRenderer.bounds.size.x`로 실제 렌더 폭을 측정한 뒤 원래 텍스트로 즉시 복원(한 프레임 내에서
+끝나 화면 깜빡임 없음), `skin.locationTag5.bounds.size.x * nameTag.transform.lossyScale.x`로 리본의
+실제 월드 폭을 계산해 목표 폭(85%)에 도달하는 배율을 역산한다. 배율은 `LabelMinScaleMultiplier`(0.5)~
+`LabelMaxScaleMultiplier`(2.5)로 클램프. TextMeshPro로 교체하지 않고 기존 legacy `TextMesh` 그대로
+계산만으로 해결.
+
+⚠️ **기술 부채**: 최장 이름 문자열이 코드에 하드코딩돼 있다 — 나중에 이보다 더 긴 장소 이름이
+추가되면 `WorstCaseReferenceName` 상수도 함께 갱신해야 안전(안 하면 그 이름만 살짝 넘칠 수 있음,
+다른 장소는 영향 없음).
+
+**검증**: Play Mode 재진입 후 4개 장소 전부 `label.localScale`이 완전히 동일한 값
+`(0.03, 0.06, 0.59)`으로 통일된 것을 확인(짧은 이름/긴 이름 관계없이). 폭 채움 비율은 자연히
+이름마다 다르지만(여관 40%, 시장 39%, 경비초소 54%, 영주저택앞 72%) 전부 100% 미만으로 넘치지
+않음. 짧은 이름("여관")과 Zone1 기준 최장 이름("영주 저택 앞", 7자) 둘 다 스크린샷으로 동일한
+폰트 크기, 리본 안에 자연스러운 여백을 두고 렌더링되는 것을 육안 확인. Console Error/Warning 0.
+씬 변경 없음(스크립트만 수정, 프리팹/씬은 무수정).
+
+**수정한 파일**: `LocationSiteView.cs`(`FitLabelToNameTag()`/`ComputeUniformFitScaleMultiplier()`
+신규, `Bind()`에서 호출 추가, `labelBaseLocalScale`/`labelBaseScaleCaptured`/
+`cachedUniformFitScaleMultiplier`(static) 필드 추가, 튜닝 상수 4개 추가).
+
 ---
 
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)

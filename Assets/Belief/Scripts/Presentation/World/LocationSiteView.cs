@@ -41,6 +41,21 @@ namespace Belief.Presentation.World
         const float HighlightDuration = 0.3f;
         const float SelectionTweenDuration = 0.18f;
 
+        // 폰트 크기는 장소마다 달라지면 안 되고 전부 동일해야 한다(사용자 지시) - 그래서 "이 장소의
+        // 이름"이 아니라 "게임 전체에서 가장 긴 장소 이름 하나"를 기준으로 "이 정도 크기면 가장 긴
+        // 이름도 리본 밖으로 안 나간다"는 스케일을 딱 한 번만 계산해서 모든 장소에 똑같이 적용한다.
+        // ⚠️ 이 이름보다 더 긴 장소 이름이 나중에 추가되면 이 상수도 같이 갱신해야 한다(2026-08-04
+        // 기준 4개 스테이지 전체 실측 결과 최장 8자, Stage_04 "알현실 앞 광장").
+        const string WorstCaseReferenceName = "알현실 앞 광장";
+        // 리본 폭의 몇 %까지 최장 이름이 채우게 할지 - 100%면 리본 끝에 딱 붙어 답답해 보여서 여백을 남긴다.
+        const float NameTagFitWidthRatio = 0.85f;
+        const float LabelMinScaleMultiplier = 0.5f;
+        const float LabelMaxScaleMultiplier = 2.5f;
+
+        // 모든 LocationSiteView 인스턴스가 공유하는 값 - 최초 1회만 계산하고 이후로는 재사용해
+        // 어떤 장소든 완전히 동일한 폰트 크기를 쓰게 보장한다.
+        static float? cachedUniformFitScaleMultiplier;
+
         public LocationData BoundData { get; private set; }
 
         LocationSiteState currentState = LocationSiteState.Normal;
@@ -52,6 +67,9 @@ namespace Belief.Presentation.World
         IPlayback selectionPlayback;
         bool selectionSkipRequested;
         bool selected;
+
+        Vector3 labelBaseLocalScale;
+        bool labelBaseScaleCaptured;
 
         /// <summary>position은 항상 호출자(WorldPresenter)가 넘긴다 - 스테이지별 수동 레이아웃
         /// (StageData.locationLayout)이 있으면 그 값, 없으면 LocationData.worldPosition의 해석은
@@ -72,6 +90,51 @@ namespace Belief.Presentation.World
                 nameTag.sprite = data.displayName != null && data.displayName.Length <= 3
                     ? skin.locationTag3
                     : skin.locationTag5;
+
+            FitLabelToNameTag(skin);
+        }
+
+        /// <summary>모든 장소가 이름 길이와 무관하게 완전히 동일한 폰트 크기를 쓰도록, 실제 이 장소의
+        /// 이름이 아니라 게임 전체 최장 이름(WorstCaseReferenceName) 기준으로 계산한 단일 스케일을
+        /// 정적 캐시에서 가져와(없으면 최초 1회 계산) 그대로 적용한다.</summary>
+        void FitLabelToNameTag(PlayHudSkin skin)
+        {
+            if (label == null || nameTag == null) return;
+            if (!labelBaseScaleCaptured)
+            {
+                labelBaseLocalScale = label.transform.localScale;
+                labelBaseScaleCaptured = true;
+            }
+            label.transform.localScale = labelBaseLocalScale;
+
+            if (!cachedUniformFitScaleMultiplier.HasValue)
+            {
+                float? computed = ComputeUniformFitScaleMultiplier(skin);
+                if (computed.HasValue) cachedUniformFitScaleMultiplier = computed;
+            }
+
+            label.transform.localScale = labelBaseLocalScale * (cachedUniformFitScaleMultiplier ?? 1f);
+        }
+
+        /// <summary>label.transform.localScale이 labelBaseLocalScale인 상태에서 호출되어야 한다 -
+        /// 최장 이름 문자열을 임시로 렌더링해 그 폭을 측정한 뒤 원래 텍스트로 되돌린다(계산 목적으로만
+        /// 잠깐 바꿔치기, 화면엔 노출 안 됨 - 매 프레임이 아니라 이 계산이 끝나는 한 프레임 내에서
+        /// 즉시 원복되므로 깜빡임 없음).</summary>
+        float? ComputeUniformFitScaleMultiplier(PlayHudSkin skin)
+        {
+            if (skin == null || skin.locationTag5 == null || label == null) return null;
+
+            string originalText = label.text;
+            label.text = WorstCaseReferenceName;
+            var meshRenderer = label.GetComponent<MeshRenderer>();
+            float worstCaseWidth = meshRenderer != null ? meshRenderer.bounds.size.x : 0f;
+            label.text = originalText;
+
+            if (worstCaseWidth <= 0.0001f) return null;
+
+            float tag5WorldWidth = skin.locationTag5.bounds.size.x * nameTag.transform.lossyScale.x;
+            float targetWidth = tag5WorldWidth * NameTagFitWidthRatio;
+            return Mathf.Clamp(targetWidth / worstCaseWidth, LabelMinScaleMultiplier, LabelMaxScaleMultiplier);
         }
 
         public void SetSiteState(LocationSiteState state)

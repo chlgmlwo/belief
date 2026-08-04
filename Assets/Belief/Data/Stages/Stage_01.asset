@@ -43,13 +43,24 @@ MonoBehaviour:
   cityBackground: {fileID: 21300000, guid: 85f49746a9df90b40ba2679700d5a0fd, type: 3}
   locationLayout:
   - location: {fileID: 11400000, guid: 0f1e4801687d47ea97b53024ca1fe1ed, type: 2}
-    position: {x: -4.3, y: 2}
+    position: {x: -2.436439, y: 0.072686434}
   - location: {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
-    position: {x: 4.1, y: 2.1}
+    position: {x: 2.0558228, y: 3.1732607}
   - location: {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
-    position: {x: -3.4, y: -1.2}
+    position: {x: 0.99782956, y: -1.7307723}
   - location: {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
-    position: {x: 3.8, y: -1.3}
+    position: {x: 3.9430265, y: 0.9164619}
+  npcLayout:
+  - npc: {fileID: 11400000, guid: 4677f620c23745329d98e141b738510f, type: 2}
+    position: {x: -2.9165423, y: -0.36074603}
+  - npc: {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}
+    position: {x: 0.42674005, y: -2.108355}
+  - npc: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
+    position: {x: 1.4540436, y: 2.9087224}
+  - npc: {fileID: 11400000, guid: ea3287ffc1f349ae8a59b02b23150c98, type: 2}
+    position: {x: 2.6220906, y: 2.822551}
+  - npc: {fileID: 11400000, guid: 57f9b30ac5617b24398c5f2e5273a3b4, type: 2}
+    position: {x: 4.4131446, y: 0.6805322}
   cardPool: {fileID: 11400000, guid: 9fe9e7d462e145afa8f2a19c1f48492f, type: 2}
   missions:
   - {fileID: 11400000, guid: 070bf094d0c790d40b701af73a54a840, type: 2}
