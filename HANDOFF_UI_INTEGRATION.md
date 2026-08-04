@@ -2076,6 +2076,45 @@ Zone01(City 씬) 최초 플레이의 튜토리얼 시작 트리거 역할도 겸
 
 ---
 
+### 3-62. NPC 캐릭터마다 화면에서 보이는 크기가 다르던 문제 — idle 사진 여백 비율 불일치, PPU 재계산으로 정규화 (2026-08-04, 사용자 지시 — "npc캐릭터들 지금 크기가 다른데 크기 다 통일시켜줄래")
+
+`NpcActorView`의 `body.transform.localScale`은 모든 NPC 인스턴스에서 항상 `(1,1,1)`이고, idle 사진의
+`Sprite.bounds.size`도 전부 정확히 `(1,1,0.2)`였다(3-55 당시 캔버스 픽셀 크기와 PPU를 일치시켜
+`500x500→ppu500`, `650x650→ppu650`처럼 정규화해 뒀기 때문) — 즉 **코드/스케일 값 자체는 이미
+16명 전원이 완전히 동일**했다. 그런데도 사용자 눈에는 실제로 크기가 달라 보였다.
+
+**원인**: PPU 정규화가 "캔버스 전체(투명 여백 포함) 크기"만 1유닛으로 맞췄을 뿐, **캔버스 안에서
+실제 캐릭터가 차지하는 비율(위아래 여백)** 은 그림마다 제각각이었다. 픽셀 알파 채널로 각 idle
+사진의 실제 캐릭터 바운딩박스 높이를 측정해보니 캔버스 대비 71%~95%까지 편차가 있었다
+(`세관원` 463/650=71%, `경비대장`/`집사` 475/500·476/500=95% — 최대·최소 사이 약 1.33배 차이).
+캔버스만 정규화하고 그 안의 여백을 안 봤던 것이 원인.
+
+**해결**: 16명 전원의 idle 사진 텍스처를 순회하며(`isReadable` 임시 활성화 → `GetPixels32`로 알파>10인
+픽셀의 y축 최소/최대를 찾아 실제 캐릭터 높이(px) 측정 → `TextureImporter.spritePixelsPerUnit`을
+그 측정값으로 재설정 → 재임포트) **캔버스 전체가 아니라 실제 캐릭터 내용물 높이가 1유닛이 되도록**
+PPU를 다시 계산했다. 코드 변경 없이 텍스처 임포트 설정만 데이터로 수정 - `NpcActorView`가 이미
+`characterPhoto.bounds.size.y`를 기준으로 걷기 프레임 스케일을 맞추는 로직(`ApplyWalkFrame`)을
+갖고 있어 걷기 프레임도 자동으로 새 idle 크기를 따라간다(추가 코드 불필요).
+
+**검증**: Play Mode에서 5명(여관 주인/하급 경비병/상인/경비대장/집사) 동시 배치 후 씬 캡처로
+직접 눈으로 비교 - 모두 비슷한 체감 크기로 보임(수정 전에는 경비대장이 눈에 띄게 커 보였음).
+Console Error/Warning 0. 씬 무수정(텍스처 임포트 설정만 변경).
+
+**알려진 잔여 이슈(범위 밖)**: sprite pivot이 캔버스 중심에 고정돼 있어, 위/아래 여백이 비대칭인
+그림(예: `신관` padTop=59px vs padBottom=9px)은 발 위치가 다른 NPC 대비 최대 ±0.06유닛 정도
+미세하게 떠 보일 수 있다 - 크기 차이보다 훨씬 작아 이번 요청 범위에서는 손대지 않음. 나중에 눈에
+띄면 pivot 재조정으로 후속 처리 가능.
+
+**수정한 파일**: idle 사진 16개 텍스처의 임포트 설정(`spritePixelsPerUnit`)만 변경 —
+`Npc_Major_Bookkeeper.png`, `Npc_Major_CustomsOfficer_Stage2.png`, `Npc_Major_GuardCaptain.png`,
+`Npc_Major_GuildMaster.png`, `Npc_Major_HeadMaid.png`, `Npc_Major_Innkeeper.png`,
+`Npc_Major_KnightCommander.png`, `Npc_Major_LordsWife.png`, `Npc_Major_LowRankGuard.png`,
+`Npc_Major_Maid.png`, `Npc_Major_MerchantHead.png`, `Npc_Major_Priest.png`,
+`Npc_Major_RivalNoblewoman.png`, `Npc_Major_Steward.png`, `Npc_Minor_SmallMerchant.png`,
+`Npc_Minor_Smuggler_Stage2.png`. 코드/씬 무수정.
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```
