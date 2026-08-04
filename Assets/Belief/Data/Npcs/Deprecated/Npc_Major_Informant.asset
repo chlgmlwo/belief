@@ -13,24 +13,47 @@ MonoBehaviour:
   m_Name: Npc_Major_Informant
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MajorNpcData
   npcId: npc_major_informant
-  displayName: "정보원"
+  displayName: "\uC815\uBCF4\uC6D0"
   homeLocation: {fileID: 11400000, guid: d9df1ab9864b415f8c8cdfef418992d2, type: 2}
+  gender: 
+  job: 
+  affiliation: 
+  gameplayRoleSummary: 
+  aiNotes: []
+  judgmentTendencyTag: 
+  priorityTag: 
+  sensitiveInfoTag: 
+  relationTendencyTag: 
+  trustJudgmentTag: 
   trustBias: 0.35
   skepticism: 0.65
-  goal: "루아젠 첩보부의 임무를 완수하고, 플레이어와의 신뢰를 지킨다."
+  characterPhoto: {fileID: 0}
+  walkFrames: []
+  goal: "\uB8E8\uC544\uC820 \uCCA9\uBCF4\uBD80\uC758 \uC784\uBB34\uB97C \uC644\uC218\uD558\uACE0,
+    \uD50C\uB808\uC774\uC5B4\uC640\uC758 \uC2E0\uB8B0\uB97C \uC9C0\uD0A8\uB2E4."
   loyalty: 0.15
   relationships:
   - other: {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}
     type: {fileID: 0}
     strength: 0.2
+    relationshipTypeLabel: 
+    relationshipDescription: 
   - other: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
     type: {fileID: 0}
     strength: -0.5
+    relationshipTypeLabel: 
+    relationshipDescription: 
   - other: {fileID: 11400000, guid: 4677f620c23745329d98e141b738510f, type: 2}
     type: {fileID: 0}
     strength: -0.5
+    relationshipTypeLabel: 
+    relationshipDescription: 
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
   - {fileID: 11400000, guid: bcdb4f54f283ba04ea0cad5c9bce062e, type: 2}
   - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}
+  beliefDialogues: []
+  movementCandidates: []
+  preferredLocations: []
+  avoidedLocations: []

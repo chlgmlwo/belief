@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 8e9c2ceb6ba6ad849bbc3ed343cfb46d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6782371290567556818
+    second: Npc_Major_GuardCaptain_Walk_0
+  - first:
+      213: 6318862033215777041
+    second: Npc_Major_GuardCaptain_Walk_1
+  - first:
+      213: 4117027890418818077
+    second: Npc_Major_GuardCaptain_Walk_2
+  - first:
+      213: 1247871928477866227
+    second: Npc_Major_GuardCaptain_Walk_3
+  - first:
+      213: 5000504806601470135
+    second: Npc_Major_GuardCaptain_Walk_4
+  - first:
+      213: 1200098103054019881
+    second: Npc_Major_GuardCaptain_Walk_5
+  - first:
+      213: 8924822626122610725
+    second: Npc_Major_GuardCaptain_Walk_6
+  - first:
+      213: 5036846065435589064
+    second: Npc_Major_GuardCaptain_Walk_7
+  - first:
+      213: 2164505353487313148
+    second: Npc_Major_GuardCaptain_Walk_8
+  - first:
+      213: 4470802638619690595
+    second: Npc_Major_GuardCaptain_Walk_9
+  - first:
+      213: -1326680529962484457
+    second: Npc_Major_GuardCaptain_Walk_10
+  - first:
+      213: 7457678983519614860
+    second: Npc_Major_GuardCaptain_Walk_11
+  - first:
+      213: 5788930709707313740
+    second: Npc_Major_GuardCaptain_Walk_12
+  - first:
+      213: 5778669102785527727
+    second: Npc_Major_GuardCaptain_Walk_13
+  - first:
+      213: -380801676003881195
+    second: Npc_Major_GuardCaptain_Walk_14
+  - first:
+      213: 5534356929912792688
+    second: Npc_Major_GuardCaptain_Walk_15
+  - first:
+      213: -6861843548868221860
+    second: Npc_Major_GuardCaptain_Walk_16
+  - first:
+      213: -7852528967503995922
+    second: Npc_Major_GuardCaptain_Walk_17
+  - first:
+      213: 1883238760213974188
+    second: Npc_Major_GuardCaptain_Walk_18
+  - first:
+      213: -3236282338872485611
+    second: Npc_Major_GuardCaptain_Walk_19
+  - first:
+      213: 1678985067154120955
+    second: Npc_Major_GuardCaptain_Walk_20
+  - first:
+      213: -3012882768062735289
+    second: Npc_Major_GuardCaptain_Walk_21
+  - first:
+      213: 8624277931786257894
+    second: Npc_Major_GuardCaptain_Walk_22
+  - first:
+      213: -480932220565733944
+    second: Npc_Major_GuardCaptain_Walk_23
+  - first:
+      213: -6726431990318113549
+    second: Npc_Major_GuardCaptain_Walk_24
+  - first:
+      213: 8856286642900404793
+    second: Npc_Major_GuardCaptain_Walk_25
+  - first:
+      213: 2564527725532021083
+    second: Npc_Major_GuardCaptain_Walk_26
+  - first:
+      213: -3992014485041932071
+    second: Npc_Major_GuardCaptain_Walk_27
+  - first:
+      213: 4098128523853231166
+    second: Npc_Major_GuardCaptain_Walk_28
+  - first:
+      213: -5025890626830761631
+    second: Npc_Major_GuardCaptain_Walk_29
+  - first:
+      213: 8498260110728000416
+    second: Npc_Major_GuardCaptain_Walk_30
+  - first:
+      213: -5113452016929591557
+    second: Npc_Major_GuardCaptain_Walk_31
+  - first:
+      213: 8804574519552049366
+    second: Npc_Major_GuardCaptain_Walk_32
+  - first:
+      213: -343636616538603699
+    second: Npc_Major_GuardCaptain_Walk_33
+  - first:
+      213: -2496804958998732288
+    second: Npc_Major_GuardCaptain_Walk_34
+  - first:
+      213: -5759458433795142800
+    second: Npc_Major_GuardCaptain_Walk_35
+  - first:
+      213: -2037173712825601193
+    second: Npc_Major_GuardCaptain_Walk_00
+  - first:
+      213: 5159349120487344241
+    second: Npc_Major_GuardCaptain_Walk_01
+  - first:
+      213: -9159823242784079337
+    second: Npc_Major_GuardCaptain_Walk_02
+  - first:
+      213: -9065631524638409655
+    second: Npc_Major_GuardCaptain_Walk_03
+  - first:
+      213: -401487382403381296
+    second: Npc_Major_GuardCaptain_Walk_04
+  - first:
+      213: 2483755871669414482
+    second: Npc_Major_GuardCaptain_Walk_05
+  - first:
+      213: -7243573091267907988
+    second: Npc_Major_GuardCaptain_Walk_06
+  - first:
+      213: -2816032753861091462
+    second: Npc_Major_GuardCaptain_Walk_07
+  - first:
+      213: -8486370292234691670
+    second: Npc_Major_GuardCaptain_Walk_08
+  - first:
+      213: 1831230745266310459
+    second: Npc_Major_GuardCaptain_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 562
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75334453d418ab3e0800000000000000
+      internalID: -2037173712825601193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 562
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1784fde80b0b99740800000000000000
+      internalID: 5159349120487344241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 562
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7120d70aa45c1e080800000000000000
+      internalID: -9159823242784079337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 563
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94c385df828603280800000000000000
+      internalID: -9065631524638409655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 562
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d78b065a51ad6af0800000000000000
+      internalID: -401487382403381296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1049
+        y: 562
+        width: 63
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25a65a74ec2187220800000000000000
+      internalID: 2483755871669414482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 451
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6ee56ec6a8a97b90800000000000000
+      internalID: -7243573091267907988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 451
+        width: 66
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7f9e3e51217be8d0800000000000000
+      internalID: -2816032753861091462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 452
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aab5ce29e2b5a3a80800000000000000
+      internalID: -8486370292234691670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 658
+        y: 451
+        width: 65
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3d4f5919a6d96910800000000000000
+      internalID: 1831230745266310459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 450
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71db829461fa69de0800000000000000
+      internalID: -1326680529962484457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 1054
+        y: 450
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c873595e58ffe7760800000000000000
+      internalID: 7457678983519614860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 339
+        width: 65
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4254753fc9665050800000000000000
+      internalID: 5788930709707313740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 340
+        width: 64
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faf7e0aaee4f13050800000000000000
+      internalID: 5778669102785527727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 340
+        width: 64
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51f4aeba4ee17baf0800000000000000
+      internalID: -380801676003881195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 340
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0766ca33e4cfdcc40800000000000000
+      internalID: 5534356929912792688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 339
+        width: 63
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c54676dd5a5d5c0a0800000000000000
+      internalID: -6861843548868221860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 340
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eeb957f2286360390800000000000000
+      internalID: -7852528967503995922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 230
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cac0dc1bcab922a10800000000000000
+      internalID: 1883238760213974188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 230
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51992aefb5a6613d0800000000000000
+      internalID: -3236282338872485611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 461
+        y: 228
+        width: 65
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf028eed504fc4710800000000000000
+      internalID: 1678985067154120955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 227
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74c99bbd5171036d0800000000000000
+      internalID: -3012882768062735289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 228
+        width: 65
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e54c58e5179fa770800000000000000
+      internalID: 8624277931786257894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 1052
+        y: 228
+        width: 65
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cdb32881b26359f0800000000000000
+      internalID: -480932220565733944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 118
+        width: 65
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fcd3433eb9e6a2a0800000000000000
+      internalID: -6726431990318113549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 118
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93a8d1377c9d7ea70800000000000000
+      internalID: 8856286642900404793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 457
+        y: 118
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b510af00168079320800000000000000
+      internalID: 2564527725532021083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 117
+        width: 63
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d89cd8f9f38998c0800000000000000
+      internalID: -3992014485041932071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 118
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e34fa2cfd2a7fd830800000000000000
+      internalID: 4098128523853231166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 118
+        width: 65
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16189cb6a13704ab0800000000000000
+      internalID: -5025890626830761631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 8
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a370d48b82efe570800000000000000
+      internalID: 8498260110728000416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 7
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfe28ea9b7e5909b0800000000000000
+      internalID: -5113452016929591557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 6
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d00b5c70e1203a70800000000000000
+      internalID: 8804574519552049366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 6
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4f366361582b3bf0800000000000000
+      internalID: -343636616538603699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 6
+        width: 64
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00262715e11995dd0800000000000000
+      internalID: -2496804958998732288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuardCaptain_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 1052
+        y: 7
+        width: 64
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07b4303c11b4210b0800000000000000
+      internalID: -5759458433795142800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_GuardCaptain_Walk_0: 6782371290567556818
+      Npc_Major_GuardCaptain_Walk_00: -2037173712825601193
+      Npc_Major_GuardCaptain_Walk_01: 5159349120487344241
+      Npc_Major_GuardCaptain_Walk_02: -9159823242784079337
+      Npc_Major_GuardCaptain_Walk_03: -9065631524638409655
+      Npc_Major_GuardCaptain_Walk_04: -401487382403381296
+      Npc_Major_GuardCaptain_Walk_05: 2483755871669414482
+      Npc_Major_GuardCaptain_Walk_06: -7243573091267907988
+      Npc_Major_GuardCaptain_Walk_07: -2816032753861091462
+      Npc_Major_GuardCaptain_Walk_08: -8486370292234691670
+      Npc_Major_GuardCaptain_Walk_09: 1831230745266310459
+      Npc_Major_GuardCaptain_Walk_1: 6318862033215777041
+      Npc_Major_GuardCaptain_Walk_10: -1326680529962484457
+      Npc_Major_GuardCaptain_Walk_11: 7457678983519614860
+      Npc_Major_GuardCaptain_Walk_12: 5788930709707313740
+      Npc_Major_GuardCaptain_Walk_13: 5778669102785527727
+      Npc_Major_GuardCaptain_Walk_14: -380801676003881195
+      Npc_Major_GuardCaptain_Walk_15: 5534356929912792688
+      Npc_Major_GuardCaptain_Walk_16: -6861843548868221860
+      Npc_Major_GuardCaptain_Walk_17: -7852528967503995922
+      Npc_Major_GuardCaptain_Walk_18: 1883238760213974188
+      Npc_Major_GuardCaptain_Walk_19: -3236282338872485611
+      Npc_Major_GuardCaptain_Walk_2: 4117027890418818077
+      Npc_Major_GuardCaptain_Walk_20: 1678985067154120955
+      Npc_Major_GuardCaptain_Walk_21: -3012882768062735289
+      Npc_Major_GuardCaptain_Walk_22: 8624277931786257894
+      Npc_Major_GuardCaptain_Walk_23: -480932220565733944
+      Npc_Major_GuardCaptain_Walk_24: -6726431990318113549
+      Npc_Major_GuardCaptain_Walk_25: 8856286642900404793
+      Npc_Major_GuardCaptain_Walk_26: 2564527725532021083
+      Npc_Major_GuardCaptain_Walk_27: -3992014485041932071
+      Npc_Major_GuardCaptain_Walk_28: 4098128523853231166
+      Npc_Major_GuardCaptain_Walk_29: -5025890626830761631
+      Npc_Major_GuardCaptain_Walk_3: 1247871928477866227
+      Npc_Major_GuardCaptain_Walk_30: 8498260110728000416
+      Npc_Major_GuardCaptain_Walk_31: -5113452016929591557
+      Npc_Major_GuardCaptain_Walk_32: 8804574519552049366
+      Npc_Major_GuardCaptain_Walk_33: -343636616538603699
+      Npc_Major_GuardCaptain_Walk_34: -2496804958998732288
+      Npc_Major_GuardCaptain_Walk_35: -5759458433795142800
+      Npc_Major_GuardCaptain_Walk_4: 5000504806601470135
+      Npc_Major_GuardCaptain_Walk_5: 1200098103054019881
+      Npc_Major_GuardCaptain_Walk_6: 8924822626122610725
+      Npc_Major_GuardCaptain_Walk_7: 5036846065435589064
+      Npc_Major_GuardCaptain_Walk_8: 2164505353487313148
+      Npc_Major_GuardCaptain_Walk_9: 4470802638619690595
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

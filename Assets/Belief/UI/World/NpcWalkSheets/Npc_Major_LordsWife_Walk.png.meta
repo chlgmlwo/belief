@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 799516f60fc030d469d5a2509c8b5cc4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2559883897865378530
+    second: Npc_Major_LordsWife_Walk_0
+  - first:
+      213: 4215832872086216634
+    second: Npc_Major_LordsWife_Walk_1
+  - first:
+      213: -4920651547376433246
+    second: Npc_Major_LordsWife_Walk_2
+  - first:
+      213: -5887975798548925901
+    second: Npc_Major_LordsWife_Walk_3
+  - first:
+      213: 2925071186495502736
+    second: Npc_Major_LordsWife_Walk_4
+  - first:
+      213: 7974394158288317665
+    second: Npc_Major_LordsWife_Walk_5
+  - first:
+      213: 5408124729541308987
+    second: Npc_Major_LordsWife_Walk_6
+  - first:
+      213: -3939947382540393475
+    second: Npc_Major_LordsWife_Walk_7
+  - first:
+      213: 4243523535365201984
+    second: Npc_Major_LordsWife_Walk_8
+  - first:
+      213: 323346446782720709
+    second: Npc_Major_LordsWife_Walk_9
+  - first:
+      213: 5687178387733922203
+    second: Npc_Major_LordsWife_Walk_10
+  - first:
+      213: 482941159140096785
+    second: Npc_Major_LordsWife_Walk_11
+  - first:
+      213: -4174726217197427607
+    second: Npc_Major_LordsWife_Walk_12
+  - first:
+      213: -856928857381314327
+    second: Npc_Major_LordsWife_Walk_13
+  - first:
+      213: -4570854604178293755
+    second: Npc_Major_LordsWife_Walk_14
+  - first:
+      213: 4706702018471698801
+    second: Npc_Major_LordsWife_Walk_15
+  - first:
+      213: 4386195109731928762
+    second: Npc_Major_LordsWife_Walk_16
+  - first:
+      213: -6185339474415779182
+    second: Npc_Major_LordsWife_Walk_17
+  - first:
+      213: 3872441176435948006
+    second: Npc_Major_LordsWife_Walk_18
+  - first:
+      213: -2298137644519424186
+    second: Npc_Major_LordsWife_Walk_19
+  - first:
+      213: -6898893721435599794
+    second: Npc_Major_LordsWife_Walk_20
+  - first:
+      213: 4800702925427495726
+    second: Npc_Major_LordsWife_Walk_21
+  - first:
+      213: 1238518237030419987
+    second: Npc_Major_LordsWife_Walk_22
+  - first:
+      213: -2773732721813467392
+    second: Npc_Major_LordsWife_Walk_23
+  - first:
+      213: -2516685239837293250
+    second: Npc_Major_LordsWife_Walk_24
+  - first:
+      213: -2809033505881783068
+    second: Npc_Major_LordsWife_Walk_25
+  - first:
+      213: -8890308451385693485
+    second: Npc_Major_LordsWife_Walk_26
+  - first:
+      213: 899972106366958046
+    second: Npc_Major_LordsWife_Walk_27
+  - first:
+      213: -8759180329565772778
+    second: Npc_Major_LordsWife_Walk_28
+  - first:
+      213: 7733150947402057361
+    second: Npc_Major_LordsWife_Walk_29
+  - first:
+      213: -4273832017027577525
+    second: Npc_Major_LordsWife_Walk_30
+  - first:
+      213: 3296545974859082381
+    second: Npc_Major_LordsWife_Walk_31
+  - first:
+      213: -8196660109111247762
+    second: Npc_Major_LordsWife_Walk_32
+  - first:
+      213: -5220586302385012040
+    second: Npc_Major_LordsWife_Walk_33
+  - first:
+      213: 2673554777503629511
+    second: Npc_Major_LordsWife_Walk_34
+  - first:
+      213: -908395813110033588
+    second: Npc_Major_LordsWife_Walk_35
+  - first:
+      213: 2669200814087986169
+    second: Npc_Major_LordsWife_Walk_00
+  - first:
+      213: 4964847013085112993
+    second: Npc_Major_LordsWife_Walk_01
+  - first:
+      213: -5878472954002368885
+    second: Npc_Major_LordsWife_Walk_02
+  - first:
+      213: -9089319592554043205
+    second: Npc_Major_LordsWife_Walk_03
+  - first:
+      213: -1286935634305884677
+    second: Npc_Major_LordsWife_Walk_04
+  - first:
+      213: -2692628836643984716
+    second: Npc_Major_LordsWife_Walk_05
+  - first:
+      213: 957782609334958322
+    second: Npc_Major_LordsWife_Walk_06
+  - first:
+      213: 5305935792678051090
+    second: Npc_Major_LordsWife_Walk_07
+  - first:
+      213: -2529010983968320627
+    second: Npc_Major_LordsWife_Walk_08
+  - first:
+      213: 1261191470104184790
+    second: Npc_Major_LordsWife_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 503
+        width: 64
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fbd5e59ff7ea0520800000000000000
+      internalID: 2669200814087986169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 503
+        width: 63
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1aae813bd0ea6e440800000000000000
+      internalID: 4964847013085112993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 503
+        width: 63
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8692fa6ef77b6ea0800000000000000
+      internalID: -5878472954002368885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 502
+        width: 63
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb861d3ecff3cd180800000000000000
+      internalID: -9089319592554043205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 502
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfdd76cebd2e32ee0800000000000000
+      internalID: -1286935634305884677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 502
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4baacd7d65cd1aad0800000000000000
+      internalID: -2692628836643984716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 402
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f8f479653aba4d00800000000000000
+      internalID: 957782609334958322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 402
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21d1b9bcd7872a940800000000000000
+      internalID: 5305935792678051090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 402
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d83d18bc8e527ecd0800000000000000
+      internalID: -2529010983968320627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 402
+        width: 64
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d70051c5f6a08110800000000000000
+      internalID: 1261191470104184790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 402
+        width: 63
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b91c8279c9aecee40800000000000000
+      internalID: 5687178387733922203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 402
+        width: 63
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11bf5fdec60c3b600800000000000000
+      internalID: 482941159140096785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 302
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 964ef65cf946016c0800000000000000
+      internalID: -4174726217197427607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 302
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e061029eb39b14f0800000000000000
+      internalID: -856928857381314327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 302
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50c7ef574ff0190c0800000000000000
+      internalID: -4570854604178293755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 302
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 171ae927c80915140800000000000000
+      internalID: 4706702018471698801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 302
+        width: 64
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aba80279635eedc30800000000000000
+      internalID: 4386195109731928762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 301
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2920f34f482492aa0800000000000000
+      internalID: -6185339474415779182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 201
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e97f0f9bbcadb530800000000000000
+      internalID: 3872441176435948006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 201
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64f77750dff5b10e0800000000000000
+      internalID: -2298137644519424186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 201
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4c88a656b43240a0800000000000000
+      internalID: -6898893721435599794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 201
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e23d84e10e58f9240800000000000000
+      internalID: 4800702925427495726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 201
+        width: 65
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31e8a0e46c9103110800000000000000
+      internalID: 1238518237030419987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 201
+        width: 65
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00f4e6e09c8b189d0800000000000000
+      internalID: -2773732721813467392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 101
+        width: 65
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e35870cbb10f21dd0800000000000000
+      internalID: -2516685239837293250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 101
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e40fb7c8ee4409d0800000000000000
+      internalID: -2809033505881783068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 101
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3daa08bf0974f9480800000000000000
+      internalID: -8890308451385693485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 101
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed933cbccd75d7c00800000000000000
+      internalID: 899972106366958046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 102
+        width: 63
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 614a4acf5e3217680800000000000000
+      internalID: -8759180329565772778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 102
+        width: 63
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 196006e80dba15b60800000000000000
+      internalID: 7733150947402057361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 1
+        width: 63
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b49416b9c6c40b4c0800000000000000
+      internalID: -4273832017027577525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 1
+        width: 63
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8a2839291fafbd20800000000000000
+      internalID: 3296545974859082381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 1
+        width: 63
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6c3fcbfe0d9f3e80800000000000000
+      internalID: -8196660109111247762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 1
+        width: 63
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b24217fa60cc87b0800000000000000
+      internalID: -5220586302385012040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 1
+        width: 63
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c007a0b7ef5a1520800000000000000
+      internalID: 2673554777503629511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LordsWife_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 1
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c43df1422dab463f0800000000000000
+      internalID: -908395813110033588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_LordsWife_Walk_0: -2559883897865378530
+      Npc_Major_LordsWife_Walk_00: 2669200814087986169
+      Npc_Major_LordsWife_Walk_01: 4964847013085112993
+      Npc_Major_LordsWife_Walk_02: -5878472954002368885
+      Npc_Major_LordsWife_Walk_03: -9089319592554043205
+      Npc_Major_LordsWife_Walk_04: -1286935634305884677
+      Npc_Major_LordsWife_Walk_05: -2692628836643984716
+      Npc_Major_LordsWife_Walk_06: 957782609334958322
+      Npc_Major_LordsWife_Walk_07: 5305935792678051090
+      Npc_Major_LordsWife_Walk_08: -2529010983968320627
+      Npc_Major_LordsWife_Walk_09: 1261191470104184790
+      Npc_Major_LordsWife_Walk_1: 4215832872086216634
+      Npc_Major_LordsWife_Walk_10: 5687178387733922203
+      Npc_Major_LordsWife_Walk_11: 482941159140096785
+      Npc_Major_LordsWife_Walk_12: -4174726217197427607
+      Npc_Major_LordsWife_Walk_13: -856928857381314327
+      Npc_Major_LordsWife_Walk_14: -4570854604178293755
+      Npc_Major_LordsWife_Walk_15: 4706702018471698801
+      Npc_Major_LordsWife_Walk_16: 4386195109731928762
+      Npc_Major_LordsWife_Walk_17: -6185339474415779182
+      Npc_Major_LordsWife_Walk_18: 3872441176435948006
+      Npc_Major_LordsWife_Walk_19: -2298137644519424186
+      Npc_Major_LordsWife_Walk_2: -4920651547376433246
+      Npc_Major_LordsWife_Walk_20: -6898893721435599794
+      Npc_Major_LordsWife_Walk_21: 4800702925427495726
+      Npc_Major_LordsWife_Walk_22: 1238518237030419987
+      Npc_Major_LordsWife_Walk_23: -2773732721813467392
+      Npc_Major_LordsWife_Walk_24: -2516685239837293250
+      Npc_Major_LordsWife_Walk_25: -2809033505881783068
+      Npc_Major_LordsWife_Walk_26: -8890308451385693485
+      Npc_Major_LordsWife_Walk_27: 899972106366958046
+      Npc_Major_LordsWife_Walk_28: -8759180329565772778
+      Npc_Major_LordsWife_Walk_29: 7733150947402057361
+      Npc_Major_LordsWife_Walk_3: -5887975798548925901
+      Npc_Major_LordsWife_Walk_30: -4273832017027577525
+      Npc_Major_LordsWife_Walk_31: 3296545974859082381
+      Npc_Major_LordsWife_Walk_32: -8196660109111247762
+      Npc_Major_LordsWife_Walk_33: -5220586302385012040
+      Npc_Major_LordsWife_Walk_34: 2673554777503629511
+      Npc_Major_LordsWife_Walk_35: -908395813110033588
+      Npc_Major_LordsWife_Walk_4: 2925071186495502736
+      Npc_Major_LordsWife_Walk_5: 7974394158288317665
+      Npc_Major_LordsWife_Walk_6: 5408124729541308987
+      Npc_Major_LordsWife_Walk_7: -3939947382540393475
+      Npc_Major_LordsWife_Walk_8: 4243523535365201984
+      Npc_Major_LordsWife_Walk_9: 323346446782720709
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: a40537870728949469e61c14ddb3fdac
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2774279795577671421
+    second: Npc_Major_Bookkeeper_Walk_0
+  - first:
+      213: 5558318510115246835
+    second: Npc_Major_Bookkeeper_Walk_1
+  - first:
+      213: -7652494512533625072
+    second: Npc_Major_Bookkeeper_Walk_2
+  - first:
+      213: -6729878971105641239
+    second: Npc_Major_Bookkeeper_Walk_3
+  - first:
+      213: -7449633450360987741
+    second: Npc_Major_Bookkeeper_Walk_4
+  - first:
+      213: -6759794653903983595
+    second: Npc_Major_Bookkeeper_Walk_5
+  - first:
+      213: -351709160823665502
+    second: Npc_Major_Bookkeeper_Walk_6
+  - first:
+      213: -4025228992690721770
+    second: Npc_Major_Bookkeeper_Walk_7
+  - first:
+      213: -7757158146493356397
+    second: Npc_Major_Bookkeeper_Walk_8
+  - first:
+      213: 7925321205917025183
+    second: Npc_Major_Bookkeeper_Walk_9
+  - first:
+      213: 5711132801157386069
+    second: Npc_Major_Bookkeeper_Walk_10
+  - first:
+      213: -2156424313340622234
+    second: Npc_Major_Bookkeeper_Walk_11
+  - first:
+      213: -3193416050281967893
+    second: Npc_Major_Bookkeeper_Walk_12
+  - first:
+      213: 7335656493624527817
+    second: Npc_Major_Bookkeeper_Walk_13
+  - first:
+      213: -5004864790013820711
+    second: Npc_Major_Bookkeeper_Walk_14
+  - first:
+      213: -4903371682778426801
+    second: Npc_Major_Bookkeeper_Walk_15
+  - first:
+      213: 4259965310113883237
+    second: Npc_Major_Bookkeeper_Walk_16
+  - first:
+      213: 1997912348389830236
+    second: Npc_Major_Bookkeeper_Walk_17
+  - first:
+      213: -2828183078969800097
+    second: Npc_Major_Bookkeeper_Walk_18
+  - first:
+      213: -4614755555007690021
+    second: Npc_Major_Bookkeeper_Walk_19
+  - first:
+      213: -3108790944553593168
+    second: Npc_Major_Bookkeeper_Walk_20
+  - first:
+      213: 7366016778067497937
+    second: Npc_Major_Bookkeeper_Walk_21
+  - first:
+      213: -6724270668733672148
+    second: Npc_Major_Bookkeeper_Walk_22
+  - first:
+      213: -1088417666246761726
+    second: Npc_Major_Bookkeeper_Walk_23
+  - first:
+      213: -6609025097140252970
+    second: Npc_Major_Bookkeeper_Walk_24
+  - first:
+      213: 2280226146654462821
+    second: Npc_Major_Bookkeeper_Walk_25
+  - first:
+      213: 5736188768507933856
+    second: Npc_Major_Bookkeeper_Walk_26
+  - first:
+      213: -839279396343884290
+    second: Npc_Major_Bookkeeper_Walk_27
+  - first:
+      213: -4587896360148925704
+    second: Npc_Major_Bookkeeper_Walk_28
+  - first:
+      213: 8070895418145862896
+    second: Npc_Major_Bookkeeper_Walk_29
+  - first:
+      213: -4620154454323822
+    second: Npc_Major_Bookkeeper_Walk_30
+  - first:
+      213: 8647005880392052918
+    second: Npc_Major_Bookkeeper_Walk_31
+  - first:
+      213: -8402165940305411661
+    second: Npc_Major_Bookkeeper_Walk_32
+  - first:
+      213: 9064718102296518623
+    second: Npc_Major_Bookkeeper_Walk_33
+  - first:
+      213: 1356061937146097763
+    second: Npc_Major_Bookkeeper_Walk_34
+  - first:
+      213: 3845202108134614010
+    second: Npc_Major_Bookkeeper_Walk_35
+  - first:
+      213: 5207117682394912865
+    second: Npc_Major_Bookkeeper_Walk_00
+  - first:
+      213: 4725005464222758264
+    second: Npc_Major_Bookkeeper_Walk_01
+  - first:
+      213: -8022946568210931145
+    second: Npc_Major_Bookkeeper_Walk_02
+  - first:
+      213: -2939761520031118238
+    second: Npc_Major_Bookkeeper_Walk_03
+  - first:
+      213: 474964455079297595
+    second: Npc_Major_Bookkeeper_Walk_04
+  - first:
+      213: -7855258118750608422
+    second: Npc_Major_Bookkeeper_Walk_05
+  - first:
+      213: 153377543368169566
+    second: Npc_Major_Bookkeeper_Walk_06
+  - first:
+      213: -5882299190045113846
+    second: Npc_Major_Bookkeeper_Walk_07
+  - first:
+      213: 7482074783947706780
+    second: Npc_Major_Bookkeeper_Walk_08
+  - first:
+      213: -6812500157282206883
+    second: Npc_Major_Bookkeeper_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 510
+        width: 64
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 168ddc291f5634840800000000000000
+      internalID: 5207117682394912865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 510
+        width: 64
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 875f6c08f67929140800000000000000
+      internalID: 4725005464222758264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 509
+        width: 64
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73229d58a94c8a090800000000000000
+      internalID: -8022946568210931145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 509
+        width: 64
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26cce2a197ed337d0800000000000000
+      internalID: -2939761520031118238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 509
+        width: 65
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3240f9c7a9679600800000000000000
+      internalID: 474964455079297595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 962
+        y: 509
+        width: 66
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad3edd42c548cf290800000000000000
+      internalID: -7855258118750608422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 408
+        width: 67
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e585bf42018e02200800000000000000
+      internalID: 153377543368169566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 408
+        width: 68
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a020bca6d00ed5ea0800000000000000
+      internalID: -5882299190045113846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 408
+        width: 69
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c915c10df5ba5d760800000000000000
+      internalID: 7482074783947706780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 407
+        width: 68
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5bb6ec73332571a0800000000000000
+      internalID: -6812500157282206883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 407
+        width: 66
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55f41161605024f40800000000000000
+      internalID: 5711132801157386069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 962
+        y: 407
+        width: 63
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66a01522387d212e0800000000000000
+      internalID: -2156424313340622234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 306
+        width: 57
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bee89ee8505bea3d0800000000000000
+      internalID: -3193416050281967893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 306
+        width: 53
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cb07c807bc7dc560800000000000000
+      internalID: 7335656493624527817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 306
+        width: 49
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d0cd5a8df52b8ab0800000000000000
+      internalID: -5004864790013820711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 306
+        width: 49
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4258460f69b3fbb0800000000000000
+      internalID: -4903371682778426801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 306
+        width: 48
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56423d811ef6e1b30800000000000000
+      internalID: 4259965310113883237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 966
+        y: 306
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5e642a02b20abb10800000000000000
+      internalID: 1997912348389830236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 204
+        width: 53
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5a0c3a597640c8d0800000000000000
+      internalID: -2828183078969800097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 204
+        width: 57
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bda8182d54815ffb0800000000000000
+      internalID: -4614755555007690021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 204
+        width: 61
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b69ee46b1b5bd4d0800000000000000
+      internalID: -3108790944553593168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 204
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d3d74a9b39593660800000000000000
+      internalID: 7366016778067497937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 204
+        width: 66
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c251d8814779ea2a0800000000000000
+      internalID: -6724270668733672148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 204
+        width: 66
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2032a1436e925e0f0800000000000000
+      internalID: -1088417666246761726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 102
+        width: 64
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6de4055b0b60844a0800000000000000
+      internalID: -6609025097140252970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 102
+        width: 60
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 563a5e6699df4af10800000000000000
+      internalID: 2280226146654462821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 103
+        width: 55
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a430871b490b9f40800000000000000
+      internalID: 5736188768507933856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 103
+        width: 51
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef55e91f5d74a54f0800000000000000
+      internalID: -839279396343884290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 103
+        width: 48
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f2040371948450c0800000000000000
+      internalID: -4587896360148925704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 967
+        y: 103
+        width: 48
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f479e11f94910070800000000000000
+      internalID: 8070895418145862896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 1
+        width: 48
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29d41f67ef59feff0800000000000000
+      internalID: -4620154454323822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 1
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b07b7fc806500870800000000000000
+      internalID: 8647005880392052918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 1
+        width: 53
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b1c5380892856b80800000000000000
+      internalID: -8402165940305411661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 1
+        width: 57
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdfdf6c46195ccd70800000000000000
+      internalID: 9064718102296518623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 1
+        width: 61
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3607509a523b1d210800000000000000
+      internalID: 1356061937146097763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Bookkeeper_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 1
+        width: 65
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af362f0d1f6ec5530800000000000000
+      internalID: 3845202108134614010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_Bookkeeper_Walk_0: 2774279795577671421
+      Npc_Major_Bookkeeper_Walk_00: 5207117682394912865
+      Npc_Major_Bookkeeper_Walk_01: 4725005464222758264
+      Npc_Major_Bookkeeper_Walk_02: -8022946568210931145
+      Npc_Major_Bookkeeper_Walk_03: -2939761520031118238
+      Npc_Major_Bookkeeper_Walk_04: 474964455079297595
+      Npc_Major_Bookkeeper_Walk_05: -7855258118750608422
+      Npc_Major_Bookkeeper_Walk_06: 153377543368169566
+      Npc_Major_Bookkeeper_Walk_07: -5882299190045113846
+      Npc_Major_Bookkeeper_Walk_08: 7482074783947706780
+      Npc_Major_Bookkeeper_Walk_09: -6812500157282206883
+      Npc_Major_Bookkeeper_Walk_1: 5558318510115246835
+      Npc_Major_Bookkeeper_Walk_10: 5711132801157386069
+      Npc_Major_Bookkeeper_Walk_11: -2156424313340622234
+      Npc_Major_Bookkeeper_Walk_12: -3193416050281967893
+      Npc_Major_Bookkeeper_Walk_13: 7335656493624527817
+      Npc_Major_Bookkeeper_Walk_14: -5004864790013820711
+      Npc_Major_Bookkeeper_Walk_15: -4903371682778426801
+      Npc_Major_Bookkeeper_Walk_16: 4259965310113883237
+      Npc_Major_Bookkeeper_Walk_17: 1997912348389830236
+      Npc_Major_Bookkeeper_Walk_18: -2828183078969800097
+      Npc_Major_Bookkeeper_Walk_19: -4614755555007690021
+      Npc_Major_Bookkeeper_Walk_2: -7652494512533625072
+      Npc_Major_Bookkeeper_Walk_20: -3108790944553593168
+      Npc_Major_Bookkeeper_Walk_21: 7366016778067497937
+      Npc_Major_Bookkeeper_Walk_22: -6724270668733672148
+      Npc_Major_Bookkeeper_Walk_23: -1088417666246761726
+      Npc_Major_Bookkeeper_Walk_24: -6609025097140252970
+      Npc_Major_Bookkeeper_Walk_25: 2280226146654462821
+      Npc_Major_Bookkeeper_Walk_26: 5736188768507933856
+      Npc_Major_Bookkeeper_Walk_27: -839279396343884290
+      Npc_Major_Bookkeeper_Walk_28: -4587896360148925704
+      Npc_Major_Bookkeeper_Walk_29: 8070895418145862896
+      Npc_Major_Bookkeeper_Walk_3: -6729878971105641239
+      Npc_Major_Bookkeeper_Walk_30: -4620154454323822
+      Npc_Major_Bookkeeper_Walk_31: 8647005880392052918
+      Npc_Major_Bookkeeper_Walk_32: -8402165940305411661
+      Npc_Major_Bookkeeper_Walk_33: 9064718102296518623
+      Npc_Major_Bookkeeper_Walk_34: 1356061937146097763
+      Npc_Major_Bookkeeper_Walk_35: 3845202108134614010
+      Npc_Major_Bookkeeper_Walk_4: -7449633450360987741
+      Npc_Major_Bookkeeper_Walk_5: -6759794653903983595
+      Npc_Major_Bookkeeper_Walk_6: -351709160823665502
+      Npc_Major_Bookkeeper_Walk_7: -4025228992690721770
+      Npc_Major_Bookkeeper_Walk_8: -7757158146493356397
+      Npc_Major_Bookkeeper_Walk_9: 7925321205917025183
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

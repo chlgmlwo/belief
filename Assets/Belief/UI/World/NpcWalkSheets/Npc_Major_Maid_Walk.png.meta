@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: ee23215a2c97fd74a9e571ced63e0250
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5337389845703263623
+    second: Npc_Major_Maid_Walk_0
+  - first:
+      213: 5897449604593719864
+    second: Npc_Major_Maid_Walk_1
+  - first:
+      213: 3587567324603127232
+    second: Npc_Major_Maid_Walk_2
+  - first:
+      213: 8133168691330999068
+    second: Npc_Major_Maid_Walk_3
+  - first:
+      213: -523016022582202966
+    second: Npc_Major_Maid_Walk_4
+  - first:
+      213: -4750299605888959499
+    second: Npc_Major_Maid_Walk_5
+  - first:
+      213: -1906559923233879050
+    second: Npc_Major_Maid_Walk_6
+  - first:
+      213: -4467892445599281780
+    second: Npc_Major_Maid_Walk_7
+  - first:
+      213: -9036718340737295497
+    second: Npc_Major_Maid_Walk_8
+  - first:
+      213: 5956555454935905948
+    second: Npc_Major_Maid_Walk_9
+  - first:
+      213: 156796127409938727
+    second: Npc_Major_Maid_Walk_10
+  - first:
+      213: 3288012222398764473
+    second: Npc_Major_Maid_Walk_11
+  - first:
+      213: 3286182219493912369
+    second: Npc_Major_Maid_Walk_12
+  - first:
+      213: -7517396326722373780
+    second: Npc_Major_Maid_Walk_13
+  - first:
+      213: -2135188788361878596
+    second: Npc_Major_Maid_Walk_14
+  - first:
+      213: 373119471376267508
+    second: Npc_Major_Maid_Walk_15
+  - first:
+      213: 6326124958529489299
+    second: Npc_Major_Maid_Walk_16
+  - first:
+      213: 5137031118845581346
+    second: Npc_Major_Maid_Walk_17
+  - first:
+      213: -5024068047809484060
+    second: Npc_Major_Maid_Walk_18
+  - first:
+      213: 7359971882471191572
+    second: Npc_Major_Maid_Walk_19
+  - first:
+      213: 3892987102386370307
+    second: Npc_Major_Maid_Walk_20
+  - first:
+      213: -7223869648828825581
+    second: Npc_Major_Maid_Walk_21
+  - first:
+      213: 1930139588006726088
+    second: Npc_Major_Maid_Walk_22
+  - first:
+      213: -6616925266807022253
+    second: Npc_Major_Maid_Walk_23
+  - first:
+      213: 4712341072374085450
+    second: Npc_Major_Maid_Walk_24
+  - first:
+      213: 2641007031329335808
+    second: Npc_Major_Maid_Walk_25
+  - first:
+      213: 3198680767240731961
+    second: Npc_Major_Maid_Walk_26
+  - first:
+      213: 1414927979104884604
+    second: Npc_Major_Maid_Walk_27
+  - first:
+      213: 3134669142483203503
+    second: Npc_Major_Maid_Walk_28
+  - first:
+      213: -4745604275124473396
+    second: Npc_Major_Maid_Walk_29
+  - first:
+      213: -4945535036019418386
+    second: Npc_Major_Maid_Walk_30
+  - first:
+      213: 7273544483757221648
+    second: Npc_Major_Maid_Walk_31
+  - first:
+      213: 4339662512374890382
+    second: Npc_Major_Maid_Walk_32
+  - first:
+      213: 1711824409991975350
+    second: Npc_Major_Maid_Walk_33
+  - first:
+      213: -5472330215593193211
+    second: Npc_Major_Maid_Walk_34
+  - first:
+      213: 8737762693454379617
+    second: Npc_Major_Maid_Walk_35
+  - first:
+      213: -4269859481881093381
+    second: Npc_Major_Maid_Walk_00
+  - first:
+      213: 327024826205680187
+    second: Npc_Major_Maid_Walk_01
+  - first:
+      213: 292971050349089945
+    second: Npc_Major_Maid_Walk_02
+  - first:
+      213: 1162669330089762479
+    second: Npc_Major_Maid_Walk_03
+  - first:
+      213: -8330878656961113026
+    second: Npc_Major_Maid_Walk_04
+  - first:
+      213: 1516579041929897935
+    second: Npc_Major_Maid_Walk_05
+  - first:
+      213: 2274595755298614776
+    second: Npc_Major_Maid_Walk_06
+  - first:
+      213: 7020918973705661950
+    second: Npc_Major_Maid_Walk_07
+  - first:
+      213: -791941544713119873
+    second: Npc_Major_Maid_Walk_08
+  - first:
+      213: 8809409661748756715
+    second: Npc_Major_Maid_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 488
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfad4a58c696eb4c0800000000000000
+      internalID: -4269859481881093381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 488
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3239b6c853d98400800000000000000
+      internalID: 327024826205680187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 488
+        width: 63
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 994d7893e97d01400800000000000000
+      internalID: 292971050349089945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 487
+        width: 63
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faedd3b7891a22010800000000000000
+      internalID: 1162669330089762479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 487
+        width: 62
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3413f81006c26c80800000000000000
+      internalID: -8330878656961113026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 487
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc7a80c7a98fb0510800000000000000
+      internalID: 1516579041929897935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 391
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fd6f22c9ccf09f10800000000000000
+      internalID: 2274595755298614776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 391
+        width: 63
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efda680bb905f6160800000000000000
+      internalID: 7020918973705661950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 391
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7710886c557205f0800000000000000
+      internalID: -791941544713119873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 391
+        width: 62
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be0cd61c96f414a70800000000000000
+      internalID: 8809409661748756715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 390
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7212d644f3d0d2200800000000000000
+      internalID: 156796127409938727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 391
+        width: 63
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b5983512bd51ad20800000000000000
+      internalID: 3288012222398764473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 295
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13fa324515dda9d20800000000000000
+      internalID: 3286182219493912369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 295
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c67f2e5aed7dca790800000000000000
+      internalID: -7517396326722373780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 295
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb32b451c194e52e0800000000000000
+      internalID: -2135188788361878596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 295
+        width: 63
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f8f92eae269d2500800000000000000
+      internalID: 373119471376267508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 295
+        width: 63
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39902ede129eac750800000000000000
+      internalID: 6326124958529489299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 295
+        width: 63
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2281beed5966a4740800000000000000
+      internalID: 5137031118845581346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 199
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4eaeceaaabce64ab0800000000000000
+      internalID: -5024068047809484060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 199
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 414fe8bae6fd32660800000000000000
+      internalID: 7359971882471191572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 199
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 307bae8c42ba60630800000000000000
+      internalID: 3892987102386370307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 198
+        width: 62
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31005ddf3d8afbb90800000000000000
+      internalID: -7223869648828825581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 198
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c94f0e9abb39ca10800000000000000
+      internalID: 1930139588006726088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 198
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35d19ae1785fb24a0800000000000000
+      internalID: -6616925266807022253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 102
+        width: 63
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a47375ffc39956140800000000000000
+      internalID: 4712341072374085450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 102
+        width: 63
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00aa1bff6edb6a420800000000000000
+      internalID: 2641007031329335808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 102
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93df141e53ff36c20800000000000000
+      internalID: 3198680767240731961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 102
+        width: 62
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c77de491085d2a310800000000000000
+      internalID: 1414927979104884604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 102
+        width: 63
+        height: 83
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa5f6161af4908b20800000000000000
+      internalID: 3134669142483203503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 102
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc171a81e0a342eb0800000000000000
+      internalID: -4745604275124473396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 6
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eea50d9561eed5bb0800000000000000
+      internalID: -4945535036019418386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 6
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 017e95ccb22d0f460800000000000000
+      internalID: 7273544483757221648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 6
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8f3f2fff04993c30800000000000000
+      internalID: 4339662512374890382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 5
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b11a633b3f91c710800000000000000
+      internalID: 1711824409991975350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 5
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5015eed99a06e04b0800000000000000
+      internalID: -5472330215593193211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Maid_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 5
+        width: 63
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16a320300e4c24970800000000000000
+      internalID: 8737762693454379617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_Maid_Walk_0: -5337389845703263623
+      Npc_Major_Maid_Walk_00: -4269859481881093381
+      Npc_Major_Maid_Walk_01: 327024826205680187
+      Npc_Major_Maid_Walk_02: 292971050349089945
+      Npc_Major_Maid_Walk_03: 1162669330089762479
+      Npc_Major_Maid_Walk_04: -8330878656961113026
+      Npc_Major_Maid_Walk_05: 1516579041929897935
+      Npc_Major_Maid_Walk_06: 2274595755298614776
+      Npc_Major_Maid_Walk_07: 7020918973705661950
+      Npc_Major_Maid_Walk_08: -791941544713119873
+      Npc_Major_Maid_Walk_09: 8809409661748756715
+      Npc_Major_Maid_Walk_1: 5897449604593719864
+      Npc_Major_Maid_Walk_10: 156796127409938727
+      Npc_Major_Maid_Walk_11: 3288012222398764473
+      Npc_Major_Maid_Walk_12: 3286182219493912369
+      Npc_Major_Maid_Walk_13: -7517396326722373780
+      Npc_Major_Maid_Walk_14: -2135188788361878596
+      Npc_Major_Maid_Walk_15: 373119471376267508
+      Npc_Major_Maid_Walk_16: 6326124958529489299
+      Npc_Major_Maid_Walk_17: 5137031118845581346
+      Npc_Major_Maid_Walk_18: -5024068047809484060
+      Npc_Major_Maid_Walk_19: 7359971882471191572
+      Npc_Major_Maid_Walk_2: 3587567324603127232
+      Npc_Major_Maid_Walk_20: 3892987102386370307
+      Npc_Major_Maid_Walk_21: -7223869648828825581
+      Npc_Major_Maid_Walk_22: 1930139588006726088
+      Npc_Major_Maid_Walk_23: -6616925266807022253
+      Npc_Major_Maid_Walk_24: 4712341072374085450
+      Npc_Major_Maid_Walk_25: 2641007031329335808
+      Npc_Major_Maid_Walk_26: 3198680767240731961
+      Npc_Major_Maid_Walk_27: 1414927979104884604
+      Npc_Major_Maid_Walk_28: 3134669142483203503
+      Npc_Major_Maid_Walk_29: -4745604275124473396
+      Npc_Major_Maid_Walk_3: 8133168691330999068
+      Npc_Major_Maid_Walk_30: -4945535036019418386
+      Npc_Major_Maid_Walk_31: 7273544483757221648
+      Npc_Major_Maid_Walk_32: 4339662512374890382
+      Npc_Major_Maid_Walk_33: 1711824409991975350
+      Npc_Major_Maid_Walk_34: -5472330215593193211
+      Npc_Major_Maid_Walk_35: 8737762693454379617
+      Npc_Major_Maid_Walk_4: -523016022582202966
+      Npc_Major_Maid_Walk_5: -4750299605888959499
+      Npc_Major_Maid_Walk_6: -1906559923233879050
+      Npc_Major_Maid_Walk_7: -4467892445599281780
+      Npc_Major_Maid_Walk_8: -9036718340737295497
+      Npc_Major_Maid_Walk_9: 5956555454935905948
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

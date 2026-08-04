@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 2dd035d070767dd4dbf2f5eef36f9742
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8936471778804037366
+    second: Npc_Major_MerchantHead_Walk_0
+  - first:
+      213: -8859485445360826755
+    second: Npc_Major_MerchantHead_Walk_1
+  - first:
+      213: -7316669738445606816
+    second: Npc_Major_MerchantHead_Walk_2
+  - first:
+      213: -7200050872488246236
+    second: Npc_Major_MerchantHead_Walk_3
+  - first:
+      213: 4806423029073030392
+    second: Npc_Major_MerchantHead_Walk_4
+  - first:
+      213: 4354716531884439444
+    second: Npc_Major_MerchantHead_Walk_5
+  - first:
+      213: 21832513709122557
+    second: Npc_Major_MerchantHead_Walk_6
+  - first:
+      213: 5927991526976762131
+    second: Npc_Major_MerchantHead_Walk_7
+  - first:
+      213: 832331457318505500
+    second: Npc_Major_MerchantHead_Walk_8
+  - first:
+      213: -7017919880759734964
+    second: Npc_Major_MerchantHead_Walk_9
+  - first:
+      213: 5649497642729925073
+    second: Npc_Major_MerchantHead_Walk_10
+  - first:
+      213: -4788979380549516026
+    second: Npc_Major_MerchantHead_Walk_11
+  - first:
+      213: 5164143243924788884
+    second: Npc_Major_MerchantHead_Walk_12
+  - first:
+      213: -7981330337320179380
+    second: Npc_Major_MerchantHead_Walk_13
+  - first:
+      213: 6641905946655472542
+    second: Npc_Major_MerchantHead_Walk_14
+  - first:
+      213: -3506672755358594104
+    second: Npc_Major_MerchantHead_Walk_15
+  - first:
+      213: -3960507007750151496
+    second: Npc_Major_MerchantHead_Walk_16
+  - first:
+      213: -493750111688625701
+    second: Npc_Major_MerchantHead_Walk_17
+  - first:
+      213: 7922026343207279907
+    second: Npc_Major_MerchantHead_Walk_18
+  - first:
+      213: 2374767424426869701
+    second: Npc_Major_MerchantHead_Walk_19
+  - first:
+      213: 7814124536587992916
+    second: Npc_Major_MerchantHead_Walk_20
+  - first:
+      213: -8064522449847218797
+    second: Npc_Major_MerchantHead_Walk_21
+  - first:
+      213: -1623855869233975744
+    second: Npc_Major_MerchantHead_Walk_22
+  - first:
+      213: -4868980774503404941
+    second: Npc_Major_MerchantHead_Walk_23
+  - first:
+      213: 1046679652693233243
+    second: Npc_Major_MerchantHead_Walk_24
+  - first:
+      213: -369170161440271983
+    second: Npc_Major_MerchantHead_Walk_25
+  - first:
+      213: -9192458516193670701
+    second: Npc_Major_MerchantHead_Walk_26
+  - first:
+      213: 7015117495764946311
+    second: Npc_Major_MerchantHead_Walk_27
+  - first:
+      213: -1484756873970803142
+    second: Npc_Major_MerchantHead_Walk_28
+  - first:
+      213: 1091301848190947902
+    second: Npc_Major_MerchantHead_Walk_29
+  - first:
+      213: 2063560406428532516
+    second: Npc_Major_MerchantHead_Walk_30
+  - first:
+      213: 5181466333942958794
+    second: Npc_Major_MerchantHead_Walk_31
+  - first:
+      213: -6917283427465386098
+    second: Npc_Major_MerchantHead_Walk_32
+  - first:
+      213: -3234498210680179745
+    second: Npc_Major_MerchantHead_Walk_33
+  - first:
+      213: -5237338274388996727
+    second: Npc_Major_MerchantHead_Walk_34
+  - first:
+      213: 9091802194031711074
+    second: Npc_Major_MerchantHead_Walk_35
+  - first:
+      213: 3359826529259826302
+    second: Npc_Major_MerchantHead_Walk_00
+  - first:
+      213: -2258265367266457670
+    second: Npc_Major_MerchantHead_Walk_01
+  - first:
+      213: -4837385938087342934
+    second: Npc_Major_MerchantHead_Walk_02
+  - first:
+      213: 4878397319612610242
+    second: Npc_Major_MerchantHead_Walk_03
+  - first:
+      213: 6832043703370683865
+    second: Npc_Major_MerchantHead_Walk_04
+  - first:
+      213: -6317220073156549510
+    second: Npc_Major_MerchantHead_Walk_05
+  - first:
+      213: 637394912480177016
+    second: Npc_Major_MerchantHead_Walk_06
+  - first:
+      213: 2148177001701231602
+    second: Npc_Major_MerchantHead_Walk_07
+  - first:
+      213: -7131597399766926201
+    second: Npc_Major_MerchantHead_Walk_08
+  - first:
+      213: -8362351708355762157
+    second: Npc_Major_MerchantHead_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 679
+        width: 89
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7c277f5d6080ae20800000000000000
+      internalID: 3359826529259826302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 679
+        width: 89
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab7048ffc9709a0e0800000000000000
+      internalID: -2258265367266457670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 677
+        width: 90
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aac85de6e172edcb0800000000000000
+      internalID: -4837385938087342934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 677
+        width: 90
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c63abce38c83b340800000000000000
+      internalID: 4878397319612610242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 677
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d59a5dec8b40de50800000000000000
+      internalID: 6832043703370683865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 678
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a74698340d9b458a0800000000000000
+      internalID: -6317220073156549510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 544
+        width: 89
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87ba50cbb4b78d800800000000000000
+      internalID: 637394912480177016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 545
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fbc01df99bdfcd10800000000000000
+      internalID: 2148177001701231602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 545
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78cfac123f9770d90800000000000000
+      internalID: -7131597399766926201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 543
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 318e2984d65f2fb80800000000000000
+      internalID: -8362351708355762157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 542
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d9e25a7c2c076e40800000000000000
+      internalID: 5649497642729925073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 542
+        width: 88
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6050da160a02a8db0800000000000000
+      internalID: -4788979380549516026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 409
+        width: 88
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 496de576be8baa740800000000000000
+      internalID: 5164143243924788884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 409
+        width: 88
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c496bf8585e9c3190800000000000000
+      internalID: -7981330337320179380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 410
+        width: 89
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9b34f5a44acc2c50800000000000000
+      internalID: 6641905946655472542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 410
+        width: 89
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cb8f4945bbc55fc0800000000000000
+      internalID: -3506672755358594104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 410
+        width: 90
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b26b903cd37909c0800000000000000
+      internalID: -3960507007750151496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 409
+        width: 89
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd17df0b3e8d529f0800000000000000
+      internalID: -493750111688625701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 276
+        width: 90
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32d18288cf0b0fd60800000000000000
+      internalID: 7922026343207279907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 277
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c30225f36ed4f020800000000000000
+      internalID: 2374767424426869701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 277
+        width: 88
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45fbdf17dd8517c60800000000000000
+      internalID: 7814124536587992916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 277
+        width: 89
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39d81bd3f8f051090800000000000000
+      internalID: -8064522449847218797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 277
+        width: 89
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04e20e3c0b7e679e0800000000000000
+      internalID: -1623855869233975744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 275
+        width: 88
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37aa48558c7ed6cb0800000000000000
+      internalID: -4868980774503404941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 141
+        width: 88
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5ec86c399d868e00800000000000000
+      internalID: 1046679652693233243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 141
+        width: 88
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 191dda1b1b170eaf0800000000000000
+      internalID: -369170161440271983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 142
+        width: 88
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d903c9eea3dd6080800000000000000
+      internalID: -9192458516193670701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 142
+        width: 88
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78d82b8d134ba5160800000000000000
+      internalID: 7015117495764946311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 143
+        width: 88
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3e962d5d75156be0800000000000000
+      internalID: -1484756873970803142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 143
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e32162cbf35152f00800000000000000
+      internalID: 1091301848190947902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 8
+        width: 90
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42fbbb5a14d33ac10800000000000000
+      internalID: 2063560406428532516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 8
+        width: 89
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acac05a9d2448e740800000000000000
+      internalID: 5181466333942958794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 9
+        width: 89
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e87aa3f3f5fd000a0800000000000000
+      internalID: -6917283427465386098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 9
+        width: 89
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd375c5b301cc13d0800000000000000
+      internalID: -3234498210680179745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 10
+        width: 89
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98d8c7a869c3157b0800000000000000
+      internalID: -5237338274388996727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_MerchantHead_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 10
+        width: 88
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 263906fcce19c2e70800000000000000
+      internalID: 9091802194031711074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_MerchantHead_Walk_0: -8936471778804037366
+      Npc_Major_MerchantHead_Walk_00: 3359826529259826302
+      Npc_Major_MerchantHead_Walk_01: -2258265367266457670
+      Npc_Major_MerchantHead_Walk_02: -4837385938087342934
+      Npc_Major_MerchantHead_Walk_03: 4878397319612610242
+      Npc_Major_MerchantHead_Walk_04: 6832043703370683865
+      Npc_Major_MerchantHead_Walk_05: -6317220073156549510
+      Npc_Major_MerchantHead_Walk_06: 637394912480177016
+      Npc_Major_MerchantHead_Walk_07: 2148177001701231602
+      Npc_Major_MerchantHead_Walk_08: -7131597399766926201
+      Npc_Major_MerchantHead_Walk_09: -8362351708355762157
+      Npc_Major_MerchantHead_Walk_1: -8859485445360826755
+      Npc_Major_MerchantHead_Walk_10: 5649497642729925073
+      Npc_Major_MerchantHead_Walk_11: -4788979380549516026
+      Npc_Major_MerchantHead_Walk_12: 5164143243924788884
+      Npc_Major_MerchantHead_Walk_13: -7981330337320179380
+      Npc_Major_MerchantHead_Walk_14: 6641905946655472542
+      Npc_Major_MerchantHead_Walk_15: -3506672755358594104
+      Npc_Major_MerchantHead_Walk_16: -3960507007750151496
+      Npc_Major_MerchantHead_Walk_17: -493750111688625701
+      Npc_Major_MerchantHead_Walk_18: 7922026343207279907
+      Npc_Major_MerchantHead_Walk_19: 2374767424426869701
+      Npc_Major_MerchantHead_Walk_2: -7316669738445606816
+      Npc_Major_MerchantHead_Walk_20: 7814124536587992916
+      Npc_Major_MerchantHead_Walk_21: -8064522449847218797
+      Npc_Major_MerchantHead_Walk_22: -1623855869233975744
+      Npc_Major_MerchantHead_Walk_23: -4868980774503404941
+      Npc_Major_MerchantHead_Walk_24: 1046679652693233243
+      Npc_Major_MerchantHead_Walk_25: -369170161440271983
+      Npc_Major_MerchantHead_Walk_26: -9192458516193670701
+      Npc_Major_MerchantHead_Walk_27: 7015117495764946311
+      Npc_Major_MerchantHead_Walk_28: -1484756873970803142
+      Npc_Major_MerchantHead_Walk_29: 1091301848190947902
+      Npc_Major_MerchantHead_Walk_3: -7200050872488246236
+      Npc_Major_MerchantHead_Walk_30: 2063560406428532516
+      Npc_Major_MerchantHead_Walk_31: 5181466333942958794
+      Npc_Major_MerchantHead_Walk_32: -6917283427465386098
+      Npc_Major_MerchantHead_Walk_33: -3234498210680179745
+      Npc_Major_MerchantHead_Walk_34: -5237338274388996727
+      Npc_Major_MerchantHead_Walk_35: 9091802194031711074
+      Npc_Major_MerchantHead_Walk_4: 4806423029073030392
+      Npc_Major_MerchantHead_Walk_5: 4354716531884439444
+      Npc_Major_MerchantHead_Walk_6: 21832513709122557
+      Npc_Major_MerchantHead_Walk_7: 5927991526976762131
+      Npc_Major_MerchantHead_Walk_8: 832331457318505500
+      Npc_Major_MerchantHead_Walk_9: -7017919880759734964
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: c1dd259f1beba264b8ef4c65cf46a80a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7995427736979547544
+    second: Npc_Major_LowRankGuard_Walk_0
+  - first:
+      213: 5510963824040914760
+    second: Npc_Major_LowRankGuard_Walk_1
+  - first:
+      213: -913751198262122826
+    second: Npc_Major_LowRankGuard_Walk_2
+  - first:
+      213: 5606090853632722381
+    second: Npc_Major_LowRankGuard_Walk_3
+  - first:
+      213: 1791528704076657893
+    second: Npc_Major_LowRankGuard_Walk_4
+  - first:
+      213: 1174537549647758454
+    second: Npc_Major_LowRankGuard_Walk_5
+  - first:
+      213: -7281472760571480759
+    second: Npc_Major_LowRankGuard_Walk_6
+  - first:
+      213: 3870848591551034605
+    second: Npc_Major_LowRankGuard_Walk_7
+  - first:
+      213: -3689568381262831506
+    second: Npc_Major_LowRankGuard_Walk_8
+  - first:
+      213: -1992873143957016277
+    second: Npc_Major_LowRankGuard_Walk_9
+  - first:
+      213: -4958106287134690535
+    second: Npc_Major_LowRankGuard_Walk_10
+  - first:
+      213: 8515170655436650943
+    second: Npc_Major_LowRankGuard_Walk_11
+  - first:
+      213: 7366834674725207922
+    second: Npc_Major_LowRankGuard_Walk_12
+  - first:
+      213: -5564743197938113903
+    second: Npc_Major_LowRankGuard_Walk_13
+  - first:
+      213: 3479646876244760870
+    second: Npc_Major_LowRankGuard_Walk_14
+  - first:
+      213: 8713045501520024729
+    second: Npc_Major_LowRankGuard_Walk_15
+  - first:
+      213: -1656538460192530367
+    second: Npc_Major_LowRankGuard_Walk_16
+  - first:
+      213: -6094528635726992784
+    second: Npc_Major_LowRankGuard_Walk_17
+  - first:
+      213: 3984951531890587305
+    second: Npc_Major_LowRankGuard_Walk_18
+  - first:
+      213: -1664458711316056829
+    second: Npc_Major_LowRankGuard_Walk_19
+  - first:
+      213: 7323414212567911334
+    second: Npc_Major_LowRankGuard_Walk_20
+  - first:
+      213: 855165965881012502
+    second: Npc_Major_LowRankGuard_Walk_21
+  - first:
+      213: 5684466004417359440
+    second: Npc_Major_LowRankGuard_Walk_22
+  - first:
+      213: 5591256742202601445
+    second: Npc_Major_LowRankGuard_Walk_23
+  - first:
+      213: 2226002045089854170
+    second: Npc_Major_LowRankGuard_Walk_24
+  - first:
+      213: 3588764927829278871
+    second: Npc_Major_LowRankGuard_Walk_25
+  - first:
+      213: 5199670022713619245
+    second: Npc_Major_LowRankGuard_Walk_26
+  - first:
+      213: -6867416199467154090
+    second: Npc_Major_LowRankGuard_Walk_27
+  - first:
+      213: -3495744955991458271
+    second: Npc_Major_LowRankGuard_Walk_28
+  - first:
+      213: -8120703848020714097
+    second: Npc_Major_LowRankGuard_Walk_29
+  - first:
+      213: -7089738301939788627
+    second: Npc_Major_LowRankGuard_Walk_30
+  - first:
+      213: 2854490058038681997
+    second: Npc_Major_LowRankGuard_Walk_31
+  - first:
+      213: -2813456282077458406
+    second: Npc_Major_LowRankGuard_Walk_32
+  - first:
+      213: 2022660588397797764
+    second: Npc_Major_LowRankGuard_Walk_33
+  - first:
+      213: -8973187407504902961
+    second: Npc_Major_LowRankGuard_Walk_34
+  - first:
+      213: 124428501568835369
+    second: Npc_Major_LowRankGuard_Walk_35
+  - first:
+      213: 6872103582958384644
+    second: Npc_Major_LowRankGuard_Walk_00
+  - first:
+      213: -1895348612402797298
+    second: Npc_Major_LowRankGuard_Walk_01
+  - first:
+      213: -2921065011124248559
+    second: Npc_Major_LowRankGuard_Walk_02
+  - first:
+      213: -8127910711596254155
+    second: Npc_Major_LowRankGuard_Walk_03
+  - first:
+      213: -643934001199202993
+    second: Npc_Major_LowRankGuard_Walk_04
+  - first:
+      213: -302257682999345228
+    second: Npc_Major_LowRankGuard_Walk_05
+  - first:
+      213: -2311454159057649305
+    second: Npc_Major_LowRankGuard_Walk_06
+  - first:
+      213: 813483662236891383
+    second: Npc_Major_LowRankGuard_Walk_07
+  - first:
+      213: 9210328940213783931
+    second: Npc_Major_LowRankGuard_Walk_08
+  - first:
+      213: -4247051365969701458
+    second: Npc_Major_LowRankGuard_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 552
+        width: 79
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4067ce97ccd9e5f50800000000000000
+      internalID: 6872103582958384644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 553
+        width: 79
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e05a330aa7e52b5e0800000000000000
+      internalID: -1895348612402797298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 553
+        width: 80
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 110ed1e49da4677d0800000000000000
+      internalID: -2921065011124248559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 553
+        width: 81
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53c7635754cd33f80800000000000000
+      internalID: -8127910711596254155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 552
+        width: 81
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4db9b700794017f0800000000000000
+      internalID: -643934001199202993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 551
+        width: 81
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bff03e1d3a2ecbf0800000000000000
+      internalID: -302257682999345228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 442
+        width: 81
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76105ce50b01cefd0800000000000000
+      internalID: -2311454159057649305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 442
+        width: 80
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f8b63ea4131a4b00800000000000000
+      internalID: 813483662236891383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 443
+        width: 80
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7d41f96f59a1df70800000000000000
+      internalID: 9210328940213783931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 443
+        width: 79
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea5d984d8417f05c0800000000000000
+      internalID: -4247051365969701458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 443
+        width: 78
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 913b4bcd994413bb0800000000000000
+      internalID: -4958106287134690535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 443
+        width: 78
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb9b1278896fb2670800000000000000
+      internalID: 8515170655436650943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 334
+        width: 79
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27fb6020b114c3660800000000000000
+      internalID: 7366834674725207922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 335
+        width: 79
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 192a0a47b8f06c2b0800000000000000
+      internalID: -5564743197938113903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 335
+        width: 80
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 629dd52e5603a4030800000000000000
+      internalID: 3479646876244760870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 335
+        width: 81
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9949aed48b4fae870800000000000000
+      internalID: 8713045501520024729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 334
+        width: 81
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 140a3731c0bc209e0800000000000000
+      internalID: -1656538460192530367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 333
+        width: 81
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07aeb0afe72eb6ba0800000000000000
+      internalID: -6094528635726992784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 224
+        width: 80
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a6bc791e446d4730800000000000000
+      internalID: 3984951531890587305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 224
+        width: 80
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 305b3b8ee97a6e8e0800000000000000
+      internalID: -1664458711316056829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 224
+        width: 80
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ab482bdc6ef1a560800000000000000
+      internalID: 7323414212567911334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 225
+        width: 80
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61177544ae82edb00800000000000000
+      internalID: 855165965881012502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 225
+        width: 78
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05ea413a6b743ee40800000000000000
+      internalID: 5684466004417359440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 225
+        width: 78
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ef6efe1262289d40800000000000000
+      internalID: 5591256742202601445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 116
+        width: 78
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad2bfdee01954ee10800000000000000
+      internalID: 2226002045089854170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 116
+        width: 79
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79005a110baddc130800000000000000
+      internalID: 3588764927829278871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 446
+        y: 116
+        width: 79
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d23b71d2650f82840800000000000000
+      internalID: 5199670022713619245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 117
+        width: 80
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6554ff90a5902b0a0800000000000000
+      internalID: -6867416199467154090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 117
+        width: 81
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12ef3c8db7e9c7fc0800000000000000
+      internalID: -3495744955991458271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 116
+        width: 81
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8dd39420e67d4f80800000000000000
+      internalID: -8120703848020714097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 6
+        width: 81
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da4d562d3903c9d90800000000000000
+      internalID: -7089738301939788627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 6
+        width: 80
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d81a744859f2d9720800000000000000
+      internalID: 2854490058038681997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 6
+        width: 80
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a109ea3fa6894f8d0800000000000000
+      internalID: -2813456282077458406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 6
+        width: 80
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48122a0b61fe11c10800000000000000
+      internalID: 2022660588397797764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 6
+        width: 79
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc479a84895d87380800000000000000
+      internalID: -8973187407504902961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_LowRankGuard_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 7
+        width: 79
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92fc1fb101f0ab100800000000000000
+      internalID: 124428501568835369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_LowRankGuard_Walk_0: 7995427736979547544
+      Npc_Major_LowRankGuard_Walk_00: 6872103582958384644
+      Npc_Major_LowRankGuard_Walk_01: -1895348612402797298
+      Npc_Major_LowRankGuard_Walk_02: -2921065011124248559
+      Npc_Major_LowRankGuard_Walk_03: -8127910711596254155
+      Npc_Major_LowRankGuard_Walk_04: -643934001199202993
+      Npc_Major_LowRankGuard_Walk_05: -302257682999345228
+      Npc_Major_LowRankGuard_Walk_06: -2311454159057649305
+      Npc_Major_LowRankGuard_Walk_07: 813483662236891383
+      Npc_Major_LowRankGuard_Walk_08: 9210328940213783931
+      Npc_Major_LowRankGuard_Walk_09: -4247051365969701458
+      Npc_Major_LowRankGuard_Walk_1: 5510963824040914760
+      Npc_Major_LowRankGuard_Walk_10: -4958106287134690535
+      Npc_Major_LowRankGuard_Walk_11: 8515170655436650943
+      Npc_Major_LowRankGuard_Walk_12: 7366834674725207922
+      Npc_Major_LowRankGuard_Walk_13: -5564743197938113903
+      Npc_Major_LowRankGuard_Walk_14: 3479646876244760870
+      Npc_Major_LowRankGuard_Walk_15: 8713045501520024729
+      Npc_Major_LowRankGuard_Walk_16: -1656538460192530367
+      Npc_Major_LowRankGuard_Walk_17: -6094528635726992784
+      Npc_Major_LowRankGuard_Walk_18: 3984951531890587305
+      Npc_Major_LowRankGuard_Walk_19: -1664458711316056829
+      Npc_Major_LowRankGuard_Walk_2: -913751198262122826
+      Npc_Major_LowRankGuard_Walk_20: 7323414212567911334
+      Npc_Major_LowRankGuard_Walk_21: 855165965881012502
+      Npc_Major_LowRankGuard_Walk_22: 5684466004417359440
+      Npc_Major_LowRankGuard_Walk_23: 5591256742202601445
+      Npc_Major_LowRankGuard_Walk_24: 2226002045089854170
+      Npc_Major_LowRankGuard_Walk_25: 3588764927829278871
+      Npc_Major_LowRankGuard_Walk_26: 5199670022713619245
+      Npc_Major_LowRankGuard_Walk_27: -6867416199467154090
+      Npc_Major_LowRankGuard_Walk_28: -3495744955991458271
+      Npc_Major_LowRankGuard_Walk_29: -8120703848020714097
+      Npc_Major_LowRankGuard_Walk_3: 5606090853632722381
+      Npc_Major_LowRankGuard_Walk_30: -7089738301939788627
+      Npc_Major_LowRankGuard_Walk_31: 2854490058038681997
+      Npc_Major_LowRankGuard_Walk_32: -2813456282077458406
+      Npc_Major_LowRankGuard_Walk_33: 2022660588397797764
+      Npc_Major_LowRankGuard_Walk_34: -8973187407504902961
+      Npc_Major_LowRankGuard_Walk_35: 124428501568835369
+      Npc_Major_LowRankGuard_Walk_4: 1791528704076657893
+      Npc_Major_LowRankGuard_Walk_5: 1174537549647758454
+      Npc_Major_LowRankGuard_Walk_6: -7281472760571480759
+      Npc_Major_LowRankGuard_Walk_7: 3870848591551034605
+      Npc_Major_LowRankGuard_Walk_8: -3689568381262831506
+      Npc_Major_LowRankGuard_Walk_9: -1992873143957016277
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

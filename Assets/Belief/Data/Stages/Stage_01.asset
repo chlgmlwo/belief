@@ -52,15 +52,15 @@ MonoBehaviour:
     position: {x: 3.9430265, y: 0.9164619}
   npcLayout:
   - npc: {fileID: 11400000, guid: 4677f620c23745329d98e141b738510f, type: 2}
-    position: {x: -2.9165423, y: -0.36074603}
+    position: {x: -3.2009063, y: -0.2896536}
   - npc: {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}
-    position: {x: 0.42674005, y: -2.108355}
+    position: {x: 1.7205944, y: -2.008826}
   - npc: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
-    position: {x: 1.4540436, y: 2.9087224}
+    position: {x: 1.2834258, y: 2.92294}
   - npc: {fileID: 11400000, guid: ea3287ffc1f349ae8a59b02b23150c98, type: 2}
-    position: {x: 2.6220906, y: 2.822551}
+    position: {x: 2.7358348, y: 2.8652058}
   - npc: {fileID: 11400000, guid: 57f9b30ac5617b24398c5f2e5273a3b4, type: 2}
-    position: {x: 4.4131446, y: 0.6805322}
+    position: {x: 4.6406345, y: 0.5383504}
   cardPool: {fileID: 11400000, guid: 9fe9e7d462e145afa8f2a19c1f48492f, type: 2}
   missions:
   - {fileID: 11400000, guid: 070bf094d0c790d40b701af73a54a840, type: 2}

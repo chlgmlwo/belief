@@ -1785,6 +1785,76 @@ NPC라 오른쪽에만) — 설계한 공식과 정확히 일치. `Unity_SceneVi
 
 **수정한 파일**: `WorldPresenter.cs`(`NpcFlankGap` 0.12→−0.15).
 
+### 3-55. NPC 캐릭터 idle/걷기(move) 애니메이션 추가 (2026-08-04)
+
+사용자 요청: `C:\Users\CHJ\Desktop\장소&npc\캐릭터` 폴더의 걷기 사이클 스프라이트를 이용해
+idle/move 애니메이션 구현. 폴더 구조: NPC별로 `{이름}_최종.png`(정지 초상화, 이미 `characterPhoto`로
+연결돼 있음 = idle) + `{이름}_스프라이트_최종.png`(걷기 사이클 시트, 흰 배경처럼 보이지만 실제로는
+**투명 배경**, 대략 6x6 격자로 생성된 여러 프레임).
+
+**폴더 → NpcData 매핑**: 폴더명(한글 역할명)과 `NpcData.displayName`으로 17개 폴더 중 16개를
+실사용 `NpcData`에 매칭(예: `경비대장`→`Npc_Major_GuardCaptain`, `기사단장`→
+`Npc_Major_KnightCommander`, `경비병`→`Npc_Major_LowRankGuard`(파일명이 "경비병"이라 표기됐지만
+실제 그림은 창+방패를 든 하급 경비병 아트와 일치 확인)). 제외: `공용시민`/`귀족` 폴더(대응하는
+`NpcData` 자산 없음, 배경용 범용 NPC로 추정 - 이번 범위 밖), `영주`(art 자체가 없음 - 기존에
+이미 알려진 gap, [[project_placeholder_era_leftovers_pattern]] 무관).
+
+⚠️ **`정보원` 폴더는 처음에 매칭했다가 되돌림**: `Npc_Major_Informant.asset`은
+`Assets/Belief/Data/Npcs/Deprecated/` 밑에 있는 **Deprecated 자산**이다(2026-07-31자
+`Deprecated/README.md`에 "어떤 StageData/씬/미션 조건에서도 참조 0건", "정보원은 실제 NPC가
+아니라 `TargetingController.DeliverByInformant`를 가리키는 시스템 명칭일 뿐", "필드를 수정하지
+말고 원본 그대로 보존" 명시). 처음엔 이 사실을 놓치고 `characterPhoto`+`walkFrames`를 채워
+넣었다가, 나중에 자산 경로에 `Deprecated`가 포함된 걸 발견하고 **즉시 원복**(`characterPhoto`→
+null, `walkFrames`→빈 배열)했다. 정보원 폴더의 idle/walk 이미지 자체는 `Assets/Belief/UI/World/
+Npcs/Npc_Major_Informant.png` + `NpcWalkSheets/Npc_Major_Informant_Walk.png`로 임포트는 돼
+있지만(무해하게 방치, 삭제 안 함 - 나중에 정보원을 실제 NPC로 구현할 때 바로 쓸 수 있음), 어떤
+`NpcData`에도 연결돼 있지 않다.
+
+**슬라이싱 - 균일 격자 가정이 틀렸음을 발견**: 처음엔 모든 시트가 6x6=36칸일 거라 가정했으나,
+`Npc_Major_HeadMaid_Walk.png`(1124×316, 다른 시트들과 가로세로 비율이 확연히 다름)를 직접 열어
+확인한 결과 6열×3행에 13개 프레임만 채워진 불규칙한 시트였다 - 균일 그리드 가정을 버리고 **연결
+성분(connected-component) 블롭 탐지**로 방식을 바꿨다. 처음엔 "흰 배경"이라는 프롬프트 문구를
+믿고 RGB>245를 배경으로 판정했으나 전체가 블롭 1개로 뭉쳐 나와 실패 - 실제로는 **투명 배경**(알파
+0)이었음을 픽셀 샘플링으로 확인, `alpha<20`을 배경 판정 기준으로 바꾸니 정상적으로 개별 캐릭터
+프레임이 분리됐다.
+
+**구현**:
+- `WorldLayoutSceneTool`과 무관한 신규 1회성 에디터 스크립트(RunCommand로만 실행, 프로젝트에
+  파일로 남기지 않음) - 각 시트를 읽기 가능한 임시 `Texture2D`로 로드 → 알파 기반 flood-fill로
+  블롭 탐지(최소 면적 1200px² 필터로 노이즈 제거) → Y좌표 기준 행 묶음 후 행 내 X좌표 정렬로
+  읽기 순서 재구성 → `TextureImporter.spritesheet`에 `SpriteMetaData[]`로 기록(`spriteMode=Multiple`,
+  `pixelsPerUnit=500`, `pivot=(0.5,0.5)`, 이름은 `{파일명}_00`~`_35`). 17개 시트 전부 처리(정보원
+  포함, 임포트 자체는 해 둠) - 16개는 36프레임, `HeadMaid`만 13프레임으로 정상 슬라이스됨.
+- `NpcData.cs`에 `Sprite[] walkFrames` 필드 추가(비어 있으면 하위 호환으로 이동 중에도 idle 사진
+  유지). `SerializedObject`로 실사용 16개 자산에 슬라이스된 스프라이트 배열을 순서대로 배선
+  (Deprecated 정보원 제외 - 위 참고).
+- `NpcActorView.cs`: `MoveRoutine()` 시작 시 `StartWalkCycle()` 호출(걷기 프레임을
+  `WalkFrameFps=10`으로 순환 재생하는 별도 코루틴 시작), 이동 종료 시 `StopWalkCycle()`로 원래
+  idle 스프라이트+원래 스케일로 복귀. 걷기 프레임은 idle 사진과 크롭 크기(피사체 여백)가 서로
+  달라, 매 프레임 `idle 사진의 세로 bounds / 현재 프레임의 세로 bounds`로 균일 스케일 보정값을
+  다시 계산해 적용한다(`LocationSiteView.FitLabelToNameTag`와 동일한 원리) - 그래야 걷는 동안
+  캐릭터가 갑자기 커지거나 작아 보이지 않는다.
+
+**검증**: Play Mode에서 실제 이동 코드(`NpcMovementService.MoveTo`+`NpcRelocatedEvent`)로 경비대장을
+이동시켜 확인 — 이동 시작 직후 `body.sprite`가 `Npc_Major_GuardCaptain_Walk_00`으로, 스케일이
+자동 보정(1.08→5.63배, 걷기 프레임 크롭이 idle보다 훨씬 작게 잘려 있어서)되는 것을 확인. 이동
+완료(0.35초) 후에는 정확히 원래 idle 스프라이트(`Npc_Major_GuardCaptain`)와 원래 스케일(1.08)로
+복귀 확인. 중간 프레임(`_15`)을 수동으로 띄워 `Unity_SceneView_Capture2DScene` 스크린샷으로
+확인한 결과 걷는 자세가 찌그러짐 없이 정상 크기로 렌더링됨. Console Error/Warning 0. 씬 변경 없음
+(스크립트 2개 + `NpcData` 16개 자산 + 신규 이미지만 변경).
+
+⚠️ **참고**: 현재 `MoveDuration=0.35초`(기존 상수, 이번에 안 건드림)로 이동이 매우 짧아 10fps
+기준 프레임 3~4장 정도만 보인다 - 걷기 모션 자체는 정상 작동하지만 순식간에 지나가서 눈에 잘 안
+띌 수 있다. 더 잘 보이게 하려면 `MoveDuration`을 늘리는 게 필요할 수 있음(이번 범위 밖, 사용자
+판단 필요).
+
+**수정/생성한 파일**: `NpcData.cs`(`walkFrames` 필드), `NpcActorView.cs`(`StartWalkCycle`/
+`StopWalkCycle`/`WalkCycleRoutine` 신규, `Bind()`에서 `bodyBaseLocalScale` 캡처 추가),
+`Assets/Belief/UI/World/NpcWalkSheets/*.png`(17개 신규, 슬라이스됨 - 정보원 포함되지만 미배선),
+`Assets/Belief/UI/World/Npcs/Npc_Major_Informant.png`(신규, 임포트만 해둠 - 미배선),
+실사용 `NpcData` 16개 자산(`walkFrames` 배선). `Deprecated/Npc_Major_Informant.asset`은 실수로
+잠깐 수정했다가 즉시 원복 - 최종적으로 무수정 상태.
+
 ---
 
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)

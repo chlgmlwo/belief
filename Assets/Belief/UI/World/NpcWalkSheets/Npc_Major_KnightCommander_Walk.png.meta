@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: f1f5ad234ad670a4e9bd2ae66d569de4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4984995874799277637
+    second: Npc_Major_KnightCommander_Walk_0
+  - first:
+      213: 2236664847654734237
+    second: Npc_Major_KnightCommander_Walk_1
+  - first:
+      213: 5152993550058124475
+    second: Npc_Major_KnightCommander_Walk_2
+  - first:
+      213: -677443623691115902
+    second: Npc_Major_KnightCommander_Walk_3
+  - first:
+      213: -435886330888337064
+    second: Npc_Major_KnightCommander_Walk_4
+  - first:
+      213: -5378318989450591775
+    second: Npc_Major_KnightCommander_Walk_5
+  - first:
+      213: 6834379940391848825
+    second: Npc_Major_KnightCommander_Walk_6
+  - first:
+      213: -3353197816597511868
+    second: Npc_Major_KnightCommander_Walk_7
+  - first:
+      213: -1025661123334419959
+    second: Npc_Major_KnightCommander_Walk_8
+  - first:
+      213: -3125826671443198238
+    second: Npc_Major_KnightCommander_Walk_9
+  - first:
+      213: -2514907696682321369
+    second: Npc_Major_KnightCommander_Walk_10
+  - first:
+      213: -8895024306889186536
+    second: Npc_Major_KnightCommander_Walk_11
+  - first:
+      213: -8293371838018632841
+    second: Npc_Major_KnightCommander_Walk_12
+  - first:
+      213: -782433337453324721
+    second: Npc_Major_KnightCommander_Walk_13
+  - first:
+      213: -6452067424072877088
+    second: Npc_Major_KnightCommander_Walk_14
+  - first:
+      213: 993006236224197731
+    second: Npc_Major_KnightCommander_Walk_15
+  - first:
+      213: 6232790837467532260
+    second: Npc_Major_KnightCommander_Walk_16
+  - first:
+      213: 4753238620016519133
+    second: Npc_Major_KnightCommander_Walk_17
+  - first:
+      213: -1710460718193897839
+    second: Npc_Major_KnightCommander_Walk_18
+  - first:
+      213: 6901962417231114437
+    second: Npc_Major_KnightCommander_Walk_19
+  - first:
+      213: -1134624876847000103
+    second: Npc_Major_KnightCommander_Walk_20
+  - first:
+      213: -1315934627157526442
+    second: Npc_Major_KnightCommander_Walk_21
+  - first:
+      213: 8190865104927750773
+    second: Npc_Major_KnightCommander_Walk_22
+  - first:
+      213: 3781384824271273963
+    second: Npc_Major_KnightCommander_Walk_23
+  - first:
+      213: -2354879188912105426
+    second: Npc_Major_KnightCommander_Walk_24
+  - first:
+      213: 4483080221551334037
+    second: Npc_Major_KnightCommander_Walk_25
+  - first:
+      213: 2787486907426821853
+    second: Npc_Major_KnightCommander_Walk_26
+  - first:
+      213: -7804664682314557833
+    second: Npc_Major_KnightCommander_Walk_27
+  - first:
+      213: -8266063663283840987
+    second: Npc_Major_KnightCommander_Walk_28
+  - first:
+      213: -2611238042492195769
+    second: Npc_Major_KnightCommander_Walk_29
+  - first:
+      213: -4260914506431726681
+    second: Npc_Major_KnightCommander_Walk_30
+  - first:
+      213: 2546187691105341951
+    second: Npc_Major_KnightCommander_Walk_31
+  - first:
+      213: -3297610634262198704
+    second: Npc_Major_KnightCommander_Walk_32
+  - first:
+      213: -7140388179550201265
+    second: Npc_Major_KnightCommander_Walk_33
+  - first:
+      213: -891910244009608281
+    second: Npc_Major_KnightCommander_Walk_34
+  - first:
+      213: -6178141437256839311
+    second: Npc_Major_KnightCommander_Walk_35
+  - first:
+      213: 3932455025962060089
+    second: Npc_Major_KnightCommander_Walk_00
+  - first:
+      213: 4180283286711992428
+    second: Npc_Major_KnightCommander_Walk_01
+  - first:
+      213: 1664844172259716837
+    second: Npc_Major_KnightCommander_Walk_02
+  - first:
+      213: -4001432442086167972
+    second: Npc_Major_KnightCommander_Walk_03
+  - first:
+      213: -6523332941621309050
+    second: Npc_Major_KnightCommander_Walk_04
+  - first:
+      213: -7608926663821006413
+    second: Npc_Major_KnightCommander_Walk_05
+  - first:
+      213: 4690924643726344568
+    second: Npc_Major_KnightCommander_Walk_06
+  - first:
+      213: -4951225434822616342
+    second: Npc_Major_KnightCommander_Walk_07
+  - first:
+      213: -2849821230342607528
+    second: Npc_Major_KnightCommander_Walk_08
+  - first:
+      213: 8451082583730394938
+    second: Npc_Major_KnightCommander_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 657
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9390ba5d203e29630800000000000000
+      internalID: 3932455025962060089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 657
+        width: 76
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6088fc4089530a30800000000000000
+      internalID: 4180283286711992428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 657
+        width: 76
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ee6be534f6ba1710800000000000000
+      internalID: 1664844172259716837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 658
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5aeab8f46e0878c0800000000000000
+      internalID: -4001432442086167972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 657
+        width: 74
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 681de0f60477875a0800000000000000
+      internalID: -6523332941621309050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1228
+        y: 657
+        width: 74
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b963f85389a76690800000000000000
+      internalID: -7608926663821006413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 528
+        width: 76
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8714f612c13891140800000000000000
+      internalID: 4690924643726344568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 528
+        width: 76
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aead48223b6b94bb0800000000000000
+      internalID: -4951225434822616342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 529
+        width: 75
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85def04a0b66378d0800000000000000
+      internalID: -2849821230342607528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 528
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a379dba85d6484570800000000000000
+      internalID: 8451082583730394938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 1003
+        y: 526
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72aba5046c0491dd0800000000000000
+      internalID: -2514907696682321369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 1234
+        y: 526
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 813a76f45868e8480800000000000000
+      internalID: -8895024306889186536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 397
+        width: 75
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 773cba4e04608ec80800000000000000
+      internalID: -8293371838018632841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 398
+        width: 75
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f46dbac660d3425f0800000000000000
+      internalID: -782433337453324721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 398
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eb3441ccd6a576a0800000000000000
+      internalID: -6452067424072877088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 398
+        width: 74
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36414e129edd7cd00800000000000000
+      internalID: 993006236224197731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 397
+        width: 74
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ebcf827e325f7650800000000000000
+      internalID: 6232790837467532260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1227
+        y: 398
+        width: 75
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd7a0c65755e6f140800000000000000
+      internalID: 4753238620016519133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 269
+        width: 76
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19e0bc90a093348e0800000000000000
+      internalID: -1710460718193897839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 269
+        width: 75
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c038241042b8cf50800000000000000
+      internalID: 6901962417231114437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 267
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d5963e9fa00140f0800000000000000
+      internalID: -1134624876847000103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 266
+        width: 75
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 658b3a0cd6cdcbde0800000000000000
+      internalID: -1315934627157526442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 1003
+        y: 266
+        width: 75
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57a7c567a6ccba170800000000000000
+      internalID: 8190865104927750773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 1232
+        y: 267
+        width: 75
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beffdb9867d2a7430800000000000000
+      internalID: 3781384824271273963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 138
+        width: 76
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e281fe7bad9c15fd0800000000000000
+      internalID: -2354879188912105426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 138
+        width: 75
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 592952985b9173e30800000000000000
+      internalID: 4483080221551334037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 138
+        width: 74
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd65a35d2942fa620800000000000000
+      internalID: 2787486907426821853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 137
+        width: 75
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7769a9382d240b390800000000000000
+      internalID: -7804664682314557833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 138
+        width: 76
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 528d33bc4ea094d80800000000000000
+      internalID: -8266063663283840987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 1229
+        y: 138
+        width: 76
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74c2445d5d403cbd0800000000000000
+      internalID: -2611238042492195769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 9
+        width: 75
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7abf3d9e4d03ed4c0800000000000000
+      internalID: -4260914506431726681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 8
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff15ecbf630e55320800000000000000
+      internalID: 2546187691105341951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 6
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 056404189988c32d0800000000000000
+      internalID: -3297610634262198704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 6
+        width: 75
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4a138738ce38ec90800000000000000
+      internalID: -7140388179550201265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 7
+        width: 75
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ab764ecb5c4f93f0800000000000000
+      internalID: -891910244009608281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_KnightCommander_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 8
+        width: 75
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17f4f249815d24aa0800000000000000
+      internalID: -6178141437256839311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_KnightCommander_Walk_0: -4984995874799277637
+      Npc_Major_KnightCommander_Walk_00: 3932455025962060089
+      Npc_Major_KnightCommander_Walk_01: 4180283286711992428
+      Npc_Major_KnightCommander_Walk_02: 1664844172259716837
+      Npc_Major_KnightCommander_Walk_03: -4001432442086167972
+      Npc_Major_KnightCommander_Walk_04: -6523332941621309050
+      Npc_Major_KnightCommander_Walk_05: -7608926663821006413
+      Npc_Major_KnightCommander_Walk_06: 4690924643726344568
+      Npc_Major_KnightCommander_Walk_07: -4951225434822616342
+      Npc_Major_KnightCommander_Walk_08: -2849821230342607528
+      Npc_Major_KnightCommander_Walk_09: 8451082583730394938
+      Npc_Major_KnightCommander_Walk_1: 2236664847654734237
+      Npc_Major_KnightCommander_Walk_10: -2514907696682321369
+      Npc_Major_KnightCommander_Walk_11: -8895024306889186536
+      Npc_Major_KnightCommander_Walk_12: -8293371838018632841
+      Npc_Major_KnightCommander_Walk_13: -782433337453324721
+      Npc_Major_KnightCommander_Walk_14: -6452067424072877088
+      Npc_Major_KnightCommander_Walk_15: 993006236224197731
+      Npc_Major_KnightCommander_Walk_16: 6232790837467532260
+      Npc_Major_KnightCommander_Walk_17: 4753238620016519133
+      Npc_Major_KnightCommander_Walk_18: -1710460718193897839
+      Npc_Major_KnightCommander_Walk_19: 6901962417231114437
+      Npc_Major_KnightCommander_Walk_2: 5152993550058124475
+      Npc_Major_KnightCommander_Walk_20: -1134624876847000103
+      Npc_Major_KnightCommander_Walk_21: -1315934627157526442
+      Npc_Major_KnightCommander_Walk_22: 8190865104927750773
+      Npc_Major_KnightCommander_Walk_23: 3781384824271273963
+      Npc_Major_KnightCommander_Walk_24: -2354879188912105426
+      Npc_Major_KnightCommander_Walk_25: 4483080221551334037
+      Npc_Major_KnightCommander_Walk_26: 2787486907426821853
+      Npc_Major_KnightCommander_Walk_27: -7804664682314557833
+      Npc_Major_KnightCommander_Walk_28: -8266063663283840987
+      Npc_Major_KnightCommander_Walk_29: -2611238042492195769
+      Npc_Major_KnightCommander_Walk_3: -677443623691115902
+      Npc_Major_KnightCommander_Walk_30: -4260914506431726681
+      Npc_Major_KnightCommander_Walk_31: 2546187691105341951
+      Npc_Major_KnightCommander_Walk_32: -3297610634262198704
+      Npc_Major_KnightCommander_Walk_33: -7140388179550201265
+      Npc_Major_KnightCommander_Walk_34: -891910244009608281
+      Npc_Major_KnightCommander_Walk_35: -6178141437256839311
+      Npc_Major_KnightCommander_Walk_4: -435886330888337064
+      Npc_Major_KnightCommander_Walk_5: -5378318989450591775
+      Npc_Major_KnightCommander_Walk_6: 6834379940391848825
+      Npc_Major_KnightCommander_Walk_7: -3353197816597511868
+      Npc_Major_KnightCommander_Walk_8: -1025661123334419959
+      Npc_Major_KnightCommander_Walk_9: -3125826671443198238
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

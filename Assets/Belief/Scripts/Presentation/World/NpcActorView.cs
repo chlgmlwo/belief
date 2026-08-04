@@ -28,6 +28,7 @@ namespace Belief.Presentation.World
         const float DialogueDuration = 2.5f;
         const float HighlightDuration = 0.3f;
         const float SelectionTweenDuration = 0.18f;
+        const float WalkFrameFps = 10f;
         static readonly Color HighlightColor = new Color(0.95f, 0.85f, 0.30f);
         static readonly Color SelectionColor = new Color(0.95f, 0.75f, 0.25f);
         static readonly Vector3 PinSelectedScaleMul = new Vector3(1.35f, 1.35f, 1f);
@@ -44,6 +45,9 @@ namespace Belief.Presentation.World
         Coroutine moveRoutine;
         IPlayback movePlayback;
         bool moveSkipRequested;
+
+        Coroutine walkCycleRoutine;
+        Vector3 bodyBaseLocalScale = Vector3.one;
 
         Coroutine dialogueRoutine;
         IPlayback dialoguePlayback;
@@ -70,6 +74,7 @@ namespace Belief.Presentation.World
             // 이제 진짜 캐릭터 아트가 있으므로 흰색(원본 색 그대로)으로 되돌린다.
             baseColor = Color.white;
             if (body != null) body.color = baseColor;
+            if (body != null) bodyBaseLocalScale = body.transform.localScale;
             if (body != null && data.characterPhoto != null) body.sprite = data.characterPhoto;
             if (dialogueRoot != null) dialogueRoot.SetActive(false);
             if (pin != null) pinBaseScale = pin.transform.localScale;
@@ -165,6 +170,8 @@ namespace Belief.Presentation.World
             movePlayback = new DelegatePlayback(() => moveSkipRequested = true);
             PlaybackDirector.Instance?.Register(movePlayback);
 
+            StartWalkCycle();
+
             Vector2 start = transform.position;
             float t = 0f;
             while (t < 1f && !moveSkipRequested)
@@ -176,9 +183,54 @@ namespace Belief.Presentation.World
             }
             SetWorldPosition(target);
 
+            StopWalkCycle();
+
             PlaybackDirector.Instance?.Unregister(movePlayback);
             movePlayback = null;
             moveRoutine = null;
+        }
+
+        /// <summary>NpcData.walkFrames가 비어 있으면 조용히 생략하고 idle 사진을 그대로 유지한다
+        /// (하위 호환 - 아직 걷기 프레임이 없는 캐릭터도 에러 없이 동작).</summary>
+        void StartWalkCycle()
+        {
+            if (body == null || BoundData == null || BoundData.walkFrames == null || BoundData.walkFrames.Length == 0) return;
+            walkCycleRoutine = StartCoroutine(WalkCycleRoutine());
+        }
+
+        void StopWalkCycle()
+        {
+            if (walkCycleRoutine != null)
+            {
+                StopCoroutine(walkCycleRoutine);
+                walkCycleRoutine = null;
+            }
+            if (body != null && BoundData != null)
+            {
+                body.sprite = BoundData.characterPhoto;
+                body.transform.localScale = bodyBaseLocalScale;
+            }
+        }
+
+        /// <summary>걷기 프레임은 원본 idle 사진(characterPhoto)과 크롭 크기가 서로 달라, 매 프레임
+        /// idle 사진의 세로 크기에 맞춰 균일 스케일을 다시 계산한다(LocationSiteView의
+        /// FitLabelToNameTag와 같은 방식) - 그래야 걷는 동안 캐릭터가 갑자기 커지거나 작아 보이지
+        /// 않는다.</summary>
+        IEnumerator WalkCycleRoutine()
+        {
+            var frames = BoundData.walkFrames;
+            float idleHeight = BoundData.characterPhoto != null ? BoundData.characterPhoto.bounds.size.y : 0f;
+            int i = 0;
+            var wait = new WaitForSeconds(1f / WalkFrameFps);
+            while (true)
+            {
+                var frame = frames[i % frames.Length];
+                body.sprite = frame;
+                if (idleHeight > 0f && frame.bounds.size.y > 0f)
+                    body.transform.localScale = bodyBaseLocalScale * (idleHeight / frame.bounds.size.y);
+                i++;
+                yield return wait;
+            }
         }
 
         public void ShowDialogue(string text)

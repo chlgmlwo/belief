@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: d773fc97921342645b84b83961df1d94
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9219002470379976094
+    second: Npc_Major_GuildMaster_Walk_0
+  - first:
+      213: -2319497239779469882
+    second: Npc_Major_GuildMaster_Walk_1
+  - first:
+      213: -2333974402970301882
+    second: Npc_Major_GuildMaster_Walk_2
+  - first:
+      213: 4084651771152310292
+    second: Npc_Major_GuildMaster_Walk_3
+  - first:
+      213: 3673840781674222322
+    second: Npc_Major_GuildMaster_Walk_4
+  - first:
+      213: 3053431567259612084
+    second: Npc_Major_GuildMaster_Walk_5
+  - first:
+      213: 3425619480536527270
+    second: Npc_Major_GuildMaster_Walk_6
+  - first:
+      213: -7930548382138816988
+    second: Npc_Major_GuildMaster_Walk_7
+  - first:
+      213: 7658753584981585107
+    second: Npc_Major_GuildMaster_Walk_8
+  - first:
+      213: 937797233731283473
+    second: Npc_Major_GuildMaster_Walk_9
+  - first:
+      213: -6580352611357412228
+    second: Npc_Major_GuildMaster_Walk_10
+  - first:
+      213: -8196408825625953514
+    second: Npc_Major_GuildMaster_Walk_11
+  - first:
+      213: 4761421960180284682
+    second: Npc_Major_GuildMaster_Walk_12
+  - first:
+      213: 2864179034385061050
+    second: Npc_Major_GuildMaster_Walk_13
+  - first:
+      213: 1136392581977795152
+    second: Npc_Major_GuildMaster_Walk_14
+  - first:
+      213: 6209245242350454033
+    second: Npc_Major_GuildMaster_Walk_15
+  - first:
+      213: 2678604740815610558
+    second: Npc_Major_GuildMaster_Walk_16
+  - first:
+      213: 796818354074482792
+    second: Npc_Major_GuildMaster_Walk_17
+  - first:
+      213: -3545159025185563889
+    second: Npc_Major_GuildMaster_Walk_18
+  - first:
+      213: -710435994220339676
+    second: Npc_Major_GuildMaster_Walk_19
+  - first:
+      213: -4877513938272920636
+    second: Npc_Major_GuildMaster_Walk_20
+  - first:
+      213: 5882171309696507778
+    second: Npc_Major_GuildMaster_Walk_21
+  - first:
+      213: 6296037086620861637
+    second: Npc_Major_GuildMaster_Walk_22
+  - first:
+      213: 8136487553986364699
+    second: Npc_Major_GuildMaster_Walk_23
+  - first:
+      213: -7935253582453845360
+    second: Npc_Major_GuildMaster_Walk_24
+  - first:
+      213: 5361490870101780265
+    second: Npc_Major_GuildMaster_Walk_25
+  - first:
+      213: 734744895240857271
+    second: Npc_Major_GuildMaster_Walk_26
+  - first:
+      213: 8383169238481806506
+    second: Npc_Major_GuildMaster_Walk_27
+  - first:
+      213: -6315015983183205913
+    second: Npc_Major_GuildMaster_Walk_28
+  - first:
+      213: 1232552303283136805
+    second: Npc_Major_GuildMaster_Walk_29
+  - first:
+      213: -7908405863576667348
+    second: Npc_Major_GuildMaster_Walk_30
+  - first:
+      213: 9160773204707872441
+    second: Npc_Major_GuildMaster_Walk_31
+  - first:
+      213: -5274395621584533091
+    second: Npc_Major_GuildMaster_Walk_32
+  - first:
+      213: 4391618791787129900
+    second: Npc_Major_GuildMaster_Walk_33
+  - first:
+      213: -4796106987436055037
+    second: Npc_Major_GuildMaster_Walk_34
+  - first:
+      213: 3439113127636266948
+    second: Npc_Major_GuildMaster_Walk_35
+  - first:
+      213: -3762299603293990043
+    second: Npc_Major_GuildMaster_Walk_00
+  - first:
+      213: -3912536930143107489
+    second: Npc_Major_GuildMaster_Walk_01
+  - first:
+      213: -6472272162622135258
+    second: Npc_Major_GuildMaster_Walk_02
+  - first:
+      213: -1984677246997446844
+    second: Npc_Major_GuildMaster_Walk_03
+  - first:
+      213: -3490247600961395377
+    second: Npc_Major_GuildMaster_Walk_04
+  - first:
+      213: 7650805686619438226
+    second: Npc_Major_GuildMaster_Walk_05
+  - first:
+      213: 3658785500047340236
+    second: Npc_Major_GuildMaster_Walk_06
+  - first:
+      213: -4034881926391076412
+    second: Npc_Major_GuildMaster_Walk_07
+  - first:
+      213: -6036043716896862890
+    second: Npc_Major_GuildMaster_Walk_08
+  - first:
+      213: -8049161722634944952
+    second: Npc_Major_GuildMaster_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 648
+        width: 72
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 563911fb170a9cbc0800000000000000
+      internalID: -3762299603293990043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 647
+        width: 71
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f56093c3460e3b9c0800000000000000
+      internalID: -3912536930143107489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 646
+        width: 71
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 624224972cedd26a0800000000000000
+      internalID: -6472272162622135258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 753
+        y: 646
+        width: 71
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44fbae22f820574e0800000000000000
+      internalID: -1984677246997446844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 978
+        y: 647
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f45698e8c46209fc0800000000000000
+      internalID: -3490247600961395377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1202
+        y: 647
+        width: 70
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29c7d7c7c3f1d2a60800000000000000
+      internalID: 7650805686619438226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 521
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc2fba7f60e96c230800000000000000
+      internalID: 3658785500047340236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 520
+        width: 71
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c9e0d204483108c0800000000000000
+      internalID: -4034881926391076412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 519
+        width: 71
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65d42a5483aab3ca0800000000000000
+      internalID: -6036043716896862890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 520
+        width: 71
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84e3cae3f02ab4090800000000000000
+      internalID: -8049161722634944952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 520
+        width: 71
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c743a370a24eda4a0800000000000000
+      internalID: -6580352611357412228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 1201
+        y: 520
+        width: 71
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61b30ba7991804e80800000000000000
+      internalID: -8196408825625953514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 394
+        width: 71
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0d3a42bb08f31240800000000000000
+      internalID: 4761421960180284682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 394
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab494ad18ab9fb720800000000000000
+      internalID: 2864179034385061050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 394
+        width: 71
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05aec2e480745cf00800000000000000
+      internalID: 1136392581977795152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 394
+        width: 71
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 115459166abab2650800000000000000
+      internalID: 6209245242350454033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 394
+        width: 71
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb2edf5e1d05c2520800000000000000
+      internalID: 2678604740815610558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1202
+        y: 394
+        width: 70
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 868fe11421ede0b00800000000000000
+      internalID: 796818354074482792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 268
+        width: 71
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0b5b8f46a01dcec0800000000000000
+      internalID: -3545159025185563889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 268
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42e58d03a360426f0800000000000000
+      internalID: -710435994220339676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 267
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cbd9325ae69f4cb0800000000000000
+      internalID: -4877513938272920636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 267
+        width: 70
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28f547e14aba1a150800000000000000
+      internalID: 5882171309696507778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 267
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c4c8b85f54006750800000000000000
+      internalID: 6296037086620861637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 1201
+        y: 267
+        width: 71
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b158eb6425c9ae070800000000000000
+      internalID: 8136487553986364699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 141
+        width: 71
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0925137d8e050e190800000000000000
+      internalID: -7935253582453845360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 141
+        width: 70
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 927aaea3a87d76a40800000000000000
+      internalID: 5361490870101780265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 141
+        width: 71
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b6ec51e696523a00800000000000000
+      internalID: 734744895240857271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 141
+        width: 71
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa4a0b7a100075470800000000000000
+      internalID: 8383169238481806506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 141
+        width: 70
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e96373fb6e8c58a0800000000000000
+      internalID: -6315015983183205913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 1202
+        y: 141
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 529e74c1ac7ea1110800000000000000
+      internalID: 1232552303283136805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 15
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2b75e184c2bf3290800000000000000
+      internalID: -7908405863576667348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 15
+        width: 71
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9be878e91ba912f70800000000000000
+      internalID: 9160773204707872441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 15
+        width: 70
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d99049a80259dc6b0800000000000000
+      internalID: -5274395621584533091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 15
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2ce669f50a22fc30800000000000000
+      internalID: 4391618791787129900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 14
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 306ea151b1ec07db0800000000000000
+      internalID: -4796106987436055037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_GuildMaster_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 1201
+        y: 14
+        width: 71
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cf642b1b2f2abf20800000000000000
+      internalID: 3439113127636266948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_GuildMaster_Walk_0: -9219002470379976094
+      Npc_Major_GuildMaster_Walk_00: -3762299603293990043
+      Npc_Major_GuildMaster_Walk_01: -3912536930143107489
+      Npc_Major_GuildMaster_Walk_02: -6472272162622135258
+      Npc_Major_GuildMaster_Walk_03: -1984677246997446844
+      Npc_Major_GuildMaster_Walk_04: -3490247600961395377
+      Npc_Major_GuildMaster_Walk_05: 7650805686619438226
+      Npc_Major_GuildMaster_Walk_06: 3658785500047340236
+      Npc_Major_GuildMaster_Walk_07: -4034881926391076412
+      Npc_Major_GuildMaster_Walk_08: -6036043716896862890
+      Npc_Major_GuildMaster_Walk_09: -8049161722634944952
+      Npc_Major_GuildMaster_Walk_1: -2319497239779469882
+      Npc_Major_GuildMaster_Walk_10: -6580352611357412228
+      Npc_Major_GuildMaster_Walk_11: -8196408825625953514
+      Npc_Major_GuildMaster_Walk_12: 4761421960180284682
+      Npc_Major_GuildMaster_Walk_13: 2864179034385061050
+      Npc_Major_GuildMaster_Walk_14: 1136392581977795152
+      Npc_Major_GuildMaster_Walk_15: 6209245242350454033
+      Npc_Major_GuildMaster_Walk_16: 2678604740815610558
+      Npc_Major_GuildMaster_Walk_17: 796818354074482792
+      Npc_Major_GuildMaster_Walk_18: -3545159025185563889
+      Npc_Major_GuildMaster_Walk_19: -710435994220339676
+      Npc_Major_GuildMaster_Walk_2: -2333974402970301882
+      Npc_Major_GuildMaster_Walk_20: -4877513938272920636
+      Npc_Major_GuildMaster_Walk_21: 5882171309696507778
+      Npc_Major_GuildMaster_Walk_22: 6296037086620861637
+      Npc_Major_GuildMaster_Walk_23: 8136487553986364699
+      Npc_Major_GuildMaster_Walk_24: -7935253582453845360
+      Npc_Major_GuildMaster_Walk_25: 5361490870101780265
+      Npc_Major_GuildMaster_Walk_26: 734744895240857271
+      Npc_Major_GuildMaster_Walk_27: 8383169238481806506
+      Npc_Major_GuildMaster_Walk_28: -6315015983183205913
+      Npc_Major_GuildMaster_Walk_29: 1232552303283136805
+      Npc_Major_GuildMaster_Walk_3: 4084651771152310292
+      Npc_Major_GuildMaster_Walk_30: -7908405863576667348
+      Npc_Major_GuildMaster_Walk_31: 9160773204707872441
+      Npc_Major_GuildMaster_Walk_32: -5274395621584533091
+      Npc_Major_GuildMaster_Walk_33: 4391618791787129900
+      Npc_Major_GuildMaster_Walk_34: -4796106987436055037
+      Npc_Major_GuildMaster_Walk_35: 3439113127636266948
+      Npc_Major_GuildMaster_Walk_4: 3673840781674222322
+      Npc_Major_GuildMaster_Walk_5: 3053431567259612084
+      Npc_Major_GuildMaster_Walk_6: 3425619480536527270
+      Npc_Major_GuildMaster_Walk_7: -7930548382138816988
+      Npc_Major_GuildMaster_Walk_8: 7658753584981585107
+      Npc_Major_GuildMaster_Walk_9: 937797233731283473
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

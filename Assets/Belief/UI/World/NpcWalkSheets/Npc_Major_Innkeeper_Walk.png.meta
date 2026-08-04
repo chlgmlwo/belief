@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 7d6827e8092e40242826386ec51a8901
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6478898443394198164
+    second: Npc_Major_Innkeeper_Walk_0
+  - first:
+      213: 497446181836923920
+    second: Npc_Major_Innkeeper_Walk_1
+  - first:
+      213: -5045215726713066026
+    second: Npc_Major_Innkeeper_Walk_2
+  - first:
+      213: -2062515086629917901
+    second: Npc_Major_Innkeeper_Walk_3
+  - first:
+      213: -5349928818479656401
+    second: Npc_Major_Innkeeper_Walk_4
+  - first:
+      213: -1387981947121768232
+    second: Npc_Major_Innkeeper_Walk_5
+  - first:
+      213: 5288825198238673949
+    second: Npc_Major_Innkeeper_Walk_6
+  - first:
+      213: 5907873620995440882
+    second: Npc_Major_Innkeeper_Walk_7
+  - first:
+      213: 6870778464485471604
+    second: Npc_Major_Innkeeper_Walk_8
+  - first:
+      213: 5180992382276355242
+    second: Npc_Major_Innkeeper_Walk_9
+  - first:
+      213: 7277578489530801912
+    second: Npc_Major_Innkeeper_Walk_10
+  - first:
+      213: 5348914172596214703
+    second: Npc_Major_Innkeeper_Walk_11
+  - first:
+      213: -7714794329527687909
+    second: Npc_Major_Innkeeper_Walk_12
+  - first:
+      213: 1551449266020445221
+    second: Npc_Major_Innkeeper_Walk_13
+  - first:
+      213: 2191045313151235591
+    second: Npc_Major_Innkeeper_Walk_14
+  - first:
+      213: -3206933030043616507
+    second: Npc_Major_Innkeeper_Walk_15
+  - first:
+      213: 1872072333035684975
+    second: Npc_Major_Innkeeper_Walk_16
+  - first:
+      213: 358508305058785272
+    second: Npc_Major_Innkeeper_Walk_17
+  - first:
+      213: -569917270569869396
+    second: Npc_Major_Innkeeper_Walk_18
+  - first:
+      213: -923378943599762535
+    second: Npc_Major_Innkeeper_Walk_19
+  - first:
+      213: 8295664394433542062
+    second: Npc_Major_Innkeeper_Walk_20
+  - first:
+      213: -2597973644974307397
+    second: Npc_Major_Innkeeper_Walk_21
+  - first:
+      213: -6651457947961909178
+    second: Npc_Major_Innkeeper_Walk_22
+  - first:
+      213: -7531771873709929310
+    second: Npc_Major_Innkeeper_Walk_23
+  - first:
+      213: -4398805489954687298
+    second: Npc_Major_Innkeeper_Walk_24
+  - first:
+      213: -4842821061758136588
+    second: Npc_Major_Innkeeper_Walk_25
+  - first:
+      213: -840837716855504605
+    second: Npc_Major_Innkeeper_Walk_26
+  - first:
+      213: 2209729446645035181
+    second: Npc_Major_Innkeeper_Walk_27
+  - first:
+      213: -7165420025196135633
+    second: Npc_Major_Innkeeper_Walk_28
+  - first:
+      213: 4584193971764681851
+    second: Npc_Major_Innkeeper_Walk_29
+  - first:
+      213: 7006894118829066145
+    second: Npc_Major_Innkeeper_Walk_30
+  - first:
+      213: -6101959763281089920
+    second: Npc_Major_Innkeeper_Walk_31
+  - first:
+      213: 4576507532737555272
+    second: Npc_Major_Innkeeper_Walk_32
+  - first:
+      213: -7400635993377049099
+    second: Npc_Major_Innkeeper_Walk_33
+  - first:
+      213: 3547636044220684684
+    second: Npc_Major_Innkeeper_Walk_34
+  - first:
+      213: 574630770490972502
+    second: Npc_Major_Innkeeper_Walk_35
+  - first:
+      213: 2811277429292674291
+    second: Npc_Major_Innkeeper_Walk_00
+  - first:
+      213: 8229141472667109829
+    second: Npc_Major_Innkeeper_Walk_01
+  - first:
+      213: -6759534123996087852
+    second: Npc_Major_Innkeeper_Walk_02
+  - first:
+      213: 6939926123863826545
+    second: Npc_Major_Innkeeper_Walk_03
+  - first:
+      213: 2588434578692859899
+    second: Npc_Major_Innkeeper_Walk_04
+  - first:
+      213: 7935432941839338527
+    second: Npc_Major_Innkeeper_Walk_05
+  - first:
+      213: -1394152390970008000
+    second: Npc_Major_Innkeeper_Walk_06
+  - first:
+      213: -6392821027624572123
+    second: Npc_Major_Innkeeper_Walk_07
+  - first:
+      213: 6464253742504667602
+    second: Npc_Major_Innkeeper_Walk_08
+  - first:
+      213: 6107091285885713320
+    second: Npc_Major_Innkeeper_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 536
+        width: 76
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fc201a5de9a30720800000000000000
+      internalID: 2811277429292674291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 536
+        width: 76
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c902ccc198c33270800000000000000
+      internalID: 8229141472667109829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 536
+        width: 76
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d9f41c178f4132a0800000000000000
+      internalID: -6759534123996087852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 536
+        width: 78
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1706b545a029f4060800000000000000
+      internalID: 6939926123863826545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 536
+        width: 78
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf763530987fbe320800000000000000
+      internalID: 2588434578692859899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 537
+        width: 76
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1c44458732502e60800000000000000
+      internalID: 7935432941839338527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 431
+        width: 73
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04e987579c9f6ace0800000000000000
+      internalID: -1394152390970008000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 431
+        width: 74
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52b2acf55232847a0800000000000000
+      internalID: -6392821027624572123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 430
+        width: 74
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d9eafb9784a5b950800000000000000
+      internalID: 6464253742504667602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 429
+        width: 74
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8abf912fa2fb0c450800000000000000
+      internalID: 6107091285885713320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 429
+        width: 73
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fed185f3172ff460800000000000000
+      internalID: 7277578489530801912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 430
+        width: 72
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fab56a7a9192b3a40800000000000000
+      internalID: 5348914172596214703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 324
+        width: 72
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b15ed499e6b8fe490800000000000000
+      internalID: -7714794329527687909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 325
+        width: 72
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52c603433ead78510800000000000000
+      internalID: 1551449266020445221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 325
+        width: 72
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 706f9298a18286e10800000000000000
+      internalID: 2191045313151235591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 618
+        y: 325
+        width: 72
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50b78c5766fae73d0800000000000000
+      internalID: -3206933030043616507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 325
+        width: 72
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f64cd644edfeaf910800000000000000
+      internalID: 1872072333035684975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 325
+        width: 72
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f76e0c676da9f400800000000000000
+      internalID: 358508305058785272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 219
+        width: 71
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: caf9250134f3718f0800000000000000
+      internalID: -569917270569869396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 219
+        width: 72
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99329a93ebf7f23f0800000000000000
+      internalID: -923378943599762535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 219
+        width: 73
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea7311e70de102370800000000000000
+      internalID: 8295664394433542062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 219
+        width: 73
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb7ca7b0cb422fbd0800000000000000
+      internalID: -2597973644974307397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 219
+        width: 73
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 640284dbc3641b3a0800000000000000
+      internalID: -6651457947961909178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 218
+        width: 72
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2accd3ac265c97790800000000000000
+      internalID: -7531771873709929310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 112
+        width: 72
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb6763776bd44f2c0800000000000000
+      internalID: -4398805489954687298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 113
+        width: 71
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fe402717e7daccb0800000000000000
+      internalID: -4842821061758136588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 113
+        width: 72
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 321c31d2d8eb454f0800000000000000
+      internalID: -840837716855504605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 113
+        width: 72
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da07ffc59398aae10800000000000000
+      internalID: 2209729446645035181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 113
+        width: 72
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2bb6bb73705f8c90800000000000000
+      internalID: -7165420025196135633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 113
+        width: 73
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7c558411245e9f30800000000000000
+      internalID: 4584193971764681851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 8
+        width: 73
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a78493b31d7d3160800000000000000
+      internalID: 7006894118829066145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 8
+        width: 72
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08a67e3cceb715ba0800000000000000
+      internalID: -6101959763281089920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 8
+        width: 71
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84ba8b88a55038f30800000000000000
+      internalID: 4576507532737555272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 8
+        width: 72
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f57ac636c8ab4990800000000000000
+      internalID: -7400635993377049099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 8
+        width: 72
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c895520af2cbb3130800000000000000
+      internalID: 3547636044220684684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Innkeeper_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 8
+        width: 72
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6599f1824af79f700800000000000000
+      internalID: 574630770490972502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_Innkeeper_Walk_0: -6478898443394198164
+      Npc_Major_Innkeeper_Walk_00: 2811277429292674291
+      Npc_Major_Innkeeper_Walk_01: 8229141472667109829
+      Npc_Major_Innkeeper_Walk_02: -6759534123996087852
+      Npc_Major_Innkeeper_Walk_03: 6939926123863826545
+      Npc_Major_Innkeeper_Walk_04: 2588434578692859899
+      Npc_Major_Innkeeper_Walk_05: 7935432941839338527
+      Npc_Major_Innkeeper_Walk_06: -1394152390970008000
+      Npc_Major_Innkeeper_Walk_07: -6392821027624572123
+      Npc_Major_Innkeeper_Walk_08: 6464253742504667602
+      Npc_Major_Innkeeper_Walk_09: 6107091285885713320
+      Npc_Major_Innkeeper_Walk_1: 497446181836923920
+      Npc_Major_Innkeeper_Walk_10: 7277578489530801912
+      Npc_Major_Innkeeper_Walk_11: 5348914172596214703
+      Npc_Major_Innkeeper_Walk_12: -7714794329527687909
+      Npc_Major_Innkeeper_Walk_13: 1551449266020445221
+      Npc_Major_Innkeeper_Walk_14: 2191045313151235591
+      Npc_Major_Innkeeper_Walk_15: -3206933030043616507
+      Npc_Major_Innkeeper_Walk_16: 1872072333035684975
+      Npc_Major_Innkeeper_Walk_17: 358508305058785272
+      Npc_Major_Innkeeper_Walk_18: -569917270569869396
+      Npc_Major_Innkeeper_Walk_19: -923378943599762535
+      Npc_Major_Innkeeper_Walk_2: -5045215726713066026
+      Npc_Major_Innkeeper_Walk_20: 8295664394433542062
+      Npc_Major_Innkeeper_Walk_21: -2597973644974307397
+      Npc_Major_Innkeeper_Walk_22: -6651457947961909178
+      Npc_Major_Innkeeper_Walk_23: -7531771873709929310
+      Npc_Major_Innkeeper_Walk_24: -4398805489954687298
+      Npc_Major_Innkeeper_Walk_25: -4842821061758136588
+      Npc_Major_Innkeeper_Walk_26: -840837716855504605
+      Npc_Major_Innkeeper_Walk_27: 2209729446645035181
+      Npc_Major_Innkeeper_Walk_28: -7165420025196135633
+      Npc_Major_Innkeeper_Walk_29: 4584193971764681851
+      Npc_Major_Innkeeper_Walk_3: -2062515086629917901
+      Npc_Major_Innkeeper_Walk_30: 7006894118829066145
+      Npc_Major_Innkeeper_Walk_31: -6101959763281089920
+      Npc_Major_Innkeeper_Walk_32: 4576507532737555272
+      Npc_Major_Innkeeper_Walk_33: -7400635993377049099
+      Npc_Major_Innkeeper_Walk_34: 3547636044220684684
+      Npc_Major_Innkeeper_Walk_35: 574630770490972502
+      Npc_Major_Innkeeper_Walk_4: -5349928818479656401
+      Npc_Major_Innkeeper_Walk_5: -1387981947121768232
+      Npc_Major_Innkeeper_Walk_6: 5288825198238673949
+      Npc_Major_Innkeeper_Walk_7: 5907873620995440882
+      Npc_Major_Innkeeper_Walk_8: 6870778464485471604
+      Npc_Major_Innkeeper_Walk_9: 5180992382276355242
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 818457b744820f0468ccba9b5ef1c2aa
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3001366884111207583
+    second: Npc_Major_Informant_Walk_0
+  - first:
+      213: -7195087776714714538
+    second: Npc_Major_Informant_Walk_1
+  - first:
+      213: -2101941247646687514
+    second: Npc_Major_Informant_Walk_2
+  - first:
+      213: -2887674049833192927
+    second: Npc_Major_Informant_Walk_3
+  - first:
+      213: -6977544069890944966
+    second: Npc_Major_Informant_Walk_4
+  - first:
+      213: 1731823189974766785
+    second: Npc_Major_Informant_Walk_5
+  - first:
+      213: -440361499227406601
+    second: Npc_Major_Informant_Walk_6
+  - first:
+      213: 287153086680027544
+    second: Npc_Major_Informant_Walk_7
+  - first:
+      213: -3585872583929730307
+    second: Npc_Major_Informant_Walk_8
+  - first:
+      213: -5184963164103478085
+    second: Npc_Major_Informant_Walk_9
+  - first:
+      213: 3649316595751838008
+    second: Npc_Major_Informant_Walk_10
+  - first:
+      213: 74794496076686062
+    second: Npc_Major_Informant_Walk_11
+  - first:
+      213: 3869450434763193777
+    second: Npc_Major_Informant_Walk_12
+  - first:
+      213: -5005634392671787221
+    second: Npc_Major_Informant_Walk_13
+  - first:
+      213: -6343910433876756842
+    second: Npc_Major_Informant_Walk_14
+  - first:
+      213: 4235944265653931106
+    second: Npc_Major_Informant_Walk_15
+  - first:
+      213: -3174019775729931383
+    second: Npc_Major_Informant_Walk_16
+  - first:
+      213: -2814632095110144045
+    second: Npc_Major_Informant_Walk_17
+  - first:
+      213: 5268017178047743689
+    second: Npc_Major_Informant_Walk_18
+  - first:
+      213: 3674195146168765982
+    second: Npc_Major_Informant_Walk_19
+  - first:
+      213: -2794070255038069555
+    second: Npc_Major_Informant_Walk_20
+  - first:
+      213: -8088710186367030943
+    second: Npc_Major_Informant_Walk_21
+  - first:
+      213: 8458292009667515059
+    second: Npc_Major_Informant_Walk_22
+  - first:
+      213: 8534609458103728654
+    second: Npc_Major_Informant_Walk_23
+  - first:
+      213: -7421470053607317704
+    second: Npc_Major_Informant_Walk_24
+  - first:
+      213: 7138848356634679868
+    second: Npc_Major_Informant_Walk_25
+  - first:
+      213: 7537705573676040039
+    second: Npc_Major_Informant_Walk_26
+  - first:
+      213: -6129863871941220930
+    second: Npc_Major_Informant_Walk_27
+  - first:
+      213: -3589743470349675963
+    second: Npc_Major_Informant_Walk_28
+  - first:
+      213: -7880903759497933007
+    second: Npc_Major_Informant_Walk_29
+  - first:
+      213: 729515979228136232
+    second: Npc_Major_Informant_Walk_30
+  - first:
+      213: -8775026469514696582
+    second: Npc_Major_Informant_Walk_31
+  - first:
+      213: 5978294931000665471
+    second: Npc_Major_Informant_Walk_32
+  - first:
+      213: 4782896986571721185
+    second: Npc_Major_Informant_Walk_33
+  - first:
+      213: -6065094128729360871
+    second: Npc_Major_Informant_Walk_34
+  - first:
+      213: -1784743882168532394
+    second: Npc_Major_Informant_Walk_35
+  - first:
+      213: 2426039767534898040
+    second: Npc_Major_Informant_Walk_00
+  - first:
+      213: -2208407639419462620
+    second: Npc_Major_Informant_Walk_01
+  - first:
+      213: 1520873748203614843
+    second: Npc_Major_Informant_Walk_02
+  - first:
+      213: 3405086081020232707
+    second: Npc_Major_Informant_Walk_03
+  - first:
+      213: 795327653868039238
+    second: Npc_Major_Informant_Walk_04
+  - first:
+      213: 8208587011336008713
+    second: Npc_Major_Informant_Walk_05
+  - first:
+      213: -6237371626081495814
+    second: Npc_Major_Informant_Walk_06
+  - first:
+      213: 4695506910308056051
+    second: Npc_Major_Informant_Walk_07
+  - first:
+      213: -7502289780913184643
+    second: Npc_Major_Informant_Walk_08
+  - first:
+      213: 4938562680104628330
+    second: Npc_Major_Informant_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 502
+        width: 57
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87b83ea90560ba120800000000000000
+      internalID: 2426039767534898040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 502
+        width: 57
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42cd42dd3f82a51e0800000000000000
+      internalID: -2208407639419462620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 502
+        width: 57
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b72b4e5bd9a3b1510800000000000000
+      internalID: 1520873748203614843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 503
+        width: 57
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30486d0ffbb414f20800000000000000
+      internalID: 3405086081020232707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 502
+        width: 56
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64c69d09942990b00800000000000000
+      internalID: 795327653868039238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 503
+        width: 56
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90471965562cae170800000000000000
+      internalID: 8208587011336008713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 403
+        width: 59
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af4df479d876079a0800000000000000
+      internalID: -6237371626081495814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 403
+        width: 61
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fbbd4538aac92140800000000000000
+      internalID: 4695506910308056051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 401
+        width: 63
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7060ae613382e790800000000000000
+      internalID: -7502289780913184643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 401
+        width: 62
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6033a8879c498440800000000000000
+      internalID: 4938562680104628330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 401
+        width: 61
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 831e9b2eb1af4a230800000000000000
+      internalID: 3649316595751838008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 401
+        width: 58
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee22ec9a239b90100800000000000000
+      internalID: 74794496076686062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 302
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bd7a005bac03b530800000000000000
+      internalID: 3869450434763193777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 302
+        width: 57
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b27e1557a0a688ab0800000000000000
+      internalID: -5005634392671787221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 302
+        width: 58
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 696b1e56217e5f7a0800000000000000
+      internalID: -6343910433876756842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 302
+        width: 58
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26cc7aaddd819ca30800000000000000
+      internalID: 4235944265653931106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 302
+        width: 57
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98b6d85a4dd93f3d0800000000000000
+      internalID: -3174019775729931383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 302
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dfdb85a50b60f8d0800000000000000
+      internalID: -2814632095110144045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 202
+        width: 56
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c6013856b1cb1940800000000000000
+      internalID: 5268017178047743689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 203
+        width: 59
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1e8adac40d5df230800000000000000
+      internalID: 3674195146168765982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 202
+        width: 62
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc488fa18e77939d0800000000000000
+      internalID: -2794070255038069555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 201
+        width: 62
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 169628af0f02fbf80800000000000000
+      internalID: -8088710186367030943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 201
+        width: 61
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b2d1c2d4c3e16570800000000000000
+      internalID: 8458292009667515059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 201
+        width: 59
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0a36f67516017670800000000000000
+      internalID: 8534609458103728654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 101
+        width: 57
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83f598f8e44a10990800000000000000
+      internalID: -7421470053607317704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 102
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3a5792d1c8421360800000000000000
+      internalID: 7138848356634679868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 102
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76f3174684f4b9860800000000000000
+      internalID: 7537705573676040039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 102
+        width: 57
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb5617f29495eeaa0800000000000000
+      internalID: -6129863871941220930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 101
+        width: 58
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 542970f355bae2ec0800000000000000
+      internalID: -3589743470349675963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 101
+        width: 57
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13fc51a19c761a290800000000000000
+      internalID: -7880903759497933007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 1
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8234ddffae2cf1a00800000000000000
+      internalID: 729515979228136232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 2
+        width: 55
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a782de50be7d83680800000000000000
+      internalID: -8775026469514696582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 2
+        width: 55
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7520dcb09b27f250800000000000000
+      internalID: 5978294931000665471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 3
+        width: 56
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e9c4e9e773406240800000000000000
+      internalID: 4782896986571721185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 3
+        width: 59
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91677cf260574dba0800000000000000
+      internalID: -6065094128729360871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Informant_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 1
+        width: 61
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6520b4825e05b37e0800000000000000
+      internalID: -1784743882168532394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_Informant_Walk_0: -3001366884111207583
+      Npc_Major_Informant_Walk_00: 2426039767534898040
+      Npc_Major_Informant_Walk_01: -2208407639419462620
+      Npc_Major_Informant_Walk_02: 1520873748203614843
+      Npc_Major_Informant_Walk_03: 3405086081020232707
+      Npc_Major_Informant_Walk_04: 795327653868039238
+      Npc_Major_Informant_Walk_05: 8208587011336008713
+      Npc_Major_Informant_Walk_06: -6237371626081495814
+      Npc_Major_Informant_Walk_07: 4695506910308056051
+      Npc_Major_Informant_Walk_08: -7502289780913184643
+      Npc_Major_Informant_Walk_09: 4938562680104628330
+      Npc_Major_Informant_Walk_1: -7195087776714714538
+      Npc_Major_Informant_Walk_10: 3649316595751838008
+      Npc_Major_Informant_Walk_11: 74794496076686062
+      Npc_Major_Informant_Walk_12: 3869450434763193777
+      Npc_Major_Informant_Walk_13: -5005634392671787221
+      Npc_Major_Informant_Walk_14: -6343910433876756842
+      Npc_Major_Informant_Walk_15: 4235944265653931106
+      Npc_Major_Informant_Walk_16: -3174019775729931383
+      Npc_Major_Informant_Walk_17: -2814632095110144045
+      Npc_Major_Informant_Walk_18: 5268017178047743689
+      Npc_Major_Informant_Walk_19: 3674195146168765982
+      Npc_Major_Informant_Walk_2: -2101941247646687514
+      Npc_Major_Informant_Walk_20: -2794070255038069555
+      Npc_Major_Informant_Walk_21: -8088710186367030943
+      Npc_Major_Informant_Walk_22: 8458292009667515059
+      Npc_Major_Informant_Walk_23: 8534609458103728654
+      Npc_Major_Informant_Walk_24: -7421470053607317704
+      Npc_Major_Informant_Walk_25: 7138848356634679868
+      Npc_Major_Informant_Walk_26: 7537705573676040039
+      Npc_Major_Informant_Walk_27: -6129863871941220930
+      Npc_Major_Informant_Walk_28: -3589743470349675963
+      Npc_Major_Informant_Walk_29: -7880903759497933007
+      Npc_Major_Informant_Walk_3: -2887674049833192927
+      Npc_Major_Informant_Walk_30: 729515979228136232
+      Npc_Major_Informant_Walk_31: -8775026469514696582
+      Npc_Major_Informant_Walk_32: 5978294931000665471
+      Npc_Major_Informant_Walk_33: 4782896986571721185
+      Npc_Major_Informant_Walk_34: -6065094128729360871
+      Npc_Major_Informant_Walk_35: -1784743882168532394
+      Npc_Major_Informant_Walk_4: -6977544069890944966
+      Npc_Major_Informant_Walk_5: 1731823189974766785
+      Npc_Major_Informant_Walk_6: -440361499227406601
+      Npc_Major_Informant_Walk_7: 287153086680027544
+      Npc_Major_Informant_Walk_8: -3585872583929730307
+      Npc_Major_Informant_Walk_9: -5184963164103478085
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

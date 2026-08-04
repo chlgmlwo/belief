@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 23c233a61e22f2346b6afcaece6444bd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6681936679213679467
+    second: Npc_Minor_SmallMerchant_Walk_0
+  - first:
+      213: 8783839653996659434
+    second: Npc_Minor_SmallMerchant_Walk_1
+  - first:
+      213: -2355240193951205576
+    second: Npc_Minor_SmallMerchant_Walk_2
+  - first:
+      213: -5659942546456094948
+    second: Npc_Minor_SmallMerchant_Walk_3
+  - first:
+      213: 6707556509175021487
+    second: Npc_Minor_SmallMerchant_Walk_4
+  - first:
+      213: 8773745428323265216
+    second: Npc_Minor_SmallMerchant_Walk_5
+  - first:
+      213: 2309376242931640861
+    second: Npc_Minor_SmallMerchant_Walk_6
+  - first:
+      213: -1860715433108552811
+    second: Npc_Minor_SmallMerchant_Walk_7
+  - first:
+      213: -5588297128804336986
+    second: Npc_Minor_SmallMerchant_Walk_8
+  - first:
+      213: 7173151745208777379
+    second: Npc_Minor_SmallMerchant_Walk_9
+  - first:
+      213: -9205700952226623540
+    second: Npc_Minor_SmallMerchant_Walk_10
+  - first:
+      213: -781147263471903766
+    second: Npc_Minor_SmallMerchant_Walk_11
+  - first:
+      213: 6964355667747506007
+    second: Npc_Minor_SmallMerchant_Walk_12
+  - first:
+      213: -2027753405051825202
+    second: Npc_Minor_SmallMerchant_Walk_13
+  - first:
+      213: 8595302876990271934
+    second: Npc_Minor_SmallMerchant_Walk_14
+  - first:
+      213: -8869583269786761863
+    second: Npc_Minor_SmallMerchant_Walk_15
+  - first:
+      213: -9062379822520894154
+    second: Npc_Minor_SmallMerchant_Walk_16
+  - first:
+      213: -7984740483068787435
+    second: Npc_Minor_SmallMerchant_Walk_17
+  - first:
+      213: -1982202333424197296
+    second: Npc_Minor_SmallMerchant_Walk_18
+  - first:
+      213: -8652786882417381581
+    second: Npc_Minor_SmallMerchant_Walk_19
+  - first:
+      213: -1373344987607366520
+    second: Npc_Minor_SmallMerchant_Walk_20
+  - first:
+      213: -4269548911699942493
+    second: Npc_Minor_SmallMerchant_Walk_21
+  - first:
+      213: -1020898915651144498
+    second: Npc_Minor_SmallMerchant_Walk_22
+  - first:
+      213: -3877362868883679064
+    second: Npc_Minor_SmallMerchant_Walk_23
+  - first:
+      213: -8433376371267781875
+    second: Npc_Minor_SmallMerchant_Walk_24
+  - first:
+      213: 3076328687593474194
+    second: Npc_Minor_SmallMerchant_Walk_25
+  - first:
+      213: 6115260662438525902
+    second: Npc_Minor_SmallMerchant_Walk_26
+  - first:
+      213: -6936484621652665352
+    second: Npc_Minor_SmallMerchant_Walk_27
+  - first:
+      213: -2129828960225547115
+    second: Npc_Minor_SmallMerchant_Walk_28
+  - first:
+      213: -4178041600961243013
+    second: Npc_Minor_SmallMerchant_Walk_29
+  - first:
+      213: 699667188440058843
+    second: Npc_Minor_SmallMerchant_Walk_30
+  - first:
+      213: -2341177762196881315
+    second: Npc_Minor_SmallMerchant_Walk_31
+  - first:
+      213: -4461709334957963265
+    second: Npc_Minor_SmallMerchant_Walk_32
+  - first:
+      213: 1968688494906974502
+    second: Npc_Minor_SmallMerchant_Walk_33
+  - first:
+      213: -1628033835376464244
+    second: Npc_Minor_SmallMerchant_Walk_34
+  - first:
+      213: -974403797669748749
+    second: Npc_Minor_SmallMerchant_Walk_35
+  - first:
+      213: -4135498917477385315
+    second: Npc_Minor_SmallMerchant_Walk_00
+  - first:
+      213: -5077233461719032459
+    second: Npc_Minor_SmallMerchant_Walk_01
+  - first:
+      213: 4257676117725459795
+    second: Npc_Minor_SmallMerchant_Walk_02
+  - first:
+      213: -5110970892624161749
+    second: Npc_Minor_SmallMerchant_Walk_03
+  - first:
+      213: 8212727309723142977
+    second: Npc_Minor_SmallMerchant_Walk_04
+  - first:
+      213: 637754388741577376
+    second: Npc_Minor_SmallMerchant_Walk_05
+  - first:
+      213: -8579989684727455409
+    second: Npc_Minor_SmallMerchant_Walk_06
+  - first:
+      213: 7657671030311206527
+    second: Npc_Minor_SmallMerchant_Walk_07
+  - first:
+      213: 4665723589319796091
+    second: Npc_Minor_SmallMerchant_Walk_08
+  - first:
+      213: -7803810947754387888
+    second: Npc_Minor_SmallMerchant_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 718
+        width: 68
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9b7fb635a1cb96c0800000000000000
+      internalID: -4135498917477385315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 717
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57d9280211b0a89b0800000000000000
+      internalID: -5077233461719032459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 717
+        width: 67
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 355b0b5fedd461b30800000000000000
+      internalID: 4257676117725459795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 716
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2496cf5d0f2219b0800000000000000
+      internalID: -5110970892624161749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 716
+        width: 66
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14b823da9f779f170800000000000000
+      internalID: 8212727309723142977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1326
+        y: 717
+        width: 66
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aa53e2dc32c9d800800000000000000
+      internalID: 637754388741577376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 577
+        width: 66
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f41ed4927d0cde880800000000000000
+      internalID: -8579989684727455409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 578
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7ebf70ea33854a60800000000000000
+      internalID: 7657671030311206527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 578
+        width: 68
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b75219962eaffb040800000000000000
+      internalID: 4665723589319796091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 577
+        width: 68
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0569bc41a4b43b390800000000000000
+      internalID: -7803810947754387888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 576
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccf8e0202c7ce3080800000000000000
+      internalID: -9205700952226623540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 576
+        width: 68
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aeb1d7bd3bec825f0800000000000000
+      internalID: -781147263471903766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 437
+        width: 68
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7578191c49c56a060800000000000000
+      internalID: 6964355667747506007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 438
+        width: 68
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec31cc78509fbd3e0800000000000000
+      internalID: -2027753405051825202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 438
+        width: 68
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb1f5ef3d66a84770800000000000000
+      internalID: 8595302876990271934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 438
+        width: 68
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 975cc9a5209e8e480800000000000000
+      internalID: -8869583269786761863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 437
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63d79f2e095fb3280800000000000000
+      internalID: -9062379822520894154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1326
+        y: 437
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 515010be5d0803190800000000000000
+      internalID: -7984740483068787435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 297
+        width: 67
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 051ec4bda7dcd74e0800000000000000
+      internalID: -1982202333424197296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 298
+        width: 66
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33f2a54cc202be780800000000000000
+      internalID: -8652786882417381581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 298
+        width: 67
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88489939206e0fce0800000000000000
+      internalID: -1373344987607366520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 299
+        width: 67
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a328f6c2e38fb4c0800000000000000
+      internalID: -4269548911699942493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 297
+        width: 68
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec4380d58d905d1f0800000000000000
+      internalID: -1020898915651144498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 297
+        width: 68
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a816ee8307d03ac0800000000000000
+      internalID: -3877362868883679064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 157
+        width: 68
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0b396d4fd0a6fa80800000000000000
+      internalID: -8433376371267781875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 157
+        width: 68
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2984a5c64a051ba20800000000000000
+      internalID: 3076328687593474194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 158
+        width: 68
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecb71952c25cdd450800000000000000
+      internalID: 6115260662438525902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 158
+        width: 67
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fbde68dcf7acbf90800000000000000
+      internalID: -6936484621652665352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 159
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59caa6158d35172e0800000000000000
+      internalID: -2129828960225547115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 158
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7896e5dc4d9406c0800000000000000
+      internalID: -4178041600961243013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 18
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdb47f3d997b5b900800000000000000
+      internalID: 699667188440058843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 18
+        width: 66
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d500638ba37728fd0800000000000000
+      internalID: -2341177762196881315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 18
+        width: 66
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff749cebff2d412c0800000000000000
+      internalID: -4461709334957963265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 18
+        width: 66
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 621245c61cf225b10800000000000000
+      internalID: 1968688494906974502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 19
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8ea1183adf0869e0800000000000000
+      internalID: -1628033835376464244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_SmallMerchant_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 19
+        width: 67
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ff5a1c98e83a72f0800000000000000
+      internalID: -974403797669748749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Minor_SmallMerchant_Walk_0: 6681936679213679467
+      Npc_Minor_SmallMerchant_Walk_00: -4135498917477385315
+      Npc_Minor_SmallMerchant_Walk_01: -5077233461719032459
+      Npc_Minor_SmallMerchant_Walk_02: 4257676117725459795
+      Npc_Minor_SmallMerchant_Walk_03: -5110970892624161749
+      Npc_Minor_SmallMerchant_Walk_04: 8212727309723142977
+      Npc_Minor_SmallMerchant_Walk_05: 637754388741577376
+      Npc_Minor_SmallMerchant_Walk_06: -8579989684727455409
+      Npc_Minor_SmallMerchant_Walk_07: 7657671030311206527
+      Npc_Minor_SmallMerchant_Walk_08: 4665723589319796091
+      Npc_Minor_SmallMerchant_Walk_09: -7803810947754387888
+      Npc_Minor_SmallMerchant_Walk_1: 8783839653996659434
+      Npc_Minor_SmallMerchant_Walk_10: -9205700952226623540
+      Npc_Minor_SmallMerchant_Walk_11: -781147263471903766
+      Npc_Minor_SmallMerchant_Walk_12: 6964355667747506007
+      Npc_Minor_SmallMerchant_Walk_13: -2027753405051825202
+      Npc_Minor_SmallMerchant_Walk_14: 8595302876990271934
+      Npc_Minor_SmallMerchant_Walk_15: -8869583269786761863
+      Npc_Minor_SmallMerchant_Walk_16: -9062379822520894154
+      Npc_Minor_SmallMerchant_Walk_17: -7984740483068787435
+      Npc_Minor_SmallMerchant_Walk_18: -1982202333424197296
+      Npc_Minor_SmallMerchant_Walk_19: -8652786882417381581
+      Npc_Minor_SmallMerchant_Walk_2: -2355240193951205576
+      Npc_Minor_SmallMerchant_Walk_20: -1373344987607366520
+      Npc_Minor_SmallMerchant_Walk_21: -4269548911699942493
+      Npc_Minor_SmallMerchant_Walk_22: -1020898915651144498
+      Npc_Minor_SmallMerchant_Walk_23: -3877362868883679064
+      Npc_Minor_SmallMerchant_Walk_24: -8433376371267781875
+      Npc_Minor_SmallMerchant_Walk_25: 3076328687593474194
+      Npc_Minor_SmallMerchant_Walk_26: 6115260662438525902
+      Npc_Minor_SmallMerchant_Walk_27: -6936484621652665352
+      Npc_Minor_SmallMerchant_Walk_28: -2129828960225547115
+      Npc_Minor_SmallMerchant_Walk_29: -4178041600961243013
+      Npc_Minor_SmallMerchant_Walk_3: -5659942546456094948
+      Npc_Minor_SmallMerchant_Walk_30: 699667188440058843
+      Npc_Minor_SmallMerchant_Walk_31: -2341177762196881315
+      Npc_Minor_SmallMerchant_Walk_32: -4461709334957963265
+      Npc_Minor_SmallMerchant_Walk_33: 1968688494906974502
+      Npc_Minor_SmallMerchant_Walk_34: -1628033835376464244
+      Npc_Minor_SmallMerchant_Walk_35: -974403797669748749
+      Npc_Minor_SmallMerchant_Walk_4: 6707556509175021487
+      Npc_Minor_SmallMerchant_Walk_5: 8773745428323265216
+      Npc_Minor_SmallMerchant_Walk_6: 2309376242931640861
+      Npc_Minor_SmallMerchant_Walk_7: -1860715433108552811
+      Npc_Minor_SmallMerchant_Walk_8: -5588297128804336986
+      Npc_Minor_SmallMerchant_Walk_9: 7173151745208777379
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

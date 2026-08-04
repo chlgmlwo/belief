@@ -32,6 +32,8 @@ namespace Belief.Data
         [Header("Visual")]
         [Tooltip("NpcActorView의 사진 프레임 안에 표시할 실제 캐릭터 스프라이트 - 비어 있으면 기존 placeholder 단색으로 대체된다.")]
         public Sprite characterPhoto;
+        [Tooltip("이동(AnimateTo) 중 재생할 걷기 사이클 프레임들 - 순서대로 재생 후 반복한다. 비어 있으면 이동 중에도 characterPhoto를 그대로 유지한다(하위 호환).")]
+        public Sprite[] walkFrames;
 
         public abstract NpcRank Rank { get; }
 

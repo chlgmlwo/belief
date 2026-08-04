@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 65c5074e943774f489fce9d63008392a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1906725903429962844
+    second: Npc_Major_Steward_Walk_0
+  - first:
+      213: 7865990187231147666
+    second: Npc_Major_Steward_Walk_1
+  - first:
+      213: 3126890755226029392
+    second: Npc_Major_Steward_Walk_2
+  - first:
+      213: -4449122913104387253
+    second: Npc_Major_Steward_Walk_3
+  - first:
+      213: 1579118952925033377
+    second: Npc_Major_Steward_Walk_4
+  - first:
+      213: 24687964553438193
+    second: Npc_Major_Steward_Walk_5
+  - first:
+      213: -7502250698665482642
+    second: Npc_Major_Steward_Walk_6
+  - first:
+      213: -3750478701346877488
+    second: Npc_Major_Steward_Walk_7
+  - first:
+      213: -4682278915453264719
+    second: Npc_Major_Steward_Walk_8
+  - first:
+      213: 2215474847371713642
+    second: Npc_Major_Steward_Walk_9
+  - first:
+      213: -2167893670498562555
+    second: Npc_Major_Steward_Walk_10
+  - first:
+      213: -9175779926586562424
+    second: Npc_Major_Steward_Walk_11
+  - first:
+      213: -2466047415491425774
+    second: Npc_Major_Steward_Walk_12
+  - first:
+      213: 3244048477513723252
+    second: Npc_Major_Steward_Walk_13
+  - first:
+      213: -1342958317981992782
+    second: Npc_Major_Steward_Walk_14
+  - first:
+      213: -6655964448513265164
+    second: Npc_Major_Steward_Walk_15
+  - first:
+      213: -6779024274272011921
+    second: Npc_Major_Steward_Walk_16
+  - first:
+      213: -5458441403096652002
+    second: Npc_Major_Steward_Walk_17
+  - first:
+      213: -6154835128834645778
+    second: Npc_Major_Steward_Walk_18
+  - first:
+      213: 4359236829357383780
+    second: Npc_Major_Steward_Walk_19
+  - first:
+      213: 4140027558906381195
+    second: Npc_Major_Steward_Walk_20
+  - first:
+      213: -8800366893052363809
+    second: Npc_Major_Steward_Walk_21
+  - first:
+      213: 7169211806542822254
+    second: Npc_Major_Steward_Walk_22
+  - first:
+      213: -6063774859739496681
+    second: Npc_Major_Steward_Walk_23
+  - first:
+      213: 2227567437861093008
+    second: Npc_Major_Steward_Walk_24
+  - first:
+      213: 7293684739421997063
+    second: Npc_Major_Steward_Walk_25
+  - first:
+      213: 1065176460186880181
+    second: Npc_Major_Steward_Walk_26
+  - first:
+      213: -5986910560217405925
+    second: Npc_Major_Steward_Walk_27
+  - first:
+      213: 5460255485052174098
+    second: Npc_Major_Steward_Walk_28
+  - first:
+      213: 5969107977259810090
+    second: Npc_Major_Steward_Walk_29
+  - first:
+      213: -8752679372652639604
+    second: Npc_Major_Steward_Walk_30
+  - first:
+      213: 2884950111853043164
+    second: Npc_Major_Steward_Walk_31
+  - first:
+      213: -526338797357640503
+    second: Npc_Major_Steward_Walk_32
+  - first:
+      213: -5517187491578191812
+    second: Npc_Major_Steward_Walk_33
+  - first:
+      213: -7306587892253100171
+    second: Npc_Major_Steward_Walk_34
+  - first:
+      213: -7829012324154461412
+    second: Npc_Major_Steward_Walk_35
+  - first:
+      213: 6866328876226833507
+    second: Npc_Major_Steward_Walk_00
+  - first:
+      213: 5969142999200512955
+    second: Npc_Major_Steward_Walk_01
+  - first:
+      213: 4043977778485705401
+    second: Npc_Major_Steward_Walk_02
+  - first:
+      213: -8674262757466586070
+    second: Npc_Major_Steward_Walk_03
+  - first:
+      213: -32672138615529484
+    second: Npc_Major_Steward_Walk_04
+  - first:
+      213: 2720524343551699748
+    second: Npc_Major_Steward_Walk_05
+  - first:
+      213: -981530661212729488
+    second: Npc_Major_Steward_Walk_06
+  - first:
+      213: 996501598967011396
+    second: Npc_Major_Steward_Walk_07
+  - first:
+      213: -6087791529027044050
+    second: Npc_Major_Steward_Walk_08
+  - first:
+      213: 5419882707265622355
+    second: Npc_Major_Steward_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 520
+        width: 69
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36ce18acbb91a4f50800000000000000
+      internalID: 6866328876226833507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 520
+        width: 68
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbb3bd09ee7a6d250800000000000000
+      internalID: 5969142999200512955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 521
+        width: 68
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bab6361d581f1830800000000000000
+      internalID: 4043977778485705401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 520
+        width: 69
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a24cdc4faf3de9780800000000000000
+      internalID: -8674262757466586070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 803
+        y: 520
+        width: 68
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ffd4cfecdceb8ff0800000000000000
+      internalID: -32672138615529484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 520
+        width: 69
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42ba33cf97e31c520800000000000000
+      internalID: 2720524343551699748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 418
+        width: 70
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07fc2426017e062f0800000000000000
+      internalID: -981530661212729488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 418
+        width: 70
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4489980bce844dd00800000000000000
+      internalID: 996501598967011396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 418
+        width: 69
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2df5bddbd1d38ba0800000000000000
+      internalID: -6087791529027044050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 620
+        y: 418
+        width: 69
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35199d24b9a473b40800000000000000
+      internalID: 5419882707265622355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 803
+        y: 418
+        width: 69
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50e8d1351381ae1e0800000000000000
+      internalID: -2167893670498562555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 418
+        width: 69
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 888e5aaa5c419a080800000000000000
+      internalID: -9175779926586562424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 315
+        width: 69
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21a0d58f0f6d6cdd0800000000000000
+      internalID: -2466047415491425774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 313
+        width: 69
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47d2a5017ec250d20800000000000000
+      internalID: 3244048477513723252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 313
+        width: 69
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b8f68c668adc5de0800000000000000
+      internalID: -1342958317981992782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 313
+        width: 69
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f1fcb0599341a3a0800000000000000
+      internalID: -6655964448513265164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 313
+        width: 69
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f693440e6511ce1a0800000000000000
+      internalID: -6779024274272011921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 314
+        width: 69
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e17a325c678bf34b0800000000000000
+      internalID: -5458441403096652002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 211
+        width: 68
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee027be5f02a59aa0800000000000000
+      internalID: -6154835128834645778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 211
+        width: 68
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 460a5a1dcce1f7c30800000000000000
+      internalID: 4359236829357383780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 212
+        width: 67
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8341f84125547930800000000000000
+      internalID: 4140027558906381195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 212
+        width: 67
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdb7186efe0ded580800000000000000
+      internalID: -8800366893052363809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 212
+        width: 68
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6b758867282e7360800000000000000
+      internalID: 7169211806542822254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 211
+        width: 68
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71f784f64e429dba0800000000000000
+      internalID: -6063774859739496681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 108
+        width: 68
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09effe658c8e9ee10800000000000000
+      internalID: 2227567437861093008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 108
+        width: 68
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7088fec70af583560800000000000000
+      internalID: 7293684739421997063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 108
+        width: 69
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b80c84d85448ce00800000000000000
+      internalID: 1065176460186880181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 108
+        width: 70
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b16e434c0983aeca0800000000000000
+      internalID: -5986910560217405925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 108
+        width: 70
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21fb9691f69b6cb40800000000000000
+      internalID: 5460255485052174098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 108
+        width: 69
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2d7582641886d250800000000000000
+      internalID: 5969107977259810090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 5
+        width: 69
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8a8628fb7c388680800000000000000
+      internalID: -8752679372652639604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 5
+        width: 68
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdd59b377d6690820800000000000000
+      internalID: 2884950111853043164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 6
+        width: 68
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c4ddf707a112b8f0800000000000000
+      internalID: -526338797357640503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 5
+        width: 68
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c30e04d25330f63b0800000000000000
+      internalID: -5517187491578191812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 4
+        width: 68
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57775122609c99a90800000000000000
+      internalID: -7306587892253100171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Steward_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 4
+        width: 68
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c133e9465c2c95390800000000000000
+      internalID: -7829012324154461412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_Steward_Walk_0: 1906725903429962844
+      Npc_Major_Steward_Walk_00: 6866328876226833507
+      Npc_Major_Steward_Walk_01: 5969142999200512955
+      Npc_Major_Steward_Walk_02: 4043977778485705401
+      Npc_Major_Steward_Walk_03: -8674262757466586070
+      Npc_Major_Steward_Walk_04: -32672138615529484
+      Npc_Major_Steward_Walk_05: 2720524343551699748
+      Npc_Major_Steward_Walk_06: -981530661212729488
+      Npc_Major_Steward_Walk_07: 996501598967011396
+      Npc_Major_Steward_Walk_08: -6087791529027044050
+      Npc_Major_Steward_Walk_09: 5419882707265622355
+      Npc_Major_Steward_Walk_1: 7865990187231147666
+      Npc_Major_Steward_Walk_10: -2167893670498562555
+      Npc_Major_Steward_Walk_11: -9175779926586562424
+      Npc_Major_Steward_Walk_12: -2466047415491425774
+      Npc_Major_Steward_Walk_13: 3244048477513723252
+      Npc_Major_Steward_Walk_14: -1342958317981992782
+      Npc_Major_Steward_Walk_15: -6655964448513265164
+      Npc_Major_Steward_Walk_16: -6779024274272011921
+      Npc_Major_Steward_Walk_17: -5458441403096652002
+      Npc_Major_Steward_Walk_18: -6154835128834645778
+      Npc_Major_Steward_Walk_19: 4359236829357383780
+      Npc_Major_Steward_Walk_2: 3126890755226029392
+      Npc_Major_Steward_Walk_20: 4140027558906381195
+      Npc_Major_Steward_Walk_21: -8800366893052363809
+      Npc_Major_Steward_Walk_22: 7169211806542822254
+      Npc_Major_Steward_Walk_23: -6063774859739496681
+      Npc_Major_Steward_Walk_24: 2227567437861093008
+      Npc_Major_Steward_Walk_25: 7293684739421997063
+      Npc_Major_Steward_Walk_26: 1065176460186880181
+      Npc_Major_Steward_Walk_27: -5986910560217405925
+      Npc_Major_Steward_Walk_28: 5460255485052174098
+      Npc_Major_Steward_Walk_29: 5969107977259810090
+      Npc_Major_Steward_Walk_3: -4449122913104387253
+      Npc_Major_Steward_Walk_30: -8752679372652639604
+      Npc_Major_Steward_Walk_31: 2884950111853043164
+      Npc_Major_Steward_Walk_32: -526338797357640503
+      Npc_Major_Steward_Walk_33: -5517187491578191812
+      Npc_Major_Steward_Walk_34: -7306587892253100171
+      Npc_Major_Steward_Walk_35: -7829012324154461412
+      Npc_Major_Steward_Walk_4: 1579118952925033377
+      Npc_Major_Steward_Walk_5: 24687964553438193
+      Npc_Major_Steward_Walk_6: -7502250698665482642
+      Npc_Major_Steward_Walk_7: -3750478701346877488
+      Npc_Major_Steward_Walk_8: -4682278915453264719
+      Npc_Major_Steward_Walk_9: 2215474847371713642
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

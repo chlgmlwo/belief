@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: d2e6fbf2bae3ba44188a601b00611f21
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5359865004796127492
+    second: Npc_Major_RivalNoblewoman_Walk_0
+  - first:
+      213: -2249432959092660816
+    second: Npc_Major_RivalNoblewoman_Walk_1
+  - first:
+      213: 6478310143241040329
+    second: Npc_Major_RivalNoblewoman_Walk_2
+  - first:
+      213: 7100582755148513806
+    second: Npc_Major_RivalNoblewoman_Walk_3
+  - first:
+      213: 6806948405124029602
+    second: Npc_Major_RivalNoblewoman_Walk_4
+  - first:
+      213: -4020963601667697146
+    second: Npc_Major_RivalNoblewoman_Walk_5
+  - first:
+      213: 2674380958325998233
+    second: Npc_Major_RivalNoblewoman_Walk_6
+  - first:
+      213: 4398669385856736848
+    second: Npc_Major_RivalNoblewoman_Walk_7
+  - first:
+      213: -4226462492104910851
+    second: Npc_Major_RivalNoblewoman_Walk_8
+  - first:
+      213: 7307324026964836093
+    second: Npc_Major_RivalNoblewoman_Walk_9
+  - first:
+      213: -515225193562770724
+    second: Npc_Major_RivalNoblewoman_Walk_10
+  - first:
+      213: -2640887807524500649
+    second: Npc_Major_RivalNoblewoman_Walk_11
+  - first:
+      213: 3643522405095050731
+    second: Npc_Major_RivalNoblewoman_Walk_12
+  - first:
+      213: -7405438683882491308
+    second: Npc_Major_RivalNoblewoman_Walk_13
+  - first:
+      213: -8188170570191120135
+    second: Npc_Major_RivalNoblewoman_Walk_14
+  - first:
+      213: -6929616401567800149
+    second: Npc_Major_RivalNoblewoman_Walk_15
+  - first:
+      213: -6150728512763343546
+    second: Npc_Major_RivalNoblewoman_Walk_16
+  - first:
+      213: -3712395670760823554
+    second: Npc_Major_RivalNoblewoman_Walk_17
+  - first:
+      213: -7562539539031330647
+    second: Npc_Major_RivalNoblewoman_Walk_18
+  - first:
+      213: -7433952057910028628
+    second: Npc_Major_RivalNoblewoman_Walk_19
+  - first:
+      213: 3672156227401598692
+    second: Npc_Major_RivalNoblewoman_Walk_20
+  - first:
+      213: -1384387422964593123
+    second: Npc_Major_RivalNoblewoman_Walk_21
+  - first:
+      213: 3357702112702378073
+    second: Npc_Major_RivalNoblewoman_Walk_22
+  - first:
+      213: 6725388795012985199
+    second: Npc_Major_RivalNoblewoman_Walk_23
+  - first:
+      213: -4212648176681233542
+    second: Npc_Major_RivalNoblewoman_Walk_24
+  - first:
+      213: 1635460960877162734
+    second: Npc_Major_RivalNoblewoman_Walk_25
+  - first:
+      213: 8273270514704212036
+    second: Npc_Major_RivalNoblewoman_Walk_26
+  - first:
+      213: 8507125929915991890
+    second: Npc_Major_RivalNoblewoman_Walk_27
+  - first:
+      213: -5739801222447847029
+    second: Npc_Major_RivalNoblewoman_Walk_28
+  - first:
+      213: 1447471527769848216
+    second: Npc_Major_RivalNoblewoman_Walk_29
+  - first:
+      213: 6745045888395935886
+    second: Npc_Major_RivalNoblewoman_Walk_30
+  - first:
+      213: -7450966813783883179
+    second: Npc_Major_RivalNoblewoman_Walk_31
+  - first:
+      213: -6766918297904065088
+    second: Npc_Major_RivalNoblewoman_Walk_32
+  - first:
+      213: 2351457606524429187
+    second: Npc_Major_RivalNoblewoman_Walk_33
+  - first:
+      213: 1965974603118284567
+    second: Npc_Major_RivalNoblewoman_Walk_34
+  - first:
+      213: 2805946189716244538
+    second: Npc_Major_RivalNoblewoman_Walk_35
+  - first:
+      213: 7079927899232414382
+    second: Npc_Major_RivalNoblewoman_Walk_00
+  - first:
+      213: -7374261035654936426
+    second: Npc_Major_RivalNoblewoman_Walk_01
+  - first:
+      213: -8543805145687165921
+    second: Npc_Major_RivalNoblewoman_Walk_02
+  - first:
+      213: -2360734344556550491
+    second: Npc_Major_RivalNoblewoman_Walk_03
+  - first:
+      213: 2998709492413842075
+    second: Npc_Major_RivalNoblewoman_Walk_04
+  - first:
+      213: 4922069102683897524
+    second: Npc_Major_RivalNoblewoman_Walk_05
+  - first:
+      213: -1454548402995852738
+    second: Npc_Major_RivalNoblewoman_Walk_06
+  - first:
+      213: -6466682444530245399
+    second: Npc_Major_RivalNoblewoman_Walk_07
+  - first:
+      213: -1840819631063852632
+    second: Npc_Major_RivalNoblewoman_Walk_08
+  - first:
+      213: 1649746514016522245
+    second: Npc_Major_RivalNoblewoman_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 503
+        width: 64
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaa202dc9e4f04260800000000000000
+      internalID: 7079927899232414382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 503
+        width: 64
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69888c898ac59a990800000000000000
+      internalID: -7374261035654936426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 503
+        width: 64
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f14792dac7e4e6980800000000000000
+      internalID: -8543805145687165921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 503
+        width: 64
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a664af0f9cfc3fd0800000000000000
+      internalID: -2360734344556550491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 503
+        width: 63
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b924bef356e8d9920800000000000000
+      internalID: 2998709492413842075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 503
+        width: 61
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4be366945c3be4440800000000000000
+      internalID: 4922069102683897524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 403
+        width: 60
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a02da1fe760dbe0800000000000000
+      internalID: -1454548402995852738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 404
+        width: 61
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e02582249ab146a0800000000000000
+      internalID: -6466682444530245399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 403
+        width: 61
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a99fd27c481476e0800000000000000
+      internalID: -1840819631063852632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 402
+        width: 62
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 500d469b6b315e610800000000000000
+      internalID: 1649746514016522245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 402
+        width: 62
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd2fb5e8a6d89d8f0800000000000000
+      internalID: -515225193562770724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 402
+        width: 62
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75b87d4f78ea95bd0800000000000000
+      internalID: -2640887807524500649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 302
+        width: 63
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bed0edeb254609230800000000000000
+      internalID: 3643522405095050731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 302
+        width: 63
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4527f31b0c89a3990800000000000000
+      internalID: -7405438683882491308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 302
+        width: 65
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f8537bcf36cd5e80800000000000000
+      internalID: -8188170570191120135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 303
+        width: 66
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba4a4d2f89e05df90800000000000000
+      internalID: -6929616401567800149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 303
+        width: 66
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64dcfde610934aaa0800000000000000
+      internalID: -6150728512763343546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 302
+        width: 66
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef46a9a7ecbea7cc0800000000000000
+      internalID: -3712395670760823554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 202
+        width: 64
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a0f0387b567c0790800000000000000
+      internalID: -7562539539031330647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 202
+        width: 64
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca61df67dfb45d890800000000000000
+      internalID: -7433952057910028628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 203
+        width: 63
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e6c20602ae16f230800000000000000
+      internalID: 3672156227401598692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 203
+        width: 61
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1e4dae39faa9cce0800000000000000
+      internalID: -1384387422964593123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 203
+        width: 61
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95034391844f89e20800000000000000
+      internalID: 3357702112702378073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 204
+        width: 60
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f613427f971655d50800000000000000
+      internalID: 6725388795012985199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 103
+        width: 60
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a73d7398dcaa985c0800000000000000
+      internalID: -4212648176681233542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 102
+        width: 61
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee03a11341352b610800000000000000
+      internalID: 1635460960877162734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 101
+        width: 61
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44068af03bf80d270800000000000000
+      internalID: 8273270514704212036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 102
+        width: 62
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2574828e5f16f0670800000000000000
+      internalID: 8507125929915991890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 102
+        width: 63
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b89a4aee2312850b0800000000000000
+      internalID: -5739801222447847029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 102
+        width: 64
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 899b63b7fa3761410800000000000000
+      internalID: 1447471527769848216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 3
+        width: 65
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e808c8baf773b9d50800000000000000
+      internalID: 6745045888395935886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 3
+        width: 65
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5520037e829d89890800000000000000
+      internalID: -7450966813783883179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 2
+        width: 65
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c5565529a31712a0800000000000000
+      internalID: -6766918297904065088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 2
+        width: 65
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 383674d0c3e02a020800000000000000
+      internalID: 2351457606524429187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2
+        width: 64
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71f0e404c7b884b10800000000000000
+      internalID: 1965974603118284567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_RivalNoblewoman_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 3
+        width: 63
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a38c5e86139b0f620800000000000000
+      internalID: 2805946189716244538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_RivalNoblewoman_Walk_0: 5359865004796127492
+      Npc_Major_RivalNoblewoman_Walk_00: 7079927899232414382
+      Npc_Major_RivalNoblewoman_Walk_01: -7374261035654936426
+      Npc_Major_RivalNoblewoman_Walk_02: -8543805145687165921
+      Npc_Major_RivalNoblewoman_Walk_03: -2360734344556550491
+      Npc_Major_RivalNoblewoman_Walk_04: 2998709492413842075
+      Npc_Major_RivalNoblewoman_Walk_05: 4922069102683897524
+      Npc_Major_RivalNoblewoman_Walk_06: -1454548402995852738
+      Npc_Major_RivalNoblewoman_Walk_07: -6466682444530245399
+      Npc_Major_RivalNoblewoman_Walk_08: -1840819631063852632
+      Npc_Major_RivalNoblewoman_Walk_09: 1649746514016522245
+      Npc_Major_RivalNoblewoman_Walk_1: -2249432959092660816
+      Npc_Major_RivalNoblewoman_Walk_10: -515225193562770724
+      Npc_Major_RivalNoblewoman_Walk_11: -2640887807524500649
+      Npc_Major_RivalNoblewoman_Walk_12: 3643522405095050731
+      Npc_Major_RivalNoblewoman_Walk_13: -7405438683882491308
+      Npc_Major_RivalNoblewoman_Walk_14: -8188170570191120135
+      Npc_Major_RivalNoblewoman_Walk_15: -6929616401567800149
+      Npc_Major_RivalNoblewoman_Walk_16: -6150728512763343546
+      Npc_Major_RivalNoblewoman_Walk_17: -3712395670760823554
+      Npc_Major_RivalNoblewoman_Walk_18: -7562539539031330647
+      Npc_Major_RivalNoblewoman_Walk_19: -7433952057910028628
+      Npc_Major_RivalNoblewoman_Walk_2: 6478310143241040329
+      Npc_Major_RivalNoblewoman_Walk_20: 3672156227401598692
+      Npc_Major_RivalNoblewoman_Walk_21: -1384387422964593123
+      Npc_Major_RivalNoblewoman_Walk_22: 3357702112702378073
+      Npc_Major_RivalNoblewoman_Walk_23: 6725388795012985199
+      Npc_Major_RivalNoblewoman_Walk_24: -4212648176681233542
+      Npc_Major_RivalNoblewoman_Walk_25: 1635460960877162734
+      Npc_Major_RivalNoblewoman_Walk_26: 8273270514704212036
+      Npc_Major_RivalNoblewoman_Walk_27: 8507125929915991890
+      Npc_Major_RivalNoblewoman_Walk_28: -5739801222447847029
+      Npc_Major_RivalNoblewoman_Walk_29: 1447471527769848216
+      Npc_Major_RivalNoblewoman_Walk_3: 7100582755148513806
+      Npc_Major_RivalNoblewoman_Walk_30: 6745045888395935886
+      Npc_Major_RivalNoblewoman_Walk_31: -7450966813783883179
+      Npc_Major_RivalNoblewoman_Walk_32: -6766918297904065088
+      Npc_Major_RivalNoblewoman_Walk_33: 2351457606524429187
+      Npc_Major_RivalNoblewoman_Walk_34: 1965974603118284567
+      Npc_Major_RivalNoblewoman_Walk_35: 2805946189716244538
+      Npc_Major_RivalNoblewoman_Walk_4: 6806948405124029602
+      Npc_Major_RivalNoblewoman_Walk_5: -4020963601667697146
+      Npc_Major_RivalNoblewoman_Walk_6: 2674380958325998233
+      Npc_Major_RivalNoblewoman_Walk_7: 4398669385856736848
+      Npc_Major_RivalNoblewoman_Walk_8: -4226462492104910851
+      Npc_Major_RivalNoblewoman_Walk_9: 7307324026964836093
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: b57b550b12eb3de44bcb2798337bb32a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4587077660411174108
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_0
+  - first:
+      213: 2602539365787713509
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_1
+  - first:
+      213: -6245411684112509160
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_2
+  - first:
+      213: 4116807104358438095
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_3
+  - first:
+      213: 8497208104686377784
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_4
+  - first:
+      213: 6416040415882907559
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_5
+  - first:
+      213: -1900344577736229360
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_6
+  - first:
+      213: 4669266789876593533
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_7
+  - first:
+      213: 6948897977225308545
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_8
+  - first:
+      213: 8166633149833081028
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_9
+  - first:
+      213: -8982907354002365780
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_10
+  - first:
+      213: 1124631412843844048
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_11
+  - first:
+      213: -5339405683077285731
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_12
+  - first:
+      213: 7107544556357426951
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_13
+  - first:
+      213: 2494439028414842249
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_14
+  - first:
+      213: -8159672298490597572
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_15
+  - first:
+      213: 7124676501810387521
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_16
+  - first:
+      213: 5159351918930631480
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_17
+  - first:
+      213: 8673093885270168372
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_18
+  - first:
+      213: 6977731437093325647
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_19
+  - first:
+      213: 4422270012666665932
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_20
+  - first:
+      213: 5615181356639191375
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_21
+  - first:
+      213: 7454042350136005374
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_22
+  - first:
+      213: -6885550635265906254
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_23
+  - first:
+      213: -4163242764532291187
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_24
+  - first:
+      213: 1033788510238550052
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_25
+  - first:
+      213: -9051676486103012955
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_26
+  - first:
+      213: -1207530619629303077
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_27
+  - first:
+      213: -2308087274479497984
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_28
+  - first:
+      213: 956874265147710011
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_29
+  - first:
+      213: 1262578747266886573
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_30
+  - first:
+      213: 4637599559333146272
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_31
+  - first:
+      213: -4768970201837920045
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_32
+  - first:
+      213: -2945589679227821574
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_33
+  - first:
+      213: 137054771598053354
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_34
+  - first:
+      213: 6037591975713143192
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_35
+  - first:
+      213: -2663478844873349450
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_00
+  - first:
+      213: 8545464169011032133
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_01
+  - first:
+      213: -202281650636860198
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_02
+  - first:
+      213: 16972666107130946
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_03
+  - first:
+      213: -5635146205115543808
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_04
+  - first:
+      213: -1090658177103353828
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_05
+  - first:
+      213: -1409716894776578029
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_06
+  - first:
+      213: -5511193901830592060
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_07
+  - first:
+      213: 20525795038463238
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_08
+  - first:
+      213: -9200839075948551143
+    second: Npc_Major_CustomsOfficer_Stage2_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 680
+        width: 49
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b66e803a1c690bd0800000000000000
+      internalID: -2663478844873349450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 679
+        width: 49
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5403bbac266979670800000000000000
+      internalID: 8545464169011032133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 679
+        width: 48
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad4d53519e9513df0800000000000000
+      internalID: -202281650636860198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 679
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 244f436cc8c4c3000800000000000000
+      internalID: 16972666107130946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 679
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00f82baf160fbc1b0800000000000000
+      internalID: -5635146205115543808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1259
+        y: 679
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c18216e9a243dd0f0800000000000000
+      internalID: -1090658177103353828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 548
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 310b9f404fdaf6ce0800000000000000
+      internalID: -1409716894776578029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 548
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c9a619885e4483b0800000000000000
+      internalID: -5511193901830592060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 548
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60500021a1ce84000800000000000000
+      internalID: 20525795038463238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 547
+        width: 49
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 914ad8acb9d005080800000000000000
+      internalID: -9200839075948551143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 547
+        width: 49
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca2e172ea5d465380800000000000000
+      internalID: -8982907354002365780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 1260
+        y: 546
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d19dc9bf4e7b9f00800000000000000
+      internalID: 1124631412843844048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 415
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d98f97412de96e5b0800000000000000
+      internalID: -5339405683077285731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 416
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70f12fadd1213a260800000000000000
+      internalID: 7107544556357426951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 416
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 985898a84170e9220800000000000000
+      internalID: 2494439028414842249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 416
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3f6fdcb64503ce80800000000000000
+      internalID: -8159672298490597572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 416
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14a1bfdb78fefd260800000000000000
+      internalID: 7124676501810387521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1259
+        y: 416
+        width: 49
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83b171f1c33b99740800000000000000
+      internalID: 5159351918930631480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 285
+        width: 49
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4331427cfe40d5870800000000000000
+      internalID: 8673093885270168372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 285
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4b060eb5c1e5d060800000000000000
+      internalID: 6977731437093325647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 285
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccbdbd5752f0f5d30800000000000000
+      internalID: 4422270012666665932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 285
+        width: 48
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4100ef71b12ded40800000000000000
+      internalID: 5615181356639191375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 286
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef213943604127760800000000000000
+      internalID: 7454042350136005374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 1259
+        y: 286
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b9a20ead2c9170a0800000000000000
+      internalID: -6885550635265906254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 154
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d89665273c03936c0800000000000000
+      internalID: -4163242764532291187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 153
+        width: 49
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42826ad3c21c85e00800000000000000
+      internalID: 1033788510238550052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 152
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a9e218913cf16280800000000000000
+      internalID: -9051676486103012955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 153
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bda86999c4dfd3fe0800000000000000
+      internalID: -1207530619629303077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 153
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00dcc064ad608ffd0800000000000000
+      internalID: -2308087274479497984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 1259
+        y: 153
+        width: 50
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3a97dc0310874d00800000000000000
+      internalID: 956874265147710011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 22
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dabecc36ea4958110800000000000000
+      internalID: 1262578747266886573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 22
+        width: 49
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ae6f886a301c5040800000000000000
+      internalID: 4637599559333146272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 22
+        width: 49
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d027075ed631ddb0800000000000000
+      internalID: -4768970201837920045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 22
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af1a19b0bc92f17d0800000000000000
+      internalID: -2945589679227821574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 22
+        width: 48
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aefcfdfa69ae6e100800000000000000
+      internalID: 137054771598053354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_CustomsOfficer_Stage2_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 1259
+        y: 22
+        width: 47
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8997123d9e5d9c350800000000000000
+      internalID: 6037591975713143192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_CustomsOfficer_Stage2_Walk_0: 4587077660411174108
+      Npc_Major_CustomsOfficer_Stage2_Walk_00: -2663478844873349450
+      Npc_Major_CustomsOfficer_Stage2_Walk_01: 8545464169011032133
+      Npc_Major_CustomsOfficer_Stage2_Walk_02: -202281650636860198
+      Npc_Major_CustomsOfficer_Stage2_Walk_03: 16972666107130946
+      Npc_Major_CustomsOfficer_Stage2_Walk_04: -5635146205115543808
+      Npc_Major_CustomsOfficer_Stage2_Walk_05: -1090658177103353828
+      Npc_Major_CustomsOfficer_Stage2_Walk_06: -1409716894776578029
+      Npc_Major_CustomsOfficer_Stage2_Walk_07: -5511193901830592060
+      Npc_Major_CustomsOfficer_Stage2_Walk_08: 20525795038463238
+      Npc_Major_CustomsOfficer_Stage2_Walk_09: -9200839075948551143
+      Npc_Major_CustomsOfficer_Stage2_Walk_1: 2602539365787713509
+      Npc_Major_CustomsOfficer_Stage2_Walk_10: -8982907354002365780
+      Npc_Major_CustomsOfficer_Stage2_Walk_11: 1124631412843844048
+      Npc_Major_CustomsOfficer_Stage2_Walk_12: -5339405683077285731
+      Npc_Major_CustomsOfficer_Stage2_Walk_13: 7107544556357426951
+      Npc_Major_CustomsOfficer_Stage2_Walk_14: 2494439028414842249
+      Npc_Major_CustomsOfficer_Stage2_Walk_15: -8159672298490597572
+      Npc_Major_CustomsOfficer_Stage2_Walk_16: 7124676501810387521
+      Npc_Major_CustomsOfficer_Stage2_Walk_17: 5159351918930631480
+      Npc_Major_CustomsOfficer_Stage2_Walk_18: 8673093885270168372
+      Npc_Major_CustomsOfficer_Stage2_Walk_19: 6977731437093325647
+      Npc_Major_CustomsOfficer_Stage2_Walk_2: -6245411684112509160
+      Npc_Major_CustomsOfficer_Stage2_Walk_20: 4422270012666665932
+      Npc_Major_CustomsOfficer_Stage2_Walk_21: 5615181356639191375
+      Npc_Major_CustomsOfficer_Stage2_Walk_22: 7454042350136005374
+      Npc_Major_CustomsOfficer_Stage2_Walk_23: -6885550635265906254
+      Npc_Major_CustomsOfficer_Stage2_Walk_24: -4163242764532291187
+      Npc_Major_CustomsOfficer_Stage2_Walk_25: 1033788510238550052
+      Npc_Major_CustomsOfficer_Stage2_Walk_26: -9051676486103012955
+      Npc_Major_CustomsOfficer_Stage2_Walk_27: -1207530619629303077
+      Npc_Major_CustomsOfficer_Stage2_Walk_28: -2308087274479497984
+      Npc_Major_CustomsOfficer_Stage2_Walk_29: 956874265147710011
+      Npc_Major_CustomsOfficer_Stage2_Walk_3: 4116807104358438095
+      Npc_Major_CustomsOfficer_Stage2_Walk_30: 1262578747266886573
+      Npc_Major_CustomsOfficer_Stage2_Walk_31: 4637599559333146272
+      Npc_Major_CustomsOfficer_Stage2_Walk_32: -4768970201837920045
+      Npc_Major_CustomsOfficer_Stage2_Walk_33: -2945589679227821574
+      Npc_Major_CustomsOfficer_Stage2_Walk_34: 137054771598053354
+      Npc_Major_CustomsOfficer_Stage2_Walk_35: 6037591975713143192
+      Npc_Major_CustomsOfficer_Stage2_Walk_4: 8497208104686377784
+      Npc_Major_CustomsOfficer_Stage2_Walk_5: 6416040415882907559
+      Npc_Major_CustomsOfficer_Stage2_Walk_6: -1900344577736229360
+      Npc_Major_CustomsOfficer_Stage2_Walk_7: 4669266789876593533
+      Npc_Major_CustomsOfficer_Stage2_Walk_8: 6948897977225308545
+      Npc_Major_CustomsOfficer_Stage2_Walk_9: 8166633149833081028
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

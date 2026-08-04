@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 02b40ed2f0d2d0d4081999b5bf4c4f4e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5248433096976247101
+    second: Npc_Minor_Smuggler_Stage2_Walk_0
+  - first:
+      213: -1869230008042066461
+    second: Npc_Minor_Smuggler_Stage2_Walk_1
+  - first:
+      213: 6448885479168640360
+    second: Npc_Minor_Smuggler_Stage2_Walk_2
+  - first:
+      213: 862296191943202081
+    second: Npc_Minor_Smuggler_Stage2_Walk_3
+  - first:
+      213: 7792745827701531440
+    second: Npc_Minor_Smuggler_Stage2_Walk_4
+  - first:
+      213: 3651525575644367725
+    second: Npc_Minor_Smuggler_Stage2_Walk_5
+  - first:
+      213: 6499817341542547892
+    second: Npc_Minor_Smuggler_Stage2_Walk_6
+  - first:
+      213: -633381959960182978
+    second: Npc_Minor_Smuggler_Stage2_Walk_7
+  - first:
+      213: -1624721711672486177
+    second: Npc_Minor_Smuggler_Stage2_Walk_8
+  - first:
+      213: -376804624187425601
+    second: Npc_Minor_Smuggler_Stage2_Walk_9
+  - first:
+      213: 4278622550906603769
+    second: Npc_Minor_Smuggler_Stage2_Walk_10
+  - first:
+      213: -5980141842363312003
+    second: Npc_Minor_Smuggler_Stage2_Walk_11
+  - first:
+      213: -921342060079207775
+    second: Npc_Minor_Smuggler_Stage2_Walk_12
+  - first:
+      213: -289319561695560705
+    second: Npc_Minor_Smuggler_Stage2_Walk_13
+  - first:
+      213: 8457502866289394409
+    second: Npc_Minor_Smuggler_Stage2_Walk_14
+  - first:
+      213: -7606481865723834832
+    second: Npc_Minor_Smuggler_Stage2_Walk_15
+  - first:
+      213: 7616434583540429058
+    second: Npc_Minor_Smuggler_Stage2_Walk_16
+  - first:
+      213: 2971387498729537021
+    second: Npc_Minor_Smuggler_Stage2_Walk_17
+  - first:
+      213: -3600947884045476133
+    second: Npc_Minor_Smuggler_Stage2_Walk_18
+  - first:
+      213: 7465003659741825651
+    second: Npc_Minor_Smuggler_Stage2_Walk_19
+  - first:
+      213: 801369068510108610
+    second: Npc_Minor_Smuggler_Stage2_Walk_20
+  - first:
+      213: -2838423199253629094
+    second: Npc_Minor_Smuggler_Stage2_Walk_21
+  - first:
+      213: -8492869843144833952
+    second: Npc_Minor_Smuggler_Stage2_Walk_22
+  - first:
+      213: 144481415159694360
+    second: Npc_Minor_Smuggler_Stage2_Walk_23
+  - first:
+      213: 7029844561372178169
+    second: Npc_Minor_Smuggler_Stage2_Walk_24
+  - first:
+      213: -1511338693667705575
+    second: Npc_Minor_Smuggler_Stage2_Walk_25
+  - first:
+      213: -2602049909096919009
+    second: Npc_Minor_Smuggler_Stage2_Walk_26
+  - first:
+      213: 6995171472966277399
+    second: Npc_Minor_Smuggler_Stage2_Walk_27
+  - first:
+      213: 5937515692937083098
+    second: Npc_Minor_Smuggler_Stage2_Walk_28
+  - first:
+      213: -8426568534539594240
+    second: Npc_Minor_Smuggler_Stage2_Walk_29
+  - first:
+      213: 5332439643845290979
+    second: Npc_Minor_Smuggler_Stage2_Walk_30
+  - first:
+      213: -1590306300078531775
+    second: Npc_Minor_Smuggler_Stage2_Walk_31
+  - first:
+      213: 5640674317792255241
+    second: Npc_Minor_Smuggler_Stage2_Walk_32
+  - first:
+      213: 2891723579047326615
+    second: Npc_Minor_Smuggler_Stage2_Walk_33
+  - first:
+      213: -409629113371050101
+    second: Npc_Minor_Smuggler_Stage2_Walk_34
+  - first:
+      213: -7565308032259180555
+    second: Npc_Minor_Smuggler_Stage2_Walk_35
+  - first:
+      213: 3451637087300171010
+    second: Npc_Minor_Smuggler_Stage2_Walk_00
+  - first:
+      213: -5681368761041126809
+    second: Npc_Minor_Smuggler_Stage2_Walk_01
+  - first:
+      213: -8509126605713953344
+    second: Npc_Minor_Smuggler_Stage2_Walk_02
+  - first:
+      213: -6013546615706905078
+    second: Npc_Minor_Smuggler_Stage2_Walk_03
+  - first:
+      213: 439697865271190197
+    second: Npc_Minor_Smuggler_Stage2_Walk_04
+  - first:
+      213: 2561039656963162764
+    second: Npc_Minor_Smuggler_Stage2_Walk_05
+  - first:
+      213: 3374746739041236743
+    second: Npc_Minor_Smuggler_Stage2_Walk_06
+  - first:
+      213: -2473984779304069539
+    second: Npc_Minor_Smuggler_Stage2_Walk_07
+  - first:
+      213: 5971534201253290093
+    second: Npc_Minor_Smuggler_Stage2_Walk_08
+  - first:
+      213: 7858189727435205663
+    second: Npc_Minor_Smuggler_Stage2_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 663
+        width: 78
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2053712b4ada6ef20800000000000000
+      internalID: 3451637087300171010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 661
+        width: 77
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76a74288639b721b0800000000000000
+      internalID: -5681368761041126809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 660
+        width: 79
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cd28957f6289e980800000000000000
+      internalID: -8509126605713953344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 660
+        width: 81
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a069982d6379b8ca0800000000000000
+      internalID: -6013546615706905078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 660
+        width: 81
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b2acfbf0ee1a1600800000000000000
+      internalID: 439697865271190197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 1229
+        y: 660
+        width: 78
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c824af0cff3aa8320800000000000000
+      internalID: 2561039656963162764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 531
+        width: 76
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 707f57b674285de20800000000000000
+      internalID: 3374746739041236743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 531
+        width: 75
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d569bd173f3aaadd0800000000000000
+      internalID: -2473984779304069539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 531
+        width: 76
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d606ccda7b62fd250800000000000000
+      internalID: 5971534201253290093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 530
+        width: 77
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1c26613ce5ed0d60800000000000000
+      internalID: 7858189727435205663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 529
+        width: 76
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f883ca7a88b06b30800000000000000
+      internalID: 4278622550906603769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 528
+        width: 76
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d781c73bda4420da0800000000000000
+      internalID: -5980141842363312003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 400
+        width: 74
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1aa2a50274cb633f0800000000000000
+      internalID: -921342060079207775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 400
+        width: 73
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffb709a34612cfbf0800000000000000
+      internalID: -289319561695560705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 401
+        width: 75
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e207001c061f5570800000000000000
+      internalID: 8457502866289394409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 401
+        width: 76
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03e84134b09507690800000000000000
+      internalID: -7606481865723834832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 999
+        y: 401
+        width: 79
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2017dee66e203b960800000000000000
+      internalID: 7616434583540429058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 401
+        width: 80
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfd7fcfdf2d7c3920800000000000000
+      internalID: 2971387498729537021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 271
+        width: 78
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bde56c46afcd60ec0800000000000000
+      internalID: -3600947884045476133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 272
+        width: 76
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37a07e9f645099760800000000000000
+      internalID: 7465003659741825651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 272
+        width: 75
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cbd7860ce80f1b00800000000000000
+      internalID: 801369068510108610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 272
+        width: 75
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a57724e8325eb98d0800000000000000
+      internalID: -2838423199253629094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 999
+        y: 270
+        width: 77
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06489b3ffd3432a80800000000000000
+      internalID: -8492869843144833952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 270
+        width: 77
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8144d33e41d410200800000000000000
+      internalID: 144481415159694360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 139
+        width: 77
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f6ecc202660f8160800000000000000
+      internalID: 7029844561372178169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 140
+        width: 75
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91d22ac2775a60be0800000000000000
+      internalID: -1511338693667705575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 141
+        width: 74
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f10d078d469a3ebd0800000000000000
+      internalID: -2602049909096919009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 141
+        width: 74
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 719d9158467d31160800000000000000
+      internalID: 6995171472966277399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 999
+        y: 142
+        width: 77
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad872dd701b466250800000000000000
+      internalID: 5937515692937083098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 142
+        width: 79
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 006984f4090de0b80800000000000000
+      internalID: -8426568534539594240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 11
+        width: 80
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ebeb958a91a00a40800000000000000
+      internalID: 5332439643845290979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 12
+        width: 79
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14bd0cb88d81ee9e0800000000000000
+      internalID: -1590306300078531775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 12
+        width: 78
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90d1dad0863b74e40800000000000000
+      internalID: 5640674317792255241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 12
+        width: 75
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 793bcbd2647712820800000000000000
+      internalID: 2891723579047326615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 999
+        y: 13
+        width: 75
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8f3cdfdd74b05af0800000000000000
+      internalID: -409629113371050101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Minor_Smuggler_Stage2_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 12
+        width: 76
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f738c86d60a20790800000000000000
+      internalID: -7565308032259180555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Minor_Smuggler_Stage2_Walk_0: 5248433096976247101
+      Npc_Minor_Smuggler_Stage2_Walk_00: 3451637087300171010
+      Npc_Minor_Smuggler_Stage2_Walk_01: -5681368761041126809
+      Npc_Minor_Smuggler_Stage2_Walk_02: -8509126605713953344
+      Npc_Minor_Smuggler_Stage2_Walk_03: -6013546615706905078
+      Npc_Minor_Smuggler_Stage2_Walk_04: 439697865271190197
+      Npc_Minor_Smuggler_Stage2_Walk_05: 2561039656963162764
+      Npc_Minor_Smuggler_Stage2_Walk_06: 3374746739041236743
+      Npc_Minor_Smuggler_Stage2_Walk_07: -2473984779304069539
+      Npc_Minor_Smuggler_Stage2_Walk_08: 5971534201253290093
+      Npc_Minor_Smuggler_Stage2_Walk_09: 7858189727435205663
+      Npc_Minor_Smuggler_Stage2_Walk_1: -1869230008042066461
+      Npc_Minor_Smuggler_Stage2_Walk_10: 4278622550906603769
+      Npc_Minor_Smuggler_Stage2_Walk_11: -5980141842363312003
+      Npc_Minor_Smuggler_Stage2_Walk_12: -921342060079207775
+      Npc_Minor_Smuggler_Stage2_Walk_13: -289319561695560705
+      Npc_Minor_Smuggler_Stage2_Walk_14: 8457502866289394409
+      Npc_Minor_Smuggler_Stage2_Walk_15: -7606481865723834832
+      Npc_Minor_Smuggler_Stage2_Walk_16: 7616434583540429058
+      Npc_Minor_Smuggler_Stage2_Walk_17: 2971387498729537021
+      Npc_Minor_Smuggler_Stage2_Walk_18: -3600947884045476133
+      Npc_Minor_Smuggler_Stage2_Walk_19: 7465003659741825651
+      Npc_Minor_Smuggler_Stage2_Walk_2: 6448885479168640360
+      Npc_Minor_Smuggler_Stage2_Walk_20: 801369068510108610
+      Npc_Minor_Smuggler_Stage2_Walk_21: -2838423199253629094
+      Npc_Minor_Smuggler_Stage2_Walk_22: -8492869843144833952
+      Npc_Minor_Smuggler_Stage2_Walk_23: 144481415159694360
+      Npc_Minor_Smuggler_Stage2_Walk_24: 7029844561372178169
+      Npc_Minor_Smuggler_Stage2_Walk_25: -1511338693667705575
+      Npc_Minor_Smuggler_Stage2_Walk_26: -2602049909096919009
+      Npc_Minor_Smuggler_Stage2_Walk_27: 6995171472966277399
+      Npc_Minor_Smuggler_Stage2_Walk_28: 5937515692937083098
+      Npc_Minor_Smuggler_Stage2_Walk_29: -8426568534539594240
+      Npc_Minor_Smuggler_Stage2_Walk_3: 862296191943202081
+      Npc_Minor_Smuggler_Stage2_Walk_30: 5332439643845290979
+      Npc_Minor_Smuggler_Stage2_Walk_31: -1590306300078531775
+      Npc_Minor_Smuggler_Stage2_Walk_32: 5640674317792255241
+      Npc_Minor_Smuggler_Stage2_Walk_33: 2891723579047326615
+      Npc_Minor_Smuggler_Stage2_Walk_34: -409629113371050101
+      Npc_Minor_Smuggler_Stage2_Walk_35: -7565308032259180555
+      Npc_Minor_Smuggler_Stage2_Walk_4: 7792745827701531440
+      Npc_Minor_Smuggler_Stage2_Walk_5: 3651525575644367725
+      Npc_Minor_Smuggler_Stage2_Walk_6: 6499817341542547892
+      Npc_Minor_Smuggler_Stage2_Walk_7: -633381959960182978
+      Npc_Minor_Smuggler_Stage2_Walk_8: -1624721711672486177
+      Npc_Minor_Smuggler_Stage2_Walk_9: -376804624187425601
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

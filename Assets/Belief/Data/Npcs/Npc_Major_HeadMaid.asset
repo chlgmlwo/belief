@@ -28,6 +28,20 @@ MonoBehaviour:
   trustBias: 0.8
   skepticism: 0.7
   characterPhoto: {fileID: 21300000, guid: c0be6a853763ef747ae8f754a78bbf8c, type: 3}
+  walkFrames:
+  - {fileID: 5996743223849845026, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: -3308736223304817336, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: -9148524234784574166, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: 4065591002662532223, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: -9195871248892908909, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: 8153916285000893461, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: 5982788893087479418, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: 6139049944393597972, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: 9118044406039663759, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: -6916685933190733054, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: 6110930064794796991, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: -7275631286623180884, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
+  - {fileID: -7259697237752832649, guid: 7f60fb8065bd3e64f9ae3fa22162d9f8, type: 3}
   goal: "\uC601\uC8FC\uBD80\uC778\uC744 \uAC00\uAE4C\uC774\uC11C \uBCF4\uD544\uD558\uBA70
     \uC800\uD0DD\uC758 \uC9C8\uC11C\uB97C \uC9C0\uD0A8\uB2E4."
   loyalty: 0.85
