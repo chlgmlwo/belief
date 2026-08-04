@@ -27,6 +27,7 @@ MonoBehaviour:
   trustJudgmentTag: "#\uC9C1\uAD00\uD615"
   trustBias: 0.3
   skepticism: 0.6
+  characterPhoto: {fileID: 21300000, guid: cc1d689bcab55494281b40c336021e06, type: 3}
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}

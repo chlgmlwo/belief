@@ -18,6 +18,7 @@ MonoBehaviour:
     \uC5EC\uAD00. \uC628\uAC16 \uC18C\uBB38\uC774 \uAC00\uC7A5 \uBA3C\uC800 \uBAA8\uC600\uB2E4\uAC00
     \uD769\uC5B4\uC9C4\uB2E4."
   worldPosition: {x: 8, y: 3}
+  locationPhoto: {fileID: 21300000, guid: 188031bb63ea85f4da1801660129f53b, type: 3}
   spreadModifier: 1.2
   connectedLocations:
   - {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}

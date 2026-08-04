@@ -62,6 +62,8 @@ namespace Belief.Presentation.World
             transform.position = new Vector3(position.x, position.y, transform.position.z);
             SetSiteState(LocationSiteState.Normal);
 
+            if (background != null && data.locationPhoto != null) background.sprite = data.locationPhoto;
+
             if (frame != null && skin != null) frame.sprite = skin.locationImageFrame;
             if (pin != null && skin != null) pin.sprite = skin.pin;
             if (nameTag != null && skin != null)

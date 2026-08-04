@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: "\uB300\uC800\uD0DD \uC751\uC811\uC2E4"
   description: "\uC601\uC8FC\uBD80\uC778\uC774 \uC190\uB2D8\uC744 \uB9DE\uB294 \uC751\uC811\uC2E4."
   worldPosition: {x: 0, y: 3}
+  locationPhoto: {fileID: 21300000, guid: 1986e0886c190cc44bb4ea4f094cd0fd, type: 3}
   spreadModifier: 1
   connectedLocations:
   - {fileID: 11400000, guid: f89dbfbdbe6867b449119cc4075222a2, type: 2}

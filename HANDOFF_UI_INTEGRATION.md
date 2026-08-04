@@ -1004,6 +1004,61 @@ Error/Warning 0. Zone1 저장 완료(`isDirty=False` 재확인).
 
 ---
 
+### 3-30. 월드(가운데) 건물/NPC 실사진 스프라이트 연결 — `장소&npc`/`리소스` 폴더에서 임포트 (2026-08-04)
+
+`LocationSiteView.background`/`NpcActorView.body`는 원래 "실제 사진 자산이 없어" 단색
+placeholder(`PlaceholderSquare`, 코드 주석에 이미 "실제 자산이 오면 색만 바뀌는 필드 하나로
+재사용 가능"이라고 명시돼 있었음)만 채워져 있었다. 사용자가 `C:\Users\CHJ\Desktop\장소&npc\`
+(및 동일 내용의 상위 폴더 `C:\Users\CHJ\Desktop\리소스\`)에 실제 건물 사진 14종 + NPC
+캐릭터 스프라이트 16종을 이미 받아둔 상태였음을 확인 — `StageData` 1~4 전체를 코드로 직접
+순회해 실제로 쓰이는 장소/NPC 목록을 먼저 뽑아(파일명 추측 대신) 정확히 매칭했다.
+
+**데이터 레이어**: `LocationData.locationPhoto`(Sprite), `NpcData.characterPhoto`(Sprite)
+필드 신규 추가. `LocationSiteView.Bind()`/`NpcActorView.Bind()`에 각각 2줄만 추가해 스프라이트가
+있으면 적용(없으면 기존 placeholder 유지, 하위 호환).
+
+**임포트**: 위치 사진 14개(`Loc_Barracks`~`Loc_EXCHANGE`, `StageData.locations` 기준 실사용
+16개 중 14개 매칭)와 NPC 스프라이트 16개(`Npc_Major_GuardCaptain`~`Npc_Minor_Smuggler_Stage2`,
+실사용 17개 중 16개)를 각 데이터 에셋과 동일한 파일명으로 `Assets/Belief/UI/World/
+Locations|Npcs/`에 복사, Sprite(2D and UI) 타입으로 임포트 후 `SerializedObject`로 일괄 배선.
+
+**빠진 것(아트 미제공, 확인 필요)**: 4스테이지 전용 장소 2곳(`Loc_Plaza`="알현실 앞 광장",
+`Loc_manor_row`="저택가")은 14개 배경 사진 중 대응하는 파일이 없었다 — placeholder 유지.
+`Npc_Major_Lord`(영주)도 캐릭터 폴더 자체가 없어 스프라이트 없음 — placeholder 유지. NPC
+성격 태그(3-29)와 달리 이번엔 두 항목 다 "아직 아트가 안 나온 것"이지 매칭 실패가 아니다.
+
+**발견한 버그(임포트 전 검수)**: `장부관리인_규격맞춤.png`(구분 없는 파일명)이 실제로는 걷기
+애니메이션 스프라이트시트(6x6, 2048x1152)였다 — 단일 초상화가 아닌 걸 픽셀로 직접 열어
+확인하고, 같은 폴더의 `장부관리인_규격맞춤(1).png`(진짜 단일 초상화)로 교체했다. 다른
+파일들은 정상 확인.
+
+**스케일 버그(1차 임포트 후 발견, 즉시 수정)**: 기본 임포트 설정(PPU=100)으로 배선한 뒤
+Play Mode 스크린샷을 직접 찍어보니 NPC/건물 스프라이트가 프레임보다 수십 배 크게 렌더링됨을
+발견 — 원인은 새 원본 이미지가 500~650px(NPC, 정사각형)/187x301px(장소, 세로형) 고해상도인데
+기존 `PlaceholderSquare`는 4x4px@PPU4(=1유닛)였던 것과 PPU가 안 맞았기 때문. 실측(기존
+placeholder의 최종 world bounds, `PlayHudSkin`의 `npcPhotoFrame`/`locationImageFrame`
+사각형 크기)을 근거로 재계산해 고쳤다:
+- NPC: `spritePixelsPerUnit = 이미지 자체의 픽셀 폭`(정사각형이므로) → 기존 placeholder와
+  정확히 동일한 1.08×1.08 유닛 최종 크기로 복원(프리팹 `localScale`은 그대로 둠).
+- 장소: 기존 `Photo` 오브젝트의 `localScale`이 (1.08, 0.58)로 비균일해서(정사각형이 아닌
+  옛 landscape placeholder 기준) 세로형 사진에 그대로 적용하면 찌그러짐 → `localScale`을
+  (1,1,1)로 정규화하고, `spritePixelsPerUnit = 이미지 높이 / 1.4537`(NPC가 자기 프레임을
+  채우는 비율 0.966을 장소의 정사각 프레임 1.505유닛에 그대로 적용한 값)로 계산해 비율
+  왜곡 없이 정사각 프레임 안에 꽉 차게 맞춤.
+
+**Play Mode 시각 검증**: 두 번의 실제 스크린샷(`Unity_SceneView_Capture2DScene`)으로 직접
+확인 — 1차(수정 전)는 캐릭터가 프레임을 완전히 뒤덮을 정도로 거대했고, 2차(수정 후)는
+건물/NPC 카드 모두 압정·프레임과 자연스러운 비율로 렌더링됨을 확인. 색상 틴트(Alert/Locked/
+Selected 상태별 `SpriteRenderer.color` 곱연산, 기존 로직 그대로 재사용)도 사진 위에서 자연스럽게
+보임 - 별도 리디자인 불필요. Console Error/Warning 0.
+
+**수정한 파일**: `LocationData.cs`/`NpcData.cs`(스프라이트 필드 추가), `LocationSiteView.cs`/
+`NpcActorView.cs`(`Bind()` 2줄씩 추가), `LocationSiteView.prefab`(`Photo` localScale 정규화),
+위치 데이터 14개 + NPC 데이터 16개(스프라이트 배선), 신규 이미지 30개(`Assets/Belief/UI/World/
+Locations|Npcs/`). Zone1.unity는 런타임 스폰이라 씬 자체는 변경 없음(`isDirty=False` 확인).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```

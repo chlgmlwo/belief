@@ -37,6 +37,7 @@ MonoBehaviour:
   trustJudgmentTag: "#\uADFC\uAC70\uC911\uC2DC"
   trustBias: 0.4
   skepticism: 0.6
+  characterPhoto: {fileID: 21300000, guid: 4741fd7abed4d02419cd76f53a547257, type: 3}
   goal: "\uC601\uC8FC\uC640 \uB3C4\uC2DC\uB97C \uC9C0\uD0A4\uB294 \uB9C8\uC9C0\uB9C9
     \uBC29\uBCBD\uC73C\uB85C\uC11C, \uBA85\uD655\uD55C \uADFC\uAC70 \uC5C6\uC774\uB294
     \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uB294\uB2E4."

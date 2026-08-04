@@ -14,6 +14,10 @@ namespace Belief.Data
         [Tooltip("City 씬에서 NpcActorView가 이동할 앵커 좌표.")]
         public Vector2 worldPosition;
 
+        [Header("Visual")]
+        [Tooltip("LocationSiteView의 사진 프레임 안에 표시할 실제 건물 사진 - 비어 있으면 기존 placeholder 단색으로 대체된다.")]
+        public Sprite locationPhoto;
+
         [Header("Spread Behaviour")]
         [Range(0f, 2f)] public float spreadModifier = 1f;
         public LocationData[] connectedLocations;

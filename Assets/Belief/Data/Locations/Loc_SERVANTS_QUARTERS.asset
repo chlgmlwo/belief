@@ -17,6 +17,7 @@ MonoBehaviour:
   description: "\uD558\uB140\uB97C \uBE44\uB86F\uD55C \uC2DC\uC885\uB4E4\uC774 \uBA38\uBB34\uB294
     \uC219\uC18C."
   worldPosition: {x: -4, y: -2}
+  locationPhoto: {fileID: 21300000, guid: 81941a30785edaf4f8c7e241856467c3, type: 3}
   spreadModifier: 1
   connectedLocations:
   - {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}

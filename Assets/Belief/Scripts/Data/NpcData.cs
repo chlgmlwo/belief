@@ -29,6 +29,10 @@ namespace Belief.Data
         [Range(0f, 1f)] public float trustBias = 0.5f;
         [Range(0f, 1f)] public float skepticism = 0.5f;
 
+        [Header("Visual")]
+        [Tooltip("NpcActorView의 사진 프레임 안에 표시할 실제 캐릭터 스프라이트 - 비어 있으면 기존 placeholder 단색으로 대체된다.")]
+        public Sprite characterPhoto;
+
         public abstract NpcRank Rank { get; }
 
         /// <summary>Frozen AI Profile에 정의된 장기 목표(있는 경우). NpcState가 타입 분기 없이

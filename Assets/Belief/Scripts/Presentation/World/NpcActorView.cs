@@ -69,6 +69,7 @@ namespace Belief.Presentation.World
             // 초록/파랑 원색 대신 중립 parchment 톤 - Major/Minor 구분은 미세한 명도차로만 남긴다.
             baseColor = data.Rank == NpcRank.Major ? new Color(0.68f, 0.64f, 0.56f) : new Color(0.60f, 0.60f, 0.62f);
             if (body != null) body.color = baseColor;
+            if (body != null && data.characterPhoto != null) body.sprite = data.characterPhoto;
             if (dialogueRoot != null) dialogueRoot.SetActive(false);
             if (pin != null) pinBaseScale = pin.transform.localScale;
 

@@ -27,6 +27,7 @@ MonoBehaviour:
   trustJudgmentTag: "#\uADFC\uAC70\uC911\uC2DC"
   trustBias: 0.8
   skepticism: 0.7
+  characterPhoto: {fileID: 21300000, guid: 990743067a2765a489ef7441a2ec00f5, type: 3}
   goal: "\uC2E0\uC804\uC758 \uAD8C\uC704\uC640 \uC2E0\uB3C4\uB4E4\uC758 \uC2E0\uB8B0\uB97C
     \uC9C0\uD0A8\uB2E4."
   loyalty: 0.7

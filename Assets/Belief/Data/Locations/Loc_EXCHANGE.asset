@@ -17,6 +17,7 @@ MonoBehaviour:
   description: "\uAE38\uB4DC\uC7A5\uACFC \uC7A5\uBD80\uAD00\uB9AC\uC778\uC774 \uC0C1\uB2E8\uC758
     \uC790\uAE08\uACFC \uC7A5\uBD80\uB97C \uAD00\uB9AC\uD558\uB294 \uACF3."
   worldPosition: {x: 0, y: 3}
+  locationPhoto: {fileID: 21300000, guid: c0afd157b7489884abb94b8bed6a9ec2, type: 3}
   spreadModifier: 1
   connectedLocations:
   - {fileID: 11400000, guid: c64bc51fba05aeb43ba46e4d412a79f9, type: 2}
