@@ -2262,6 +2262,300 @@ Error/Warning 0. 씬 무수정.
 
 ---
 
+### 3-68. NPC 프로필/로그 패널 "겹쳐서 난리난" 문제 — 목업 시절 컨트롤러가 그대로 남아 실제 시스템과 충돌하고 있었다 (2026-08-04, 사용자 스크린샷 2장 — "폰트나 이런거 정리해보자 지금 겹치고 난리낫어 데이터 연결할거 다 해주고")
+
+사용자가 NPC 조사 파일 패널(스크린샷1: 텍스트가 서로 겹치고 로그 내용처럼 보이는 글자가 "성격
+태그" 위에 깨져 보임, "관계도" 칸은 회색 빈 박스에 세로로 짓눌린 텍스트가 비어져 나옴)과 로그
+패널(스크린샷2: 여러 줄의 로그 문장이 "[NPC] 수치 변동 사항"/"===== 턴 시작 =====" 등과 뒤섞여
+겹쳐 보임) 스크린샷 2장을 보내며 "폰트 정리 + 겹침 해결 + 남은 데이터 연결"을 요청.
+
+**근본 원인 조사**: `HudView`의 79개 직렬화 필드를 전수 점검(`SerializedObject` 로 하나하나 null
+여부 확인)한 결과 6개가 비어 있었다 - 그중 가장 치명적인 두 개가 `npcProfileGo`/`logPanelGo`
+(각각 프로필/로그 패널 전체를 켜고 끄는 스위치)였다. `HudPresenter.SetHudPanelState()`가 이 두
+필드에 `if (xxx != null) xxx.SetActive(...)`로 방어 코드를 걸어놨었는데(원래는 "필드가 비어 있으면
+조용히 생략"하는 하위 호환 목적), 필드가 정말로 비어 있는 바람에 **탭을 눌러도 프로필/로그 패널의
+실제 활성 상태가 전혀 바뀌지 않는** 상태였다.
+
+그런데도 화면엔 내용이 보였던 이유를 추적하니, `RightPeekArea` 아래 `RightDocumentPanelController`
+라는 별도 컴포넌트(`Belief.Presentation.Mockup` 네임스페이스, 클래스 주석에 "UI_PlayHudMockup
+전용, 실제 데이터/게임 시스템과 연결하지 않는다"라고 명시)가 **여전히 씬에 붙어 있고 Awake()에서
+자동 실행**되고 있었다 - 이 컨트롤러가 `HudPresenter`와 완전히 별개로 같은 프로필/로그 탭 버튼에
+자기 리스너를 추가로 걸어(`Button.onClick.AddListener`, 기존 리스너를 안 지움) `ProfilePanelRoot`/
+`LogPanelRoot`와 그 안의 `ProfileContent`/`LogContent`를 자기 나름의 슬라이드 애니메이션으로
+켜고 끄고 있었다. 즉 **탭 버튼 클릭 한 번에 서로 모르는 두 시스템이 동시에 반응**했고, `HudPresenter`
+쪽은 (필드가 비어 있어) 사실상 아무 효과가 없었지만 목업 컨트롤러 쪽은 실제로 GameObject를
+켜고 끄고 있었다 - 둘의 초기 상태·애니메이션 타이밍이 어긋나면서 프로필/로그 내용이 겹쳐 보이는
+증상으로 나타났다. `UI_PlayHudMockup.unity`(별도 목업 씬)용으로 만든 컨트롤러가 실제 게임 씬의
+프리팹(`PlayHudCanvas_New.prefab`)에 실수로 남아있던 것 - 이 세션에서 반복적으로 확인된 "실제로
+한 번도 제대로 켜본 적 없는 UI는 반쪽짜리 배선이 숨어 있다"는 패턴의 가장 큰 사례였다.
+
+**해결 1 - 충돌 제거 및 배선**: `RightDocumentPanelController` GameObject를 프리팹에서 완전히
+제거. `npcProfileGo`→`ProfilePanelRoot`, `logPanelGo`→`LogPanelRoot`로 정식 배선(`SerializedObject`).
+목업 컨트롤러가 담당하던 "안쪽 Content 별도 토글"은 더 이상 아무도 안 하므로, `ProfileContent`/
+`LogContent`를 항상 켜진 상태로 고정(부모 Root 하나만 켜고 끄는, 이 프로젝트의 다른 모든 패널
+- `locationNoteGo`/`resultScreenGo`/`overlayGo` - 와 동일한 단일 토글 방식으로 통일). 덤으로 비어
+있던 `stageNameText`도 `HeaderArea/StageCard/Texts/StageName`에 배선(스테이지 이름이 헤더에
+안 뜨던 것도 같이 고침). `profileTabIndicator`/`logTabIndicator`/`npcNoneStickerGo` 3개는 대응하는
+실제 GameObject 자체가 아직 아트에 없어서(전수 검색 결과 없음) 배선하지 않음 - 코드가 이미
+null-가드돼 있어 안전하게 생략되는 중, 나중에 해당 아트가 추가되면 그때 배선하면 된다.
+
+**해결 2 - NPC 관계도(관계 있는 인물) 행이 세로로 짓눌리던 문제**: `NpcRelationshipRowView` 프리팹
+루트의 `sizeDelta.x`가 100(디자인 시절 placeholder 기본값)로 고정돼 있었고, `RelationshipsRoot`에는
+행을 쌓아줄 레이아웃 컴포넌트가 아예 없었다(순수 `RectTransform` 하나뿐) - 그래서 (1) 텍스트
+칸 폭이 100밖에 안 돼 "경비대장 · 부하" 같은 문장이 거의 한 글자씩 줄바꿈되며 세로로 길게
+짓눌려 보였고 (2) 관계가 2개 이상인 NPC는 모든 행이 정확히 같은 좌표(0,0)에 겹쳐서 인스턴스화되고
+있었다(이번 스크린샷의 집사는 관계가 1개뿐이라 겹침 자체는 안 보였지만 폭 문제는 그대로 보였다 -
+상인으로 재현하니 실제로 3개 행이 전부 겹치는 것 확인). **해결**: `RelationshipsRoot`에
+`VerticalLayoutGroup`을 추가(`childControlWidth=true`로 폭을 부모 폭에 맞춰 강제, 행 사이 10 간격) -
+이제 폭도 자동으로 맞춰지고(430) 여러 행도 세로로 정확히 쌓인다(실측: 상인의 관계 3개가 y=-16.73/
+-60.19/-103.65로 정확히 43.46(행 높이+간격) 간격을 두고 쌓임, 폭 전부 430으로 통일).
+
+**해결 3 - 로그 패널의 일반 로그 텍스트가 아래 요소들과 겹치던 문제**: `GeneralLogText`(NPC 이동/
+임무 진행 등 일반 사건 로그) 박스의 `sizeDelta.y`가 24(딱 1줄 높이)였는데, 코드의 `MaxLogLines=12`는
+최대 12줄까지 채울 수 있었다 - 1줄만 들어갈 박스에 최대 12줄이 밀려들어가니 그 아래 고정 배치된
+`Divider`/`ValueChangeBar`("[NPC] 수치 변동 사항")/`TrustLow`/`TrustHigh`/화살표들을 그대로 뚫고
+지나가며 겹쳐 보였다(정확히 스크린샷2의 증상과 일치 - 실측으로 재현: NpcRelocatedEvent 6개를
+연달아 발행해 로그를 채운 뒤 `RectTransform.GetWorldCorners`로 화면 좌표 비교, 수정 전 박스 높이로는
+5줄만 넣어도 `Divider`를 덮었다). **해결**: `GeneralLogText` 박스를 24→114로 키우고(4~5줄 분량,
+실측 `GetPreferredValues` 기준), 그만큼(90) `Divider`/`ValueChangeBar`/`TrustLow`/`TrustHigh`/
+`TrustArrowLine`/`TrustArrowHead`를 함께 아래로 밀어 원래 상대 간격을 유지했다. 코드의
+`MaxLogLines`도 12→5로 낮춰 새 박스 크기에 실제로 들어가는 줄 수와 맞췄고, `GeneralLogText`에
+`RectMask2D`를 안전장치로 추가해(유난히 긴 한 줄이 껴도) 어떤 경우든 박스 밖으로는 텍스트가
+안 나가도록 이중으로 막았다.
+
+**검증**: Play Mode에서 (1) 탭 버튼을 프로필→로그→프로필→같은탭재클릭 순서로 눌러
+`ProfilePanelRoot`/`LogPanelRoot`가 항상 정확히 배타적으로만 켜짐을 확인(동시 활성 불가능해짐),
+(2) NPC 클릭 후 프로필 탭에서 실제 NpcData 필드(성격 태그 5종/믿음 단계/역사/관계 등) 전부 정상
+표시 확인, (3) 관계 3개인 상인으로 행 폭·간격 실측 확인(겹침 없음), (4) `NpcRelocatedEvent` 6개
+발행 후 로그 패널의 모든 하위 요소 화면 좌표를 `GetWorldCorners`로 비교해 모든 인접 쌍의 간격이
+양수(겹침 없음)임을 확인. Console Error/Warning 0(무관한 Unity AI 계정 API 경고 1건만 있었고
+우리 변경과 무관). 씬 무수정(프리팹 2곳 + 코드 1곳).
+
+**"데이터 연결" 관련**: 위 배선 3개(npcProfileGo/logPanelGo/stageNameText) 외에 나머지 모든
+HudView 필드는 이미 정상 연결돼 있었음을 전수 점검으로 확인(NPC 성격 태그 5종, 관계도, 역사,
+장소 정보 패널 등 - 실제 NpcData/LocationData 값이 다 들어가고 있었다). `profileTabIndicator`/
+`logTabIndicator`(탭 선택 시 하이라이트)/`npcNoneStickerGo`(NPC 미선택 시 스티커)는 대응하는 아트가
+아직 없어 연결 대상 자체가 없음 - 새 아트가 추가되면 배선만 하면 된다(코드는 이미 준비돼 있음).
+
+**수정한 파일**: `HudPresenter.cs`(`MaxLogLines` 12→5 + 주석), `PlayHudCanvas_New.prefab`
+(`RightDocumentPanelController` GameObject 삭제, `npcProfileGo`/`logPanelGo`/`stageNameText`
+배선, `ProfileContent`/`LogContent` 항상 활성화, `RelationshipsRoot`에 `VerticalLayoutGroup` 추가,
+`GeneralLogText` 크기 조정 + `RectMask2D` 추가 + 하위 요소 5개 위치 조정).
+
+**⚠️ 정정(같은 날 바로 후속 - 3-69 참고)**: 위 "해결 1"(`RightDocumentPanelController` 제거 +
+`npcProfileGo`/`logPanelGo` 배선)은 **오판이었다** - 정확히 3-28에서 이미 한 번 검증되고
+문서화됐던 것과 똑같은 실수를 반복한 것(그때의 "교훈" 문단을 이 작업 시작 전에 안 읽어서
+발생). `RightDocumentPanelController`는 목업 잔재가 아니라 **peek 슬라이드 애니메이션을 담당하는
+의도된 정식 시스템**이었고, `npcProfileGo`/`logPanelGo`가 null인 것도 **의도된 상태**였다(주석에
+이미 "다른 스크립트가 SetActive 안 함" 요구사항이 적혀 있었음). 되살린 뒤 사용자가 바로 "탭
+부분이 안 보인다"고 재보고해 원인이 됐음을 확인 - 3-69에서 즉시 원복했다. 해결 2/3(관계도 행
+`VerticalLayoutGroup`, 로그 패널 `GeneralLogText` 크기/마스크)은 이 오판과 무관한 별개의 진짜
+버그라 그대로 유지된다.
+
+---
+
+### 3-69. 3-68 "해결 1" 오판 원복 + 프로필 패널 진짜 원인(단어 줄바꿈 꺼짐) 발견 — 배치가이드/폰트가이드 대조 (2026-08-05, 사용자 스크린샷 — "파일 탭부분도 안 보여 지금" → "프로필 가이드보고 프로필에 적어야 되는 정보들을 알맞은 위치에 배치해줘")
+
+**1) 3-68 정정**: 사용자가 "Log/Profile 탭이 안 보인다"고 보고 - `RightDocumentPanelController`를
+되살린 것(3-68) 자체가 원인이었다. `HudView.npcProfileGo`/`logPanelGo`를 다시 null로 원복,
+`ProfileContent`/`LogContent` 기본 비활성으로 원복, `RightDocumentPanelController`를 다시
+`RightPeekArea`에 추가하고 `profilePanelRoot`/`logPanelRoot`/`sharedTabRoot`/탭 버튼 2개를 정식
+배선(GameObject 자체를 삭제했었어서 재생성 필요). Play Mode에서 재확인 - 씬 시작 시
+`ProfilePanelRoot`가 `active=true`인 채 peek 위치로 슬라이드돼 있고("Log"/"Profile" 탭 라벨이
+`프로필 파일 UI.png` 아트 자체에 그려져 있어 이 상태에서 탭이 다시 보인다), 탭 클릭 시 정상
+전환됨을 확인.
+
+**2) 진짜 문제 - "성격 태그" 헤더와 겹치는 이름/기본정보, 관계도 텍스트가 세로로 짓눌리는 문제**:
+사용자가 재보고한 스크린샷을 보고 `Assets/Belief/UI/Guides/[배치가이드]`/`[폰트가이드] 플레이 화면
+UI 각이드 _ 프로필.jpg`(디자이너가 만든 정식 배치·폰트 스펙 이미지)를 열어 실제 프리팹 값과 대조했다.
+
+- **`NpcNameText`(NameAgeJob)와 `NpcBasicInfoText`(BasicInfoExtra)가 서로 겹침**: `NameAgeJob`
+  y=-216(높이 36, 즉 -216~-252), `BasicInfoExtra`가 y=-242부터 시작 - 10유닛 겹침. 사용자가 본
+  "사인 (우: 인 성별: 남성" 겹침 글자가 바로 이것.
+- **더 심각한 진짜 원인 - `BasicInfoExtra`/`HistoryBody` 둘 다 `enableWordWrapping=false`**:
+  실제 콘텐츠(`"나이: — · 성별: 남성\n직업: 영주 저택 집사 · 소속: 1스테이지 배경 등장(이후
+  미등장)"`, `HistoryBody`의 5문단짜리 실제 역사 텍스트)가 배치될 칸 폭(각각 290/250)보다
+  훨씬 넓게(각각 필요 폭 457/259) 줄바꿈 없이 한 줄로 그대로 뻗어나가고 있었다 - 세로 겹침이
+  아니라 **가로로 옆 칸(성격 태그 grid, 관계도 영역)까지 뚫고 지나가며** 텍스트가 서로 섞여
+  보이던 것이었다. `RelationshipsRoot`의 `VerticalLayoutGroup`(3-68에서 추가)은 정상 작동 중이었고
+  (재확인: 새 Play 세션에서 폭 430 정상), 사용자 스크린샷은 그 수정 이전의 오래된 Play 세션에서
+  찍힌 것으로 보인다(같은 세션을 계속 재사용 중이면 프리팹 구조 변경은 반영 안 됨 - Play Mode를
+  재시작해야 함).
+
+**해결**: `BasicInfoExtra`/`HistoryBody`에 `enableWordWrapping=true` 설정. `BasicInfoExtra`는
+`TextMeshProUGUI.GetPreferredValues`로 실측(폭 290 기준 폰트 크기별 필요 높이)해 폰트 16→11로
+줄이고 위치를 `NameAgeJob` 바로 아래(y=-254)로, 크기를 290×48로 재조정 - `NameAgeJob` 하단과도,
+그 아래 `JudgeTendencyValue`("성격 태그" 첫 줄) 상단과도 겹치지 않는 최소 여백까지 실측으로
+맞췄다. `HistoryBody`는 폭을 250→280으로 넓혀 필요 높이를 143→117로 줄이고 박스를 280×125로
+재조정(문서 하단까지 여유 충분).
+
+**검증**: Play Mode에서 집사를 클릭 → 프로필 탭 → `RectTransform.GetWorldCorners`로
+`NameAgeJob`/`BasicInfoExtra`/`JudgeTendencyValue`/관계도 행/`HistoryBody` 5개 요소의 화면
+Y좌표를 전부 비교 - 모든 인접 쌍 간격이 0 이상(겹침 없음, 일부는 1~2유닛으로 빠듯하지만 겹치지
+않음) 확인. 관계도 행 폭도 430으로 정상(고아 세션 문제 아님을 재확인). Console Error/Warning 0.
+씬 무수정(프리팹만).
+
+**수정한 파일**: `PlayHudCanvas_New.prefab`(`RightDocumentPanelController` GameObject 재생성 +
+배선, `npcProfileGo`/`logPanelGo`를 null로 원복, `ProfileContent`/`LogContent` 기본 비활성 원복,
+`BasicInfoExtra`/`HistoryBody`에 단어 줄바꿈 활성화 + 크기·폰트·위치 재조정). 코드 무수정.
+
+**교훈(3-28과 동일하지만 재확인)**: 비슷한 문제를 다시 마주치면 **먼저 이 파일에서 관련 키워드로
+검색**(`RightDocumentPanelController`, 건드리려는 GameObject 이름 등)해 과거에 이미 조사·결정된
+사항이 있는지 확인할 것 - 이번에 그 절차를 건너뛰어서 이미 검증됐던 실수를 그대로 반복했다.
+
+---
+
+### 3-70. 관계도 행이 여전히 세로로 짓눌려 보이는 문제 — 3-68의 `VerticalLayoutGroup` 수정은 맞았지만 "비활성 상태에서 Bind되는" 순서 문제가 남아있었다 (2026-08-05, 사용자가 재부팅 후에도 재확인)
+
+3-69까지 고친 뒤에도 사용자가 "아직도 관계도는 저렇게 나와"라며 같은 증상(관계도 행 텍스트가
+글자 단위로 세로로 짓눌림)을 두 번째 스크린샷으로 재확인 - Play Mode를 새로 켰다고 확인까지
+받았는데도 재현됐다. 내 쪽 테스트(RunCommand로 직접 클릭 시뮬레이션)는 매번 성공적으로
+재현이 안 됐다 - 이 차이 자체가 단서였다.
+
+**진짜 원인**: `RightDocumentPanelController.HandleTabClicked`는 탭을 열 때 `AnimateOpen`
+코루틴을 실행하고, 그 코루틴이 슬라이드 애니메이션(0.3초)이 다 끝난 **뒤에야**
+`profileContent.SetActive(true)`를 호출한다. 즉 "패널이 아직 닫혀 있거나 여는 중"인 짧은 순간에
+사용자가 NPC를 클릭하면, `HudPresenter.RefreshNpcProfile()` → `AddNpcRelationshipRow()` →
+`NpcRelationshipRowView.Bind()`가 **`ProfileContent`(따라서 `RelationshipsRoot`도)가 아직
+비활성인 상태에서** 실행된다. Unity의 레이아웃 시스템(`VerticalLayoutGroup`)은 비활성
+오브젝트를 건너뛰므로, 이 시점엔 행의 폭이 프리팹 기본값 100 그대로이고 TMP는 그 좁은 폭
+기준으로 글자 단위 줄바꿈 메시를 이미 만들어버린다. 나중에 애니메이션이 끝나 `ProfileContent`가
+활성화되면 `RectTransform.sizeDelta`는 결국 430으로 정상화되지만(레이아웃 자체는 살아있으므로),
+**이미 만들어진 TMP 글자 메시는 자동으로 다시 그려지지 않아** 화면엔 계속 옛 모습(세로로 짓눌린
+글자)이 남는다 - 이게 진짜 원인이었다. 사용자는 실제 마우스로 탭을 열기 "전에" NPC를 먼저
+클릭하는 경우가 잦았을 것이고, 나는 테스트할 때 항상 탭 버튼과 NPC 클릭을 같은 동기 호출
+안에서 순서를 이것저것 바꿔가며 호출했지만 `ProfileContent`가 실제로 활성화되는 순간(코루틴
+완료 시점)을 재현하지 못해 이 특정 순서 조합을 놓쳤다 - `content.gameObject.SetActive(true)`를
+직접 호출해 강제로 그 전환을 재현하고 나서야 재현 성공.
+
+**해결(2단계)**:
+1. `HudPresenter.RefreshNpcProfile()`에서 관계도 행을 전부 추가한 직후
+   `LayoutRebuilder.ForceRebuildLayoutImmediate(npcRelationshipsRoot as RectTransform)`를 호출 -
+   패널이 이미 열려 있는 상태(다른 NPC를 보다가 새 NPC를 클릭)에서는 이 호출만으로 그 자리에서
+   바로 정상 폭이 확정된다.
+2. `NpcRelationshipRowView`에 `OnEnable()`을 추가해 `LayoutRebuilder.MarkLayoutForRebuild(부모)`를
+   호출 - 패널이 닫힌 상태에서 Bind된 행이 나중에(코루틴이 끝나 `ProfileContent`가 활성화되며)
+   실제로 화면에 나타나는 바로 그 순간에 레이아웃을 다시 계산하도록 강제한다. 두 경로를 합쳐
+   "언제 NPC를 클릭하든" 항상 올바른 폭으로 그려지게 했다.
+
+**검증**: Play Mode에서 `ProfileContent`를 일부러 비활성 상태로 둔 채 경비대장을 클릭해
+`RefreshNpcProfile()`이 비활성 상태에서 실행되게 만든 뒤(행 3개 모두 여전히 100×100 확인 -
+버그 재현 성공), 그 다음 `ProfileContent.SetActive(true)`로 활성화한 즉시(같은 동기 호출 내에서
+`Canvas.ForceUpdateCanvases()`만 추가) 행 3개 전부 430×33.46으로 정상화됨을 확인 - `OnEnable`
+수정이 정확히 이 케이스를 잡아낸다. Console Error/Warning 0.
+
+**수정한 파일**: `HudPresenter.cs`(`RefreshNpcProfile()`에 관계도 추가 직후
+`LayoutRebuilder.ForceRebuildLayoutImmediate` 호출 추가), `NpcRelationshipRowView.cs`(`OnEnable()`
+추가 - `LayoutRebuilder.MarkLayoutForRebuild`). 프리팹/씬 무수정.
+
+**교훈**: `VerticalLayoutGroup`/`ContentSizeFitter` 조합이 있는 오브젝트가 **비활성 상태에서
+데이터를 먼저 받고 나중에 활성화되는** 흐름(이번처럼 슬라이드 애니메이션이 있는 패널, 또는
+`SetActive(false)`로 미리 만들어두고 나중에 켜는 어떤 UI든)이라면, 활성화되는 시점에
+`OnEnable()`로 명시적으로 레이아웃 재계산을 요청해야 한다 - Unity가 비활성 상태였던 동안의
+레이아웃 요청을 "밀린 것"으로 자동으로 기억해뒀다가 활성화 시점에 알아서 처리해주지 않는다.
+이 문제는 애니메이션/코루틴 타이밍에 의존해서 매번 100% 재현되지 않고(클릭 순서에 따라 다름),
+`Unity_RunCommand`로 동기적으로 재현하려 하면 코루틴이 실제로 진행되지 않아(Play Focused 모드
+등의 영향으로 추정) 오히려 재현이 잘 안 됐다 - 이런 "타이밍에 의존하는" 버그는 재현 실패 자체를
+"버그 아님"의 증거로 삼지 말고, 문제가 되는 정확한 상태 전환(여기서는 "비활성 상태에서 활성화")을
+직접 코드로 강제해 재현해야 한다.
+
+**⚠️ 후속(3-71)**: 위 `OnEnable` 대증요법으로도 사용자 화면에서는 여전히 재현됐다 - 근본 원인은
+"애초에 구현 구조 자체가 시안과 다름"이었고, 3-71에서 레이아웃 그룹 의존을 통째로 걷어내며
+해결됐다. 이 절의 `LayoutRebuilder` 호출/`OnEnable` 훅은 3-71에서 전부 제거됐다.
+
+---
+
+### 3-71. 관계도를 시안대로 3열 표로 전면 재구성 — 레이아웃 그룹 의존을 없애 버그 부류 자체를 제거 (2026-08-05, 사용자가 프로필 시안 이미지 제공)
+
+3-70까지 대증요법(레이아웃 강제 재계산)을 두 번 시도했지만 사용자 화면에서는 계속 재현됐다.
+사용자가 **프로필 시안 이미지**를 보내주면서 원인이 명확해졌다 - **구현 구조 자체가 시안과 전혀
+달랐다.**
+
+- **시안**: 관계도는 `관계 대상 | 관계 유형 | 반응 차이` **3열 표**(각 열에 작은 헤더 라벨 + 값,
+  열 사이 세로 구분선). 배경 아트의 회색 칸 3개에 각각 하나씩 얹힌다.
+- **기존 구현**: `NpcRelationshipRowView` 프리팹이 "이름 · 유형"을 한 줄로 **합쳐서** 헤더에 넣고
+  설명을 그 아래 줄에 두는 **2줄 세로 구조**. 게다가 프리팹 루트 폭이 placeholder 값 `100`인 채로
+  `VerticalLayoutGroup`+`ContentSizeFitter`에 폭 계산을 의존하고 있었다.
+
+즉 3-68~3-70에서 고치려던 "폭이 100이라 글자가 세로로 짓눌린다"는 증상은, 애초에 쓰지 말았어야 할
+레이아웃 의존 구조를 그대로 둔 채 그 위에 재계산 훅만 덧붙이던 것이었다. 흥미롭게도 프리팹 안에는
+**시안대로 만든 3열 정적 데모가 이미 존재**했다(`RelationHeaderTarget/Type/Diff`,
+`RelationTargetValue/TypeValue/DiffValue`, `RelColDivider1/2` - 3-27에서 "동적 행으로 대체한다"며
+`SetActive(false)` 처리됨). 시안을 따르지 않는 동적 구현으로 갈아끼우면서 생긴 문제였다.
+
+**실측 기반 재설계** (추측 없이 전부 측정):
+- **배경 아트의 회색 칸 위치**: `프로필 파일 UI.png`(997×1069)를 픽셀 스캔해 회색 칸 3개의 윗변이
+  각각 `y=466 / 580 / 675`(가로 `x=238~792`)임을 확인 - **간격이 균일하지 않다(114 / 95)**. 이것만으로도
+  `VerticalLayoutGroup`(균일 간격)으로는 아트에 맞출 수 없음이 확정된다.
+- **실제 데이터 최댓값**: Major NPC 16명 전수 조사 - 관계 최대 **3개**(회색 칸 3개와 정확히 일치),
+  최장 관계 대상 `하급 경비병`(6자), 최장 관계 유형 `물자 납품 거래 파트너`(12자), 최장 반응 차이 45자.
+  시안 예시(`길드장`/`상관`)보다 훨씬 길어 열 폭을 그대로 쓰면 안 됐다.
+- **필요 폭 측정**: `TextMeshProUGUI.GetPreferredValues`로 실측 → 대상 73.6@16 / 유형 91.3@13(2줄) /
+  반응 2줄. ⚠️ **이때 비활성 오브젝트의 TMP로 재면 값이 1/10 수준으로 엉뚱하게 나온다**(fontSize 16인데
+  높이 2.0) - 활성 상태인 다른 TMP의 `fontSize`를 잠시 바꿔가며 재야 정상값이 나온다.
+
+**해결**: `NpcRelationshipRowView` 프리팹을 시안대로 3열 표로 전면 재구성했다. 폰트/색/스타일은
+디자이너가 배치해 둔 정적 데모 오브젝트에서 **그대로 복사**해(헤더·값 `SUIT-Bold SDF`, 설명
+`SUIT-Regular SDF`, 색 `RGBA(0.18,0.17,0.17)`) 폰트가이드(`SUIT BOLD 10` / `SUIT BOLD 16` /
+`SUIT REGULAR 10`)와 일치시켰다. 열 폭은 실측값 기반으로 대상 78 / 유형 96 / 반응 200, 행 400×50.
+**레이아웃 컴포넌트(`VerticalLayoutGroup`/`ContentSizeFitter`)를 전부 제거**하고 모든 열 위치를
+고정 좌표로 두었으며, 행 자체도 `HudPresenter`가 실측한 아트 좌표(`0 / -114 / -209`)에 직접
+배치한다. 이로써 3-68~3-70을 괴롭히던 "비활성 상태에서 Bind → 레이아웃이 폭을 못 잡음" 버그
+부류가 **구조적으로 사라졌다**(의존 자체가 없어짐). 3-70에서 넣었던 `LayoutRebuilder` 호출과
+`OnEnable` 훅도 함께 제거. 프리팹은 루트를 유지한 채 자식만 교체했다(`HudPresenter`의
+GUID+fileID 참조가 끊기지 않도록).
+
+**검증**: (1) 예전에 계속 실패하던 **최악 시나리오**(패널이 꺼진 상태에서 NPC 먼저 클릭 → 이후
+패널 활성화)에서 행 3개가 전부 `400×50`, 위치 `0/-114/-209`로 정확히 배치됨을 확인 - 레이아웃
+의존을 없앤 효과. (2) 최장 데이터를 가진 `상인`으로 **잘림 검사** - `textInfo.characterCount`가
+원본 글자 수와 전부 일치(12자/12자, 32자/32자 등), `유형`은 2줄로 자연 줄바꿈되며 칸(34) 안에
+들어감(32.45). (3) 관계 1개인 `집사`로 전환 시 행이 정확히 1개만 남음(이전 NPC 행 잔존 없음).
+(4) 프로필 전체 세로 좌표를 `GetWorldCorners`로 비교해 이름/기본정보/성격태그/관계도/History
+모든 인접 요소 간 겹침 0. Console Error 0(무관한 Unity AI 계정 경고 1건). 씬 무수정.
+
+**수정한 파일**: `NpcRelationshipRowView.cs`(3열 필드로 교체, `OnEnable` 훅 제거),
+`HudPresenter.cs`(`AddNpcRelationshipRow`를 3열+슬롯 인덱스로 변경, 아트 실측 오프셋 상수 추가,
+`LayoutRebuilder` 호출 제거), `NpcRelationshipRowView.prefab`(3열 표로 전면 재구성),
+`PlayHudCanvas_New.prefab`(`RelationshipsRoot`의 `VerticalLayoutGroup` 제거).
+
+**교훈**: 같은 증상을 두 번 이상 대증요법으로 못 잡으면 **구현이 원래 설계(시안)와 맞는지부터
+확인**할 것 - 이번엔 프리팹 안에 시안대로 만든 정적 데모가 멀쩡히 남아 있었는데도 그걸 확인하지
+않고 엉뚱한 구조 위에서 레이아웃 훅만 계속 덧붙였다. 그리고 UI를 아트 배경 위에 얹을 때는 아트를
+**픽셀 단위로 실측**해 좌표를 뽑아야 한다 - 이번 아트처럼 칸 간격이 균일하지 않으면 레이아웃 그룹
+자체가 애초에 오답이다.
+
+---
+
+### 3-72. 프로필 상단 "나이/성별/직업/소속" 줄 제거 — 이름만 표시 (2026-08-05, 사용자 지시 — "위에 나이 성별 직업 이런 정보가 성격태그부분에 겹쳐서 이상하게 나오는데 그냥 없애버리자")
+
+`BasicInfoExtra`(이름 아래 "나이: — · 성별: … / 직업: … · 소속: …" 2줄)는 3-27에서 "`NameAgeJob`
+하나로는 다 못 담는다"며 추가했던 보강 오브젝트인데, 실제로 넣을 자리가 성격 태그 표 바로 위
+좁은 여백뿐이라 3-69에서 폰트를 11까지 줄이고 위치를 재조정해도 여전히 답답하게 붙어 보였다.
+게다가 `NpcData`에 나이 필드 자체가 없어(Frozen 스키마) 항상 `나이: —`로 나오던 자리였다.
+사용자가 아예 제거를 지시.
+
+**해결**: `HudPresenter`/`HudView`에서 `npcBasicInfoText` 필드·프로퍼티·대입 코드를 전부 삭제하고
+(참조 6곳 전수 확인 후 제거 - 죽은 코드 방치 금지), 프리팹의 `BasicInfoExtra` GameObject를
+비활성화했다. 상단은 이제 `NameAgeJob`에 NPC 이름만 표시한다.
+
+**검증**: Play Mode 새 세션에서 경비대장 클릭 - 상단 텍스트가 `'경비대장'`(이름만), `BasicInfoExtra`
+비활성 확인, 이름(하단 785)과 성격 태그 첫 줄(상단 734) 사이 51px 여백으로 겹침 없음. Console
+Error/Warning 0.
+
+**⚠️ 검증 중 겪은 함정(재발 방지)**: 프리팹을 수정한 직후 곧바로 Play Mode에 들어가면, 열려 있는
+씬의 인스턴스가 아직 프리팹 변경을 따라오기 전 상태로 스냅샷될 수 있다 - 실제로 `프리팹 에셋은
+False인데 씬 인스턴스는 True`, 게다가 직전 세션에서 클릭했던 NPC 이름이 그대로 남아있는 현상을
+겪었다(Edit Mode로 나오니 씬 인스턴스도 정상적으로 False였다). **프리팹 수정 후 검증할 때는
+Play Mode를 완전히 나갔다가 다시 들어가고, Edit Mode 상태에서 씬 인스턴스 값을 한 번 확인한 뒤
+Play에 들어갈 것.** (사용자가 3-70에서 "아직도 그대로"라고 반복 보고했던 것도 같은 원인이었을
+가능성이 크다.)
+
+**수정한 파일**: `HudPresenter.cs`(`npcBasicInfoText` 필드/대입/바인딩 제거),
+`HudView.cs`(`npcBasicInfoText` 필드·프로퍼티 제거), `PlayHudCanvas_New.prefab`(`BasicInfoExtra`
+비활성화).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```

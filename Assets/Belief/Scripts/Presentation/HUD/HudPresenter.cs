@@ -55,7 +55,12 @@ namespace Belief.Presentation.HUD
         /// 직접 대입할 수 있게 한다.</summary>
         [SerializeField] public PlayHudSkin skin;
 
-        const int MaxLogLines = 12;
+        // 예전엔 12줄이었는데 실제 GeneralLogText 박스가 그 정도 줄 수를 담을 만큼 크지 않아(1줄
+        // 높이로 디자인돼 있었음) 아래 Divider/ValueChangeBar/Trust 화살표 위로 텍스트가 흘러넘쳐
+        // 겹쳐 보이던 원인이었다(2026-08-04) - 박스를 넉넉히 키우고(그만큼 아래 요소들도 함께 내림),
+        // 그 박스가 실제로 담을 수 있는 줄 수에 맞춰 5로 줄였다. RectMask2D도 안전장치로 추가해
+        // 혹시 유난히 긴 한 줄이 껴도 박스 밖으로는 절대 안 나가게 막는다.
+        const int MaxLogLines = 5;
 
         static readonly Color PanelColor = new Color(0.09f, 0.12f, 0.10f, 0.95f);
         static readonly Color AccentColor = new Color(0.30f, 0.85f, 0.55f);
@@ -130,7 +135,6 @@ namespace Belief.Presentation.HUD
         // NPC 조사 파일 패널(section 6) - 공용 패널 하나, 클릭한 NPC로 내용만 교체한다.
         GameObject npcProfileGo;
         TMP_Text npcNameText;
-        TMP_Text npcBasicInfoText;
         TMP_Text npcBeliefTierText;
         TMP_Text npcBeliefDialogueText;
         Transform npcRelationshipsRoot;
@@ -676,7 +680,6 @@ namespace Belief.Presentation.HUD
             if (selectedNpcState == null)
             {
                 npcNameText.text = "";
-                npcBasicInfoText.text = "";
                 npcBeliefTierText.text = "";
                 npcBeliefDialogueText.text = "";
                 npcHistoryText.text = "";
@@ -695,10 +698,10 @@ namespace Belief.Presentation.HUD
             if (npcSensitiveInfoText != null) npcSensitiveInfoText.text = data.sensitiveInfoTag;
             if (npcRelationTendencyText != null) npcRelationTendencyText.text = data.relationTendencyTag;
             if (npcTrustJudgmentText != null) npcTrustJudgmentText.text = data.trustJudgmentTag;
-            // section 3 - NpcData에 나이 필드가 없다(Frozen 스키마 변경 금지) - 임의 생성 대신 "—".
-            // 믿음 단계 바(아트에 고정) 바로 위 여백이 좁아 4줄이 들어가지 않는다 - 폰트를 줄이는 대신
-            // 2줄로 합쳐 같은 크기 그대로 공간에 맞춘다.
-            npcBasicInfoText.text = $"나이: — · 성별: {data.gender}\n직업: {data.job} · 소속: {data.affiliation}";
+            // 이름 아래에 있던 "나이/성별/직업/소속" 줄(BasicInfoExtra)은 제거했다(2026-08-05 사용자
+            // 지시) - 넣을 자리가 성격 태그 표 바로 위 좁은 여백뿐이라 어떻게 배치해도 표와 겹쳐
+            // 보였고, 나이는 NpcData에 필드 자체가 없어 항상 "—"로 나오던 자리였다. 상단은 이제
+            // NPC 이름만 표시한다.
 
             string tag = CurrentBeliefTag(selectedNpcState, out string koreanLabel);
             npcBeliefTierText.text = koreanLabel;
@@ -713,12 +716,15 @@ namespace Belief.Presentation.HUD
 
             if (data is MajorNpcData majorForRel && majorForRel.relationships != null)
             {
+                int slot = 0;
                 foreach (var rel in majorForRel.relationships)
                 {
                     if (rel.other == null) continue;
+                    if (slot >= RelationshipSlotOffsetsY.Length) break; // 배경 아트에 회색 칸이 3개뿐
                     string label = string.IsNullOrEmpty(rel.relationshipTypeLabel) ? "" : rel.relationshipTypeLabel;
                     string desc = string.IsNullOrEmpty(rel.relationshipDescription) ? "" : rel.relationshipDescription;
-                    AddNpcRelationshipRow($"{rel.other.displayName}  ·  {label}", desc);
+                    AddNpcRelationshipRow(slot, rel.other.displayName, label, desc);
+                    slot++;
                 }
             }
 
@@ -757,12 +763,23 @@ namespace Belief.Presentation.HUD
             npcRelationshipRows.Clear();
         }
 
-        /// <summary>NpcRelationshipRowView 프리팹을 Instantiate하고 데이터만 채운다(가이드: 관계 대상명 =
-        /// SUIT BOLD 15, 설명 = SUIT REGULAR 10 - 두 자식 텍스트 구조는 프리팹에 이미 구워져 있다).</summary>
-        void AddNpcRelationshipRow(string header, string desc)
+        /// <summary>배경 아트(`프로필 파일 UI.png`)에 그려진 관계도 회색 칸 3개의 세로 위치 -
+        /// RelationshipsRoot(=첫 칸) 기준 상대 오프셋이다. 아트에서 칸 윗변이 각각 466/580/675px에
+        /// 그려져 있어(픽셀 실측) 간격이 균일하지 않다(114 / 95) - 그래서 LayoutGroup의 균일 간격으로는
+        /// 맞출 수 없고 이렇게 실측값을 직접 쓴다. 아트가 교체되면 이 값도 다시 재야 한다.</summary>
+        static readonly float[] RelationshipSlotOffsetsY = { 0f, -114f, -209f };
+
+        /// <summary>NpcRelationshipRowView 프리팹을 Instantiate하고 3열(관계 대상/관계 유형/반응 차이)
+        /// 값을 채운 뒤, 배경 아트의 해당 회색 칸 위에 정확히 얹는다. 폰트/색/열 위치는 전부 프리팹에
+        /// 구워져 있어 여기서는 위치와 데이터만 다룬다.</summary>
+        void AddNpcRelationshipRow(int slot, string target, string type, string diff)
         {
             var row = Instantiate(npcRelationshipRowPrefab, npcRelationshipsRoot);
-            row.Bind(header, desc);
+            row.Bind(target, type, diff);
+
+            var rowRect = row.transform as RectTransform;
+            if (rowRect != null) rowRect.anchoredPosition = new Vector2(0f, RelationshipSlotOffsetsY[slot]);
+
             npcRelationshipRows.Add(row.gameObject);
         }
 
@@ -1128,7 +1145,6 @@ namespace Belief.Presentation.HUD
 
             npcProfileGo = view.NpcProfileGo;
             npcNameText = view.NpcNameText;
-            npcBasicInfoText = view.NpcBasicInfoText;
             npcBeliefTierText = view.NpcBeliefTierText;
             npcBeliefDialogueText = view.NpcBeliefDialogueText;
             npcRelationshipsRoot = view.NpcRelationshipsRoot;

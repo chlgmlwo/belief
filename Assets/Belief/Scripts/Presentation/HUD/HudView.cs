@@ -57,7 +57,6 @@ namespace Belief.Presentation.HUD
         [Header("NPC Profile Panel")]
         [SerializeField] GameObject npcProfileGo;
         [SerializeField] TMP_Text npcNameText;
-        [SerializeField] TMP_Text npcBasicInfoText;
         [SerializeField] TMP_Text npcBeliefTierText;
         [SerializeField] TMP_Text npcBeliefDialogueText;
         [SerializeField] Transform npcRelationshipsRoot;
@@ -153,7 +152,6 @@ namespace Belief.Presentation.HUD
 
         public GameObject NpcProfileGo => npcProfileGo;
         public TMP_Text NpcNameText => npcNameText;
-        public TMP_Text NpcBasicInfoText => npcBasicInfoText;
         public TMP_Text NpcBeliefTierText => npcBeliefTierText;
         public TMP_Text NpcBeliefDialogueText => npcBeliefDialogueText;
         public Transform NpcRelationshipsRoot => npcRelationshipsRoot;
