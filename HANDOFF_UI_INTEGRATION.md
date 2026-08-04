@@ -2049,6 +2049,33 @@ NpcData의 `walkFrames` 배열을 **비웠다**(`arraySize = 0`). `NpcActorView.
 
 ---
 
+### 3-61. 구역 시작 시 뜨는 "스테이지패널"(구역 안내 인트로 팝업) 제거 (2026-08-04, 사용자 지시 — "이제 필요없자나")
+
+사용자가 스크린샷("북문(외곽)" 타이틀 + 설명문이 뜬 화면 중앙 팝업)을 보내며 더 이상 필요 없으니
+없애 달라고 요청. 이 팝업은 `HudPresenter.Start()`가 `ProgressionController` 구독 설정 직후
+`StageData.regionName`/`regionDescription`(또는 하위 호환용 `ProgressionData` 문구)으로
+`IntroPopupRoutine(title, subtitle)`을 실행해 Fade In → 대기 → Fade Out으로 자동 표시하던 "구역
+안내 패널"(section 3, 3-6에서 최초 배선)이었다.
+
+**주의할 점**: `IntroPopupRoutine`은 Fade Out이 끝나는 시점에 `MaybeStartTutorial()`을 호출해
+Zone01(City 씬) 최초 플레이의 튜토리얼 시작 트리거 역할도 겸하고 있었다 — 팝업 호출 자체를 그냥
+지우면 튜토리얼이 영영 시작되지 않는 회귀가 생긴다.
+
+**해결**: `Start()`에서 `regionName`/`regionDescription` 계산 후 `StartCoroutine(IntroPopupRoutine(...))`
+하던 블록을 `MaybeStartTutorial()` 직접 호출로 교체하고, 다른 곳에서 더 이상 참조되지 않게 된
+`IntroPopupRoutine` 메서드 전체와 그 메서드에서만 쓰이던 `IntroHoldDuration` 상수를 삭제했다.
+`ConfirmPopupRoutine`/`ShowGatedPopup` 등 MISSION COMPLETE·ZONE COMPLETE·결과 팝업이 공유하는
+`overlayGo`/`overlayBox`/`overlayCanvasGroup`/`PopupScaleIn`/`PopupScaleOut` 등은 그대로 남겨뒀다
+(다른 팝업들이 계속 사용 중).
+
+**검증**: Play Mode 재진입 후 Console Error/Warning 0, 씬 뷰 캡처로 월드 화면에 팝업이 뜨지 않는
+것 확인. 코드만 수정, 씬 변경 없음.
+
+**수정한 파일**: `HudPresenter.cs`(`IntroPopupRoutine` 삭제, `Start()`에서 `MaybeStartTutorial()`
+직접 호출로 교체, 미사용 `IntroHoldDuration` 상수 삭제).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```

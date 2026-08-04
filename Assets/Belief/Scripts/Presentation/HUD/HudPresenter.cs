@@ -63,7 +63,6 @@ namespace Belief.Presentation.HUD
         static readonly Color ErrorColor = new Color(0.95f, 0.45f, 0.40f);
 
         const float PopupFadeDuration = 0.25f;
-        const float IntroHoldDuration = 1.6f;
         const float PopupScaleIn = 0.94f;
         const float PopupScaleOut = 0.97f;
 
@@ -208,16 +207,9 @@ namespace Belief.Presentation.HUD
                 pc.ObjectiveCompletedPendingConfirm += OnObjectiveCompletedPending;
                 pc.StageCompletedPendingConfirm += OnStageCompletedPending;
 
-                // 구역 안내 패널(section 3)은 StageData.regionName/regionDescription을 우선 사용하고,
-                // StageData가 없거나 값이 비어 있을 때만 기존 ProgressionData 문구로 하위 호환한다.
-                var stageAsset = installer.StageAsset;
-                string regionName = stageAsset != null && !string.IsNullOrEmpty(stageAsset.regionName)
-                    ? stageAsset.regionName : pc.CurrentStageDisplayName;
-                string regionDesc = stageAsset != null && !string.IsNullOrEmpty(stageAsset.regionDescription)
-                    ? stageAsset.regionDescription : pc.CurrentStageIntroSubtitle;
-
-                if (!string.IsNullOrEmpty(regionName))
-                    StartCoroutine(IntroPopupRoutine(regionName, regionDesc));
+                // 구역 안내 패널은 더 이상 표시하지 않는다(사용자 지시) - 다만 이 팝업이 끝나는 시점에
+                // 걸려 있던 튜토리얼 시작(MaybeStartTutorial)은 그대로 유지해야 하므로 직접 호출한다.
+                MaybeStartTutorial();
             }
 
             RefreshAll();
@@ -413,59 +405,6 @@ namespace Belief.Presentation.HUD
             overlayBox.localScale = Vector3.one;
 
             onConfirm?.Invoke();
-        }
-
-        /// <summary>구역 시작 시 한 번, 게임 입력이 시작되기 전에 표시된다 - Fade In -> 대기 -> Fade Out
-        /// 순서로 자동 진행하며(버튼 없음), Space/우클릭으로 스킵할 수 있다. 재생 중에는 Overlay의
-        /// blocksInput 배경이 그대로 입력을 막는다.</summary>
-        IEnumerator IntroPopupRoutine(string title, string subtitle)
-        {
-            overlayGo.SetActive(true);
-            overlayCanvasGroup.alpha = 0f;
-            overlayTitleText.text = title;
-            overlayTitleText.color = AccentColor;
-            overlayDescText.text = subtitle;
-            overlayButtonGo.SetActive(false);
-
-            bool skip = false;
-            var playback = new DelegatePlayback(() => skip = true);
-            PlaybackDirector.Instance?.Register(playback);
-
-            float t = 0f;
-            while (t < PopupFadeDuration && !skip)
-            {
-                t += Time.deltaTime;
-                float e = Mathf.SmoothStep(0f, 1f, t / PopupFadeDuration);
-                overlayCanvasGroup.alpha = e;
-                overlayBox.localScale = Vector3.one * Mathf.Lerp(PopupScaleIn, 1f, e);
-                yield return null;
-            }
-            overlayCanvasGroup.alpha = 1f;
-            overlayBox.localScale = Vector3.one;
-
-            float hold = 0f;
-            while (hold < IntroHoldDuration && !skip)
-            {
-                hold += Time.deltaTime;
-                yield return null;
-            }
-
-            t = 0f;
-            while (t < PopupFadeDuration && !skip)
-            {
-                t += Time.deltaTime;
-                float e = Mathf.SmoothStep(0f, 1f, t / PopupFadeDuration);
-                overlayCanvasGroup.alpha = 1f - e;
-                overlayBox.localScale = Vector3.one * Mathf.Lerp(1f, PopupScaleOut, e);
-                yield return null;
-            }
-            overlayCanvasGroup.alpha = 0f;
-            overlayBox.localScale = Vector3.one;
-
-            PlaybackDirector.Instance?.Unregister(playback);
-            overlayGo.SetActive(false);
-
-            MaybeStartTutorial();
         }
 
         /// <summary>Main Menu -> 게임 시작 -> Zone01(City) -> Zone Intro Popup -> Mission 시작 순서의
