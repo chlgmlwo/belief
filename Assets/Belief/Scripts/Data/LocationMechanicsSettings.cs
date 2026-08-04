@@ -75,12 +75,9 @@ namespace Belief.Data
             return cardType.ToString() == locationType.ToString();
         }
 
-        /// <summary>플레이어가 이 장소를 "장소 전체" 대상으로 직접 지정(SPREAD 카드)할 수 있는지 -
-        /// NPC 개별 지정(DELIVER 카드)이나 NPC 자체 이동 판단에는 전혀 영향을 주지 않는다.
-        /// Unspecified는 Public과 동일하게 취급한다(값이 아직 채워지지 않은 장소를 막지 않기 위함).</summary>
-        public bool CanTargetLocationDirectly(LocationData location) =>
-            location == null
-            || location.accessType == LocationAccessType.Unspecified
-            || location.accessType == LocationAccessType.Public;
+        /// <summary>모든 정보 카드는 모든 장소·NPC에 다 쓸 수 있어야 한다는 사용자 확정 규칙에 따라
+        /// accessType 기반 차단을 제거했다(2026-08-04) - 장소 전체 대상 SPREAD 카드 사용을 항상
+        /// 허용한다. accessType 필드 자체는 조사 파일 표시용으로 계속 남아 있다.</summary>
+        public bool CanTargetLocationDirectly(LocationData location) => true;
     }
 }

@@ -24,6 +24,9 @@ namespace Belief.Data
         public LocationData[] locations;
         public NpcPlacementEntry[] npcPlacements;
 
+        [Tooltip("City 씬 배경 - WorldPresenter가 카메라 뷰를 덮도록 자동 스케일한다. 비어 있으면 기존 카메라 단색 배경 그대로.")]
+        public Sprite cityBackground;
+
         /// <summary>이 스테이지(씬) 전용 수동 화면 배치 - 지정된 장소는 LocationData.worldPosition
         /// 대신 이 좌표를 사용한다(HUD 좌/우/상/하 패널을 피한 중앙 가시 영역에 들어가도록 스테이지마다
         /// 직접 잡은 값). 같은 LocationData 에셋이 여러 스테이지에 공유되어(worldPosition 하나로는
@@ -31,6 +34,13 @@ namespace Belief.Data
         /// 기존처럼 LocationData.worldPosition을 그대로 쓴다(하위 호환).</summary>
         [Header("World Layout (수동 배치 - 지정 시 LocationData.worldPosition보다 우선)")]
         public LocationLayoutEntry[] locationLayout;
+
+        /// <summary>NPC 시작 위치 수동 배치 - 지정된 NPC는 소속 장소를 따라가는 자동 슬롯 계산
+        /// (WorldPresenter.ComputeNpcSlot) 대신 이 좌표에서 시작한다. 이후 게임 중 NPC가 다른
+        /// 장소로 이동하면(NpcRelocatedEvent) 그 시점부터는 기존처럼 자동 슬롯 계산을 그대로
+        /// 따른다 - 이 좌표는 "시작 배치"에만 적용된다.</summary>
+        [Header("World Layout - NPC 시작 위치 수동 배치 (지정 시 자동 슬롯 배치보다 우선)")]
+        public NpcLayoutEntry[] npcLayout;
 
         [Header("Information")]
         public InformationCardPoolData cardPool;
@@ -69,6 +79,13 @@ namespace Belief.Data
     public struct LocationLayoutEntry
     {
         public LocationData location;
+        public Vector2 position;
+    }
+
+    [Serializable]
+    public struct NpcLayoutEntry
+    {
+        public NpcData npc;
         public Vector2 position;
     }
 }

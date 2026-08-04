@@ -55,8 +55,12 @@ namespace Belief.Presentation.World
             return location.worldPosition;
         }
 
+        const int CityBackgroundSortingOrder = -100;
+
         void Start()
         {
+            CreateCityBackground();
+
             foreach (var kvp in installer.Locations)
             {
                 var view = Instantiate(locationSitePrefab, locationRoot);
@@ -79,11 +83,52 @@ namespace Belief.Presentation.World
             foreach (var loc in installer.Locations.Keys)
                 SnapNpcSlots(loc);
 
+            // StageData.npcLayout에 수동 좌표가 지정된 NPC는 자동 슬롯 계산 대신 그 좌표에서
+            // 시작한다 - "시작 배치"에만 적용되고, 이후 실제 이동(NpcRelocatedEvent)이 일어나면
+            // 그때부터는 기존처럼 자동 슬롯 계산을 그대로 따른다.
+            ApplyManualNpcStartLayout();
+
             installer.EventBus.Subscribe<NpcRelocatedEvent>(OnNpcRelocated);
             installer.EventBus.Subscribe<LocationStateChangedEvent>(OnLocationStateChanged);
             installer.EventBus.Subscribe<NpcSpokeEvent>(OnNpcSpoke);
             installer.EventBus.Subscribe<InfoSpreadEvent>(OnInfoSpread);
             installer.EventBus.Subscribe<InfoDeliveredEvent>(OnInfoDelivered);
+        }
+
+        /// <summary>StageData.cityBackground가 있으면 Main Camera의 현재 뷰(orthographicSize·aspect)를
+        /// 완전히 덮도록 스케일을 계산해 맨 뒤(가장 낮은 sortingOrder)에 깔아준다 - 스테이지/카메라
+        /// 설정이 달라져도 매번 다시 계산하므로 하드코딩된 크기값이 없다.</summary>
+        void CreateCityBackground()
+        {
+            var sprite = installer.StageAsset != null ? installer.StageAsset.cityBackground : null;
+            if (sprite == null) return;
+
+            var cam = Camera.main;
+            if (cam == null) return;
+
+            var go = new GameObject("CityBackground");
+            go.transform.SetParent(transform, false);
+            var renderer = go.AddComponent<SpriteRenderer>();
+            renderer.sprite = sprite;
+            renderer.sortingOrder = CityBackgroundSortingOrder;
+
+            float cameraHeight = cam.orthographicSize * 2f;
+            float cameraWidth = cameraHeight * cam.aspect;
+            float spriteWidth = sprite.rect.width / sprite.pixelsPerUnit;
+            float spriteHeight = sprite.rect.height / sprite.pixelsPerUnit;
+            float scale = Mathf.Max(cameraWidth / spriteWidth, cameraHeight / spriteHeight);
+            go.transform.localScale = new Vector3(scale, scale, 1f);
+            go.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, 0f);
+        }
+
+        void ApplyManualNpcStartLayout()
+        {
+            var layout = installer.StageAsset != null ? installer.StageAsset.npcLayout : null;
+            if (layout == null) return;
+
+            foreach (var entry in layout)
+                if (entry.npc != null && npcViews.TryGetValue(entry.npc, out var view))
+                    view.SetWorldPosition(entry.position);
         }
 
         void OnNpcRelocated(NpcRelocatedEvent e)

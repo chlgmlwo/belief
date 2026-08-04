@@ -89,6 +89,7 @@ MonoBehaviour:
   - npc: {fileID: 11400000, guid: b61f1196e7ee84945894e1c731022573, type: 2}
     startLocation: {fileID: 0}
     initialBeliefs: []
+  cityBackground: {fileID: 21300000, guid: 2408092b6dd1c2244bfd054f65210b3b, type: 3}
   locationLayout:
   - location: {fileID: 11400000, guid: cbfd6be4454d78a48a2443caff90c231, type: 2}
     position: {x: -12.8, y: 9.2}

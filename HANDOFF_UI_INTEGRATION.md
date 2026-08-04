@@ -1059,6 +1059,585 @@ Locations|Npcs/`). Zone1.unity는 런타임 스폰이라 씬 자체는 변경 �
 
 ---
 
+### 3-31. "장소랑 NPC가 안 보여서 플레이를 못 한다" — 진짜 원인 2개(둘 다 오늘 세션과 무관한 기존 버그) 발견 및 수정 (2026-08-04)
+
+사용자가 실제로 Zone1을 Play해보고 스크린샷으로 "성소"/"장소"/"뒷골목"이라는, Zone1(북문)에는
+존재하지도 않는 장소명이 뜨고 실제 장소/NPC를 못 보고 못 누른다고 보고. 조사해보니 서로 다른
+원인 2개가 겹쳐 있었다 — **둘 다 오늘 만든 버그가 아니라 훨씬 이전부터 있던 기존 결함**이었고,
+지금까지 드러나지 않은 이유까지 확인했다.
+
+**원인 1 — `PlayHudCanvas_New` 프리팹 안에 정적 목업 장식이 그대로 남아 화면을 뒤덮고 있었음**:
+`WorldArea`라는 하위 오브젝트에 `LocationCard01/02/03`(하드코딩된 가짜 "성소"/"장소"/"뒷골목"
+카드), `ConnectionLines`, `ContactStamp`("접선" + PRIVATE 스탬프)가 전부 `active=true`로
+살아있었다 — 목업 씬(UI_PlayHudMockup)을 프로덕션 캔버스로 전환할 때 이 정적 장식들을 정리하지
+않고 그대로 가져온 것. HUD 캔버스는 항상 실제 월드보다 앞에 그려지므로, 이 가짜 카드들이 실제
+`World/LocationSites`·`NpcActors`를 완전히 가리고 있었다. **단, 같은 `WorldArea` 밑의
+`LocationInfoPaper`는 `HudView.locationNoteGo`/`locationNoteTitleText`/`locationNoteBodyText`로
+실제 배선되어 쓰이고 있는 진짜 UI라서(장소 클릭 시 특성 메모 패널) `WorldArea` 전체를 끄지 않고
+가짜 카드 5개만 개별적으로 비활성화했다.**
+
+**원인 2 — 원인 1을 걷어내고 보니 그 밑에 있어야 할 진짜 월드도 안 보임**: `WorldPresenter.
+locationRoot`/`npcRoot`가 가리키는 실제 씬 오브젝트 `World/LocationSites`·`NpcActors`가
+Zone1.unity에 **`active=false`로 저장되어 있었다**. `WorldPresenter.Start()`는 이 컨테이너
+밑에 `LocationSiteView`/`NpcActorView`를 `Instantiate`만 할 뿐 컨테이너 자체의
+`SetActive(true)`는 코드 어디에도 없다 — 즉 씬에 저장된 활성 상태가 그대로 최종 상태이고,
+누군가 에디터에서 끈 채로 저장한 뒤 다시 켜지 않은 것으로 보인다. 인트로 팝업 완료 등 어떤
+트리거로도 자동으로 켜지지 않는다는 것도 코드로 확인(참조하는 코드가 아예 없음). 이 버그가
+지금까지 드러나지 않았던 이유가 바로 원인 1 — 가짜 `WorldArea` 카드가 항상 화면을 채우고
+있어서, 그 뒤에서 진짜 월드가 안 보이고 있다는 사실 자체를 아무도 눈치채지 못했던 것.
+
+**수정**: `PlayHudCanvas_New.prefab`에서 `WorldArea/{ConnectionLines, LocationCard01,
+LocationCard02, LocationCard03, ContactStamp}` 5개 `SetActive(false)`(`LocationInfoPaper`는
+그대로 유지). `Zone1.unity`에서 `World/LocationSites`·`NpcActors` `SetActive(true)`로 변경,
+저장.
+
+**Play Mode 검증**: 수정 전에는 (강제 활성화 스크립트 없이는) `LocationSiteView`/
+`NpcActorView`가 `activeInHierarchy=False`로 남아 있었음을 재현 확인. 수정 후에는 아무 개입
+없이 Play만 눌러도 4개 장소·5개 NPC 전부 `activeInHierarchy=True`로 자연스럽게 나타남을
+스크린샷으로 재확인(실제로 사용자가 마우스로 클릭할 수 있는 정상 상태). Console Error/Warning
+0. Zone1 저장 완료(`isDirty=False` 재확인).
+
+**수정한 파일**: `PlayHudCanvas_New.prefab`(가짜 `WorldArea` 카드 5개 비활성화),
+`Zone1.unity`(`LocationSites`/`NpcActors` 활성화, 저장 완료). 스크립트는 수정하지 않았다.
+
+**남은 확인 사항**: 이 두 버그(특히 원인 2 - `LocationSites`/`NpcActors` 비활성 상태)는
+Zone1뿐 아니라 Zone2/Zone3/Metropolis 씬에도 똑같이 저장되어 있을 가능성이 높다 — 아직
+그쪽 HudCanvas 교체 작업 자체가 안 됐으므로(원인 1은 Zone1에만 해당) 원인 2만 별도로 확인이
+필요하다.
+
+---
+
+### 3-32. 3-31로도 안 고쳐짐 — 진짜 원인은 `OuterBackground`가 전체화면을 덮는 불투명 흰색이었다 (2026-08-04)
+
+3-31 조치 후 사용자가 직접 Play해서 스크린샷을 보냈는데도 `WorldArea`가 완전히 텅 빈 흰색
+화면이었다. 재조사 결과 3-31의 두 원인 다 정확했지만 **세 번째 원인**이 남아있었다 —
+`PlayHudCanvas_New` 밑 `Background/OuterBackground`(Image, `sprite=null`, `color=(1,1,1,1)`
+완전 불투명 흰색, `sizeDelta=(1920,1080)` 전체화면)가 **항상** 존재했다.
+
+**근본 원인**: `HudCanvas`의 `Canvas.renderMode`는 `ScreenSpaceOverlay`다 — 이 모드는 Unity가
+Main Camera가 그린 월드 렌더 결과 위에 캔버스를 완전히 별도 패스로 무조건 마지막에 그린다.
+`OuterBackground`가 스프라이트 없이 불투명 흰색으로 전체 화면(1920×1080)을 덮고 있었으므로,
+`World/LocationSites`·`NpcActors`가 아무리 정상적으로 활성화되고 정상 위치에 있어도 **애초에
+카메라가 그린 결과 자체가 화면에 도달하지 못하고** 캔버스의 흰 배경에 완전히 가려지고 있었다
+— 이건 이번 세션이 아니라 이 프로젝트에서 `PlayHudCanvas_New`가 처음 만들어진 시점부터 계속
+있었던 문제로 보이며, 3-31에서 지적한 두 원인(가짜 목업 카드, 비활성 컨테이너)을 전부 고쳐도
+이 배경 하나 때문에 세상이 안 보였던 것이다.
+
+**왜 지금까지 이걸로 검증했다고 착각했나(내 실수)**: 3-31에서 "확인 완료"라고 보고할 때 쓴
+`Unity_SceneView_Capture2DScene` 도구는 **월드 오브젝트만 직접 정사영으로 캡처**하고
+`ScreenSpaceOverlay` 캔버스 합성을 아예 거치지 않는다 - 그래서 실제로는 안 보이는 화면인데도
+월드 오브젝트 자체는 잘 그려져 있으니 "정상"으로 잘못 확인했다. 이후 `Unity_Camera_Capture`도
+Scene View 자체(카메라 인스턴스 ID 미지정 시)는 게임 카메라와 무관한 걸 보여준다는 걸 뒤늦게
+파악. 이번엔 `Unity_Camera_Capture(cameraInstanceID=Main Camera)`로 실제 Main Camera가 그리는
+결과를 직접 확인했고, `OuterBackground`의 런타임 `color.a` 값도 코드로 직접 읽어 0인지 확인한
+뒤에야 "된다"고 판단했다.
+
+**수정**: `OuterBackground`의 `Image.color.a`를 `1` → `0`으로 변경(스프라이트/`raycastTarget`은
+원래도 없었으므로 클릭 차단 등 다른 기능에 영향 없음 확인 후 진행). 흰색 자체는 Main Camera의
+`clearFlags=SolidColor`/`backgroundColor=흰색`이 그대로 유지하므로 배경 색상 톤 자체는 기존과
+동일하게 보이고, 그 위에 이제 실제 월드가 그려진다.
+
+**검증**: `Unity_Camera_Capture(cameraInstanceID=Main Camera)`로 캡처해 장소 4개·NPC 5개가
+실제로 화면에 나타나는 것을 직접 이미지로 확인. Console Error/Warning 0. Zone1 저장 완료.
+
+**수정한 파일**: `PlayHudCanvas_New.prefab`(`OuterBackground` alpha 0으로 변경). Zone1.unity는
+프리팹 재적용만 있었고 별도 씬 변경 없음.
+
+**교훈**: 월드-카메라 렌더링과 `ScreenSpaceOverlay` 캔버스를 함께 쓰는 화면은, 캔버스 쪽에
+불투명 요소가 하나라도 전체 화면을 덮고 있으면 카메라가 뭘 그리든 안 보인다 - 이후 "월드가
+보이는지" 검증할 때는 반드시 `Unity_Camera_Capture`에 실제 Main Camera의 instance ID를
+넘겨서 확인하고, `Unity_SceneView_Capture2DScene`(캔버스 합성 안 함)만으로는 검증을 끝내지
+않는다.
+
+---
+
+### 3-33. 장소 접근 제한(Location Mechanics V1 §7) 제거 — 모든 정보 카드는 모든 장소·NPC에 사용 가능 (2026-08-04)
+
+3-32 수정 후 사용자가 실제 플레이 중 SPREAD 카드를 접근 제한된 장소(경비 초소=
+`GuardRestricted`, 영주 저택 앞=`StewardRestricted`)에 쓰려다 "이 장소는 출입이 제한되어
+있어..." 안내와 함께 거부당함. 처음엔 이게 기존에 이미 있던 의도된 게임 규칙(Location
+Mechanics V1 §7 - `LocationData.accessType`이 `Public`/`Unspecified`가 아닌 장소는 SPREAD
+카드로 "장소 전체" 직접 지정 불가, 개별 NPC만 가능)이라고 설명했으나, 사용자가 "아니야아니야
+이거 모든 정보 카드는 모든 장소랑 npc에 다 쓸 수 있어야대 규칙이 만들면서 바뀐거 같아"로
+명확히 정정 — 접근 제한 자체를 없애 달라는 요청.
+
+범위 확인(AskUserQuestion): SPREAD→장소 전용, DELIVER→NPC 전용이라는 카드 타입 구분 자체는
+유지하고, "접근 제한(accessType)으로 인한 장소 전체 대상 차단"만 제거하기로 확정.
+
+**수정**: `LocationMechanicsSettings.CanTargetLocationDirectly(LocationData)`가 항상 `true`를
+반환하도록 변경 — 기존에는 `accessType`이 `Unspecified`/`Public`일 때만 허용했음.
+`TargetingController.OnLocationClicked()`/`TurnSystem.PlayCardOnLocationAsync()`는 이 메서드
+하나만 거치므로 호출부 수정 없이 이 한 곳만 고치면 전체 차단이 풀린다. `accessType` 필드 자체와
+조사 파일의 "접근 권한" 표시, `spreadSpeed`/`npcDensity`/`credibilityModifier` 등 다른 수치
+보정 로직은 전혀 건드리지 않았다(요청 범위 밖).
+
+**Play Mode 검증**: `GuardRestricted`인 "경비 초소"에 SPREAD 카드를 직접 타겟팅 →
+`CanTargetLocationDirectly=True`, `Phase=AwaitingConfirm`(거부 안 됨) → `DeliverByInformant()`
+로 실제 전달까지 정상 완료 확인. Console Error/Warning 0. 씬 변경 없음(스크립트 전용 수정).
+
+**수정한 파일**: `LocationMechanicsSettings.cs`(`CanTargetLocationDirectly` 항상 true로 변경).
+
+---
+
+### 3-34. 도시 배경 이미지 연결 (2026-08-04)
+
+월드 카메라 뒤에 아무 배경도 없어 흰 화면이었던 부분(3-32에서 `OuterBackground`를 투명화한
+뒤 드러난 카메라의 순수 배경색)에 실제 도시 지도 배경을 깔아 달라는 요청. 소스는
+`장소&npc\배경\도시배경\<N>스테이지_...\<N>스테이지.png`(1~3), `리소스\배경\도시배경\
+4스테이지_영주\4스테이지.png`(4 - `장소&npc` 쪽은 `.jpg`라 화질이 더 나은 `리소스`의 `.png`
+사용).
+
+**데이터/로직**: `StageData.cityBackground`(Sprite) 필드 신규 추가.
+`WorldPresenter.Start()`에 `CreateCityBackground()` 추가 - `installer.StageAsset.
+cityBackground`가 있으면 `Main Camera`의 **현재** `orthographicSize`/`aspect`를 읽어 그
+뷰를 완전히 덮도록 스케일을 그때그때 계산해(하드코딩 크기값 없음) `sortingOrder=-100`으로
+맨 뒤에 까는 `SpriteRenderer`를 만든다 - 카메라 설정이 스테이지/씬마다 달라도 자동으로
+맞는다.
+
+**임포트**: 4개 스테이지 배경을 `Assets/Belief/UI/World/CityBackgrounds/Stage_0N.png`로 복사,
+Sprite 임포트 후 `Stage_01~04.asset`의 `cityBackground`에 배선.
+
+**Play Mode 검증**: `Unity_Camera_Capture(cameraInstanceID=Main Camera)`로 확인 - 지도
+배경이 카메라 뷰 전체를 정확히 덮고, 그 위에 장소 사진 카드·NPC 스프라이트가 올바른 위치에
+겹쳐 보임(1스테이지 성벽 지도 위에 4개 장소 + 5개 NPC가 정확히 자리 잡음). Console
+Error/Warning 0. 씬은 런타임 생성이라 별도 변경 없음.
+
+**수정한 파일**: `StageData.cs`(`cityBackground` 필드 추가), `WorldPresenter.cs`
+(`CreateCityBackground()` 추가), `Stage_01~04.asset`(배선), 신규 이미지 4개(`Assets/Belief/
+UI/World/CityBackgrounds/`).
+
+---
+
+### 3-35. Edit Mode 전용 "월드 레이아웃 미리보기" 에디터 도구 신규 제작 (2026-08-04)
+
+배경이 Play Mode(런타임)에만 생성되기 때문에(`WorldPresenter.Start()`), Edit Mode에서는
+배경도 장소/NPC도 전혀 안 보여 사용자가 직접 위치를 눈으로 보며 조정할 방법이 없었다.
+`Assets/Belief/Scripts/Editor/WorldLayoutSceneTool.cs` 신규 제작 - Play를 누르지 않아도
+Scene 뷰에서 바로 확인·조정 가능한 순수 에디터 도구(런타임 코드/씬 GameObject는 전혀
+추가하지 않음, `[InitializeOnLoad]` + `SceneView.duringSceneGui`만 사용).
+
+**기능**:
+- 활성 씬의 `GameInstaller.StageAsset`을 찾아 `cityBackground`를 Main Camera 뷰에 맞춰
+  Scene 뷰에 그대로 그린다(`CreateCityBackground()`와 동일한 스케일 계산 로직 - 3-34에서
+  검증된 것과 동일).
+- `StageData.locations` 각각을 노란 구 핸들 + 이름표로 표시하고(`locationLayout` 오버라이드
+  우선, 없으면 `LocationData.worldPosition`), **드래그하면 즉시 `StageData.locationLayout`에
+  저장**(Undo 지원, `SetDirty` 처리) - 기존 항목은 갱신, 없으면 새로 추가.
+- `StageData.npcPlacements`를 `EffectiveStartLocation` 기준으로 그룹핑해 `WorldPresenter.
+  ComputeNpcSlot`과 동일한 슬롯 계산으로 초록 점 + 이름표를 그린다(읽기 전용 미리보기 -
+  NPC는 위치가 독립 저장되지 않고 소속 장소를 따라 자동 배치되므로, 장소 위치를 옮기면
+  NPC 미리보기도 함께 따라간다).
+- `Belief > World Layout Preview` 메뉴로 켜고 끌 수 있다(기본 켜짐, `EditorPrefs` 저장).
+
+**검증**: 컴파일 통과, `SceneView.RepaintAll()`로 강제 리페인트해도 Console Error/Warning 0.
+`GameInstaller.StageAsset`가 가리키는 실제 데이터(장소 4개+`locationLayout` 4개+NPC 배치
+5개)를 직접 조회해 이 도구가 읽는 모든 값이 null 없이 정상 채워져 있음을 확인 - 실제 드래그
+동작 자체는 에디터 GUI라 스크린샷 검증이 불가능해 사용자가 직접 확인해야 한다.
+
+**수정한 파일**: `Assets/Belief/Scripts/Editor/WorldLayoutSceneTool.cs`(신규). 씬/런타임
+코드는 전혀 건드리지 않았다.
+
+---
+
+### 3-36. NPC를 장소에서 분리 — 개별적으로 자유롭게 드래그 배치 가능하게 변경 (2026-08-04)
+
+3-35 도구가 NPC를 소속 장소에 자동으로 묶어(슬롯 격자 계산) 보여줬는데, 사용자가 "장소 NPC
+묶지 말아줘 세부 위치 조정좀 하게"로 요청 - NPC도 장소처럼 독립적으로 드래그해서 세밀하게
+배치하고 싶다는 것.
+
+**데이터 레이어**: `StageData.npcLayout`(`NpcLayoutEntry[]`, `LocationLayoutEntry`와 동일한
+패턴) 신규 추가 - NPC별 시작 위치를 수동으로 저장한다.
+
+**런타임 로직**: `WorldPresenter.Start()`에 `ApplyManualNpcStartLayout()` 추가 - 초기 배치
+(자동 슬롯 계산, `SnapNpcSlots`) 이후에 `npcLayout`에 좌표가 있는 NPC만 그 좌표로 다시
+옮긴다. **"시작 배치"에만 적용**되고, 게임 중 실제로 다른 장소로 이동하면(`NpcRelocatedEvent`)
+그 시점부터는 기존 자동 슬롯 계산(`RefreshNpcSlots`)을 그대로 따른다 - 즉 이 좌표는 "처음
+화면이 어떻게 보일지"만 결정하고 판정/이동 로직에는 전혀 관여하지 않는다.
+
+**에디터 도구 수정**: `WorldLayoutSceneTool.cs`의 NPC 표시를 "장소별로 묶어 슬롯 계산"에서
+"NPC마다 독립적인 드래그 핸들"로 전면 변경 - `npcLayout`에 이미 저장된 좌표가 있으면 그걸,
+없으면(처음 여는 경우) 자동 슬롯값을 초기 추정치로만 보여주고, 드래그하면 그 순간
+`npcLayout`에 실제로 기록된다(Undo 지원).
+
+**검증**: 컴파일 통과. Play Mode 진입 - `npcLayout`이 아직 비어 있는 상태이므로
+`ApplyManualNpcStartLayout()`이 사실상 아무 것도 안 바꾸는 no-op임을 확인(기존 자동 배치
+그대로 유지), Console Error/Warning 0. 씬 변경 없음.
+
+**수정한 파일**: `StageData.cs`(`npcLayout`/`NpcLayoutEntry` 추가), `WorldPresenter.cs`
+(`ApplyManualNpcStartLayout()` 추가), `WorldLayoutSceneTool.cs`(NPC 미리보기를 장소 묶음
+→ 개별 드래그 핸들로 변경).
+
+---
+
+### 3-37. 에디터 미리보기를 점 마커 대신 실제 이미지로 변경 (2026-08-04)
+
+3-36의 점(구 핸들) 표시에 대해 사용자가 "점으로 표시해주지 말고 이미지 그대로 보이게 해줘
+그래야 세부 위치 조정을 하지"로 요청 - 실제 사진/스프라이트를 봐야 배경과 맞춰 정밀하게
+배치할 수 있다는 것.
+
+**수정**: `WorldLayoutSceneTool.cs`를 점 대신 실제 이미지를 그리도록 전면 수정.
+- `Handles.FreeMoveHandle`의 캡 함수를 `EventType.Repaint`에서는 아무것도 안 그리게(빈 처리)
+  바꾸고, Layout/MouseDown 등 나머지 이벤트는 그대로 `SphereHandleCap`에 위임 - 드래그 피킹은
+  살리고 시각적으로는 점을 안 그린다.
+- 그 대신 `location.locationPhoto`/`npc.characterPhoto` 스프라이트를 실제 게임 표시 크기
+  그대로(장소는 3-34와 동일한 PPU 계산값 그대로, NPC는 `NpcActorView.prefab`의 `body`
+  localScale인 1.08배를 추가로 곱함) `GUI.DrawTextureWithTexCoords`로 그린다 - 3-34의 배경
+  그리기와 같은 "월드 사각형 → 스크린 좌표 투영" 방식 재사용.
+- 사진이 아직 없는 항목(영주 캐릭터, 4스테이지 전용 장소 2곳 등)은 반투명 색 박스로 폴백
+  표시(완전히 안 보이는 것보다 낫다).
+
+**검증**: 컴파일 에러 1건(`using System`이 `UnityEngine.Object`와 `System.Object`를
+모호하게 만듦) 발견 즉시 수정, 이후 컴파일 통과 + `SceneView.RepaintAll()` 강제 리페인트에도
+Console Error/Warning 0.
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(점 마커 → 실제 이미지 드래그 방식으로 전면 수정).
+
+---
+
+### 3-38. 3-37의 장소 이미지가 Scene 뷰에서 잘려 보이던 문제 수정 (2026-08-04)
+
+사용자가 "장소 이미지가 잘리면 안대 다 보여야대"로 재보고. `sprite.rect`가 텍스처 전체를
+정확히 덮고 있는지(트림/패딩 문제 아닌지) 직접 확인해 배제했고, AskUserQuestion으로 Scene
+뷰(에디터 도구) 쪽 문제임을 먼저 확정한 뒤 원인을 좁혔다.
+
+**원인으로 판단한 것**: 3-37 구조가 매 항목(배경 1 + 장소 4 + NPC 5)마다 각각
+`Handles.BeginGUI()`...`GUI.DrawTextureWithTexCoords()`...`Handles.EndGUI()`를 반복
+호출했다 - 그 사이사이에 `Handles.FreeMoveHandle`(3D Handle 좌표계) 호출도 섞여 있어, 한
+프레임 안에서 GUI 좌표계와 Handle 좌표계를 여러 번 오가는 구조였다. Unity 공식 권장 패턴은
+`BeginGUI`/`EndGUI`를 프레임당 한 번만 감싸는 것 - 여러 번 왔다갔다 하면 일부 항목의 클립
+영역이 이전 `EndGUI` 상태를 제대로 못 이어받아 잘려 보일 수 있다.
+
+**수정**: 그리기를 2단계로 분리 - 1) 3D Handle 드래그 처리 + 이름표 표시는 항목마다 즉시
+하되, 그릴 텍스처 정보(스프라이트/중심/크기)는 리스트에만 쌓아두고, 2) 모든 항목 처리가
+끝난 뒤 `Handles.BeginGUI()`/`EndGUI()`를 **딱 한 번**만 감싸 리스트에 쌓인 걸 전부 그린다.
+스프라이트가 없는 폴백 박스도 같은 단일 GUI 패스 안에서 `GUI.DrawTexture(rect,
+Texture2D.whiteTexture)` + 색상 틴트로 통일해 그린다(기존에는 `Handles.
+DrawSolidRectangleWithOutline`으로 3D Handle 방식이었음 - 검은 테두리는 없어졌지만 잘림
+문제 재발 방지를 위해 텍스처 그리기 경로를 하나로 통일했다).
+
+**검증**: 컴파일 통과, `SceneView.RepaintAll()` 강제 리페인트에도 Console Error/Warning 0.
+`sprite.rect`(텍스처 트림 여부)는 3개 샘플 장소 이미지 전부 정확히 텍스처 전체(0,0 ~
+width,height)를 덮고 있음을 재확인해 UV 계산 자체는 처음부터 문제없었음도 함께 확인했다.
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(GUI 그리기를 프레임당 1회 배치 처리로 재구성).
+
+---
+
+### 3-39. 에디터 미리보기에 실제 게임과 동일한 프레임·압정·이름표 리본 추가 (2026-08-04)
+
+사용자가 실제 게임 스크린샷("CITADEL GUARD POST" 폴라로이드 프레임 + 빨간 압정 + 하단 NPC
+2명 + 이름표 리본)을 보여주며 "이런식으로 표현하고 싶어" - 사진만 덜렁 보여주는 게 아니라
+실제 인게임과 동일한 장식까지 다 보고 싶다는 것.
+
+**데이터 확보**: `LocationSiteView.prefab`/`NpcActorView.prefab`에서 `Photo(Body)`/`Frame`/
+`Pin`/`NameTag`/`Label` 각각의 `localPosition`/`localScale` 실측값을 전부 뽑고,
+`PlayHudSkin_Default`에서 `locationImageFrame`/`npcPhotoFrame`/`pin`/`locationTag3`/
+`locationTag5` 스프라이트도 함께 확인 - 전부 그대로 상수로 복제했다(장소 프레임 스케일이
+(0.50, 0.31)로 비균일하다는 것도 이번에 실측으로 확인).
+
+**수정**: `WorldLayoutSceneTool.cs`에 `WorldPresenter.skin`(`PlayHudSkin`) 참조를 추가하고,
+장소/NPC 각각에 대해 사진(또는 폴백 박스) 뒤에 프레임 → 이름표 리본 → 압정 순서로 겹쳐
+그리도록 확장(실제 게임의 시각적 레이어 순서와 동일 - Z값 기준 사진이 제일 뒤, 압정이
+제일 앞). 이름표는 이름 길이 3자 이하면 `locationTag3`, 그 초과면 `locationTag5` 스프라이트를
+쓴다(실제 `LocationSiteView.Bind()`/`NpcActorView.Bind()`와 동일 분기). 드래그 손잡이는
+사진 크기 기준 유지, 이름 텍스트는 이름표 리본 위치에 겹쳐 표시(기존에는 사진 위쪽에
+별도로 떠 있었음).
+
+**검증**: 컴파일 에러(초안에 죽은 코드 한 줄) 1건 즉시 제거, 이후 컴파일 통과.
+`WorldPresenter.skin`이 Zone1 씬에 실제로 배선되어 있음을 확인(`PlayHudSkin_Default`).
+`SceneView.RepaintAll()` 강제 리페인트에도 Console Error/Warning 0.
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(프레임/압정/이름표 리본 레이어 추가).
+
+---
+
+### 3-40. NPC는 카드 스타일링 제거 — 캐릭터 이미지만 표시 (2026-08-04)
+
+3-39에서 NPC에도 장소와 동일하게 프레임/압정/이름표 리본을 붙였는데, 사용자가 "장소만
+프레임이랑 핀 같은 이름표 스타일링 해주면 되고 캐릭터는 그냥 캐릭터 이미지만 있으면
+돼"로 범위를 정정 - 카드 스타일링은 장소 전용, NPC는 순수 캐릭터 이미지만.
+
+**수정**: `WorldLayoutSceneTool.cs`의 NPC 처리에서 `npcPhotoFrame`/이름표 리본/`pin` 그리기
+호출을 전부 제거하고 캐릭터 이미지(또는 스프라이트 없을 때 폴백 박스)만 남겼다. 이름
+라벨은 이미지 위쪽(3-37 방식)으로 되돌렸다. 더 이상 쓰이지 않는 NPC 프레임/압정/이름표
+오프셋·스케일 상수 6개도 함께 제거(죽은 코드 방치 금지).
+
+**검증**: 컴파일 통과, `SceneView.RepaintAll()` 강제 리페인트에도 Console Error/Warning 0.
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(NPC 카드 장식 제거, 미사용 상수 정리).
+
+---
+
+### 3-41. 장소도 프레임 제거 — 사진 아래 압정+이름표만 남기고 재배치 (2026-08-04)
+
+사용자가 다시 정정: "장소도 프레임 압정 이름표 다 필요없네 그냥 장소 이미지 아래에
+압정으로 이름표 꽂고 거기에 장소 이름이 나오게 하면 되는거였어" - 프레임 자체가 불필요(사진
+원본에 이미 폴라로이드 테두리가 그려져 있어 중복), 압정+이름표는 필요하되 위치를 사진
+"아래"로 바꿔야 함(3-39는 프레임 안쪽에 압정을 올리는 실제 게임 프리팹 배치를 그대로
+복제해서 사진 위쪽에 있었음).
+
+**수정**: `WorldLayoutSceneTool.cs`에서 `locationImageFrame` 그리기 호출 제거. 이름표 리본을
+사진 아랫변에서 살짝 띄운 위치(`LocationNameTagGap`)에 배치하고, 압정은 이름표 리본 윗변에
+살짝 겹쳐 꽂힌 것처럼(`LocationPinOverlap`) 그 위에 배치 - 둘 다 사진 중심 X좌표에 맞춰
+정렬. 장소 이름 라벨은 이름표 리본 위치에 그대로 표시. 프레임 관련 상수(`LocationFrameOffset`/
+`LocationFrameScale`)와 기존 고정 오프셋 상수(`LocationPinOffset`/`LocationNameTagOffset`/
+`LocationLabelOffsetY`)는 전부 제거하고, 사진 크기 기준으로 매번 계산하는 방식으로 바꿨다.
+
+**검증**: 컴파일 통과, `SceneView.RepaintAll()` 강제 리페인트에도 Console Error/Warning 0.
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(장소 프레임 제거, 압정+이름표를 사진 아래로 재배치).
+
+---
+
+### 3-42. 압정 위치 미세조정 — 이름표에 박히지 않고 사진·이름표를 이어주는 위치로 (2026-08-04)
+
+3-41에서 압정을 이름표 리본 윗변에 살짝 겹치게(박힌 것처럼) 배치했는데, 사용자가 시안
+스크린샷을 다시 보여주며 "압정이 이름표 중앙에 박는게 아니고 장소 이미지랑 이름표를
+이어주는 느낌으로"로 정정 - 압정이 이름표에 박힌 게 아니라, 사진 아랫변과 이름표 윗변 사이
+빈 공간에 떠서 둘을 시각적으로 이어주는 위치여야 한다는 것.
+
+**수정**: `WorldLayoutSceneTool.cs`에서 이름표를 사진에서 더 떨어뜨려(압정이 들어갈 공간
+`connectorGap = LocationNameTagGap*2 + pinSize.y`만큼 확보) 배치하고, 압정은 "사진 아랫변과
+이름표 윗변의 정중앙"(`pinCenterY = (photoBottomY + tagTopY) / 2`)에 위치하도록 변경 - 더 이상
+이름표에 겹치지 않고 둘 사이에 떠서 연결하는 모양이 됐다. 더 이상 안 쓰는
+`LocationPinOverlap` 상수 제거.
+
+**검증**: 컴파일 통과, `SceneView.RepaintAll()` 강제 리페인트에도 Console Error/Warning 0.
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(압정 위치를 사진-이름표 사이 중앙으로 조정).
+
+---
+
+### 3-43. 실제 Play Mode와 픽셀 단위로 정확히 일치하도록 재보정 (2026-08-04)
+
+사용자가 실제 Play Mode 스크린샷과 Scene 뷰 미리보기 스크린샷을 나란히 보여주며 "둘이 맞지가
+않아 색감도 다르고 그리고 장소 이미지 밑에 바로 딱 붙어야대 이름표가" - 지금까지(3-39~3-42)
+는 "시안"(목표 디자인 러프 스케치)을 기준으로 추측 조정해왔는데, 이번엔 실제 게임 화면과
+직접 비교당해 추측이 아니라 실측이 필요해졌다.
+
+**Play Mode에서 직접 측정**: `LocationSiteView`/`NpcActorView` 인스턴스의 `SpriteRenderer.
+bounds`/`color`를 코드로 직접 읽어 진짜 원인을 찾았다.
+
+1. **놓치고 있던 카드 전체 배율**: `LocationSiteView` 프리팹 **루트 자체의 localScale(1.40,
+   0.85)** 와 그 밑 `Decoration` 래퍼의 localScale(0.97, 1.60)이 곱해져 최종적으로 균일
+   1.36배(`lossyScale`)가 적용되고 있었다 - 3-39~3-42는 전부 각 요소(Photo/Frame/Pin/
+   NameTag)의 "직계 부모 기준" localScale/localPosition만 읽었을 뿐, 그 위에 있는 루트/래퍼
+   자체의 스케일은 한 번도 확인하지 않아서 실제보다 훨씬 작게 그려지고 있었다. 이 1.36배를
+   전체 오프셋·크기 계산 마지막에 곱하도록 `LocationCardScale` 상수를 추가했다.
+2. **색상 틴트 누락**: `LocationSiteView.ApplyBaseColor()`가 사진에 `NormalColor(0.66, 0.63,
+   0.58)`를, `NpcActorView.Bind()`가 캐릭터 이미지에 Major(0.68, 0.64, 0.56)/Minor(0.60,
+   0.60, 0.62) 톤을 곱하고 있는데(프레임/압정/이름표는 흰색 그대로) 에디터 도구는 전부 원본
+   색 그대로 그리고 있었다 - 실측으로 정확한 값을 확인해 `DrawRequest`에 `tint` 필드를 추가,
+   사진/캐릭터에만 적용했다.
+3. **이름표 위치**: "장소 이미지 밑에 바로 딱 붙어야" 요청은 실측 결과 프레임(사진과 이름표
+   사이 간격을 시각적으로 채워주는 큰 장식)까지 포함해서 봐야 자연스럽게 이어져 보인다는 걸
+   확인 - 3-41에서 뺐던 프레임을 다시 포함시키고, 압정/이름표 오프셋도 3-39의 원래 프리팹
+   실측값(Pin +0.62, NameTag -1.05, 사진 중심 기준)에 `LocationCardScale`만 곱해 그대로
+   사용하는 것으로 되돌렸다(3-41/3-42의 "사진과 이름표 사이에 압정을 띄운다" 방식은 실제
+   게임과 안 맞는 추측이었음이 이번에 확인됨).
+
+**검증**: 계산된 크기/오프셋을 실측값과 코드로 직접 대조 - Photo/Frame/Pin/NameTag 전부
+소수점 둘째 자리까지 일치(예: Photo size 계산 1.23×1.98 vs 실측 1.23×1.97). 컴파일 통과,
+`SceneView.RepaintAll()` 강제 리페인트에도 Console Error/Warning 0.
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(`LocationCardScale` 1.36 상수 추가, 프레임 복원,
+압정/이름표 오프셋을 실측 기반으로 재조정, 사진/NPC 색 틴트 추가).
+
+**교훈**: 프리팹 요소의 위치/크기를 코드로 복제할 때는 그 요소의 직계 부모뿐 아니라 **루트부터
+전체 부모 체인의 스케일을 전부 곱해야** 한다(`Transform.lossyScale`을 실제로 확인하는 게
+가장 안전). 그리고 "이렇게 보일 것 같다"는 추측이 아니라, 가능하면 Play Mode에서 실제
+`SpriteRenderer.bounds`/`color`를 직접 읽어 대조하는 쪽이 훨씬 빠르고 정확하다.
+
+---
+
+### 3-44. 3-43과 반대 방향 — 에디터 도구가 아니라 실제 게임 쪽을 고쳤다 (2026-08-04)
+
+3-43 직후 사용자가 "아니 반대로 햇어야대 scene뷰에서 보이던 색감이랑 구조가 맞는거였어" -
+Scene 뷰 미리보기를 Play Mode에 맞추는 게 아니라, **Play Mode(실제 게임) 쪽을 Scene 뷰가
+보여주던 원래 모습(틴트 없고 1.36배 확대 없는 상태)에 맞춰 고쳐야 했다**는 것. AskUserQuestion
+으로 "에디터 도구만 되돌리기" vs "실제 게임까지 고치기" 중 확인 - 실제 게임까지 고치는 쪽으로
+확정.
+
+**판단 근거**: 3-43에서 찾은 `NormalColor`/`baseColor` 틴트와 프리팹 루트의 1.36배 스케일은
+전부 **실제 사진/캐릭터 아트가 들어오기 전, placeholder 단색 시절에나 의미가 있던 값**이었다
+(코드 주석에도 "실제 인물 사진 자산이 없어..." 라고 명시돼 있었음). 진짜 아트가 다 들어온
+지금은 이 틴트/확대가 오히려 사진을 흐리고 의도보다 크게 보이게 만드는 leftover 버그였던 것
+- Zone1 월드 오버레이(3-31), OuterBackground(3-32) 등 이번 세션에서 반복적으로 발견한
+"실제 아트 도입 전 임시 처리가 그대로 남아 문제를 일으킨" 패턴과 동일 계열.
+
+**수정**:
+- `LocationSiteView.cs`: `NormalColor`를 `new Color(0.66, 0.63, 0.58)` → `Color.white`로
+  변경(Alert/Locked/Highlight/Selection 등 상태 강조용 틴트는 의도된 기능이라 그대로 유지).
+- `NpcActorView.cs`: `baseColor`를 Major/Minor별로 다르게 주던 것을 전부 `Color.white`로
+  통일(더 이상 Major/Minor를 색으로 구분하지 않음).
+- `LocationSiteView.prefab`: 프리팹 루트의 `localScale`(1.40, 0.85)과 `Decoration` 래퍼의
+  `localScale`(0.97, 1.60)을 둘 다 `(1,1,1)`로 초기화 - 곱해서 균일 1.36배였던 숨은 확대를
+  제거.
+- `WorldLayoutSceneTool.cs`: 3-43에서 추가했던 `LocationCardScale`(1.36) 배율과
+  `LocationPhotoTint`/`NpcMajorTint`/`NpcMinorTint` 틴트를 전부 제거 - 이제 실제 게임 쪽이
+  고쳐졌으므로 에디터 도구는 원본 그대로(배율/틴트 없이) 그리기만 하면 자동으로 일치한다.
+
+**검증**: Play Mode에서 재측정 - Location Photo `bounds.size=(0.90, 1.45)`(3-34에서 원래
+의도했던 정확한 목표 크기와 일치), `color=(1,1,1,1)`(흰색, 틴트 없음). NPC body
+`bounds.size=(1.08,1.08)`, `color=(1,1,1,1)`. `Unity_Camera_Capture`로 실제 Main Camera
+화면을 다시 캡처해 색이 선명해지고 사진 크기가 원래(작은) 비율로 돌아온 것을 육안으로도
+확인. Console Error/Warning 0. 씬 변경 없음(`isDirty=False`).
+
+**수정한 파일**: `LocationSiteView.cs`(`NormalColor`), `NpcActorView.cs`(`baseColor`),
+`LocationSiteView.prefab`(루트/`Decoration` 스케일 초기화), `WorldLayoutSceneTool.cs`
+(1.36배·틴트 제거, 원본 그대로 그리기).
+
+---
+
+### 3-45. 장소 카드 프레임/압정/이름표 위치를 하드코딩 대신 프리팹에서 실시간으로 읽도록 변경 (2026-08-04)
+
+사용자가 앞으로 `LocationSiteView.prefab`의 Frame/Pin/NameTag Position/Scale을 직접
+Inspector에서 조정하겠다고 결정 - "Scene 미리보기 도구에서 내가 조정하는게 보이게 해줘
+코드로 박아놓으면 내가 확인하면서 조정을 할 수가 없자나". 3-39~3-44에서 상수로 박아둔
+`LocationFrameScale`/`LocationPinOffset`/`LocationPinScale`/`LocationNameTagOffset`/
+`LocationNameTagScale`/`LocationPhotoOffsetY`는 프리팹이 바뀌어도 절대 따라가지 않는
+구조라 이 워크플로우 자체가 불가능했다.
+
+**수정**: `WorldLayoutSceneTool.cs`에 `ReadLocationCardLayout()` 추가 - 매 `OnSceneGUI` 호출마다
+`LocationSiteView.prefab`을 `AssetDatabase.LoadAssetAtPath`로 다시 읽어 `Decoration/Photo`,
+`Decoration/Frame`, `Decoration/Pin`, `Decoration/NameTag`의 현재 `localPosition`/
+`localScale`을 그대로 가져온다(프리팹 루트와 `Decoration` 래퍼 자신의 `localScale`도 성분별로
+곱해 반영 - 3-43에서 확인했듯 둘 다 회전 없는 축 정렬 스케일이라 곱셈만으로 정확하다). 기존
+하드코딩 상수는 전부 제거하고 `HandleLocationItems`가 이 실시간 값을 받아 쓰도록 변경.
+
+**사용 방법**: `LocationSiteView.prefab`을 열어 Frame/Pin/NameTag/Photo 위치·크기를 조정하고
+저장(또는 Prefab Mode의 Auto Save 켜기)하면, Zone1 Scene 뷰의 미리보기가 다음 리페인트에
+바로 최신값을 반영한다 - Play 안 눌러도 즉시 확인 가능.
+
+**검증**: 프리팹에서 직접 값을 재조회해 기존에 파악해 둔 실측값과 정확히 일치함을 확인
+(Photo localPos=(0,0.06), Frame localScale=(0.50,0.31), Pin localPos=(0,0.62) 등, 루트/
+Decoration 모두 3-44에서 이미 (1,1,1)로 초기화됨). 컴파일 통과, `SceneView.RepaintAll()`
+강제 리페인트에도 Console Error/Warning 0. 씬 변경 없음.
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(`ReadLocationCardLayout()` 추가, 하드코딩 상수
+전부 제거).
+
+---
+
+### 3-46. Prefab Mode 편집 중에는 저장 전 상태도 실시간으로 반영되도록 수정 (2026-08-04)
+
+3-45 직후 사용자가 실제로 `LocationSiteView.prefab`을 Prefab Mode(Auto Save 켜진 상태)로
+열어 `Pin`을 선택해 보여주며 "내가 인스펙터에서 조절하면 바로 이게 보여야대" - 저장된 뒤가
+아니라 슬라이더를 움직이는 바로 그 순간 반영돼야 한다는 것.
+
+**직접 검증해서 찾은 문제**: `AssetDatabase.LoadAssetAtPath`는 프리팹이 실제로 디스크에
+저장된 뒤에야 새 값을 돌려준다 - Prefab Mode에서 값을 바꾼 직후(저장 전) 같은 경로를 다시
+읽어보면 옛날 값 그대로임을 코드로 직접 확인했다. Auto Save가 켜져 있어도 저장은 약간의
+지연을 두고 일어나므로, 3-45 방식으로는 "바로" 반영되지 않는다.
+
+**수정**: `ReadLocationCardLayout()`이 `PrefabStageUtility.GetCurrentPrefabStage()`로 지금
+Prefab Mode로 열려 있는 스테이지가 있는지, 그리고 그게 `LocationSiteView.prefab`인지 확인한다
+- 맞으면 저장된 에셋이 아니라 **편집 중인 라이브 콘텐츠**(`stage.prefabContentsRoot`)를 직접
+읽는다(저장 여부와 무관하게 항상 최신). Prefab Mode가 아니면(Zone1을 그냥 보고 있을 때) 기존
+그대로 저장된 에셋을 읽는다.
+
+**검증**: Prefab Mode에서 Pin 위치를 코드로 직접 바꾼 뒤 저장 없이 `AssetDatabase.
+LoadAssetAtPath`로 다시 읽으면 옛날 값이 나온다는 것을 재현 확인(문제 원인 확정) →
+`PrefabStageUtility` 경로로 전환 후 컴파일 통과, `SceneView.RepaintAll()` 강제 리페인트에도
+Console Error/Warning 0. (참고: 스크립트 재컴파일 때문에 Prefab Mode 스테이지 자체가 닫혀
+후속 실사용 재현 테스트는 사용자가 직접 다시 열어 확인해야 한다 - 코드 경로 자체는 검증
+완료.)
+
+**수정한 파일**: `WorldLayoutSceneTool.cs`(`ReadLocationCardLayout()`이 열린 Prefab Stage를
+우선 사용하도록 변경).
+
+---
+
+### 3-47. Frame 완전 삭제 — 미리보기도 자동으로 따라가게 처리, 재컴파일이 삭제를 되돌린 사고 수습 (2026-08-04)
+
+사용자가 Prefab Mode에서 `Decoration/Frame`을 직접 삭제해보고 "프레임이 뭐야? 없애니까
+갑자기 이렇게 바껴 프레임만 지우고 싶어" - 스크린샷 두 장 비교: 삭제 전엔 사진 위에 폴라로이드
+카드가 하나 더 겹쳐 있는 것처럼 보였는데(사진 자체 아트에 이미 종이집게+카드 테두리가
+그려져 있는데, `Frame`(`PlayHudSkin.locationImageFrame`)이 똑같은 폴라로이드+집게 장식을
+한 번 더 겹쳐 그리고 있었던 것), 삭제 후엔 깔끔하게 카드 하나만 남음 - 3-41에서 "사진 자체에
+이미 폴라로이드 테두리가 그려져 있어 프레임이 중복"이라고 판단했던 것과 정확히 같은 원인.
+
+**실제 게임 쪽 안전성 확인**: `LocationSiteView.cs`의 `Bind()`는 `if (frame != null && skin
+!= null) frame.sprite = ...`로 이미 null 가드가 되어 있어 Frame을 통째로 지워도(참조가
+자동으로 null이 됨) 에러 없이 안전하게 동작함을 코드로 확인.
+
+**사고와 수습**: 확인차 재조회했더니 사용자가 지운 Frame이 프리팹에 다시 남아있었다 - 방금
+전(3-46) 내가 코드를 고치며 발생시킨 재컴파일이, Auto Save가 디스크에 채 쓰기 전에 Prefab
+Mode 세션을 끊어버려 삭제가 저장되지 않고 되돌아간 것으로 보인다. 사용자가 다시 지우게
+하는 대신 이번엔 내가 직접(`PrefabUtility.LoadPrefabContents` → `DestroyImmediate` →
+`SaveAsPrefabAsset`) Frame을 삭제해 반영했다.
+
+**에디터 도구 수정**: `LocationCardLayout`에 `hasFrame` 플래그 추가 - `ReadLocationCardLayout()`
+이 `Decoration/Frame`이 없으면 `hasFrame=false`를 돌려주고, `HandleLocationItems`는
+`hasFrame`일 때만 프레임을 그린다. 이제 프리팹에서 Frame을 지우거나 다시 추가하거나 하면
+미리보기도 자동으로 따라간다(하드코딩된 "항상 그린다"가 아님).
+
+**검증**: 삭제 후 저장된 프리팹을 재조회해 `Decoration` 자식이 `Photo`/`NameTag`/`Pin` 3개만
+남았음을 확인. Play Mode에서 Console Error/Warning 0(참조 null 가드 정상 동작). 컴파일 통과.
+씬 변경 없음.
+
+**수정한 파일**: `LocationSiteView.prefab`(`Decoration/Frame` 삭제), `WorldLayoutSceneTool.cs`
+(`hasFrame` 플래그로 프레임 그리기를 프리팹 상태에 따라 자동 반영).
+
+---
+
+### 3-48. 실제 게임에서도 NPC 프레임/압정/이름표 삭제 - 캐릭터 이미지만 남기기 (2026-08-04)
+
+3-40에서 에디터 미리보기 도구에서만 NPC의 프레임/이름표 리본/압정을 뺐었는데, **실제
+게임(`NpcActorView.prefab`)에는 손대지 않았었다** - 사용자가 실제 Play 화면 스크린샷을
+보여주며 "캐릭터에 지금 프레임이랑 핀이 있어 캐릭터는 캐릭터 이미지만 있으면 돼"로 실제
+게임 쪽도 똑같이 정리해 달라고 요청.
+
+**수정**: `NpcActorView.prefab`에서 `Frame`/`Pin`/`NameTag` 3개 오브젝트를 전부 삭제(`Label`
+(이름 텍스트)과 `DialogueBubble`(대사창)은 무관한 기능이라 그대로 유지). `NpcActorView.cs`의
+`Bind()`가 이미 `if (frame != null && ...)` 같은 null 가드로 되어 있어 코드 수정 없이 안전.
+
+**검증**: Play Mode에서 라이브 인스턴스의 자식 목록을 직접 조회해 `Label`/`DialogueBubble`/
+`Background`만 남고 `Pin`/`Frame`/`NameTag`가 없음을 확인. `Unity_Camera_Capture`로 실제
+화면도 확인 - 스크린샷에서 NPC 근처에 여전히 보이는 빨간 압정은 NPC 것이 아니라 근처
+장소 카드의 압정(NPC가 소속 장소 바로 아래에 배치되어 가까워 보일 뿐)임을 라이브 계층
+조회로 구분해 확인. Console Error/Warning 0. 씬 변경 없음.
+
+**수정한 파일**: `NpcActorView.prefab`(`Frame`/`Pin`/`NameTag` 삭제).
+
+### 3-49. 장소 이름표에 텍스트가 안 보이던 진짜 원인 — sortingOrder가 아니라 `Label` 위치 자체가 어긋나 있었다 (2026-08-04)
+
+사용자 요청: "장소밑에 태그에 이미지에 맞는 장소 이름이 붙게 데이터 이어줘". 먼저 데이터 배선을
+확인했는데 **`LocationSiteView.Bind()`는 이미 정확했다** — `label.text = data.displayName`, `nameTag`
+스프라이트도 이름 길이로 올바르게 선택됨(4개 장소 전부 Play Mode에서 실측 확인: "경비 초소"/"시장"/
+"여관"/"영주 저택 앞"). 즉 **데이터 연결 문제가 아니었다**.
+
+**1차 오진(틀렸음)**: `Label`(`MeshRenderer`)의 `sortingOrder=0`이 `NameTag`(`SpriteRenderer`,
+`sortingOrder=2`)보다 낮아서 리본에 가려진 걸로 판단, `sortingOrder`를 4로 올림. 하지만 스크린샷이
+전혀 바뀌지 않아 재검증한 결과 — **이건 진짜 원인이 아니었다**(다만 텍스트가 다른 요소 위에 그려지게
+하는 자체는 필요하므로 되돌리지 않고 유지).
+
+**진짜 원인**: `Label`의 `localPosition.y`(-1.68)가 `NameTag`의 `localPosition.y`(-0.54)와 전혀
+안 맞았다 — 월드 좌표로 환산하면 `Label`이 `NameTag`보다 **1.14 유닛 아래**, 리본 밖 완전히 빈
+공간에 렌더링되고 있었다(`NameTag` bounds Y: -3.08~-2.80, `Label` 위치 Y: -4.08). **3-44에서
+`LocationSiteView.prefab`의 루트 `localScale`을 (1.40, 0.85, 1)→(1,1,1)로 되돌렸을 때, `Decoration`
+밑이 아니라 **루트 바로 밑 자식**인 `Label`은 그 스케일 보정의 영향을 받지 않았고, 원래 옛 스케일
+기준으로 잡혀 있던 `Label`의 `localPosition.y` 값만 그대로 남아 어긋난 것** — 3-3 문서에 이미 기록된
+"placeholder 시절 잔재" 패턴과 같은 종류의 버그다([[project_placeholder_era_leftovers_pattern]] 참고,
+다만 이번엔 스케일이 아니라 위치값이 잔재로 남은 케이스).
+
+**수정**: `LocationSiteView.prefab`에서 `Label.localPosition.y`를 `-1.68` → `-0.54`(= `NameTag`의
+`localPosition.y`와 동일)로 변경.
+
+**검증**: Play Mode 재진입 후 4개 장소 전부 `Label.position.y == NameTag.position.y`로 정확히 일치
+확인(예: 여관 -2.944355로 둘 다 동일). `Unity_Camera_Capture`(카메라 인스턴스ID 조회)가 이번 세션
+내내 "No GameObject found with Instance ID" 에러로 실패해 대신 `Unity_SceneView_Capture2DScene`으로
+전환 — 이 캡처 도구는 `(worldX, worldY)`가 중심이 아니라 **캡처 사각형의 좌하단 모서리**라는 것을
+실측으로 확인(문서화되지 않은 동작, 처음엔 중심으로 착각해 여러 번 빈 배경만 캡처함). 좌표를
+`Photo`/`NameTag` bounds 중심 기준으로 역산해 정확히 프레이밍한 스크린샷에서 "영주 저택 앞" 텍스트가
+리본 위에 정확하게 렌더링되는 것을 육안으로 확인. Console Error/Warning 0(실제 게임 로그 기준 —
+캡처 도구 자체의 파라미터 실수로 난 에러 3건은 게임과 무관). 씬은 `isDirty=False`(변경 사항 전부
+프리팹에만 존재, 씬 저장 불필요).
+
+**수정한 파일**: `LocationSiteView.prefab`(`Label.sortingOrder` 0→4, `Label.localPosition.y` -1.68→-0.54).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```
