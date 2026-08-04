@@ -29,6 +29,8 @@ namespace Belief.Presentation.World
         public IReadOnlyDictionary<NpcData, NpcActorView> NpcViews => npcViews;
 
         public event Action<LocationData> LocationClicked;
+        public event Action<LocationData> LocationHoverEnter;
+        public event Action<LocationData> LocationHoverExit;
         public event Action<NpcData> NpcClicked;
 
         // 2026-08-04: NPC를 카드 "아래"에 격자로 쌓던 방식(3-52) 대신, 장소 이미지 좌/우에 바로
@@ -36,7 +38,7 @@ namespace Belief.Presentation.World
         // 한 칸씩 더 바깥으로 밀려난다(0:R0, 1:L0, 2:R1, 3:L1, ...).
         // PhotoHalfWidth(0.45)는 LocationSiteView의 Photo SpriteRenderer 실측값(3-49/3-52와 동일
         // 측정) - Photo 크기가 바뀌면 이 값도 같이 갱신해야 한다.
-        const float PhotoHalfWidth = 0.45f;
+        public const float PhotoHalfWidth = 0.45f;
         const float NpcHalfWidth = 0.54f;
         // 음수 = 여백이 아니라 겹침 - 사용자 지시로 "완전히 붙게, 살짝 겹쳐도 됨"으로 변경
         // (사진↔NPC, NPC↔NPC 둘 다 이 값만큼 겹친다).
@@ -72,6 +74,8 @@ namespace Belief.Presentation.World
                 var view = Instantiate(locationSitePrefab, locationRoot);
                 view.Bind(kvp.Key, ResolveLocationPosition(kvp.Key), skin);
                 view.Clicked += d => LocationClicked?.Invoke(d);
+                view.HoverEnter += d => LocationHoverEnter?.Invoke(d);
+                view.HoverExit += d => LocationHoverExit?.Invoke(d);
                 locationViews[kvp.Key] = view;
             }
 

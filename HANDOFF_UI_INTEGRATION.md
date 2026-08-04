@@ -2115,6 +2115,50 @@ Console Error/Warning 0. 씬 무수정(텍스처 임포트 설정만 변경).
 
 ---
 
+### 3-63. LocationInfoPaper(장소 정보 패널) 기능 구현 — 클릭→호버 전환, 접근 권한 표시 제거, 위치를 장소 사진 오른쪽으로 (2026-08-04, 사용자 지시 — "일단 접근제한은 없애주고 나머지 데이터들은 연결해주면 돼 ... 장소에 커서 갖다대면 패널이 뜨게 하면 되고 장소이미지 오른쪽에 띄워주면 돼")
+
+`LocationInfoPaper`(HudPresenter의 `locationNoteGo`)는 이미 존재하던 패널이었지만 세 가지가
+디자인 의도와 어긋나 있었다: (1) 클릭으로만 열리고 다시 닫히는 트리거가 없었다, (2) 화면 고정
+좌표(`anchoredPosition=(905,-125)`)에 항상 같은 자리에 떴다 — 이게 3-59에서 발견했던 "경비초소
+위치와 겹친다"는 그 버그의 원인, (3) 프리팹이 실제로는 라벨(`Labels`)/값(`Values`) 두 칸으로
+디자인돼 있었는데(`#확산 속도`/`#밀집도`/`#민감 정보 유형`/`#접근 권한`/`#신뢰도 보정` 5줄 정적
+라벨 + 값 칸) `HudPresenter.RefreshLocationNote()`는 이를 무시하고 "라벨: 값" 형태로 합친 문자열을
+값 칸 하나에 통째로 밀어넣고 있어 실행하면 라벨이 중복 표시될 뻔했다(정적 라벨 칸이 렌더링되는데
+값 칸에도 라벨 텍스트가 또 들어있는 상태 - 지금까지 실제로 화면에서 확인된 적 없는 잠재 버그).
+
+**해결**:
+1. **호버 트리거**: `LocationSiteView`에 `IPointerEnterHandler`/`IPointerExitHandler` 추가,
+   `HoverEnter`/`HoverExit` 이벤트 신설(`Clicked`와 동일 패턴, `LocationData`를 실어 보냄).
+   `WorldPresenter`가 `LocationHoverEnter`/`LocationHoverExit`로 중계. `HudPresenter`는 기존
+   `LocationClicked` 구독을 이 둘로 교체(`OnLocationClickedForNote` → `OnLocationHoverEnter`/
+   `OnLocationHoverExit`) - TargetingController가 별도로 구독하는 `LocationClicked`(전달 대상 지정)는
+   전혀 건드리지 않았으므로 카드 클릭 지정 기능은 그대로다.
+2. **접근 권한 표시 제거**: `RefreshLocationNote()`의 `접근 권한: {accessType}` 줄 삭제, 프리팹
+   `PlayHudCanvas_New.prefab`의 `LocationInfoPaper/Labels` 정적 텍스트에서도 `#접근 권한` 줄을 뺐다
+   (`PrefabUtility.LoadPrefabContents`로 프리팹 자산 자체를 수정 - 씬 인스턴스에도 즉시 반영 확인).
+   accessType이 실제 게임플레이에서 이미 아무것도 막지 않는다는 점(`LocationMechanicsSettings.
+   CanTargetLocationDirectly`가 항상 `true` 반환, 2026-08-04 이전 결정)과 일치시켰다.
+3. **나머지 4개 값 연결**: `Values` 칸을 라벨 없이 값만(빈 줄로 구분, `Labels` 칸과 줄 간격을 맞춤)
+   채우도록 수정 - `spreadSpeed`/`npcDensity`/`sensitiveInformationType`/`credibilityModifier` 4개가
+   이제 정적 라벨 칸과 정확히 한 줄씩 짝을 이룬다.
+4. **위치를 장소 사진 오른쪽으로**: `HudCanvas`가 Screen Space Overlay라는 점을 이용해
+   `LocationInfoPaper.RectTransform.position`(월드 좌표)에 화면 픽셀 좌표를 직접 대입하는 방식을
+   썼다(Overlay 캔버스의 표준 기법 - 피벗/앵커/CanvasScaler와 무관하게 항상 정확). 호버한 장소의
+   `LocationSiteView.transform.position`에 `WorldPresenter.PhotoHalfWidth`(0.45, NPC를 사진 좌우에
+   붙일 때 쓰는 것과 동일한 실측값 - `public`으로 노출)만큼 오른쪽 오프셋을 더한 월드 좌표를
+   `Camera.main.WorldToScreenPoint`로 투영해 그 자리에 패널을 놓는다 - 카메라 팬/줌과도 항상 맞는다.
+
+**검증**: Play Mode에서 `LocationSiteView.OnPointerEnter/OnPointerExit`를 직접 호출해 실제 호버와
+동일한 코드 경로를 실행 - 패널이 활성화되고 제목/값 4줄이 정확히 채워짐을 확인, 다른 장소로
+넘어가면 패널이 그 장소의 화면 좌표로 다시 이동함을 확인(경비 초소로 갈아탔을 때 좌표가 달라짐),
+나가면(Exit) 비활성화됨을 확인. Console Error/Warning 0. 씬 무수정(스크립트 3개 + 프리팹 1개).
+
+**수정한 파일**: `LocationSiteView.cs`(호버 이벤트 추가), `WorldPresenter.cs`(호버 이벤트 중계,
+`PhotoHalfWidth` public화), `HudPresenter.cs`(클릭→호버 전환, 접근 권한 줄 삭제, 값 전용 포맷,
+위치 재계산 로직 추가), `PlayHudCanvas_New.prefab`(`Labels` 정적 텍스트에서 `#접근 권한` 삭제).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```

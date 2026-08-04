@@ -7,7 +7,7 @@ using Belief.Domain;
 
 namespace Belief.Presentation.World
 {
-    public class LocationSiteView : MonoBehaviour, IPointerClickHandler
+    public class LocationSiteView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         // background는 이제 카드 전체가 아니라 사진 프레임(frame) 안쪽에 들어가는 "사진" 자리다 -
         // 실제 건물 사진 자산이 없으므로 중립 placeholder 색만 채우고, 상태별 색 전환은 그대로
@@ -20,6 +20,10 @@ namespace Belief.Presentation.World
         [SerializeField] SpriteRenderer pin;
 
         public event Action<LocationData> Clicked;
+        /// <summary>장소 정보 패널(LocationInfoPaper)을 여닫는 용도 - 커서가 이 장소 카드 위에
+        /// 들어오면/나가면 발생한다(사용자 지시로 클릭 대신 호버 트리거로 변경).</summary>
+        public event Action<LocationData> HoverEnter;
+        public event Action<LocationData> HoverExit;
         /// <summary>연결선(WorldPresenter.DrawLocationConnections)이 카드 중심이 아니라 압정 위치에
         /// 붙도록 노출한다.</summary>
         public Transform PinTransform => pin != null ? pin.transform : transform;
@@ -28,6 +32,8 @@ namespace Belief.Presentation.World
         // "Input System Package (New)"로 설정된 이 프로젝트에서는 호출되지 않는다.
         // EventSystem + Physics2DRaycaster(WorldPresenter가 보장)를 통해 클릭을 받는다.
         public void OnPointerClick(PointerEventData eventData) => Clicked?.Invoke(BoundData);
+        public void OnPointerEnter(PointerEventData eventData) => HoverEnter?.Invoke(BoundData);
+        public void OnPointerExit(PointerEventData eventData) => HoverExit?.Invoke(BoundData);
 
         // NormalColor는 실제 사진 자산이 들어오기 전 placeholder 단색 시절 값이었다 - 이제 진짜
         // 사진이 있으므로 흰색(원본 색 그대로)으로 되돌린다. Alert/Locked/Highlight/Selection은

@@ -14507,7 +14507,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "#\uD655\uC0B0 \uC18D\uB3C4\n\n#\uBC00\uC9D1\uB3C4\n\n#\uBBFC\uAC10 \uC815\uBCF4
-    \uC720\uD615\n\n#\uC811\uADFC \uAD8C\uD55C\n\n#\uC2E0\uB8B0\uB3C4 \uBCF4\uC815"
+    \uC720\uD615\n\n#\uC2E0\uB8B0\uB3C4 \uBCF4\uC815"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
   m_sharedMaterial: {fileID: -6520637364355772205, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}

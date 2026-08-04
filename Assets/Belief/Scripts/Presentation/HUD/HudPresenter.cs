@@ -120,8 +120,9 @@ namespace Belief.Presentation.HUD
         Button deliverButton;
         GameObject noSelectionHintGo;
 
-        // 장소 특성 메모(section 2) - LocationData의 신규 콘텐츠 필드를 enum 그대로 표시한다.
+        // 장소 정보 패널(LocationInfoPaper) - LocationData의 콘텐츠 필드를 enum 그대로 표시한다.
         GameObject locationNoteGo;
+        RectTransform locationNoteRect;
         TMP_Text locationNoteTitleText;
         TMP_Text locationNoteBodyText;
         LocationData selectedLocationData;
@@ -197,7 +198,8 @@ namespace Belief.Presentation.HUD
             if (worldPresenter != null)
             {
                 worldPresenter.NpcClicked += OnNpcClickedForProfile;
-                worldPresenter.LocationClicked += OnLocationClickedForNote;
+                worldPresenter.LocationHoverEnter += OnLocationHoverEnter;
+                worldPresenter.LocationHoverExit += OnLocationHoverExit;
             }
 
             var pc = ProgressionController.Instance;
@@ -764,19 +766,32 @@ namespace Belief.Presentation.HUD
             npcRelationshipRows.Add(row.gameObject);
         }
 
-        // ------------------------------------------------------------ 장소 특성 메모 (section 2)
+        // ------------------------------------------------------------ 장소 정보 패널 (LocationInfoPaper)
 
-        /// <summary>WorldPresenter.LocationClicked 구독 - TargetingController의 전달 대상 지정과 무관하게
-        /// 항상 클릭한 장소의 특성 메모를 연다.</summary>
-        void OnLocationClickedForNote(LocationData location)
+        const float LocationNoteHorizontalMargin = 0.12f;
+        const float LocationNoteVerticalLift = 0.3f;
+
+        /// <summary>WorldPresenter.LocationHoverEnter 구독 - 커서가 장소 카드 위에 들어오면 패널을
+        /// 그 장소 사진 오른쪽에 띄운다(사용자 지시로 클릭 대신 호버 트리거).</summary>
+        void OnLocationHoverEnter(LocationData location)
         {
             selectedLocationData = location;
+            RefreshLocationNote();
+            PositionLocationNote(location);
+        }
+
+        /// <summary>커서가 나갈 때 발생 - 그 사이에 다른 장소의 HoverEnter가 먼저 도착해 있었다면
+        /// (연속된 카드 사이를 빠르게 지나갈 때) 방금 연 패널을 잘못 닫지 않도록 방어한다.</summary>
+        void OnLocationHoverExit(LocationData location)
+        {
+            if (selectedLocationData != location) return;
+            selectedLocationData = null;
             RefreshLocationNote();
         }
 
         void RefreshLocationNote()
         {
-            // 중앙 장소 정보 문서(section 5) - 선택한 장소가 있을 때만 보인다(NONE 상태 = 완전히 숨김).
+            // 장소 정보 패널(LocationInfoPaper) - 커서가 올라간 장소가 있을 때만 보인다.
             if (locationNoteGo != null) locationNoteGo.SetActive(selectedLocationData != null);
 
             if (selectedLocationData == null)
@@ -786,13 +801,36 @@ namespace Belief.Presentation.HUD
                 return;
             }
 
+            // Values 칸은 프리팹의 정적 Labels 칸(확산 속도/밀집도/민감 정보 유형/신뢰도 보정, 4줄)과
+            // 같은 순서·줄 간격(빈 줄로 구분)으로 값만 채운다 - 라벨을 텍스트에 다시 넣지 않는다
+            // (라벨은 이미 Labels 칸에 있으므로 중복 표시 방지). accessType(접근 권한)은 게임에서
+            // 실제로 아무것도 막지 않게 된 지 오래라(LocationMechanicsSettings.CanTargetLocationDirectly
+            // 참고) 패널에서도 아예 뺐다(사용자 지시).
             locationNoteTitleText.text = selectedLocationData.displayName;
             locationNoteBodyText.text =
-                $"확산 속도: {selectedLocationData.spreadSpeed}\n" +
-                $"NPC 밀집도: {selectedLocationData.npcDensity}\n" +
-                $"민감 정보 유형: {selectedLocationData.sensitiveInformationType}\n" +
-                $"접근 권한: {selectedLocationData.accessType}\n" +
-                $"신뢰도 보정: {selectedLocationData.credibilityModifier}";
+                $"{selectedLocationData.spreadSpeed}\n\n" +
+                $"{selectedLocationData.npcDensity}\n\n" +
+                $"{selectedLocationData.sensitiveInformationType}\n\n" +
+                $"{selectedLocationData.credibilityModifier}";
+        }
+
+        /// <summary>LocationInfoPaper(pivot 좌상단)의 화면 좌표를 그 장소 사진의 오른쪽 바로 옆으로
+        /// 옮긴다 - HudCanvas가 Screen Space Overlay라 RectTransform.position에 화면 픽셀 좌표를
+        /// 그대로 대입하면 앵커/피벗/CanvasScaler와 무관하게 정확히 그 지점에 놓인다(Overlay 캔버스의
+        /// 표준 기법). 장소 사진의 실제 반폭(WorldPresenter.PhotoHalfWidth, NPC를 사진 좌우에 붙일 때와
+        /// 동일한 값)만큼 월드 좌표에서 오른쪽으로 민 뒤 화면 좌표로 투영해, 카메라 줌/팬과도 항상
+        /// 맞아떨어지게 한다.</summary>
+        void PositionLocationNote(LocationData location)
+        {
+            if (locationNoteRect == null || worldPresenter == null) return;
+            if (!worldPresenter.LocationViews.TryGetValue(location, out var siteView)) return;
+            var cam = Camera.main;
+            if (cam == null) return;
+
+            Vector3 anchorWorld = siteView.transform.position +
+                new Vector3(WorldPresenter.PhotoHalfWidth + LocationNoteHorizontalMargin, LocationNoteVerticalLift, 0f);
+            Vector3 screenPos = cam.WorldToScreenPoint(anchorWorld);
+            locationNoteRect.position = new Vector3(screenPos.x, screenPos.y, 0f);
         }
 
         /// <summary>로그 패널(section 1) - 새 저장소를 만들지 않고 installer.Log(EventLogSystem)의
@@ -1045,6 +1083,7 @@ namespace Belief.Presentation.HUD
             logBottomDialogueText = view.LogBottomDialogueText;
 
             locationNoteGo = view.LocationNoteGo;
+            locationNoteRect = locationNoteGo != null ? locationNoteGo.GetComponent<RectTransform>() : null;
             locationNoteTitleText = view.LocationNoteTitleText;
             locationNoteBodyText = view.LocationNoteBodyText;
 
