@@ -58,6 +58,12 @@ namespace Belief.Presentation.HUD
 
         [Header("NPC Profile Panel")]
         [SerializeField] GameObject npcProfileGo;
+
+        /// <summary>조사 파일 좌상단 사진 프레임에 들어가는 인물 사진 - NpcData.characterPhoto(전신)를
+        /// 그대로 넣고, 부모 프레임의 RectMask2D가 잘라내 상반신만 보이게 한다(사용자 지시:
+        /// "png 사진 위쪽만 보여주는 방식"). 사진이 없는 NPC는 프레임째로 숨긴다.</summary>
+        [SerializeField] GameObject npcPortraitFrameGo;
+        [SerializeField] Image npcPortraitImage;
         [SerializeField] TMP_Text npcNameText;
         [SerializeField] TMP_Text npcBeliefTierText;
         [SerializeField] TMP_Text npcBeliefDialogueText;
@@ -153,6 +159,8 @@ namespace Belief.Presentation.HUD
         public TMP_Text LocationNoteBodyText => locationNoteBodyText;
 
         public GameObject NpcProfileGo => npcProfileGo;
+        public GameObject NpcPortraitFrameGo => npcPortraitFrameGo;
+        public Image NpcPortraitImage => npcPortraitImage;
         public TMP_Text NpcNameText => npcNameText;
         public TMP_Text NpcBeliefTierText => npcBeliefTierText;
         public TMP_Text NpcBeliefDialogueText => npcBeliefDialogueText;

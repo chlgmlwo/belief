@@ -136,6 +136,8 @@ namespace Belief.Presentation.HUD
 
         // NPC 조사 파일 패널(section 6) - 공용 패널 하나, 클릭한 NPC로 내용만 교체한다.
         GameObject npcProfileGo;
+        GameObject npcPortraitFrameGo;
+        Image npcPortraitImage;
         TMP_Text npcNameText;
         TMP_Text npcBeliefTierText;
         TMP_Text npcBeliefDialogueText;
@@ -707,6 +709,7 @@ namespace Belief.Presentation.HUD
                 if (npcSensitiveInfoText != null) npcSensitiveInfoText.text = "";
                 if (npcRelationTendencyText != null) npcRelationTendencyText.text = "";
                 if (npcTrustJudgmentText != null) npcTrustJudgmentText.text = "";
+                if (npcPortraitFrameGo != null) npcPortraitFrameGo.SetActive(false);
                 return;
             }
 
@@ -717,6 +720,11 @@ namespace Belief.Presentation.HUD
             if (npcSensitiveInfoText != null) npcSensitiveInfoText.text = data.sensitiveInfoTag;
             if (npcRelationTendencyText != null) npcRelationTendencyText.text = data.relationTendencyTag;
             if (npcTrustJudgmentText != null) npcTrustJudgmentText.text = data.trustJudgmentTag;
+
+            // 좌상단 사진 프레임 - 전신 사진을 그대로 넣고 프레임의 RectMask2D가 아래를 잘라
+            // 상반신만 보이게 한다(프레임/사진 크기는 프리팹에 고정, 여기선 교체만).
+            if (npcPortraitImage != null) npcPortraitImage.sprite = data.characterPhoto;
+            if (npcPortraitFrameGo != null) npcPortraitFrameGo.SetActive(data.characterPhoto != null);
             // 이름 아래에 있던 "나이/성별/직업/소속" 줄(BasicInfoExtra)은 제거했다(2026-08-05 사용자
             // 지시) - 넣을 자리가 성격 태그 표 바로 위 좁은 여백뿐이라 어떻게 배치해도 표와 겹쳐
             // 보였고, 나이는 NpcData에 필드 자체가 없어 항상 "—"로 나오던 자리였다. 상단은 이제
@@ -1181,6 +1189,8 @@ namespace Belief.Presentation.HUD
             locationNoteBodyText = view.LocationNoteBodyText;
 
             npcProfileGo = view.NpcProfileGo;
+            npcPortraitFrameGo = view.NpcPortraitFrameGo;
+            npcPortraitImage = view.NpcPortraitImage;
             npcNameText = view.NpcNameText;
             npcBeliefTierText = view.NpcBeliefTierText;
             npcBeliefDialogueText = view.NpcBeliefDialogueText;
