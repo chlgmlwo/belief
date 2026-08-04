@@ -31,17 +31,21 @@ namespace Belief.Presentation.World
         public event Action<LocationData> LocationClicked;
         public event Action<NpcData> NpcClicked;
 
-        // 장소 카드(3x1.8 world unit)와 NPC 스프라이트(0.6 scale)/이름표 기준으로 잡은 슬롯 격자값.
-        // 한 행에 최대 3명, 그 이상은 아래 행으로 넘어간다(section 4).
-        const int NpcMaxPerRow = 3;
-        // NPC 프레임 아트(NPC 프로필 UI) 자체에 장식이 좌우로 살짝 걸쳐 있어, 두 NPC가 가까이 붙으면
-        // 프레임끼리 맞닿아 마치 하나의 리본으로 이어진 것처럼 보였다(항목4: 장소/NPC가 겹치면 안 됨) -
-        // 프레임 폭(축소 후 약 130px)보다 확실히 넉넉한 간격으로 늘렸다.
-        const float NpcHorizontalSpacing = 2.3f;
-        const float NpcVerticalSpacing = 1.1f;
-        // 장소 카드가 커진 만큼(사진+리본 합산 세로 약 2.5~3유닛) NPC를 카드 아래로 더 떨어뜨려
-        // 사진/리본과 겹치지 않게 한다(기존 -0.9는 확대 전 작은 카드 기준값).
-        static readonly Vector2 NpcSlotOffset = new Vector2(0f, -1.8f);
+        // 2026-08-04: NPC를 카드 "아래"에 격자로 쌓던 방식(3-52) 대신, 장소 이미지 좌/우에 바로
+        // 붙이는 방식으로 변경(사용자 지시) - 1번째는 오른쪽, 2번째는 왼쪽, 3번째부터는 각 방향에서
+        // 한 칸씩 더 바깥으로 밀려난다(0:R0, 1:L0, 2:R1, 3:L1, ...).
+        // PhotoHalfWidth(0.45)는 LocationSiteView의 Photo SpriteRenderer 실측값(3-49/3-52와 동일
+        // 측정) - Photo 크기가 바뀌면 이 값도 같이 갱신해야 한다.
+        const float PhotoHalfWidth = 0.45f;
+        const float NpcHalfWidth = 0.54f;
+        const float NpcFlankGap = 0.12f;
+        // 첫 슬롯(바로 옆)까지의 거리 - 사진 반폭 + 여백 + NPC 반폭.
+        const float NpcFlankBaseOffset = PhotoHalfWidth + NpcFlankGap + NpcHalfWidth;
+        // 한 칸 더 바깥으로 밀려날 때마다 추가되는 거리 - NPC 폭 + 여백.
+        const float NpcFlankStep = NpcHalfWidth * 2f + NpcFlankGap;
+        // 사진 세로 중심이 아니라 살짝 아래(발밑 쪽)에 맞춰야 자연스러워 보인다 - 사진 반높이(0.73)와
+        // NPC 반높이(0.54) 차이만큼만 내린다(둘의 "바닥"이 대략 맞도록).
+        const float NpcFlankVerticalOffset = -0.19f;
         static readonly Color ConnectionLineColor = new Color(0.6f, 0.55f, 0.4f, 0.5f);
 
         /// <summary>StageData.locationLayout(스테이지별 수동 배치)을 조회용 사전으로 미리 펼쳐 둔다 -
@@ -127,8 +131,40 @@ namespace Belief.Presentation.World
             if (layout == null) return;
 
             foreach (var entry in layout)
-                if (entry.npc != null && npcViews.TryGetValue(entry.npc, out var view))
-                    view.SetWorldPosition(entry.position);
+            {
+                if (entry.npc == null || !npcViews.TryGetValue(entry.npc, out var view)) continue;
+
+                // 수동 좌표는 에디터 도구로 "이 NPC가 원래 있던 장소" 근처에 맞춰 잡은 값이다 - 미션이
+                // 시작하자마자(GameInstaller.Awake 단계, WorldPresenter가 NpcRelocatedEvent를 구독하기도
+                // 전) NPC를 다른 장소로 자동 이동시키는 경우, 실제로는 이미 다른 곳에 있는데 이 좌표를
+                // 그대로 쓰면 엉뚱한 곳(원래 있던 장소)에 박제돼 버린다. 수동 좌표가 가리키는 장소와
+                // NPC의 실제 현재 위치가 다르면 수동 좌표를 무시하고, 바로 위 SnapNpcSlots가 이미
+                // 계산해 둔 올바른 격자 위치를 그대로 둔다.
+                if (installer.Npcs.TryGetValue(entry.npc, out var npcState) && npcState.CurrentLocation != null)
+                {
+                    var nearestToManualPos = FindNearestLocation(entry.position);
+                    if (nearestToManualPos != null && nearestToManualPos != npcState.CurrentLocation)
+                        continue;
+                }
+
+                view.SetWorldPosition(entry.position);
+            }
+        }
+
+        LocationData FindNearestLocation(Vector2 position)
+        {
+            LocationData nearest = null;
+            float bestDist = float.MaxValue;
+            foreach (var kvp in locationViews)
+            {
+                float dist = Vector2.Distance(position, kvp.Value.transform.position);
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    nearest = kvp.Key;
+                }
+            }
+            return nearest;
         }
 
         void OnNpcRelocated(NpcRelocatedEvent e)
@@ -193,19 +229,17 @@ namespace Belief.Presentation.World
 
         /// <summary>한 장소 안에서 NPC가 겹치지 않도록 고정 격자 슬롯을 계산한다 - 임의 좌표를 쓰지 않고
         /// 인원 수·순번만으로 결정되는 순수 함수다. NpcMaxPerRow를 넘는 인원은 아래 행으로 넘어간다.</summary>
+        /// <summary>0번째는 오른쪽 바로 옆, 1번째는 왼쪽 바로 옆, 2번째부터는 같은 방향에서 한 칸씩
+        /// 더 바깥으로 밀려난다(짝수 index=오른쪽, 홀수=왼쪽, index/2=바깥으로 몇 칸째인지).</summary>
         Vector2 ComputeNpcSlot(LocationData location, int index, int count)
         {
-            int row = index / NpcMaxPerRow;
-            int col = index % NpcMaxPerRow;
-            int itemsInRow = Mathf.Min(NpcMaxPerRow, count - row * NpcMaxPerRow);
-
-            float startX = -(itemsInRow - 1) * NpcHorizontalSpacing * 0.5f;
-            float x = startX + col * NpcHorizontalSpacing;
-            float y = -row * NpcVerticalSpacing;
+            float side = index % 2 == 0 ? 1f : -1f;
+            int slot = index / 2;
+            float x = side * (NpcFlankBaseOffset + slot * NpcFlankStep);
 
             Vector2 basePos = locationViews.TryGetValue(location, out var view)
                 ? (Vector2)view.transform.position : location.worldPosition;
-            return basePos + NpcSlotOffset + new Vector2(x, y);
+            return basePos + new Vector2(x, NpcFlankVerticalOffset);
         }
 
         void RefreshNpcSlots(LocationData location)

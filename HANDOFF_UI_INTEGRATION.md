@@ -1675,6 +1675,99 @@ Mode 세션을 끊어버려 삭제가 저장되지 않고 되돌아간 것으로
 신규, `Bind()`에서 호출 추가, `labelBaseLocalScale`/`labelBaseScaleCaptured`/
 `cachedUniformFitScaleMultiplier`(static) 필드 추가, 튜닝 상수 4개 추가).
 
+### 3-51. NPC가 실제 위치가 아니라 엉뚱한 곳에 서 있는 버그 — `ApplyManualNpcStartLayout`이 이미 이동한 NPC를 옛 수동 좌표로 되돌리고 있었다 (2026-08-04)
+
+사용자가 스크린샷으로 지적: 미션 로그엔 "경비대장이 여관으로 이동함"이라고 나오는데, 실제 화면에선
+경비대장(및 다른 NPC 몇몇)이 어느 장소 카드와도 상관없는 빈 공간에 서 있었다.
+
+**원인**: 3-36에서 추가한 `StageData.npcLayout`(에디터 도구로 드래그해 잡은 "이 NPC의 시작 위치")이
+`WorldPresenter.Start()`에서 `SnapNpcSlots()`(현재 게임 상태 기준 올바른 격자 위치 계산) 바로 뒤에
+무조건 실행돼 그 결과를 덮어썼다. `npcLayout`에 저장된 좌표는 "이 NPC가 원래 있던(홈) 장소" 근처로
+잡힌 값인데, **미션 평가가 `GameInstaller.Awake()` 안에서 `WorldPresenter.Start()`(이벤트 구독 시점)보다
+먼저 끝나기 때문에**, 턴 1 시작과 동시에 NPC를 자동으로 이동시키는 미션 연출이 있으면 그 NPC는 씬이
+보이기도 전에 이미 다른 장소로 옮겨간 상태다. 이 경우 `ApplyManualNpcStartLayout`이 "옛 홈 장소 근처"
+좌표를 그대로 적용해버려, 실제 상태(여관에 있음)와 화면(경비 초소 근처 빈 공간에 고정)이 어긋났다.
+실측 확인: `Stage_01.npcLayout`의 경비대장 좌표 `(1.45, 2.91)`은 "경비 초소" 위치 `(2.06, 3.17)`
+바로 옆이고, "여관" 위치는 `(1.00, -1.73)`으로 전혀 다른 곳이었다.
+
+**해결**: `WorldPresenter.ApplyManualNpcStartLayout()`에 `FindNearestLocation(Vector2)` 헬퍼를 추가해,
+각 `npcLayout` 항목의 좌표가 "가리키는" 장소(가장 가까운 장소)와 그 NPC의 실제 현재 위치
+(`NpcState.CurrentLocation`)를 비교한다. 둘이 다르면 — 즉 이 NPC가 시작 시점에 이미 옛 수동 좌표가
+가리키던 장소를 벗어난 상태라면 — 수동 좌표 적용을 건너뛰고, 바로 위에서 `SnapNpcSlots`가 계산해 둔
+(실제 현재 장소 기준) 격자 위치를 그대로 둔다. 둘이 같으면(대부분의 경우, 아직 홈 장소에 그대로 있는
+NPC) 기존처럼 수동 좌표를 적용해 보기 좋게 배치한다.
+
+**검증**: 리플렉션이 차단돼 있어(`UNAUTHORIZED_NAMESPACE`) `WorldPresenter`에 임시 테스트 훅
+(`__TestApplyManualLayout`/`__TestSnap`, public 래퍼)을 잠깐 추가해 직접 호출로 검증한 뒤 즉시 제거했다.
+Play Mode에서 경비대장을 코드로 강제 이동(경비 초소→여관, `NpcMovementService.MoveTo`와 동일하게
+`PresentNpcs` 갱신 + `CurrentLocation` 변경)시킨 뒤 두 메서드를 재실행한 결과: 수정 전이었다면
+옛 좌표 `(1.45, 2.91)`(경비 초소 근처)로 돌아갔을 것이 수정 후엔 `(2.15, -3.53)` — 정확히 여관 위치
+`(1.00, -1.73)` 기준 `SnapNpcSlots`가 계산한 격자 슬롯(오프셋 `(0,-1.8)` + 2인 슬롯 중 2번째 열)으로
+확인됨. Console Error/Warning 0. 씬 변경 없음(스크립트만 수정, 테스트 훅은 검증 후 제거해 최종 파일엔
+남지 않음).
+
+**수정한 파일**: `WorldPresenter.cs`(`ApplyManualNpcStartLayout()`에 실제 위치 비교 후 스킵 로직 추가,
+`FindNearestLocation()` 신규).
+
+### 3-52. NPC가 이동은 정상인데 도착 위치가 장소 이미지와 너무 멀어 보임 — 슬롯 오프셋이 예전 카드 크기·NPC 프레임 기준으로 남아있던 leftover (2026-08-04)
+
+3-51 직후 사용자가 재확인: "지금 npc들이 이동해서 도착하는 위치가 장소이미지랑 어긋나있는거지" — 특정
+NPC의 도착 장소 자체는 맞는데(3-51에서 검증한 그대로), 도착한 자리가 장소 이미지에서 시각적으로 너무
+멀리 떨어져 보인다는 지적. 실제 프로덕션 이동 코드(`NpcMovementService.MoveTo`+`NpcRelocatedEvent`
+발행, 직접 상태 조작이 아닌 진짜 경로)로 재현한 결과도 동일하게 확인 — 경비대장이 여관으로 이동하면
+위치 데이터(`CurrentLocation`)는 정확히 "여관"인데, 화면상 좌표 `(2.15, -3.53)`는 여관 카드 위치
+`(1.00, -1.73)`에서 세로로 1.8, 대각선으로 약 2.1유닛이나 떨어진 곳이었다(카드 자체 세로 길이가
+1.46인데 그보다 더 먼 거리).
+
+**원인**: `WorldPresenter.cs`의 `NpcSlotOffset=(0,-1.8)`/`NpcHorizontalSpacing=2.3` 두 상수 모두 이번
+세션 초반의 다른 수정으로 전제가 깨진 leftover였다([[project_placeholder_era_leftovers_pattern]]과
+동일 패턴, 이번엔 색·스케일이 아니라 "간격" 상수). 기존 코드 주석 근거:
+- "장소 카드가 커진 만큼(세로 2.5~3유닛) 카드 아래로 더 떨어뜨린다" → 그런데 3-44에서 `LocationSiteView`
+  프리팹의 숨은 1.36배 스케일을 제거해 카드가 원래 크기로 되돌아갔다(NameTag 하단이 루트 기준 0.686
+  아래일 뿐, 2.5~3유닛이 아니다). "커진" 전제가 이미 없어졌는데 오프셋(-1.8)은 그대로 남아있었다.
+- "NPC 프레임 장식끼리 맞닿아 보인다" → 그런데 3-40에서 NPC의 Frame/Pin/NameTag를 전부 삭제해
+  캐릭터 이미지만 남았다(장식 자체가 없으므로 "맞닿는" 문제도 이미 사라짐). 간격(2.3)은 그대로 남아있었다.
+
+**해결**: 실측(NPC 스프라이트 반높이 0.54, NameTag 하단이 장소 루트보다 0.686 아래)을 기준으로
+"NameTag 바로 아래에 작은 여백만 두고 붙는" 값으로 재계산 — `NpcSlotOffset` `(0,-1.8)`→`(0,-1.3)`,
+`NpcHorizontalSpacing` `2.3`→`1.4`(NPC 폭 1.08 기준 적당한 간격). `NpcVerticalSpacing`(1.1, 행간)은
+현재 최대 인원(장소당 최대 2명 확인됨)에서 문제가 없어 그대로 둠. 스테일해진 주석도 실측값 기준으로
+재작성.
+
+**검증**: 3-51과 동일한 방식으로 프로덕션 이동 코드를 재실행 — 경비대장 `(1.70, -3.03)`, 여관 주인
+`(0.30, -3.03)`, 여관 카드 `(1.00, -1.73)` 기준으로 훨씬 가까워짐(세로 거리 1.3, 대각선 약 1.4~1.5).
+`Unity_SceneView_Capture2DScene`으로 실제 스크린샷 확인 — 두 NPC가 여관 이름표 바로 아래에 자연스럽게
+붙어 있는 것을 육안 확인(수정 전 스크린샷과 뚜렷이 대조됨). Console Error/Warning 0. 씬 변경 없음.
+
+**수정한 파일**: `WorldPresenter.cs`(`NpcSlotOffset`/`NpcHorizontalSpacing` 상수값 재보정, 스테일 주석
+갱신).
+
+### 3-53. NPC 배치를 "카드 아래 격자"에서 "카드 좌우 플랭킹"으로 변경 (2026-08-04, 사용자 지시)
+
+사용자 지시: 3-52로 카드와의 거리는 가까워졌지만, 여전히 "아래" 배치였다. 대신 장소 이미지 바로
+좌/우에 붙게 하고, 3명 이상 모이면 좌우로 한 명씩 더 바깥에 붙는 방식으로 바꿔 달라는 요청.
+
+**구현**: `WorldPresenter.ComputeNpcSlot()`의 격자(행/열) 계산을 걷어내고, `PresentNpcs`의 인덱스를
+"좌/우 + 몇 번째로 바깥쪽인지"로 직접 매핑하는 방식으로 교체했다 - 인덱스 0=오른쪽 첫 칸, 1=왼쪽
+첫 칸, 2=오른쪽 둘째 칸(더 바깥), 3=왼쪽 둘째 칸, ... (`side = index%2==0 ? +1 : -1`,
+`slot = index/2`). 가로 오프셋은 실측값으로 계산: `PhotoHalfWidth`(0.45, `LocationSiteView`의
+`Photo` 스프라이트 실측 반폭) + `NpcFlankGap`(0.12) + `NpcHalfWidth`(0.54, NPC 스프라이트 실측
+반폭) = 첫 칸 거리 1.11, 이후 칸마다 `NpcHalfWidth*2+NpcFlankGap`(1.20)씩 더 바깥으로. 세로는
+사진 중심이 아니라 살짝 아래(발밑 쪽 정렬, `NpcFlankVerticalOffset=-0.19` = 사진 반높이 0.73 −
+NPC 반높이 0.54)로 소폭 내렸다. 기존 `NpcMaxPerRow`/`NpcVerticalSpacing`/`NpcSlotOffset` 등 격자
+관련 상수·로직은 전부 삭제(더 이상 여러 행으로 안 쌓이므로 불필요).
+
+**검증**: 실제 프로덕션 이동 코드(`NpcMovementService.MoveTo`+`NpcRelocatedEvent` 발행)로 5명
+전원을 "여관" 한 곳에 모이게 한 뒤 좌표 확인 — 여관 위치 `(1.00,-1.73)` 기준 상대 오프셋이 정확히
+`±1.11`(1번째 칸 좌우 한 쌍), `±2.31`(2번째 칸 좌우 한 쌍, 1.11+1.20), `+3.51`(3번째 칸, 5번째
+NPC라 오른쪽에만) — 설계한 공식과 정확히 일치. `Unity_SceneView_Capture2DScene` 스크린샷으로 5명이
+장소 이미지 좌우에 나란히 붙어 겹치지 않고 자연스럽게 늘어선 것을 육안 확인. Console Error/Warning 0.
+씬 변경 없음(스크립트만 수정).
+
+**수정한 파일**: `WorldPresenter.cs`(`ComputeNpcSlot()` 좌우 플랭킹 방식으로 재작성, 격자 관련 상수
+삭제, `PhotoHalfWidth`/`NpcHalfWidth`/`NpcFlankGap`/`NpcFlankBaseOffset`/`NpcFlankStep`/
+`NpcFlankVerticalOffset` 신규).
+
 ---
 
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
