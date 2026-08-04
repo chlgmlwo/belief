@@ -801,17 +801,20 @@ namespace Belief.Presentation.HUD
                 return;
             }
 
-            // Values 칸은 프리팹의 정적 Labels 칸(확산 속도/밀집도/민감 정보 유형/신뢰도 보정, 4줄)과
-            // 같은 순서·줄 간격(빈 줄로 구분)으로 값만 채운다 - 라벨을 텍스트에 다시 넣지 않는다
-            // (라벨은 이미 Labels 칸에 있으므로 중복 표시 방지). accessType(접근 권한)은 게임에서
-            // 실제로 아무것도 막지 않게 된 지 오래라(LocationMechanicsSettings.CanTargetLocationDirectly
-            // 참고) 패널에서도 아예 뺐다(사용자 지시).
+            // 값 칸 하나에 "라벨: 값"을 한 줄씩 합쳐서 넣는다 - 라벨 칸(Labels)과 값 칸(Values)을
+            // 나란히 세워 정렬을 맞추는 2단 레이아웃은, sensitiveInformationType처럼 값 이름이 길어
+            // (예: FactualInformation) 값 칸만 다음 줄로 줄바꿈되면 그 아래 모든 줄이 라벨 칸과
+            // 어긋나면서 패널 밖으로 텍스트가 흘러넘치는 문제가 있었다(2026-08-04 실측). 라벨+값을
+            // 같은 줄에 묶어두면 특정 줄이 길어서 줄바꿈되더라도 그 줄만 세로로 조금 늘어날 뿐
+            // 다른 줄과의 정렬이 깨지지 않는다 - 그래서 Labels 칸은 다시 끈다(Bind 쪽에서 비활성화).
+            // accessType(접근 권한)은 게임에서 실제로 아무것도 막지 않게 된 지 오래라
+            // (LocationMechanicsSettings.CanTargetLocationDirectly 참고) 패널에서도 아예 뺐다(사용자 지시).
             locationNoteTitleText.text = selectedLocationData.displayName;
             locationNoteBodyText.text =
-                $"{selectedLocationData.spreadSpeed}\n\n" +
-                $"{selectedLocationData.npcDensity}\n\n" +
-                $"{selectedLocationData.sensitiveInformationType}\n\n" +
-                $"{selectedLocationData.credibilityModifier}";
+                $"확산 속도: {selectedLocationData.spreadSpeed}\n" +
+                $"밀집도: {selectedLocationData.npcDensity}\n" +
+                $"민감 정보 유형: {selectedLocationData.sensitiveInformationType}\n" +
+                $"신뢰도 보정: {selectedLocationData.credibilityModifier}";
         }
 
         /// <summary>LocationInfoPaper(pivot 좌상단)의 화면 좌표를 그 장소 사진의 오른쪽 바로 옆으로

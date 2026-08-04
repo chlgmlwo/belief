@@ -2159,6 +2159,63 @@ Console Error/Warning 0. 씬 무수정(텍스처 임포트 설정만 변경).
 
 ---
 
+### 3-64. LocationInfoPaper 후속 수정 — 라벨이 안 보이던 문제, 패널이 너무 크던 문제 (2026-08-04, 사용자 지시 — "저 데이터들이 어떤 값들인지는 옆에 써줘야지 그리고 패널 크기가 너무 커 줄여줘")
+
+3-63을 실제로 플레이해 본 사용자가 두 가지를 지적: (1) 값 옆에 그게 무슨 값인지 라벨이 없다,
+(2) 패널이 너무 크다.
+
+**원인 (1)**: 코드는 문제 없었다 - `Labels`(정적 라벨 칸) GameObject 자체가 프리팹에서 처음부터
+`SetActive(false)`로 꺼져 있었다(이 패널이 실제로 화면에 뜬 적이 3-63 이전엔 한 번도 없어서
+아무도 눈치채지 못한 상태 - [[project_placeholder_era_leftovers_pattern]]과 동일한 패턴). `Values`
+칸만 켜져 있어서 라벨 없이 값만 보이고 있었다. **해결**: `Labels` GameObject를 `SetActive(true)`로
+켰다.
+
+**원인 (2)**: `Background`/`HeaderBar` sizeDelta가 345×245로, 실제 들어가는 내용(4줄짜리 라벨+값)에
+비해 과도하게 컸다(원래 5번째 줄(접근 권한) 자리였던 여백이 3-63 이후에도 그대로 남아있었음).
+**해결**: 패널 전체를 220×150으로 축소(가로 –36%, 세로 –39%), `Title`/`Labels`/`Values`의 위치·
+크기·폰트 크기(16→14, Title은 유지)를 그에 맞춰 다시 배치.
+
+**검증**: Play Mode에서 호버 시뮬레이션 - `Labels.activeSelf=true`이고 텍스트가 정확히
+표시됨(`#확산 속도`/`#밀집도`/`#민감 정보 유형`/`#신뢰도 보정`), `Values`도 같은 순서로 정렬,
+패널 `sizeDelta=(220,150)` 확인. Console Error/Warning 0. 씬 무수정(프리팹만).
+
+**수정한 파일**: `PlayHudCanvas_New.prefab`(`LocationInfoPaper` 하위 `Labels` 활성화 +
+`Background`/`HeaderBar`/`Title`/`Labels`/`Values` 크기·위치·폰트 조정). 코드 무수정.
+
+---
+
+### 3-65. LocationInfoPaper 텍스트가 패널 밖으로 흘러넘치던 문제 — 2단 라벨/값 칸 구조 자체를 폐기 (2026-08-04, 사용자 지시 — "패널바깥으로 텍스트가 나가면 안 되지", 스크린샷 첨부)
+
+사용자 스크린샷: "경비 초소" 패널에서 `#민감 정보 유형` 줄의 값(`FactualInformation`, 19자 영문
+PascalCase)이 좁은 `Values` 칸 폭에서 줄바꿈되며 2줄을 차지 - 그 아래 `#신뢰도 보정` 줄은 `Labels`
+칸(줄바꿈 없이 고정 줄 수)과 더 이상 나란히 맞지 않고, 전체 내용이 `Background` 이미지 하단 경계를
+넘어 패널 밖으로 흘러나왔다.
+
+**근본 원인**: 3-63/3-64가 유지했던 "정적 라벨 칸 + 동적 값 칸, 두 칸을 나란히 세워 빈 줄로 줄
+맞춤" 레이아웃 자체가 구조적으로 깨지기 쉬웠다 -가로 폭이 좁은 값 칸에서 특정 값(영문 enum 이름,
+길이가 들쭉날쭉)이 줄바꿈되는 순간 그 아래 모든 줄의 세로 위치가 라벨 칸과 어긋나고, 두 칸 다
+`overflowMode=Overflow`(잘림 없이 그냥 넘침)라 넘친 텍스트가 그대로 `Background`를 뚫고 나갔다.
+
+**해결**: 라벨/값을 아예 하나의 텍스트 칸에 "라벨: 값" 한 줄로 합쳤다(`Labels` 칸은 다시
+비활성화, `Values` 칸 하나만 사용 - `TextAlignmentOptions.TopLeft`로 정렬 변경). 이렇게 하면 특정
+줄이 길어서 줄바꿈되더라도 그 줄 자체가 세로로 조금 늘어날 뿐 다른 줄과의 정렬이 깨지지 않는다
+(같은 줄에 라벨+값이 원래부터 함께 있으므로). 그 다음, `TextMeshProUGUI.GetPreferredValues`로
+실제 폰트 기준 최악의 경우(4개 필드 모두 각자 가장 긴 enum 값 - `Unspecified`×3 +
+`FactualInformation`) 크기를 실측해(폭 150에서 줄바꿈 없이 자연 폭 144.04, 높이 89.61) 그 값이
+넉넉히 들어가도록 패널을 180×145로, 텍스트 칸을 160×100으로 다시 잡았다(추측이 아니라 실측 기반
+사이징 - 3-63/3-64는 이 실측을 생략해서 이번 버그가 났다).
+
+**검증**: Play Mode에서 실제 최악 케이스 장소(`경비 초소`, `sensitiveInformationType=
+FactualInformation`)를 호버 - `TextMeshProUGUI.textBounds.size.y`(89.6)가 텍스트 칸 높이(100)보다
+작음을 코드로 직접 확인(패널 밖으로 안 넘침), 4개 필드 텍스트 모두 "라벨: 값" 한 줄 형식으로 정상
+표시됨을 확인. Console Error/Warning 0. 씬 무수정(프리팹만).
+
+**수정한 파일**: `HudPresenter.cs`(`RefreshLocationNote()` - 라벨+값 한 줄 결합 포맷으로 변경),
+`PlayHudCanvas_New.prefab`(`LocationInfoPaper` - `Labels` 재비활성화, `Values` 정렬/크기 조정,
+패널 전체 크기를 실측 기반 180×145로 재조정).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```
