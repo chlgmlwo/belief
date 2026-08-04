@@ -16,8 +16,8 @@ MonoBehaviour:
   stageNumber: 1
   stageName: 
   regionName: "\uBD81\uBB38(\uC678\uACFD)"
-  regionDescription: "\uBD81\uBB38 \uACBD\uBE44\uB300\uAC00 \uC8FC\uB454\uD558\uB294
-    \uB3C4\uC2DC \uC678\uACFD\uC758 \uAD00\uBB38 \uC9C0\uC5ED."
+  regionDescription: "\uBD81\uBB38 \uACBD\uBE44\uB300\uAC00 \uC9C0\uD0A4\uB294 \uB3C4\uC2DC\uC758
+    \uAD00\uBB38."
   objective: 
   locations:
   - {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}

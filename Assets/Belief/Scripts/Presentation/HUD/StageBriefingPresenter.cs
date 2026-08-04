@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -47,18 +48,47 @@ namespace Belief.Presentation.HUD
 
             int stageIndex = pc != null ? pc.Progress.CurrentStageIndex : 0;
             int stageNumber = stageAsset != null && stageAsset.stageNumber > 0 ? stageAsset.stageNumber : stageIndex + 1;
-            string title = objective != null ? objective.displayTitle : (stageAsset != null ? stageAsset.stageName : "");
-            string objectiveText = objective != null ? objective.objectiveText : (stageAsset != null ? stageAsset.objective : "");
             int turnLimit = installer != null ? installer.Turns.StageMaxTurns : 0;
-            string blurb = stageAsset != null && !string.IsNullOrEmpty(stageAsset.regionDescription)
+
+            // 시안의 "제목/부제" 자리에는 원래 현재 목표의 제목·본문이 들어갔는데, 그 둘은 플레이 중
+            // HUD의 GOAL 카드와 그대로 겹친다. 브리핑은 "여기가 어디이고 이 구역에서 뭘 해야 하는가"만
+            // 보여주면 되므로 제목=구역 이름 / 부제=구역 설명 / 메모지=이 구역의 GOAL 제목 목록으로 바꿨다
+            // (배치·폰트는 시안 그대로, 들어가는 데이터만 다르게 - 사용자 지시).
+            string regionName = stageAsset != null && !string.IsNullOrEmpty(stageAsset.regionName)
+                ? stageAsset.regionName
+                : (pc != null ? pc.CurrentStageDisplayName : "");
+            string regionDescription = stageAsset != null && !string.IsNullOrEmpty(stageAsset.regionDescription)
                 ? stageAsset.regionDescription
                 : (pc != null ? pc.CurrentStageIntroSubtitle : "");
 
-            view.Bind(stageNumber, title, objectiveText, turnLimit, blurb);
+            view.Bind(stageNumber, regionName, regionDescription, turnLimit);
+            view.BindGoals(CollectGoalTitles(stageAsset, pc, stageIndex, objective));
             BindMap(view, pc, stageIndex);
 
             view.LaunchButton.onClick.AddListener(Dismiss);
             view.BackButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
+        }
+
+        /// <summary>이 구역의 GOAL 제목 목록. StageData.missions와 ProgressionData.objectives는 같은
+        /// MissionData 배열이지만(스테이지1~4 전부 내용 일치), 실제로 플레이되는 미션 순서는
+        /// GameInstaller가 읽는 StageData 쪽이므로 그것을 우선한다. 둘 다 없으면 최소한 현재 목표
+        /// 하나라도 보여준다.</summary>
+        static List<string> CollectGoalTitles(StageData stageAsset, ProgressionController pc, int stageIndex, MissionData current)
+        {
+            var titles = new List<string>();
+            var missions = stageAsset != null ? stageAsset.missions : null;
+            if ((missions == null || missions.Length == 0) && pc != null && pc.Data != null
+                && pc.Data.stages != null && stageIndex < pc.Data.stages.Length)
+                missions = pc.Data.stages[stageIndex].objectives;
+
+            if (missions != null)
+                foreach (var m in missions)
+                    if (m != null && !string.IsNullOrEmpty(m.displayTitle))
+                        titles.Add(m.displayTitle);
+
+            if (titles.Count == 0 && current != null && !string.IsNullOrEmpty(current.displayTitle))
+                titles.Add(current.displayTitle);
+            return titles;
         }
 
         /// <summary>실제 지리적 좌표 데이터가 없으므로(StageData/ProgressionData에 지도 좌표 필드가 없음)

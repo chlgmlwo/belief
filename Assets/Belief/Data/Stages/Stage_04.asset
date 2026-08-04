@@ -16,9 +16,8 @@ MonoBehaviour:
   stageNumber: 4
   stageName: "\uB3C4\uC2DC \uD1B5\uD569 \xB7 \uD30C\uC774\uB110"
   regionName: "\uD074\uB808\uB974\uD3F0 \uB300\uB3C4\uC2DC \uC804\uC5ED"
-  regionDescription: "\uBD81\uBB38\uC5D0\uC11C \uC800\uD0DD\uAE4C\uC9C0, \uC2EC\uC5B4\uB454
-    \uBAA8\uB4E0 \uC18C\uBB38\uC774 \uD558\uB098\uC758 \uC2E0\uD638\uC5D0 \uB9DE\uCDB0
-    \uB3D9\uC2DC\uC5D0 \uC6C0\uC9C1\uC774\uAE30 \uC2DC\uC791\uD55C\uB2E4."
+  regionDescription: "\uC2EC\uC5B4\uB454 \uC18C\uBB38\uC774 \uD55C\uAEBC\uBC88\uC5D0
+    \uC6C0\uC9C1\uC774\uB294 \uB3C4\uC2DC."
   objective: "\uAD8C\uB825 \uAE30\uBC18\uACFC \uAD70\uC0AC \uAC1C\uC785\uC744 \uBB34\uB108\uB728\uB9AC\uACE0
     \uBBFC\uC2EC\uC744 \uD3ED\uBC1C\uC2DC\uCF1C \uC601\uC8FC\uB97C \uC2E4\uAC01\uC2DC\uD0A8\uB2E4."
   locations:
@@ -121,6 +120,7 @@ MonoBehaviour:
     position: {x: 6.4, y: -3.8}
   - location: {fileID: 11400000, guid: bbd7eddf854b7ea49961419069a30f82, type: 2}
     position: {x: 12.8, y: -3.8}
+  npcLayout: []
   cardPool: {fileID: 11400000, guid: 9fe9e7d462e145afa8f2a19c1f48492f, type: 2}
   missions:
   - {fileID: 11400000, guid: bf39a21f919e7af4d9d239373c4f412d, type: 2}

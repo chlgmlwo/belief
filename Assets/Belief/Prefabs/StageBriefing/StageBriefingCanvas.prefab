@@ -665,7 +665,7 @@ GameObject:
   - component: {fileID: 1668129329346795343}
   - component: {fileID: 7040834072305015648}
   m_Layer: 0
-  m_Name: Subtitle
+  m_Name: RegionDesc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -763,9 +763,9 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 0
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
@@ -878,12 +878,12 @@ GameObject:
   - component: {fileID: 679763610833056543}
   - component: {fileID: 7669910954853276435}
   m_Layer: 0
-  m_Name: StoryLine4
+  m_Name: GoalLine4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1481277238427670852
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2009,12 +2009,12 @@ GameObject:
   - component: {fileID: 6542701251361355376}
   - component: {fileID: 209143450417521877}
   m_Layer: 0
-  m_Name: StoryLine3
+  m_Name: GoalLine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3761653872049950403
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2296,7 +2296,7 @@ GameObject:
   - component: {fileID: 1218029540395844855}
   - component: {fileID: 1734523759764902557}
   m_Layer: 0
-  m_Name: StoryLine1
+  m_Name: GoalLine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3114,7 +3114,7 @@ GameObject:
   - component: {fileID: 4099851086717379319}
   - component: {fileID: 6190963536454904043}
   m_Layer: 0
-  m_Name: SubtitleBg
+  m_Name: RegionDescBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3189,12 +3189,12 @@ GameObject:
   - component: {fileID: 7275743417113986362}
   - component: {fileID: 2813417547969332516}
   m_Layer: 0
-  m_Name: StoryLine2
+  m_Name: GoalLine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8818062100065959657
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4048,9 +4048,15 @@ MonoBehaviour:
   backButton: {fileID: 5734688360842159999}
   stageLabelText: {fileID: 8328691460042853473}
   titleText: {fileID: 7383720705270551072}
-  objectiveText: {fileID: 7040834072305015648}
+  regionDescText: {fileID: 7040834072305015648}
+  regionDescBgRect: {fileID: 7830571456868450535}
   turnLimitValueText: {fileID: 8829086814986260795}
-  blurbText: {fileID: 1734523759764902557}
+  goalLineTexts:
+  - {fileID: 1734523759764902557}
+  - {fileID: 2813417547969332516}
+  - {fileID: 209143450417521877}
+  - {fileID: 7669910954853276435}
+  goalLabelColor: {r: 0.7, g: 0.2, b: 0.18, a: 1}
   mapStageLabelText: {fileID: 7389736573251597817}
   markerSlots:
   - root: {fileID: 2499188616833721442}
