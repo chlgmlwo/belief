@@ -432,7 +432,24 @@ namespace Belief.Presentation.HUD
             if (PlaybackDirector.Instance == null) gameObject.AddComponent<PlaybackDirector>();
         }
 
-        void PulseOnce(TMP_Text text) => StartCoroutine(PulseGraphic(text, AccentColor, Color.white, 0.3f));
+        /// <summary>깜빡임이 끝난 뒤 되돌릴 "원래 색" - 대상별로 최초 1회만 기록한다.
+        /// 예전엔 `PulseGraphic(text, AccentColor, Color.white, …)`처럼 복귀 색을 **흰색으로
+        /// 하드코딩**해서, 한 번 깜빡인 텍스트는 원래 색이 무엇이었든 영구히 흰색이 돼버렸다.
+        /// GOAL1 카드 제목(missionTitleText)은 RefreshMission()마다 깜빡이므로 미션이 바뀌는
+        /// 순간 검은 글씨가 흰 글씨로 변해 밝은 카드 위에서 안 보이게 됐다(2026-08-05 사용자 보고).
+        /// 깜빡임 도중 다시 호출돼도 이미 기록된 원래 색을 그대로 쓰므로 강조색이 굳지 않는다.</summary>
+        readonly Dictionary<Graphic, Color> pulseBaseColors = new Dictionary<Graphic, Color>();
+
+        void PulseOnce(TMP_Text text)
+        {
+            if (text == null) return;
+            if (!pulseBaseColors.TryGetValue(text, out var baseColor))
+            {
+                baseColor = text.color;
+                pulseBaseColors[text] = baseColor;
+            }
+            StartCoroutine(PulseGraphic(text, AccentColor, baseColor, 0.3f));
+        }
 
         /// <summary>카드 선택 여부와 무관하게 항상 보이는 배너로 짧게 메시지를 띄운다 -
         /// 잘못된 클릭 사유, 실행 직후 "결과를 확인하세요" 안내에 쓰인다.</summary>

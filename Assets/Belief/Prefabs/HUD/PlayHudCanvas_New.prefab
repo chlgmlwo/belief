@@ -3361,7 +3361,7 @@ MonoBehaviour:
   stageTurnText: {fileID: 4549486227712750734}
   missionTurnText: {fileID: 3976087383532184747}
   stageNumberText: {fileID: 2018762192366311661}
-  stageNameText: {fileID: 1925024667828661446}
+  stageNameText: {fileID: 0}
   helpButton: {fileID: 3110376200964338532}
   missionTitleText: {fileID: 3443419488516282307}
   missionDescText: {fileID: 3015110310041802440}
@@ -5493,8 +5493,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 41, y: -38}
-  m_SizeDelta: {x: 330, y: 24}
+  m_AnchoredPosition: {x: 28, y: -15}
+  m_SizeDelta: {x: 346, y: 98}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5756291796143799867
 CanvasRenderer:
@@ -5558,8 +5558,8 @@ MonoBehaviour:
   m_fontSizeMin: 0
   m_fontSizeMax: 0
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 4096
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -5568,7 +5568,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 0
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -19887,8 +19887,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 42, y: -32}
-  m_SizeDelta: {x: 360, y: 24}
+  m_AnchoredPosition: {x: 43, y: -25}
+  m_SizeDelta: {x: 354, y: 98}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7205449075006265792
 CanvasRenderer:
@@ -19952,8 +19952,8 @@ MonoBehaviour:
   m_fontSizeMin: 0
   m_fontSizeMax: 0
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 4096
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -19962,7 +19962,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 0
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -20510,8 +20510,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 427, y: -820}
-  m_SizeDelta: {x: 280, y: 125}
+  m_AnchoredPosition: {x: 435, y: -818}
+  m_SizeDelta: {x: 260, y: 88}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6716876463741272186
 CanvasRenderer:
