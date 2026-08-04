@@ -1855,6 +1855,164 @@ Npcs/Npc_Major_Informant.png` + `NpcWalkSheets/Npc_Major_Informant_Walk.png`로 
 실사용 `NpcData` 16개 자산(`walkFrames` 배선). `Deprecated/Npc_Major_Informant.asset`은 실수로
 잠깐 수정했다가 즉시 원복 - 최종적으로 무수정 상태.
 
+### 3-56. 걷기 애니메이션이 "이동 후 도착지에서 재생"되는 것처럼 보이던 버그 — body 스프라이트가 NpcActorView 루트 자신이라 Label/DialogueBubble까지 같이 스케일되고 있었다 + 이름표 제거 (2026-08-04)
+
+사용자 피드백: "이동할때 애니메이션이 나오면서 이동을 해야되는건데 이동은 그냥 쓱 가버리고 도착한
+장소에서 걷는 애니메이션이 나와" + "이름태그가 npc마다 있는거 같은데 얘는 그냥 없애줘".
+
+**원인(애니메이션 타이밍)**: `NpcActorView.prefab`의 `body`([SerializeField] SpriteRenderer)가
+별도 자식이 아니라 **NpcActorView 루트 GameObject 자기 자신**이었다 - 즉 `body.transform`이
+곧 NPC의 `transform`(이동에 쓰이는 바로 그 Transform)과 동일 객체다. 3-55에서 추가한 걷기 프레임
+스케일 보정(`WalkCycleRoutine`이 매 프레임 idle 사진 대비 걷기 프레임 크롭 비율로
+`body.transform.localScale`을 재계산)이 이 루트 Transform을 직접 건드리면서, 루트의 **자식인
+`Label`/`DialogueBubble`까지 같이 스케일이 튀었다**(부모 스케일이 자식에 곱연산되므로). 이동
+시작과 동시에 스케일이 갑자기 1.08배→5배 이상으로 치솟는 시각적 "펑" 튐이 0.35초 짧은 이동
+구간 안에서 위치 보간(smooth한 이동)보다 훨씬 눈에 띄어서, 사용자에게는 "위치는 순간 이동하듯
+쓱 가버리고, 그 뒤에 걷는 그림이 따로 재생되는" 것처럼 보였다(실제로는 위치 보간 자체는 원래도
+정상 작동하고 있었음 - 순수하게 스케일 튐이 만든 착시).
+
+**해결**: `NpcActorView.prefab`을 재구성 - 루트 밑에 새 자식 `Body`(로컬 위치/회전/스케일 전부
+기본값)를 만들고, 루트에 있던 `SpriteRenderer`(sprite/color/sortingLayer/sortingOrder 그대로
+복사)를 `Body`로 옮긴 뒤 루트의 원본 `SpriteRenderer`는 삭제. `NpcActorView.body` 필드를 새
+`Body`의 `SpriteRenderer`로 재배선(코드 변경 없음 - `[SerializeField]` 참조 대상만 바뀜).
+`BoxCollider2D`(클릭 판정용)는 루트에 그대로 유지 - 걷기 스케일과 무관하게 항상 일정한 클릭 영역을
+유지하는 게 오히려 더 안정적이다. 결과적으로 걷기 애니메이션 스케일 보정은 이제 `Body`
+자신에게만 적용되고, 루트 Transform(및 그 자식인 Label/DialogueBubble)은 이동 내내 스케일이
+전혀 변하지 않는다.
+
+**이름표 제거**: 같은 프리팹 편집 세션에서 `Label`(장소용과 별개로 NPC 머리 위/아래에 뜨는
+이름 텍스트) GameObject를 `SetActive(false)`(삭제 아님, 코드가 여전히 `label.text = ...`를
+안전하게 호출하므로 비활성만으로 충분).
+
+**검증**: Play Mode에서 실제 이동 코드로 경비대장을 다른 장소로 이동시켜 확인 - 이동 전/중 루트
+`transform.localScale`이 `(1.08, 1.08, 1.00)`으로 전혀 안 변함, `Body.localScale`만 걷기 프레임에
+맞춰 `(5.21, 5.21, 5.21)`로 독립적으로 변함. `Label.activeSelf`가 `False`로 확인(모든 NPC 공용
+프리팹이라 5명 전부 적용됨). 스크린샷으로 이름표가 안 보이고 캐릭터 크기가 정상인 것도 육안 확인.
+Console Error/Warning 0. 씬 변경 없음(프리팹만 수정).
+
+**수정한 파일**: `NpcActorView.prefab`(`Body` 자식 신규 생성 + `SpriteRenderer` 이전,
+`NpcActorView.body` 필드 재배선, `Label` 비활성화). `NpcActorView.cs`는 무수정(필드 재배선만으로
+해결됨).
+
+### 3-57. idle 숨쉬기 애니메이션 추가 + 이동 시간 확대 + 걷기 프레임 6장만 순환하도록 축소 (2026-08-04, 3-56 직후 사용자 재확인)
+
+사용자가 실제 플레이 후 재지적: "idle상태일때는 그냥 몸이 들썩들썩거리기만 하면 되고, 이동할떄
+실제 걸어서 이동하는 듯이 캐릭터가 걸어서 도착지까지 가야대 그리고 지금 애니메이션 프레임이
+끊기듯이 나오는데, 부드럽게 보이게 조절해줘 스프라이트 이미지를 굳이 다 써야되는건 아니야". 3-56은
+"루트 스케일이 자식까지 끌고 가던 버그"만 고쳤을 뿐, ⓐ idle 상태에 애니메이션이 아예 없었던 점
+ⓑ `MoveDuration=0.35초`가 여전히 너무 짧아 걷는 느낌이 안 나던 점 ⓒ `walkFrames` 36장 전체를
+순서대로 재생하면 시트가 여러 시도를 이어붙인 구조라 프레임이 튀어 보일 수 있는 점은 그대로
+남아있었다.
+
+**해결(`NpcActorView.cs`)**:
+- **idle 숨쉬기**: `IdleBobRoutine`(신규) - 추가 스프라이트 없이 idle 사진 그대로 `Body`의
+  `localPosition.y`만 사인파(`IdleBobAmplitude=0.045`, `IdleBobPeriod=1.3초`)로 미세하게 흔든다.
+  같은 프리팹을 쓰는 NPC들이 전부 같은 박자로 들썩이면 부자연스러워서 시작 위상을
+  `Random.Range`로 무작위화. `Bind()` 끝에서 자동 시작, `StartWalkCycle()`이 걷기 시작 직전
+  끄고(`StopIdleBobVisualOnly`, `Body.localPosition`을 원위치로 복원), `StopWalkCycle()`이 이동
+  종료 후 다시 켠다(`StartIdleBob`).
+- **이동 시간 확대**: `MoveDuration` `0.35`→`1.0`초 - 걷기 사이클이 최소 한 바퀴 이상 돌 시간을
+  확보해야 "걸어서 이동"하는 것처럼 보인다.
+- **걷기 프레임 6장만 순환**: `WalkCycleFrameCount=6`(신규 상수) - `WalkCycleRoutine`이 이제
+  `frames[i % Mathf.Min(WalkCycleFrameCount, frames.Length)]`로 앞쪽 6장(슬라이싱이 항상 첫 행부터
+  채우므로 사실상 "첫 번째 행" = 한 번의 연속 동작에 가까움)만 순환한다. 나머지 프레임은
+  `NpcData.walkFrames`에 그대로 남아있지만(재슬라이싱 안 함, 데이터 손실 없음) 재생에는 안 쓰인다.
+  `WalkFrameFps`도 `10`→`8`로 살짝 낮춰 한 바퀴(6장/8fps=0.75초)가 새 `MoveDuration`(1.0초) 동안
+  자연스럽게 1바퀴 조금 넘게 돈다.
+
+**검증**: Play Mode에서 `Body.localPosition.y`를 두 번 연속 샘플링해 `0.04`→`0.02`로 계속 변하는
+것을 확인(숨쉬기 동작 중). 실제 이동 코드로 트리거한 뒤 `Time.timeScale=0.05`(20배 느리게)로
+슬로모션 재생시켜 이동 중간 상태를 직접 캐치 - 걷기 프레임(`Npc_Major_GuardCaptain_Walk_04`, 0~5
+범위 내)이 재생되는 동시에 루트 위치가 아직 목적지에 도달하지 않은 중간 좌표였음을 확인(=
+"이동은 순간이동, 애니메이션은 도착 후 재생" 버그가 완전히 해소되고 위치 보간과 걷기 애니메이션이
+실제로 동시에 진행됨). Console Error/Warning 0. 씬 변경 없음(스크립트만 수정, `NpcData` 에셋도
+무수정 - 프레임 개수만 코드에서 제한).
+
+**수정한 파일**: `NpcActorView.cs`(`MoveDuration` 0.35→1.0, `WalkFrameFps` 10→8,
+`WalkCycleFrameCount`/`IdleBobAmplitude`/`IdleBobPeriod` 신규 상수, `IdleBobRoutine`/
+`StartIdleBob`/`StopIdleBobVisualOnly` 신규, `bodyBaseLocalPosition` 필드 추가,
+`WalkCycleRoutine`이 프레임 수를 6장으로 제한하도록 수정).
+
+### 3-58. 결과 패널이 이동 애니메이션 끝나기 전에 뜨는 버그 수정 + 걷기 애니메이션 근본 원인 파악(소스 아트 한계) 후 연속 보간(발걸음 통통 튐)으로 재설계 (2026-08-04, 3-57 직후 실제 플레이 재확인)
+
+사용자가 실제 플레이 후: "지금 결과패널 나오는게 이동이 끝나기 전에 나오는데 캐릭터 이동이 다
+끝난 후에 결과가 나와야대 그리고 아직도 애니메이션이 뚝뚝 끊기고 있어" - 두 가지 별개 문제.
+
+**결과 패널 타이밍 버그(`HudPresenter.cs`)**: `GameOverEvent`/`ObjectiveCompletedPendingConfirm`/
+`StageCompletedPendingConfirm` 핸들러가 전부 `PlaybackDirector.IsPlaying`(현재 재생 중인 연출이
+있는지)을 전혀 확인하지 않고 이벤트가 오는 즉시 `ShowResultScreen`/`ShowGatedPopup`을 호출하고
+있었다 - `MoveDuration`이 0.35초였을 땐 거의 안 보였는데, 3-57에서 1.0초로 늘리면서 훨씬 눈에
+띄게 됐다. **해결**: 세 핸들러 전부 `StartCoroutine(WaitForPlaybackThen(...))`로 감싸서,
+`PlaybackDirector.Instance.IsPlaying`이 `false`가 될 때까지(즉 NPC 이동·걷기 애니메이션을 포함해
+현재 재생 중인 모든 연출이 끝날 때까지) 한 프레임씩 대기한 뒤에야 실제 팝업을 띄우도록 변경.
+**검증**: `Time.timeScale=0.02`로 슬로모션 재생 중 `GameOverEvent`를 발행해 `ResultScreen.activeSelf`가
+`PlaybackDirector.IsPlaying=true`인 동안 계속 `False`로 유지되다가, 애니메이션이 끝나
+`IsPlaying=false`가 된 직후에만 `True`로 바뀌는 것을 직접 확인.
+
+**걷기 애니메이션이 여전히 끊겨 보이는 근본 원인 재조사**: 3-57에서 앞쪽 6장(행 1)만 쓰도록
+줄였는데도 여전히 끊겨 보인다는 지적에, 행 1과 행 2를 나란히 잘라서 육안 비교해봤다 - **결과:
+행 1과 행 2가 사실상 거의 동일한 자세였다.** 즉 이 시트는 "여러 걷기 사이클을 이어붙인 것"이
+아니라 애초에 프레임 간 자세 차이가 거의 없는(프롬프트의 "in place" 요청대로) 배치 생성물이다 -
+몇 장을 쓰든, 어떤 fps로 돌리든 **스프라이트 교체만으로는 매끄러운 보행처럼 보일 수 없는 게
+소스 아트 자체의 한계**였다.
+
+**해결(설계 변경)**: "부드러움"을 스프라이트 교체가 아니라 **연속 보간되는 발걸음 통통 튐**이
+담당하도록 재설계했다. `WalkCycleRoutine`을 `WaitForSeconds`(코루틴을 프레임 간격만큼 완전히
+멈춤) 방식에서 **매 프레임(`yield return null`) 실행되는 루프**로 바꾸고, 그 안에서 스프라이트
+교체는 누적 타이머(`frameTimer`)가 `1/WalkFrameFps`를 넘을 때만 낮은 빈도(5fps)로 하되, `Body`의
+`localPosition.y`에는 `Mathf.Abs(Sin(...))` 기반 통통 튐(`WalkBobAmplitude=0.06`,
+`WalkBobPeriod=0.28초`)을 **매 프레임 없이 끊김 없이** 얹는다. Idle의 숨쉬기(`Sin` 그대로, 위아래로
+고르게 오감)와 의도적으로 다른 파형(`Abs(Sin)`, 0 이상만 - "발이 땅을 딛고 튀어오르는" 느낌)을 써서
+두 상태가 구분되게 했다. 스프라이트 교체는 이제 "보조 디테일"일 뿐이고 체감 부드러움은 전부 이
+연속 보간이 만든다 - fps나 프레임 개수와 무관하게 항상 매끈하다.
+
+**검증**: `Time.timeScale=0.01`(100배 느리게)로 이동을 트리거한 뒤 짧은 간격으로 두 번 샘플링 -
+`Body.localPosition.y`가 `0.060`→`0.005`로 계속 변하고(통통 튐 진행 중), 루트 위치도 계속
+전진하고, 스프라이트도 `_00`→`_01`로 넘어가는 것을 동시에 확인(위치·통통 튐·스프라이트 3가지가
+전부 동시에, 별개의 리듬으로 진행). Console Error/Warning 0. 씬 변경 없음.
+
+**수정한 파일**: `HudPresenter.cs`(`GameOverEvent`/`OnObjectiveCompletedPending`/
+`OnStageCompletedPending` 핸들러를 `WaitForPlaybackThen()` 코루틴으로 감쌈, 해당 메서드 신규),
+`NpcActorView.cs`(`WalkFrameFps` 8→5, `WalkBobAmplitude`/`WalkBobPeriod` 신규 상수,
+`WalkCycleRoutine`을 매 프레임 실행 루프로 재작성 + `ApplyWalkFrame()` 헬퍼 분리).
+
+### 3-59. "도착 후에도 걷기 애니메이션이 계속 나옴" — walkCycleRoutine 고아 코루틴 버그 발견 및 수정 (2026-08-04, 사용자가 실제 스크린샷 5장 + 실시간 플레이로 재현)
+
+사용자가 스크린샷 5장을 순서대로 보내며 재현 시도 → 확인 결과 그 스크린샷들 자체는 **다른 원인**
+(장소 정보 패널이 화면 고정 위치에 뜨는데 마침 "경비 초소"의 화면 좌표와 겹쳐서, 그 장소의
+NPC가 카드 없이 "떠 있는" 것처럼 보인 것 - 애니메이션과 무관한 UI 레이어링 이슈, 별도로 사용자에게
+보고함)였다. 하지만 사용자가 "그 문제 아니고 지금 실제로 플레이모드 돌리는 중인데 도착 후에도
+걷기 애니메이션이 계속 나온다"고 재차 확인 → 같은 Unity 세션에 살아있던 Play Mode를 직접 조회해
+**진짜 버그를 확인**했다: NPC 5명 전원이 전혀 움직이지 않는 상태(연속 두 번 샘플링해도
+`rootPos` 완전히 동일)인데도 `body.sprite`가 걷기 프레임(`_Walk_04`)에, `body.localScale`도
+걷기 보정 배율(5.2배 등)에 **멈춰 있었다** - 진짜로 idle로 복귀하지 못하고 있었다.
+
+**원인**: `AnimateTo()`가 이전 `moveRoutine`을 `StopCoroutine`으로 끊을 때, 그 `moveRoutine`
+안에서 `StartWalkCycle()`이 이미 시작해 둔 **`walkCycleRoutine`은 별도의 코루틴이라 같이 끊기지
+않는다.** `StopCoroutine`은 코루틴을 그 자리에서 즉시 중단시킬 뿐 남은 코드(`StopWalkCycle()`
+호출 포함)를 실행하지 않으므로, 이전 이동이 끝나기 전에(1초 이내에) 같은 NPC가 다시
+이동 명령을 받으면 그 이전 `walkCycleRoutine`은 **아무도 멈추지 않는 고아 코루틴**이 되어
+`while(true)` 루프를 영원히 돈다. 이 고아 루틴은 매 프레임 `body.sprite`/`body.transform.
+localPosition`을 계속 걷기 상태로 덮어써서, 나중에 진짜 이동이 끝나 `StopWalkCycle()`(idle 복귀)가
+정상 실행돼도 다음 프레임에 고아 루틴이 다시 걷기 상태로 되돌려버린다 - 그래서 겉보기엔 "이동이
+끝나도 걷기 애니메이션이 영원히 계속되는" 것처럼 보인다. `MoveDuration`을 3-57에서 0.35초→1.0초로
+늘리면서, 짧은 시간 안에 같은 NPC가 재이동 명령을 받아 이 경합 조건에 걸릴 확률이 실질적으로
+높아졌다(이전엔 창이 0.35초라 드물게만 겹쳤을 것).
+
+**해결**: `StartWalkCycle()`이 새 걷기를 시작하기 **직전에** 기존 `walkCycleRoutine`을 먼저
+확실히 끊도록 방어 코드를 추가했다(`StopWalkCycleCoroutineOnly()` 신규 헬퍼, `StopWalkCycle()`도
+이 헬퍼를 공유하도록 리팩터링). 이제 `StartWalkCycle()`이 항상 "이전 걷기 코루틴이 있으면 먼저
+정리하고 새로 시작"하는 게 보장되므로, `AnimateTo()`가 몇 번을 연달아 끊겨도 고아가 남지 않는다.
+
+**검증**: 깨끗한 재시작 후 5명 전원 idle 상태(스케일 1.0, idle 사진) 확인. 같은 NPC를 **의도적으로**
+1초 미만 간격으로 연속 이동시켜(고아 발생 조건 그대로 재현) 최종 이동이 끝난 뒤 idle로 정확히
+복귀하는지 확인 - 성공(스케일 1.0, idle 사진, idle 숨쉬기 정상 작동). 같은 NPC를 5개 장소로
+빠르게 연쇄 이동(4번 연속 끊김)시키는 스트레스 테스트도 통과 - 최종적으로 idle 상태 깨끗하게
+복귀. Console Error/Warning 0. 씬 변경 없음(스크립트만 수정).
+
+**수정한 파일**: `NpcActorView.cs`(`StopWalkCycleCoroutineOnly()` 신규, `StartWalkCycle()`이
+새 코루틴 시작 전 기존 것을 먼저 정리하도록 수정, `StopWalkCycle()`을 새 헬퍼 공유하도록 리팩터링).
+
 ---
 
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)

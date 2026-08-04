@@ -185,7 +185,7 @@ namespace Belief.Presentation.HUD
             // 미션 자체가 교체됐다는 직접 신호 - ObjectivesChanged/TurnStartedEvent 경로와 별개로
             // MissionSystem.LoadMission이 발행하는 즉시 미션 패널을 완전히 재구성한다.
             bus.Subscribe<MissionChangedEvent>(_ => RefreshMission());
-            bus.Subscribe<GameOverEvent>(e => { if (e.Won) ShowFinalVictory(); else ShowMissionFailedPopup(); });
+            bus.Subscribe<GameOverEvent>(e => StartCoroutine(WaitForPlaybackThen(() => { if (e.Won) ShowFinalVictory(); else ShowMissionFailedPopup(); })));
             installer.Log.OnLogAdded += AppendLog;
             bus.Subscribe<NpcSpokeEvent>(OnLogNpcSpoke);
             bus.Subscribe<CardJudgedEvent>(OnLogCardJudged);
@@ -241,16 +241,28 @@ namespace Belief.Presentation.HUD
         /// <summary>목표 하나가 완료됐지만 아직 확인 대기 중일 때(구역의 마지막 목표는 아님) 호출된다 -
         /// "MISSION COMPLETE" 팝업을 띄우고 [다음] 클릭 시에만 ProgressionController에 실제 전환을 맡긴다.</summary>
         void OnObjectiveCompletedPending(MissionData completed) =>
-            ShowGatedPopup("MISSION COMPLETE", AccentColor, completed.displayTitle, "다음",
-                () => ProgressionController.Instance?.ConfirmMissionComplete());
+            StartCoroutine(WaitForPlaybackThen(() =>
+                ShowGatedPopup("MISSION COMPLETE", AccentColor, completed.displayTitle, "다음",
+                    () => ProgressionController.Instance?.ConfirmMissionComplete())));
 
         /// <summary>구역의 마지막 목표가 완료됐지만 아직 확인 대기 중일 때 호출된다 - "ZONE COMPLETE" 팝업을
         /// 띄우고 [다음 구역] 클릭 시에만 ProgressionController에 다음 씬 로드를 맡긴다.</summary>
         void OnStageCompletedPending()
         {
             var pc = ProgressionController.Instance;
-            ShowGatedPopup("ZONE COMPLETE", AccentColor, pc != null ? pc.CurrentStageDisplayName : "", "다음 구역",
-                () => pc?.ConfirmZoneComplete());
+            StartCoroutine(WaitForPlaybackThen(() =>
+                ShowGatedPopup("ZONE COMPLETE", AccentColor, pc != null ? pc.CurrentStageDisplayName : "", "다음 구역",
+                    () => pc?.ConfirmZoneComplete())));
+        }
+
+        /// <summary>NPC 이동/대사 같은 월드 연출이 재생 중일 때 결과·완료 팝업이 그 위로 먼저 떠버리는
+        /// 문제(사용자 리포트: "이동이 끝나기 전에 결과가 나옴")를 막는다 - PlaybackDirector에 등록된
+        /// 연출이 전부 끝날 때까지 한 프레임씩 기다린 뒤에야 실제 팝업을 띄운다.</summary>
+        IEnumerator WaitForPlaybackThen(Action show)
+        {
+            while (PlaybackDirector.Instance != null && PlaybackDirector.Instance.IsPlaying)
+                yield return null;
+            show();
         }
 
         /// <summary>작전 결과 화면(section 13) - 실패는 미션마다(턴 소진 시) 반복해서 뜬다(재시작
