@@ -2886,6 +2886,182 @@ Console Error/Warning 0.
 
 ---
 
+### 3-80. 작전 결과 화면을 전용 성공/실패 아트로 교체 + 데이터 연결 (2026-08-05, 사용자 지시 — "성공 실패 UI 만든걸로 교체해줘 데이터 연결도 해주고")
+
+기존 `ResultScreen`은 스프라이트 없는 1050×690 회색 패널 + 초록 버튼(#4CD98C)에 텍스트가 전부
+크기 0인 placeholder였다. `Assets/Belief/UI/Result/`의 실제 아트로 통째로 교체했다.
+
+**아트와 배치 기준**: `작전 성공UI.png` / `작전 실패 UI.png` 둘 다 1607×1057. **원본 크기 그대로
+캔버스(1920×1080) 정중앙**에 놓았고, 그래서 모든 요소 좌표는
+`캔버스좌표 = (아트픽셀x − 803.5, 528.5 − 아트픽셀y)` 한 식으로 변환된다. 아트 안의 각 자리는
+**어두운 외곽선만 남긴 뒤 연결 요소(connected component)로 분리**해 실측했다(단순 휘도 밴드로는
+종이 질감 때문에 리포트 카드와 폴더가 구분되지 않았다):
+
+| 자리 | 성공 아트 픽셀 | 실패 아트 픽셀 |
+|---|---|---|
+| 리포트 카드 안쪽 | x 354~1371, y 336~772 | x 157~1173, y 352~789 |
+| 고리 태그 | x 1044~1254, y 558~664 | x 1265~1475, y 199~305 |
+| Turn 카드 | x 905~1145, y 700~855 | x 1289~1475, y 340~495 |
+| 진행 버튼 | NEXT x 1270~1480, y 620~860 | RETRY x 54~260, y 620~846 |
+
+**성공/실패는 구성이 좌우로 뒤집힌다**(리포트가 오른쪽↔왼쪽, 태그가 중앙우측↔우상단, 진행
+버튼이 우하단↔좌하단). 하이어라키를 두 벌로 만들면 텍스트 배선도 두 벌이 되므로, **같은 텍스트
+오브젝트를 결과에 따라 옮겨 쓰는** 방식으로 갔다 — 새 컴포넌트 `ResultScreenLayout`이 요소별로
+성공용·실패용 좌표 한 쌍과 숨김 플래그를 들고 `Apply(won)` 한 번에 전환한다.
+
+**데이터 연결** (전부 진행 중인 미션/구역 데이터에서 직접 읽는다 — 화면 전용 문구를 새로 만들지 않았다):
+
+| 자리 | 값 |
+|---|---|
+| 제목 (SeoulNamsanEB 40, 자동축소 26~40) | `MissionData.displayTitle` |
+| 설명 (SUIT Light 32, 자동축소 20~32) | 성공: `MissionData.objectiveText` / 실패: "제한 턴 안에 목표를 달성하지 못했다." |
+| NO. 00n (Typewriter 32) | 이 구역에서 이 미션의 순번. **실패는 그 자리가 태그로 차 있어 숨김** |
+| STAGE n (Typewriter 26) | `StageData.stageNumber` |
+| 구역명 (SUIT Bold, 자동축소 13~32) | `StageData.regionName` — 태그 폭이 160뿐이라 긴 이름은 줄어든다 |
+| Turn 값 (Typewriter 60) | 사용한 턴. "사용한 턴:"과 "Turn"은 아트에 인쇄돼 있어 **숫자만** 넣는다 |
+
+**진행 버튼**: NEXT/RETRY 문구가 아트에 인쇄돼 있으므로 라벨 텍스트를 두지 않고 그 자리에
+**투명한(알파 0) 클릭 영역만** 겹쳤다. 그래서 `HudView.resultPrimaryButtonLabel`은 비워 둔다.
+보조("메인 화면")만 라벨을 쓰며 실패에서만 나온다.
+
+**흐름 변경**: 예전엔 미션 성공/구역 완료가 단색 `ShowGatedPopup("MISSION COMPLETE"/"ZONE COMPLETE")`
+오버레이였다. 전용 성공 아트가 생겼으므로 **미션 성공·구역 완료·최종 승리 전부 이 성공 리포트로**
+통일했고, NEXT가 각각 `ConfirmMissionComplete` / `ConfirmZoneComplete` / 메인 화면으로 이어진다.
+실패는 RETRY = `RestartCurrentMission`.
+
+> ⚠️ **`preferredWidth`는 자동 축소(auto-sizing)를 반영하지 않는다.** 자동축소가 켜진 텍스트는
+> `preferredWidth`가 여전히 `fontSizeMax` 기준으로 나와서, 실제로는 들어가는데도 "넘침"으로
+> 잘못 잡힌다(설명·구역명 4건이 그렇게 오탐이었다). 실제 렌더 폭은 3-79의 교훈대로
+> **`characterInfo`의 글리프 bbox**로 재야 한다.
+
+**검증**(Play Mode, Zone1, `GameOverEvent` 실제 발행): 성공/실패 두 레이아웃 모두 아트·사진
+스프라이트가 각각 맞게 교체되고, 제목·설명·NO·STAGE·구역명·턴 전부 **그려진 글리프 수 = 글자 수,
+아트 영역 밖 글리프 0개**. 4개 구역의 미션 제목 9개·목표문 9개·구역명 4개 + 실패 문구까지
+**25개 문자열 전부 리포트 카드/태그 폭 안에 들어감**(글리프 bbox 실측). 진행 버튼은 NEXT
+`x 466~676 / y −331~−91`, RETRY `x −751~−541 / y −324~−84`로 아트를 완전히 덮고, 실제
+`EventSystem.RaycastAll`로 NEXT/RETRY/보조 버튼이 각각 최상단에 잡히는 것 확인. 결과 화면 밖을
+눌러도 `ResultScreen` 배경이 받아 뒤 HUD로 클릭이 새지 않는다. Console Error/Warning 0. 씬 무수정.
+
+> 참고: 테스트 중 RETRY 클릭이 `00_Background`에 먹힌 적이 있는데, 이는 브리핑 화면을 닫지 않은
+> 채 결과 이벤트를 강제로 쏴서 생긴 것이다(실제 플레이에선 "작전 실행"으로 닫힌 뒤 결과가 뜬다).
+> 브리핑을 끄고 재확인해 정상.
+
+**수정한 파일**: `ResultScreenLayout.cs`(신규), `HudView.cs`(`resultLayout`/`resultMissionNoText`/
+`resultStageLabelText` 추가), `HudPresenter.cs`(결과 화면 데이터 연결 재작성, 미션 성공·구역 완료
+라우팅 변경, `MissionNumber` 추가), `PlayHudCanvas_New.prefab`(ResultScreen 전면 재구성).
+
+---
+
+### 3-81. 구역 마지막 미션을 깼을 때 리포트 내용이 비던 문제 + 사진 프레임 제거 (2026-08-05, 사용자 스크린샷)
+
+**증상**: 스테이지1의 **2번째** 미션을 클리어하면 성공 리포트의 제목·설명이 빈 채로 뜨고
+"NO. 001"로 나왔다(1번째 미션은 정상).
+
+**원인**: `ProgressionController.CurrentObjective()`는 "아직 완료 안 된 첫 미션"을 돌려주므로,
+구역의 **마지막** 미션이 완료된 시점엔 **null**이다. 3-80에서 `OnStageCompletedPending`이
+`pc.CurrentObjective()`를 읽도록 짜 놓은 게 그대로 null이 됐다(1번째 미션은 다음 미션이 남아 있어
+`ObjectiveCompletedPendingConfirm`이 완료된 미션을 인자로 주므로 문제가 없었다). `MissionNumber`도
+mission이 null이라 기본값 1을 돌려줘 "NO. 001"이 됐다.
+
+**수정**:
+1. `StageCompletedPendingConfirm`의 시그니처를 `Action` → `Action<MissionData>`로 바꿔 **방금 완료된
+   미션(`newlyCompleted`)을 함께 넘긴다**. 이 지점은 `newlyCompleted == null`이면 이미 앞에서
+   return하는 코드 흐름이라 항상 실제 미션이 들어온다.
+2. 최종 승리(`GameOverEvent(true)`)와 턴 소진도 같은 이유로 null이 될 수 있어, HudPresenter가
+   `RefreshMission()`에서 마지막으로 본 미션을 `lastKnownObjective`에 캐시해 두고
+   `CurrentOrLastObjective()`로 폴백한다.
+
+**함께 처리 — 사진 프레임 제거**(사용자 지시 "왼쪽에 클립+흰색인 프레임은 없애줘"):
+`PhotoFrame` 오브젝트와 좌표표 항목을 지우고 `HudView.resultPhotoFrameImg` 배선을 비웠다.
+`PlayHudSkin`의 `successPhotoFrame`/`failurePhotoFrame` 자산 자체는 남겨 뒀고, 대입부는 null 가드가
+있어 그대로 안전하다.
+
+**검증**(Play Mode, Zone1): 이 구역 미션을 전부 완료 기록에 넣어 `CurrentObjective()`가 null인
+상태를 만든 뒤 성공 리포트를 띄워, 제목·설명·NO·STAGE·구역명·턴이 **모두 채워지는 것** 확인
+(폴백 경로). 마지막 미션 경로는 이벤트 시그니처가 컴파일 단계에서 완료 미션 전달을 강제한다.
+결과 화면 자식은 `Panel/Title/Desc/MissionNo/StageLabel/StageTag/Turns/PrimaryButton/SecondaryButton`
+9개로 `PhotoFrame`이 사라졌고 배선도 비었다. Console Error/Warning 0. 씬 무수정.
+
+**수정한 파일**: `ProgressionController.cs`(이벤트 시그니처), `HudPresenter.cs`(`lastKnownObjective`
+캐시 + 폴백), `PlayHudCanvas_New.prefab`(PhotoFrame 제거).
+
+---
+
+### 3-82. 정보 전달 버튼을 지도 위 "뒷골목" 접선 지점 태그로 교체 (2026-08-05, 사용자 지시 + 시안)
+
+사용자 지시: "정보 전달 버튼을 새로운 UI로 바꿀건데 뒷골목 장소이미지에 태그 붙여서 만들거야 /
+태그 문구는 지금은 '전달' / 뒷골목은 지도 왼쪽 하단쪽에". 하단 패널의 초록색 "정보 전달하기"
+버튼을 없애고, 지도 위 장소 카드 형태의 **접선 지점**으로 옮겼다.
+
+**핵심 설계 - 접선 지점은 게임 규칙상의 "장소"가 아니다.** `StageData.locations`에 넣으면 확산
+대상 후보, 장소 연결선, NPC 슬롯 계산에 전부 끼어들어 게임 규칙이 바뀐다. 그래서
+`StageData.contactPoint` / `contactPointPosition`을 새로 두고, `WorldPresenter`가 같은
+`LocationSiteView` 프리팹으로 카드 하나를 더 만들되 **`locationViews` 사전에는 넣지 않는다**.
+클릭도 `LocationClicked`가 아니라 전용 `ContactPointClicked`로 나가서 전달 확정으로 이어진다.
+
+**구성**
+- `LocationSiteView`에 `ContactTag`(`접선 UI.png`) 자식을 추가. 평소엔 꺼져 있고
+  `BindContactTag()`를 받은 카드에서만 켜진다.
+  > 처음엔 그 위에 "전달" TextMesh를 얹었는데, **`접선 UI.png`(171×93)에 이미 클립·도장과
+  > "접선" 문구가 다 그려져 있었다** - 아트를 열어보지 않고 문구만 따로 얹은 게 잘못이었다.
+  > 라벨을 지우고 아트 그대로 쓴다(사용자 지시). 안내 문구도 "접선 태그를 눌러 전달한다"로 수정.
+- 태그 위치·크기·기울기는 **사용자가 준 시안 이미지를 실측해 비율로 옮겼다**(208px 기준:
+  흰 카드 폭 152 / 높이 155, 스탬프 폭 77 = **51%**, 중심은 카드 오른쪽 끝에서 34 = **22%** 안쪽,
+  위쪽 끝에서 4 = **3%** 바깥). 뒷골목 사진(`Loc_Alley` 186×301px = 월드 0.90×1.45) 안에서
+  흰 카드가 실제로 차지하는 범위를 알파·휘도로 다시 재서(픽셀 x 0~185 / 위에서 y 40~260 →
+  월드 x −0.450~0.445, y −0.472~0.587) 이 비율을 적용.
+  다만 **시안 비율(51%)로는 지도 축척에서 너무 작아 글자가 안 읽혔다**(화면상 53×35px, 장소
+  이름표 리본 51×31px과 비슷한 수준). 사용자 지시로 **카드 폭의 76%**로 키우고 커진 만큼
+  카드 상단에 절반쯤 걸치도록 중심을 내렸다 → **로컬 (0.302, 0.550), 폭 0.680, 회전 10°**
+  (회전 포함 화면상 **79×52px**). 대기 상태 알파도 0.55 → **0.75**로 올렸다.
+- 전달 가능 여부는 태그를 껐다 켜는 대신 **알파로만 구분**한다(0.55 → 1.0). 껐다 켜면 전달
+  지점 자체가 사라진 것처럼 보인다.
+- **장소 정보 패널(호버)은 연결하지 않는다** - 접선 지점은 게임 세계의 "장소"가 아니라 전달이라는
+  시스템 동작이 놓인 자리라, 확산 속도/NPC 밀도 같은 장소 정보를 띄우면 오히려 혼란스럽다
+  (사용자 지시). `CreateContactPoint`에서 `HoverEnter/HoverExit`만 구독하지 않으면 된다.
+
+> ⚠️ **태그는 카드 루트 콜라이더(1×1) 밖으로 튀어나온다.** 처음엔 콜라이더를 안 달아서 눈에
+> 보이는 태그를 눌러도 아무 일도 없었다(레이캐스트 0히트). 태그에 스프라이트 크기만큼
+> `BoxCollider2D`를 달아 해결 - 자식에는 핸들러가 없으므로 EventSystem이 부모
+> `LocationSiteView`의 `IPointerClickHandler`까지 이벤트를 올려보낸다(검증에서
+> `GetEventHandler<IPointerClickHandler>(태그) == LocationSiteView(Clone)` 확인).
+
+**배치**: Zone1 카메라 가시 범위가 `x −8.89~8.89 / y −4.40~5.60`이라 왼쪽 아래에
+`(−6.6, −1.9)`로 잡았다. 4개 스테이지 전부 같은 좌표를 쓰며, 각 스테이지의 기존 장소와
+겹치는지 검사해 **0건** 확인.
+
+**하위 호환**: `contactPoint`가 비어 있는 스테이지는 예전 하단 전달 버튼을 그대로 쓴다
+(`SetDeliverAffordance`가 분기). 튜토리얼의 전달 버튼 강조도 접선 지점이 있으면 태그를
+번쩍이도록(`FlashContactTag`) 바꿨다. 안내 문구도 "지도 왼쪽 아래 뒷골목의 [전달] 태그를 눌러
+전달한다."로 수정.
+
+**검증**(Play Mode, Zone1): 접선 지점이 `locationViews`/`installer.Locations` 양쪽에 **미포함**,
+일반 장소 4곳은 태그 없음(불일치 0건), 태그가 카메라 화면 안에 완전히 들어옴, 태그 자식 수 0
+(덧그렸던 "전달" 텍스트 제거 확인). 호버 시 **일반 장소('여관')는 장소 패널이 뜨고 접선
+지점('뒷골목')은 뜨지 않는 것**까지 확인.
+스탬프 최종 배치는 사진 `x −7.05~−6.15 / y −2.57~−1.11` 위에 `x −6.60~−6.11 / y −1.45~−1.12`로
+카드 우상단 모서리에 걸쳐 얹히고, 카드 폭 대비 55%(시안 51% + 회전분).
+전달 흐름은 ① 미선택 알파 0.55 → ② 카드만 선택 0.55 → ③ 대상까지 선택 1.00 → ④ 태그 중심
+레이캐스트가 `ContactTag`를 잡고 핸들러가 `LocationSiteView`로 해석됨 → ⑤ 클릭 시 phase가
+`AwaitingConfirm → Idle`, 전달 기록 0 → 1, 태그 알파가 0.55로 복귀. 하단 전달 버튼은 전 구간
+비활성 유지. Console Error/Warning 0. 씬 무수정.
+
+> 검증 중 "태그를 눌렀는데 전달이 안 된다"가 여러 번 나왔는데 **버그가 아니었다** - 장소를
+> 선택하면 `LocationSiteView.SelectionTweenRoutine`이 PlaybackDirector에 0.18초짜리 연출을
+> 등록하고, 그동안 `HudPresenter.IsInputLocked`가 입력을 막는다. 검증 스크립트가 장소 클릭과
+> 태그 클릭을 **같은 프레임 안에서** 연달아 실행해서 걸린 것이고, 사람 손으로는 발생하지 않는다.
+> 트윈이 끝난 뒤 클릭하면 정상 전달된다(위 ⑤).
+
+**남은 확인거리**: 접선 지점 좌표를 4개 스테이지에 동일하게 넣었으므로, 2~4 스테이지 지도에서
+그림과 어색하게 겹치면 `StageData.contactPointPosition`만 조정하면 된다.
+
+**수정한 파일**: `StageData.cs`(`contactPoint`/`contactPointPosition`), `LocationSiteView.cs`
+(접선 태그), `WorldPresenter.cs`(`CreateContactPoint`/`ContactPointClicked`), `HudPresenter.cs`
+(`SetDeliverAffordance`, 접선 클릭 구독), `TutorialController.cs`(강조 대상 전환),
+`LocationSiteView.prefab`(ContactTag+ContactLabel+콜라이더), `Stage_01~04.asset`(접선 지점 지정).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```

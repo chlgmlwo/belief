@@ -42,6 +42,14 @@ namespace Belief.Data
         [Header("World Layout - NPC 시작 위치 수동 배치 (지정 시 자동 슬롯 배치보다 우선)")]
         public NpcLayoutEntry[] npcLayout;
 
+        /// <summary>정보 전달(접선) 지점 - 지도 위에 일반 장소와 같은 사진 카드로 놓이되, 카드 위에
+        /// "전달" 태그가 붙어 그 자체가 전달 확정 버튼이 된다(예전 하단 패널의 "정보 전달하기" 버튼을
+        /// 대체). 게임 로직상의 장소 목록(locations)에는 넣지 않는다 - 확산 대상이나 NPC 배치처로
+        /// 잡히면 안 되고 순수 표시/입력 지점이기 때문이다. 비워 두면 예전 하단 버튼이 그대로 쓰인다.</summary>
+        [Header("Contact Point (정보 전달 지점)")]
+        public LocationData contactPoint;
+        public Vector2 contactPointPosition;
+
         [Header("Information")]
         public InformationCardPoolData cardPool;
 

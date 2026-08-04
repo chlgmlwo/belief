@@ -19,6 +19,12 @@ namespace Belief.Presentation.World
         [SerializeField] SpriteRenderer nameTag;
         [SerializeField] SpriteRenderer pin;
 
+        /// <summary>정보 전달(접선) 지점에만 붙는 태그 - 평소엔 꺼져 있고 WorldPresenter가 전달
+        /// 지점으로 만든 카드에서만 켠다. 이 태그가 붙은 카드를 클릭하면 전달 확정이 된다.
+        /// 문구("접선")는 아트(접선 UI.png)에 이미 인쇄돼 있으므로 별도 텍스트를 얹지 않는다.</summary>
+        [Header("Contact Tag (정보 전달 지점에만 표시)")]
+        [SerializeField] SpriteRenderer contactTag;
+
         public event Action<LocationData> Clicked;
         /// <summary>장소 정보 패널(LocationInfoPaper)을 여닫는 용도 - 커서가 이 장소 카드 위에
         /// 들어오면/나가면 발생한다(사용자 지시로 클릭 대신 호버 트리거로 변경).</summary>
@@ -98,6 +104,60 @@ namespace Belief.Presentation.World
                     : skin.locationTag5;
 
             FitLabelToNameTag(skin);
+        }
+
+        // ------------------------------------------------------------ 정보 전달(접선) 태그
+
+        /// <summary>전달 가능할 때의 태그 색과, 아직 대상이 정해지지 않아 눌러도 소용없을 때의 흐린 색.
+        /// 태그를 아예 껐다 켜면 "전달 지점이 사라졌다"처럼 보이므로 항상 두되 진하기만 바꾼다.</summary>
+        static readonly Color ContactReadyColor = Color.white;
+        static readonly Color ContactIdleColor = new Color(1f, 1f, 1f, 0.75f);
+        static readonly Color ContactFlashColor = new Color(1f, 0.92f, 0.55f);
+        const float ContactFlashDuration = 0.3f;
+
+        public bool IsContactPoint { get; private set; }
+
+        Coroutine contactFlashRoutine;
+
+        public void BindContactTag(Sprite sprite)
+        {
+            IsContactPoint = true;
+            if (contactTag != null)
+            {
+                contactTag.gameObject.SetActive(true);
+                if (sprite != null) contactTag.sprite = sprite;
+            }
+            SetContactReady(false);
+        }
+
+        public void SetContactReady(bool ready)
+        {
+            if (!IsContactPoint || contactTag == null) return;
+            contactTag.color = ready ? ContactReadyColor : ContactIdleColor;
+        }
+
+        /// <summary>튜토리얼이 "여기를 누르면 전달된다"를 알리려고 태그를 한 번 번쩍이게 한다 -
+        /// 예전엔 하단 패널의 전달 버튼(Image)을 깜빡였는데, 버튼이 이 태그로 옮겨왔다.</summary>
+        public void FlashContactTag()
+        {
+            if (!IsContactPoint || contactTag == null) return;
+            if (contactFlashRoutine != null) StopCoroutine(contactFlashRoutine);
+            contactFlashRoutine = StartCoroutine(ContactFlashRoutine());
+        }
+
+        IEnumerator ContactFlashRoutine()
+        {
+            Color baseColor = contactTag.color;
+            var flash = new Color(ContactFlashColor.r, ContactFlashColor.g, ContactFlashColor.b, baseColor.a);
+            float t = 0f;
+            while (t < ContactFlashDuration)
+            {
+                t += Time.deltaTime;
+                contactTag.color = Color.Lerp(flash, baseColor, t / ContactFlashDuration);
+                yield return null;
+            }
+            contactTag.color = baseColor;
+            contactFlashRoutine = null;
         }
 
         /// <summary>모든 장소가 이름 길이와 무관하게 완전히 동일한 폰트 크기를 쓰도록, 실제 이 장소의

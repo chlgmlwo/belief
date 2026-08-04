@@ -107,9 +107,19 @@ namespace Belief.Presentation.HUD
         [SerializeField] CanvasGroup resultCanvasGroup;
         [SerializeField] Image resultPanelImg;
         [SerializeField] Image resultPhotoFrameImg;
+
+        /// <summary>성공/실패 아트는 구성이 서로 뒤집혀 있어 같은 텍스트를 결과에 따라 옮겨 쓴다.
+        /// 실제 좌표는 ResultScreenLayout에 성공용·실패용 한 쌍씩 들어 있다.</summary>
+        [SerializeField] ResultScreenLayout resultLayout;
+
         [SerializeField] TMP_Text resultTitleText;
         [SerializeField] TMP_Text resultDescText;
+        /// <summary>리포트 상단 "NO. 001" - 이 구역 안에서 이 미션이 몇 번째인지.</summary>
+        [SerializeField] TMP_Text resultMissionNoText;
+        /// <summary>고리 태그 위 두 줄 - 위는 "STAGE n", 아래는 구역 이름(길면 자동 축소).</summary>
+        [SerializeField] TMP_Text resultStageLabelText;
         [SerializeField] TMP_Text resultStageTagText;
+        /// <summary>"사용한 턴:"과 "Turn"은 아트에 이미 인쇄돼 있으므로 숫자만 넣는다.</summary>
         [SerializeField] TMP_Text resultTurnsText;
         [SerializeField] GameObject resultPrimaryButtonGo;
         [SerializeField] GameObject resultSecondaryButtonGo;
@@ -200,8 +210,11 @@ namespace Belief.Presentation.HUD
         public CanvasGroup ResultCanvasGroup => resultCanvasGroup;
         public Image ResultPanelImg => resultPanelImg;
         public Image ResultPhotoFrameImg => resultPhotoFrameImg;
+        public ResultScreenLayout ResultLayout => resultLayout;
         public TMP_Text ResultTitleText => resultTitleText;
         public TMP_Text ResultDescText => resultDescText;
+        public TMP_Text ResultMissionNoText => resultMissionNoText;
+        public TMP_Text ResultStageLabelText => resultStageLabelText;
         public TMP_Text ResultStageTagText => resultStageTagText;
         public TMP_Text ResultTurnsText => resultTurnsText;
         public GameObject ResultPrimaryButtonGo => resultPrimaryButtonGo;

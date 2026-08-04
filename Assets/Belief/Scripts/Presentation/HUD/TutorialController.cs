@@ -200,11 +200,21 @@ namespace Belief.Presentation.HUD
         {
             while (true)
             {
-                var go = hud.DeliverButtonGo;
-                if (go != null && go.activeInHierarchy)
+                // 전달 확정 자리는 스테이지에 접선 지점이 있으면 지도 위 "전달" 태그로 옮겨간다 -
+                // 그쪽을 먼저 보고, 없을 때만 예전 하단 버튼을 깜빡인다.
+                var contact = hud.ContactPointView;
+                if (contact != null)
                 {
-                    var img = go.GetComponent<Image>();
-                    if (img != null) StartCoroutine(FlashImage(img, AccentColor));
+                    contact.FlashContactTag();
+                }
+                else
+                {
+                    var go = hud.DeliverButtonGo;
+                    if (go != null && go.activeInHierarchy)
+                    {
+                        var img = go.GetComponent<Image>();
+                        if (img != null) StartCoroutine(FlashImage(img, AccentColor));
+                    }
                 }
                 yield return new WaitForSeconds(PulseInterval);
             }

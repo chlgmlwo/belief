@@ -50,8 +50,11 @@ namespace Belief.Core
         public event Action<MissionData> ObjectiveCompletedPendingConfirm;
 
         /// <summary>구역의 마지막 목표가 완료되어 다음 구역으로 넘어갈 수 있지만 아직 확인 대기 중일 때
-        /// 발행된다. HUD는 "ZONE COMPLETE" 팝업을 띄우고 ConfirmZoneComplete 호출을 기다린다.</summary>
-        public event Action StageCompletedPendingConfirm;
+        /// 발행된다. HUD는 작전 성공 리포트를 띄우고 ConfirmZoneComplete 호출을 기다린다.
+        /// 인자는 방금 완료된 미션 - 이 시점엔 이미 전부 완료라 <see cref="CurrentObjective"/>가
+        /// null을 돌려주므로, 리포트에 쓸 미션을 여기서 함께 넘겨야 한다(넘기지 않으면 제목/설명이
+        /// 빈 채로 뜬다 - 실제로 그런 버그가 있었다).</summary>
+        public event Action<MissionData> StageCompletedPendingConfirm;
 
         GameInstaller currentInstaller;
         StageInfo currentStage;
@@ -244,7 +247,7 @@ namespace Belief.Core
                     // 다음 구역이 있다 - ZONE COMPLETE 팝업에서 [다음 구역] 확인을 기다린다.
                     awaitingConfirmation = true;
                     pendingNextStageIndex = nextIndex;
-                    StageCompletedPendingConfirm?.Invoke();
+                    StageCompletedPendingConfirm?.Invoke(newlyCompleted);
                 }
                 else
                 {

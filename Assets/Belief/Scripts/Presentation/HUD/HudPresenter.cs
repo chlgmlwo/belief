@@ -161,9 +161,15 @@ namespace Belief.Presentation.HUD
         CanvasGroup resultCanvasGroup;
         Image resultPanelImg;
         Image resultPhotoFrameImg;
-        TMP_Text resultTitleText, resultDescText, resultStageTagText, resultTurnsText;
+        ResultScreenLayout resultLayout;
+        /// <summary>마지막으로 HUD에 떠 있던 미션 - 구역이 전부 끝나면 CurrentObjective()가 null이 되므로
+        /// 결과 리포트가 참조할 미션을 여기서 유지한다.</summary>
+        MissionData lastKnownObjective;
+        TMP_Text resultTitleText, resultDescText, resultMissionNoText;
+        TMP_Text resultStageLabelText, resultStageTagText, resultTurnsText;
         GameObject resultPrimaryButtonGo, resultSecondaryButtonGo;
-        TMP_Text resultPrimaryButtonLabel, resultSecondaryButtonLabel;
+        /// <summary>진행 버튼(NEXT/RETRY)의 문구는 아트에 인쇄돼 있어 라벨이 없다 - 보조 버튼만 라벨을 쓴다.</summary>
+        TMP_Text resultSecondaryButtonLabel;
         Button resultPrimaryButton, resultSecondaryButton;
 
         GameObject feedbackGo;
@@ -177,8 +183,13 @@ namespace Belief.Presentation.HUD
         /// <summary>TutorialController가 카드 타일을 반복 Highlight하기 위해 읽는다.</summary>
         public IEnumerable<CardTileView> OwnedCardTiles => ownedTiles.Values;
 
-        /// <summary>TutorialController가 "정보원에게 전달" 버튼을 강조하기 위해 읽는다.</summary>
+        /// <summary>TutorialController가 "정보원에게 전달" 버튼을 강조하기 위해 읽는다 - 접선 지점이
+        /// 있는 스테이지에서는 이 버튼이 항상 꺼져 있으므로 아래 ContactPointView 쪽이 쓰인다.</summary>
         public GameObject DeliverButtonGo => deliverButtonGo;
+
+        /// <summary>TutorialController가 지도 위 "전달" 태그를 강조하기 위해 읽는다.</summary>
+        public Presentation.World.LocationSiteView ContactPointView =>
+            worldPresenter != null ? worldPresenter.ContactPointView : null;
 
         void Start()
         {
@@ -208,6 +219,8 @@ namespace Belief.Presentation.HUD
                 worldPresenter.NpcClicked += OnNpcClickedForProfile;
                 worldPresenter.LocationHoverEnter += OnLocationHoverEnter;
                 worldPresenter.LocationHoverExit += OnLocationHoverExit;
+                // 지도 위 접선 지점의 "전달" 태그가 예전 하단 전달 버튼을 대신한다.
+                worldPresenter.ContactPointClicked += OnDeliverClicked;
             }
 
             var pc = ProgressionController.Instance;
@@ -241,20 +254,21 @@ namespace Belief.Presentation.HUD
         }
 
         /// <summary>목표 하나가 완료됐지만 아직 확인 대기 중일 때(구역의 마지막 목표는 아님) 호출된다 -
-        /// "MISSION COMPLETE" 팝업을 띄우고 [다음] 클릭 시에만 ProgressionController에 실제 전환을 맡긴다.</summary>
+        /// 작전 성공 리포트를 띄우고 아트의 NEXT를 눌렀을 때만 ProgressionController에 실제 전환을 맡긴다.
+        /// (예전엔 단색 "MISSION COMPLETE" 오버레이를 썼으나, 전용 성공 아트가 들어오면서 교체했다.)</summary>
         void OnObjectiveCompletedPending(MissionData completed) =>
             StartCoroutine(WaitForPlaybackThen(() =>
-                ShowGatedPopup("MISSION COMPLETE", AccentColor, completed.displayTitle, "다음",
-                    () => ProgressionController.Instance?.ConfirmMissionComplete())));
+                ShowResultScreen(true, completed, () => ProgressionController.Instance?.ConfirmMissionComplete(),
+                    null, null)));
 
-        /// <summary>구역의 마지막 목표가 완료됐지만 아직 확인 대기 중일 때 호출된다 - "ZONE COMPLETE" 팝업을
-        /// 띄우고 [다음 구역] 클릭 시에만 ProgressionController에 다음 씬 로드를 맡긴다.</summary>
-        void OnStageCompletedPending()
+        /// <summary>구역의 마지막 목표가 완료됐지만 아직 확인 대기 중일 때 호출된다 - 같은 성공 리포트를
+        /// 띄우되 NEXT가 다음 구역 로드로 이어진다. 이 시점엔 남은 목표가 없어 CurrentObjective()가
+        /// null이므로, 방금 완료된 미션을 이벤트 인자로 받아 쓴다.</summary>
+        void OnStageCompletedPending(MissionData completed)
         {
             var pc = ProgressionController.Instance;
             StartCoroutine(WaitForPlaybackThen(() =>
-                ShowGatedPopup("ZONE COMPLETE", AccentColor, pc != null ? pc.CurrentStageDisplayName : "", "다음 구역",
-                    () => pc?.ConfirmZoneComplete())));
+                ShowResultScreen(true, completed ?? lastKnownObjective, () => pc?.ConfirmZoneComplete(), null, null)));
         }
 
         /// <summary>NPC 이동/대사 같은 월드 연출이 재생 중일 때 결과·완료 팝업이 그 위로 먼저 떠버리는
@@ -267,50 +281,69 @@ namespace Belief.Presentation.HUD
             show();
         }
 
-        /// <summary>작전 결과 화면(section 13) - 실패는 미션마다(턴 소진 시) 반복해서 뜬다(재시작
-        /// 가능), 승리는 GameOverEvent(true)가 게임 전체에서 정확히 한 번만 발행될 때만 뜬다.
-        /// MISSION COMPLETE/ZONE COMPLETE 같은 중간 전환 팝업은 이 화면을 쓰지 않는다 - 전용 아트
-        /// 자산이 없어 기존 Overlay(ShowGatedPopup)를 그대로 유지한다.</summary>
+        /// <summary>작전 결과 화면(section 13) - 미션 성공/구역 완료/최종 승리는 성공 리포트로,
+        /// 턴 소진은 실패 리포트로 뜬다. 진행(NEXT/RETRY)은 아트에 이미 인쇄돼 있어 라벨 텍스트를
+        /// 따로 넣지 않고 그 자리에 투명 버튼만 겹쳐 둔다.</summary>
         void ShowMissionFailedPopup()
         {
             var pc = ProgressionController.Instance;
-            string missionTitle = pc?.CurrentObjective()?.displayTitle ?? "";
-            string stageTag = pc != null ? pc.CurrentStageDisplayName : "";
-            int turnsUsed = Mathf.Min(installer.Turns.CurrentTurn, installer.Turns.MaxTurns);
-            ShowResultScreen(false, missionTitle, "턴을 모두 소진했습니다.", stageTag, turnsUsed,
-                "재시작", () => pc?.RestartCurrentMission(),
+            ShowResultScreen(false, CurrentOrLastObjective(pc), () => pc?.RestartCurrentMission(),
                 "메인 화면", GoToMainMenu);
         }
 
         void ShowFinalVictory()
         {
             var pc = ProgressionController.Instance;
-            string stageTag = pc != null ? pc.CurrentStageDisplayName : "";
-            int turnsUsed = Mathf.Min(installer.Turns.CurrentTurn, installer.Turns.MaxTurns);
-            ShowResultScreen(true, "임무 성공", "목표를 달성했습니다.", stageTag, turnsUsed,
-                "확인", GoToMainMenu, null, null);
+            ShowResultScreen(true, CurrentOrLastObjective(pc), GoToMainMenu, null, null);
         }
+
+        /// <summary>구역의 모든 목표가 끝난 뒤(최종 승리 등)에는 CurrentObjective()가 null이 되므로,
+        /// 마지막으로 화면에 떠 있던 미션을 대신 쓴다.</summary>
+        MissionData CurrentOrLastObjective(ProgressionController pc) =>
+            pc?.CurrentObjective() ?? lastKnownObjective;
 
         void GoToMainMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
 
-        void ShowResultScreen(bool won, string title, string desc, string stageTag, int turnsUsed,
-            string primaryLabel, Action onPrimary, string secondaryLabel, Action onSecondary)
+        /// <summary>리포트에 들어가는 값은 전부 지금 진행 중인 미션/구역 데이터에서 그대로 읽는다 -
+        /// 화면 전용 문구를 따로 만들지 않는다. 실패 설명만은 미션 목표문을 그대로 쓰면 "달성했다"로
+        /// 읽히므로 실패 사유를 쓴다.</summary>
+        void ShowResultScreen(bool won, MissionData mission, Action onPrimary,
+            string secondaryLabel, Action onSecondary)
         {
             resultScreenGo.SetActive(true);
             resultCanvasGroup.alpha = 0f;
+
+            if (resultLayout != null) resultLayout.Apply(won);
 
             if (resultPanelImg != null && skin != null)
                 resultPanelImg.sprite = won ? skin.successPanel : skin.failurePanel;
             if (resultPhotoFrameImg != null && skin != null)
                 resultPhotoFrameImg.sprite = won ? skin.successPhotoFrame : skin.failurePhotoFrame;
 
-            resultTitleText.text = title;
-            resultTitleText.color = won ? AccentColor : ErrorColor;
-            resultDescText.text = desc;
-            resultStageTagText.text = stageTag;
-            resultTurnsText.text = $"Turn {turnsUsed}";
+            var stage = installer != null ? installer.StageAsset : null;
+            var pc = ProgressionController.Instance;
 
-            resultPrimaryButtonLabel.text = primaryLabel;
+            if (resultTitleText != null)
+                resultTitleText.text = mission != null ? mission.displayTitle : "";
+            if (resultDescText != null)
+                resultDescText.text = won
+                    ? (mission != null ? mission.objectiveText : "")
+                    : "제한 턴 안에 목표를 달성하지 못했다.";
+            if (resultMissionNoText != null)
+                resultMissionNoText.text = $"NO. {MissionNumber(stage, mission):000}";
+
+            int stageNumber = stage != null && stage.stageNumber > 0
+                ? stage.stageNumber
+                : (pc != null ? pc.Progress.CurrentStageIndex + 1 : 1);
+            if (resultStageLabelText != null) resultStageLabelText.text = $"STAGE {stageNumber}";
+            if (resultStageTagText != null)
+                resultStageTagText.text = stage != null && !string.IsNullOrEmpty(stage.regionName)
+                    ? stage.regionName
+                    : (pc != null ? pc.CurrentStageDisplayName : "");
+
+            if (resultTurnsText != null)
+                resultTurnsText.text = Mathf.Min(installer.Turns.CurrentTurn, installer.Turns.MaxTurns).ToString();
+
             resultPrimaryButton.interactable = true;
             resultPrimaryButton.onClick.RemoveAllListeners();
             resultPrimaryButton.onClick.AddListener(() => StartCoroutine(ConfirmResultRoutine(onPrimary)));
@@ -326,6 +359,15 @@ namespace Belief.Presentation.HUD
             }
 
             StartCoroutine(FadeCanvasGroupRoutine(resultCanvasGroup, 0f, 1f, PopupFadeDuration));
+        }
+
+        /// <summary>이 구역 안에서 이 미션이 몇 번째인지(1부터). 찾지 못하면 1로 둔다.</summary>
+        static int MissionNumber(StageData stage, MissionData mission)
+        {
+            if (stage?.missions == null || mission == null) return 1;
+            for (int i = 0; i < stage.missions.Length; i++)
+                if (stage.missions[i] == mission) return i + 1;
+            return 1;
         }
 
         IEnumerator ConfirmResultRoutine(Action onConfirm)
@@ -570,6 +612,7 @@ namespace Belief.Presentation.HUD
         {
             var pc = ProgressionController.Instance;
             var objective = pc != null ? pc.CurrentObjective() : null;
+            if (objective != null) lastKnownObjective = objective;
 
             ClearMissionConditionRows();
 
@@ -1116,22 +1159,38 @@ namespace Belief.Presentation.HUD
                     instructionText.text = card.cardType == InfoCardType.Spread
                         ? "정보를 전달할 장소를 선택하세요."
                         : "정보를 전달할 대상을 선택하세요.";
-                    deliverButtonGo.SetActive(false);
+                    SetDeliverAffordance(false, false);
                     break;
 
                 case TargetingPhase.AwaitingConfirm:
                     instructionText.text = card.cardType == InfoCardType.Spread
-                        ? "정보를 전달한다. (다른 장소를 클릭하면 대상을 바꿀 수 있습니다.)"
-                        : "정보를 전달한다. (다른 사람을 클릭하면 대상을 바꿀 수 있습니다.)";
-                    deliverButtonGo.SetActive(true);
-                    if (deliverButton != null) deliverButton.interactable = canDeliver;
+                        ? "지도 왼쪽 아래 뒷골목의 접선 태그를 눌러 전달한다. (다른 장소를 클릭하면 대상을 바꿀 수 있습니다.)"
+                        : "지도 왼쪽 아래 뒷골목의 접선 태그를 눌러 전달한다. (다른 사람을 클릭하면 대상을 바꿀 수 있습니다.)";
+                    SetDeliverAffordance(true, canDeliver);
                     break;
 
                 default:
                     instructionText.text = "";
-                    deliverButtonGo.SetActive(false);
+                    SetDeliverAffordance(false, false);
                     break;
             }
+        }
+
+        /// <summary>전달 확정 입력 자리를 켠다 - 접선 지점(지도 위 "전달" 태그)이 있는 스테이지에서는
+        /// 그 태그가 버튼 역할을 하므로 하단 패널 버튼은 계속 꺼 둔다. 접선 지점이 없는 스테이지는
+        /// 예전 하단 버튼을 그대로 쓴다(하위 호환).</summary>
+        void SetDeliverAffordance(bool visible, bool canDeliver)
+        {
+            var contact = worldPresenter != null ? worldPresenter.ContactPointView : null;
+            if (contact != null)
+            {
+                contact.SetContactReady(visible && canDeliver);
+                if (deliverButtonGo != null) deliverButtonGo.SetActive(false);
+                return;
+            }
+
+            if (deliverButtonGo != null) deliverButtonGo.SetActive(visible);
+            if (deliverButton != null) deliverButton.interactable = canDeliver;
         }
 
         void OnDeliverClicked()
@@ -1231,13 +1290,15 @@ namespace Belief.Presentation.HUD
             resultCanvasGroup = view.ResultCanvasGroup;
             resultPanelImg = view.ResultPanelImg;
             resultPhotoFrameImg = view.ResultPhotoFrameImg;
+            resultLayout = view.ResultLayout;
             resultTitleText = view.ResultTitleText;
             resultDescText = view.ResultDescText;
+            resultMissionNoText = view.ResultMissionNoText;
+            resultStageLabelText = view.ResultStageLabelText;
             resultStageTagText = view.ResultStageTagText;
             resultTurnsText = view.ResultTurnsText;
             resultPrimaryButtonGo = view.ResultPrimaryButtonGo;
             resultSecondaryButtonGo = view.ResultSecondaryButtonGo;
-            resultPrimaryButtonLabel = view.ResultPrimaryButtonLabel;
             resultSecondaryButtonLabel = view.ResultSecondaryButtonLabel;
             resultPrimaryButton = view.ResultPrimaryButton;
             resultSecondaryButton = view.ResultSecondaryButton;

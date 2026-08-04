@@ -28,10 +28,17 @@ namespace Belief.Presentation.World
         public IReadOnlyDictionary<LocationData, LocationSiteView> LocationViews => locationViews;
         public IReadOnlyDictionary<NpcData, NpcActorView> NpcViews => npcViews;
 
+        /// <summary>지도 위 접선 태그가 붙은 전달 지점 카드 - 없으면 null(그 경우 예전 하단
+        /// 전달 버튼이 그대로 쓰인다).</summary>
+        LocationSiteView contactPointView;
+        public LocationSiteView ContactPointView => contactPointView;
+
         public event Action<LocationData> LocationClicked;
         public event Action<LocationData> LocationHoverEnter;
         public event Action<LocationData> LocationHoverExit;
         public event Action<NpcData> NpcClicked;
+        /// <summary>접선 지점 카드를 눌렀을 때 - 장소 선택이 아니라 "정보 전달 확정"이다.</summary>
+        public event Action ContactPointClicked;
 
         // 2026-08-04: NPC를 카드 "아래"에 격자로 쌓던 방식(3-52) 대신, 장소 이미지 좌/우에 바로
         // 붙이는 방식으로 변경(사용자 지시) - 1번째는 오른쪽, 2번째는 왼쪽, 3번째부터는 각 방향에서
@@ -79,6 +86,7 @@ namespace Belief.Presentation.World
                 locationViews[kvp.Key] = view;
             }
 
+            CreateContactPoint();
             DrawLocationConnections();
 
             foreach (var kvp in installer.Npcs)
@@ -103,6 +111,26 @@ namespace Belief.Presentation.World
             installer.EventBus.Subscribe<NpcSpokeEvent>(OnNpcSpoke);
             installer.EventBus.Subscribe<InfoSpreadEvent>(OnInfoSpread);
             installer.EventBus.Subscribe<InfoDeliveredEvent>(OnInfoDelivered);
+        }
+
+        /// <summary>정보 전달 지점(StageData.contactPoint)을 일반 장소와 같은 사진 카드로 놓되,
+        /// **locationViews에는 넣지 않는다** - 넣으면 확산 대상 후보/연결선/NPC 슬롯 계산에 끼어들어
+        /// 게임 규칙이 바뀐다. 이 카드는 순수 표시 + 전달 확정 입력만 담당한다. 클릭은 장소 선택이
+        /// 아니라 ContactPointClicked로 나간다.
+        ///
+        /// 장소 정보 패널(호버)도 연결하지 않는다 - 여기는 게임 세계의 "장소"가 아니라 전달이라는
+        /// 시스템 동작이 놓인 자리라서, 확산 속도/NPC 밀도 같은 장소 정보를 띄우면 오히려 혼란스럽다
+        /// (사용자 지시).</summary>
+        void CreateContactPoint()
+        {
+            var stage = installer.StageAsset;
+            if (stage == null || stage.contactPoint == null) return;
+
+            var view = Instantiate(locationSitePrefab, locationRoot);
+            view.Bind(stage.contactPoint, stage.contactPointPosition, skin);
+            view.BindContactTag(skin != null ? skin.blockedStamp : null);
+            view.Clicked += _ => ContactPointClicked?.Invoke();
+            contactPointView = view;
         }
 
         /// <summary>StageData.cityBackground가 있으면 Main Camera의 현재 뷰(orthographicSize·aspect)를
