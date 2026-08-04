@@ -16,6 +16,14 @@ namespace Belief.Data
         [TextArea(1, 3)] public string gameplayRoleSummary;
         [TextArea(1, 2)] public string[] aiNotes;
 
+        /// <summary>조사 파일(Profile 패널) 하단 History 칸에 보여줄 인물 배경 서사 -
+        /// NPC 기획서 "2. 백스토리·가치관" 절을 History 칸 크기(280×125)에 맞게 간추린 문단이다.
+        /// 예전에는 이 칸을 gameplayRoleSummary + aiNotes를 빈 줄로 이어 붙여 채웠는데,
+        /// (1) gameplayRoleSummary는 "1스테이지 클리어 목표 대상" 같은 개발용 메모라 플레이어에게
+        /// 보일 내용이 아니고 (2) 빈 줄 문단 구분만으로 칸 높이의 절반 이상을 잡아먹어 넘쳤다.
+        /// 시안(`UI/Guides/[배치가이드] ... 프로필.jpg`)의 History도 줄바꿈 없는 문단형 산문이다.</summary>
+        [TextArea(3, 8)] public string backstory;
+
         /// <summary>NPC 기획서 "1.2 특성 태그" 표를 그대로 옮긴 값 - # 포함 원문 그대로 저장한다.
         /// BeliefSystem 판정 로직은 건드리지 않고 조사 파일(Profile 패널) 표시 전용이다.</summary>
         [Header("특성 태그 (조사 파일 '성격 태그' 표시용, Frozen 원문)")]

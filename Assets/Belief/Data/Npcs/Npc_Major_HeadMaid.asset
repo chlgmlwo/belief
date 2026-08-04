@@ -20,6 +20,17 @@ MonoBehaviour:
   affiliation: 
   gameplayRoleSummary: 
   aiNotes: []
+  backstory: "\uC5B4\uB9B4 \uB54C\uBD80\uD130 \uC800\uD0DD\uC5D0\uC11C \uC77C\uD574\uC628
+    \uC624\uB798\uB41C \uC2DC\uC885\uC774\uB2E4. \uC601\uC8FC\uBD80\uC778\uC774 \uC2DC\uC9D1\uC628
+    \uC774\uB798\uB85C \uACC1\uC5D0\uC11C \uBAA8\uC154\uC654\uACE0, \uC774\uC81C\uB294
+    \uC800\uD0DD \uC548\uC0B4\uB9BC\uACFC \uD558\uC778 \uAD00\uB9AC\uB97C \uCD1D\uAD04\uD558\uB294
+    \uC2E4\uC9C8\uC801 \uCC45\uC784\uC790\uB2E4. \uC601\uC8FC\uBD80\uC778\uC5D0 \uB300\uD55C
+    \uCDA9\uC131\uC740 \uC9C1\uBB34\uC801 \uC758\uBB34\uB97C \uB118\uC5B4\uC120 \uAC1C\uC778\uC801
+    \uC560\uCC29\uC5D0 \uAC00\uAE5D\uB2E4. \uB9C8\uB2D8\uC758 \uD3C9\uD310\uC5D0
+    \uB2FF\uB294 \uC77C\uC774\uB77C\uBA74 \uC791\uC740 \uC18C\uBB38\uB3C4 \uD5C8\uD22C\uB8E8
+    \uB118\uAE30\uC9C0 \uC54A\uC73C\uBA70, \uC2A4\uC2A4\uB85C \uD310\uB2E8\uD558\uAE30\uBCF4\uB2E4
+    \uC870\uC2EC\uC2A4\uB7FD\uAC8C \uD30C\uC545\uD55C \uB4A4 \uBCF4\uACE0\uD558\uB294
+    \uBC29\uC2DD\uC744 \uC120\uD638\uD55C\uB2E4."
   judgmentTendencyTag: "#\uC21C\uC751\uD615"
   priorityTag: "#\uBA85\uB839\uCDA9\uC2E4"
   sensitiveInfoTag: "#\uC18C\uBB38\uBBFC\uAC10"
@@ -49,13 +60,17 @@ MonoBehaviour:
   - other: {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}
     type: {fileID: 0}
     strength: 0.8
-    relationshipTypeLabel: 
-    relationshipDescription: 
+    relationshipTypeLabel: "\uC0C1\uAD00"
+    relationshipDescription: "\uACF5\uC190\uD558\uBA74\uC11C\uB3C4 \uBCF4\uD638\uC801\uC774\uBA70,
+      \uB9C8\uB2D8\uC5D0\uAC8C \uB2FF\uB294 \uC704\uD611\uC740 \uC790\uC2E0\uC758
+      \uC77C\uCC98\uB7FC \uB2E4\uB8EC\uB2E4."
   - other: {fileID: 11400000, guid: 6477404e365cb9f47b6edca2591b5846, type: 2}
     type: {fileID: 0}
     strength: 0.4
-    relationshipTypeLabel: 
-    relationshipDescription: 
+    relationshipTypeLabel: "\uBD80\uD558"
+    relationshipDescription: "\uC815\uC911\uD558\uC9C0\uB9CC \uAC00\uAE5D\uAC8C \uC9C0\uB3C4\uD558\uBA70,
+      \uBCF4\uACE0\uAC00 \uB298\uC5B4\uC9C0\uBA74 \uC5C4\uACA9\uD574\uC9C0\uB294
+      \uD3B8\uC774\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}

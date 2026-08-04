@@ -20,6 +20,17 @@ MonoBehaviour:
   affiliation: 
   gameplayRoleSummary: 
   aiNotes: []
+  backstory: "\uAD6D\uACBD \uC804\uD22C\uC5D0\uC11C \uC794\uBF08\uAC00 \uAD75\uC740
+    \uB178\uAE30\uC0AC\uB2E8\uC7A5\uC774\uB2E4. \uC624\uB798 \uBCF5\uBB34\uD558\uBA70
+    \uC5EC\uB7EC \uBC88 \uB3D9\uB8CC\uB97C \uC783\uC740 \uACBD\uD5D8\uC774 \uC788\uC5B4
+    \uC548\uC804\uACFC \uACBD\uACC4\uB97C \uBB34\uC5C7\uBCF4\uB2E4 \uC911\uC694\uD558\uAC8C
+    \uC5EC\uAE34\uB2E4. \uC601\uC8FC \uC9C1\uC18D\uC73C\uB85C \uADC0\uC871\uAC00\uC758
+    \uC548\uC804\uC744 \uCD1D\uAD04\uD558\uC9C0\uB9CC \uC601\uC8FC\uBD80\uC778\uC758
+    \uC0AC\uAD50\uC801 \uC601\uC5ED\uC5D0\uB294 \uAC70\uB9AC\uB97C \uB454\uB2E4.
+    \uD655\uC778\uB418\uC9C0 \uC54A\uC740 \uC815\uBCF4\uB85C \uC6C0\uC9C1\uC774\uB294
+    \uAC83\uC744 \uAC00\uC7A5 \uACBD\uACC4\uD574, \uC18C\uBB38\uB9CC\uC73C\uB85C\uB294
+    \uAD70\uB300\uB97C \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uACE0 \uC9C1\uC811 \uC870\uC0AC\uD574
+    \uADFC\uAC70\uB97C \uD655\uC778\uD55C \uB4A4 \uD589\uB3D9\uD55C\uB2E4."
   judgmentTendencyTag: "#\uC758\uC2EC\uD615"
   priorityTag: "#\uC548\uC804\uC81C\uC77C"
   sensitiveInfoTag: "#\uC704\uD611\uBBFC\uAC10"
@@ -67,7 +78,28 @@ MonoBehaviour:
   - {fileID: -6178141437256839311, guid: f1f5ad234ad670a4e9bd2ae66d569de4, type: 3}
   goal: "\uC601\uC8FC\uC640 \uB3C4\uC2DC\uC758 \uC548\uC804\uC744 \uC9C0\uD0A8\uB2E4."
   loyalty: 0.8
-  relationships: []
+  relationships:
+  - other: {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}
+    type: {fileID: 0}
+    strength: 0
+    relationshipTypeLabel: "\uC758\uB840\uC801 \uAC70\uB9AC\uAC10"
+    relationshipDescription: "\uAD00\uB828\uC774 \uC801\uC5B4, \uC601\uC8FC\uBD80\uC778\uC758
+      \uC0AC\uAD50\uC801 \uBB38\uC81C\uB294 \uC790\uC2E0\uC758 \uAD00\uD560\uC774
+      \uC544\uB2C8\uB77C\uACE0 \uC120\uC744 \uAE0B\uB294\uB2E4."
+  - other: {fileID: 11400000, guid: 084757cbcf2e7ab4ca8e7e8ee0ca824d, type: 2}
+    type: {fileID: 0}
+    strength: 0
+    relationshipTypeLabel: "\uC0C1\uD638 \uC874\uC911"
+    relationshipDescription: "\uC885\uAD50\uC801 \uAD8C\uC704\uB97C \uC874\uC911\uD558\uBA70,
+      \uD544\uC694 \uC2DC \uC815\uBCF4\uB97C \uACF5\uC720\uD558\uB294 \uC678\uBD80\uC790\uB85C
+      \uC2E0\uB8B0\uD55C\uB2E4."
+  - other: {fileID: 11400000, guid: 6477404e365cb9f47b6edca2591b5846, type: 2}
+    type: {fileID: 0}
+    strength: 0
+    relationshipTypeLabel: "\uBB34\uAD00\uC2EC"
+    relationshipDescription: "\uC9C1\uBB34\uC0C1 \uC811\uCD09\uC774 \uAC70\uC758
+      \uC5C6\uC73C\uBA70, \uD558\uB140\uB4E4\uC758 \uC18C\uBB38\uC740 \uAC00\uBCCD\uAC8C
+      \uC5EC\uAE34\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}

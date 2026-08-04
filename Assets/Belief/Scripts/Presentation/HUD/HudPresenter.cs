@@ -728,12 +728,10 @@ namespace Belief.Presentation.HUD
                 }
             }
 
-            // 아트에 별도 Role 박스가 없어 History(자유 서술 영역)에 게임플레이 역할 요약을 첫 문단으로
-            // 합쳐 넣는다 - 새 박스를 추가하지 않고 기존 영역을 재사용한다.
-            var historyParts = new List<string>();
-            if (!string.IsNullOrEmpty(data.gameplayRoleSummary)) historyParts.Add(data.gameplayRoleSummary);
-            if (data.aiNotes != null) historyParts.AddRange(data.aiNotes);
-            npcHistoryText.text = string.Join("\n\n", historyParts);
+            // History 칸은 인물 배경 서사(backstory)만 보여준다 - 예전엔 gameplayRoleSummary("1스테이지
+            // 클리어 목표 대상" 같은 개발용 메모)와 aiNotes를 빈 줄로 이어 붙였는데, 플레이어에게 보일
+            // 내용이 아닌 데다 빈 줄만으로 칸 높이의 절반 이상을 잡아먹어 넘쳤다(2026-08-05).
+            npcHistoryText.text = data.backstory;
         }
 
         /// <summary>NpcState가 받은 정보 중 가장 최근 것에 대한 믿음 단계를 "현재 믿음"으로 삼는다 -

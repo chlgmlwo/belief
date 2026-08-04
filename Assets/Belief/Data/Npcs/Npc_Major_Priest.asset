@@ -20,6 +20,16 @@ MonoBehaviour:
   affiliation: 
   gameplayRoleSummary: 
   aiNotes: []
+  backstory: "\uD074\uB808\uB974\uD3F0 \uB300\uC131\uB2F9\uC744 \uC624\uB798 \uC9C0\uCF1C\uC628
+    \uC0AC\uC81C\uB85C, \uC601\uC8FC\uBD80\uC778\uC758 \uACE0\uD574\uC131\uC0AC\uB97C
+    \uB4E3\uB294 \uC720\uC77C\uD55C \uC778\uBB3C\uC774\uB2E4. \uC774 \uC790\uB9AC\uB294
+    \uB2E8\uC21C\uD55C \uC885\uAD50\uC801 \uC9C1\uCC45\uC744 \uB118\uC5B4 \uC601\uC8FC\uBD80\uC778\uC758
+    \uAC00\uC7A5 \uAC00\uAE4C\uC6B4 \uB300\uD654 \uC0C1\uB300\uB77C\uB294 \uC810\uC5D0\uC11C
+    \uD2B9\uBCC4\uD55C \uC2E0\uB8B0\uB97C \uBC1B\uACE0 \uC788\uB2E4. \uAD50\uB9AC\uC801
+    \uADFC\uAC70\uB97C \uC911\uC694\uD558\uAC8C \uC5EC\uACA8 \uC18C\uBB38\uB9CC\uC73C\uB85C\uB294
+    \uC27D\uAC8C \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uC9C0\uB9CC, \uC758\uD639\uC774
+    \uAD6C\uCCB4\uC801\uC774\uACE0 \uBC18\uBCF5\uB418\uBA74 \uACE0\uD574\uC5D0\uC11C
+    \uC870\uC2EC\uC2A4\uB7FD\uAC8C \uC5B8\uAE09\uD55C\uB2E4."
   judgmentTendencyTag: "#\uC2E0\uC911\uD615"
   priorityTag: "#\uBA85\uB839\uCDA9\uC2E4"
   sensitiveInfoTag: "#\uAD8C\uC704\uBBFC\uAC10"
@@ -72,13 +82,17 @@ MonoBehaviour:
   - other: {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}
     type: {fileID: 0}
     strength: 0.6
-    relationshipTypeLabel: 
-    relationshipDescription: 
+    relationshipTypeLabel: "\uACE0\uD574 \uB300\uC0C1"
+    relationshipDescription: "\uAC00\uC7A5 \uAC00\uAE4C\uC6B4 \uC774\uD574\uC790\uB85C
+      \uBBFC\uAC10\uD55C \uC0AC\uC548\uC744 \uC870\uC2EC\uD788 \uB2E4\uB8E8\uB098,
+      \uACBD\uAC74\uC744 \uC800\uBC84\uB9AC\uBA74 \uBBFC\uAC10\uD574\uC9C4\uB2E4."
   - other: {fileID: 11400000, guid: 6477404e365cb9f47b6edca2591b5846, type: 2}
     type: {fileID: 0}
     strength: 0.3
-    relationshipTypeLabel: 
-    relationshipDescription: 
+    relationshipTypeLabel: "\uC2E0\uB3C4"
+    relationshipDescription: "\uC608\uBC30\uB2F9\uC5D0 \uB4DC\uB098\uB4DC\uB294 \uD558\uC778\uB4E4\uC744
+      \uCE5C\uADFC\uD558\uAC8C \uB300\uD558\uBA70 \uC774\uB4E4\uC758 \uC774\uC57C\uAE30\uC5D0
+      \uADC0\uB97C \uAE30\uC6B8\uC778\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
