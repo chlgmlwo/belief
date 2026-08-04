@@ -107,8 +107,10 @@ namespace Belief.Presentation.HUD
         TMP_Text logTopDialogueText;
         TMP_Text logGeneralText;
         TMP_Text logStatHeaderText;
-        TMP_Text logBeliefFromText;
-        TMP_Text logBeliefToText;
+        // 눈금 양 끝 라벨("불신"/"신뢰")은 시안대로 고정이라 코드가 건드리지 않는다 - 대신
+        // 표식(화살표 머리)을 눈금선 위에서 옮겨 현재 믿음 위치를 나타낸다(MoveTrustMarker).
+        RectTransform logTrustArrowHead;
+        RectTransform logTrustArrowLine;
         TMP_Text logBottomDialogueText;
         NpcState lastLoggedNpcState;
 
@@ -925,28 +927,48 @@ namespace Belief.Presentation.HUD
             if (logBottomDialogueText != null) logBottomDialogueText.text = recentDialogueLines.Count > 1 ? recentDialogueLines[1] : "";
         }
 
-        readonly Dictionary<NpcData, BeliefState> lastKnownBelief = new Dictionary<NpcData, BeliefState>();
-
         /// <summary>CardJudgedEvent를 EventLogSystem과 별도로 한 번 더 구독 - 믿음 판단이 바뀔 때마다
-        /// [이름] 수치 변동 사항 헤더 + 이전→이후 라벨을 갱신한다(가이드: "불신 -----> 신뢰").</summary>
+        /// [이름] 수치 변동 사항 헤더를 갱신하고, 눈금 위 표식을 새 믿음 위치로 옮긴다.
+        ///
+        /// ⚠️ 예전엔 눈금 양 끝 라벨("불신"/"신뢰")을 이전 믿음/이후 믿음 텍스트로 **덮어썼다**.
+        /// 그래서 화면에 "불신 ——→ 확인이 필요하다고 판단함"처럼 좌우 길이가 제각각인 문장이 나왔고,
+        /// 게다가 첫 판단이라 이전 값이 Unknown일 때도 "불신"으로 표시돼(BeliefKoreanLabel의 기본값)
+        /// 실제로는 판단 전인데 불신했다가 바뀐 것처럼 읽혔다. 시안(`UI/Guides/[배치가이드] ... 로그.jpg`)은
+        /// "불신 ——→ 신뢰"를 **고정 눈금**으로 두는 구조이므로, 양 끝 라벨은 프리팹 원문 그대로 두고
+        /// 화살표 머리(표식)만 눈금 위에서 움직여 현재 위치를 나타낸다(2026-08-05 수정).</summary>
         void OnLogCardJudged(CardJudgedEvent e)
         {
-            lastKnownBelief.TryGetValue(e.Npc, out var previous);
-            lastKnownBelief[e.Npc] = e.ResultBelief;
-
             if (logStatHeaderText != null) logStatHeaderText.text = $"[{e.Npc.displayName}] 수치 변동 사항";
-            if (logBeliefFromText != null) logBeliefFromText.text = BeliefKoreanLabel(previous);
-            if (logBeliefToText != null) logBeliefToText.text = BeliefKoreanLabel(e.ResultBelief);
+            MoveTrustMarker(e.ResultBelief);
         }
 
-        static string BeliefKoreanLabel(BeliefState state) => state switch
+        /// <summary>믿음 단계를 불신(0)~신뢰(1) 위치로 환산해 눈금선 위 표식을 옮긴다.
+        /// 눈금선(logTrustArrowLine)의 실제 폭에서 계산하므로 아트가 바뀌어도 따라간다.</summary>
+        void MoveTrustMarker(BeliefState state)
         {
-            BeliefState.Trusted => "신뢰함",
-            BeliefState.Plausible => "가능성이 있다고 판단함",
-            BeliefState.NeedsVerification => "확인이 필요하다고 판단함",
-            BeliefState.Doubtful => "의심함",
-            BeliefState.Denied => "부정함",
-            _ => "불신"
+            if (logTrustArrowHead == null || logTrustArrowLine == null) return;
+
+            float t = BeliefScalePosition(state);
+            if (t < 0f) return; // 판단 전(Unknown) - 표식을 옮기지 않는다
+
+            float lineLeft = logTrustArrowLine.anchoredPosition.x;
+            float lineWidth = logTrustArrowLine.sizeDelta.x;
+            float headWidth = logTrustArrowHead.sizeDelta.x;
+
+            float centerX = lineLeft + lineWidth * t;
+            logTrustArrowHead.anchoredPosition = new Vector2(
+                centerX - headWidth * 0.5f, logTrustArrowHead.anchoredPosition.y);
+        }
+
+        /// <summary>불신(0) ~ 신뢰(1) 눈금 상의 위치. Unknown(판단 전)은 -1로 "표시 안 함".</summary>
+        static float BeliefScalePosition(BeliefState state) => state switch
+        {
+            BeliefState.Denied => 0f,
+            BeliefState.Doubtful => 0.25f,
+            BeliefState.NeedsVerification => 0.5f,
+            BeliefState.Plausible => 0.75f,
+            BeliefState.Trusted => 1f,
+            _ => -1f
         };
 
         /// <summary>매번 전부 파괴 후 재생성하지 않고 보유 카드 목록과 비교해 차이만 반영한다 -
@@ -1132,8 +1154,8 @@ namespace Belief.Presentation.HUD
             logTopDialogueText = view.LogTopDialogueText;
             logGeneralText = view.LogGeneralText;
             logStatHeaderText = view.LogStatHeaderText;
-            logBeliefFromText = view.LogBeliefFromText;
-            logBeliefToText = view.LogBeliefToText;
+            logTrustArrowHead = view.LogTrustArrowHead;
+            logTrustArrowLine = view.LogTrustArrowLine;
             logBottomDialogueText = view.LogBottomDialogueText;
 
             locationNoteGo = view.LocationNoteGo;

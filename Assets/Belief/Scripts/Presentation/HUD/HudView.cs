@@ -45,8 +45,10 @@ namespace Belief.Presentation.HUD
         [SerializeField] TMP_Text logTopDialogueText;
         [SerializeField] TMP_Text logGeneralText;
         [SerializeField] TMP_Text logStatHeaderText;
-        [SerializeField] TMP_Text logBeliefFromText;
-        [SerializeField] TMP_Text logBeliefToText;
+        /// <summary>믿음 눈금(불신 ——→ 신뢰)의 선과 표식 - 양 끝 라벨은 시안대로 고정 텍스트라
+        /// 코드가 건드리지 않고, 표식만 눈금 위를 움직여 현재 믿음 위치를 나타낸다.</summary>
+        [SerializeField] RectTransform logTrustArrowLine;
+        [SerializeField] RectTransform logTrustArrowHead;
         [SerializeField] TMP_Text logBottomDialogueText;
 
         [Header("Location Note")]
@@ -142,8 +144,8 @@ namespace Belief.Presentation.HUD
         public TMP_Text LogTopDialogueText => logTopDialogueText;
         public TMP_Text LogGeneralText => logGeneralText;
         public TMP_Text LogStatHeaderText => logStatHeaderText;
-        public TMP_Text LogBeliefFromText => logBeliefFromText;
-        public TMP_Text LogBeliefToText => logBeliefToText;
+        public RectTransform LogTrustArrowLine => logTrustArrowLine;
+        public RectTransform LogTrustArrowHead => logTrustArrowHead;
         public TMP_Text LogBottomDialogueText => logBottomDialogueText;
 
         public GameObject LocationNoteGo => locationNoteGo;

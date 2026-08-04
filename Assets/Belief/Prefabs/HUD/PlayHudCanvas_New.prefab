@@ -3380,8 +3380,8 @@ MonoBehaviour:
   logTopDialogueText: {fileID: 7650969991906814393}
   logGeneralText: {fileID: 3491897178483639803}
   logStatHeaderText: {fileID: 1348206758161520245}
-  logBeliefFromText: {fileID: 26911856739098884}
-  logBeliefToText: {fileID: 367284176218980393}
+  logTrustArrowLine: {fileID: 6154849874213314325}
+  logTrustArrowHead: {fileID: 3553307334448109723}
   logBottomDialogueText: {fileID: 4117582059977243053}
   locationNoteGo: {fileID: 2242084296551457413}
   locationNoteTitleText: {fileID: 2378556136647324560}

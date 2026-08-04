@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Belief.Core;
 using Belief.Data;
 using Belief.Events;
 
@@ -41,9 +42,14 @@ namespace Belief.Systems
         void OnGameInitialized(GameInitializedEvent e) =>
             Log($"BELIEF 초기화 완료 - 장소 {e.LocationCount}곳, NPC {e.NpcCount}명, 카드 {e.CardCount}장 로드됨.");
 
-        void OnTurnStarted(TurnStartedEvent e) => Log($"===== 턴 {e.Turn}/{e.MaxTurns} 시작 =====");
+        /// <summary>턴 구분선 - 예전엔 `===== 턴 1 시작 =====`처럼 일반 로그와 완전히 같은 크기·색으로
+        /// 나와서 수사 파일 톤과 어울리지 않고 시각적 위계도 없었다(2026-08-05 사용자 지적).
+        /// TMP 리치 텍스트로 한 단계 작고 흐리게 눌러 배경 구분선처럼 보이게 한다.
+        /// 턴 종료 로그는 바로 다음 줄의 "턴 N+1" 시작 구분선과 의미가 겹쳐 지웠다.</summary>
+        void OnTurnStarted(TurnStartedEvent e) =>
+            Log($"<size=85%><color=#8A857EFF>――  턴 {e.Turn} / {e.MaxTurns}  ――</color></size>");
 
-        void OnTurnEnded(TurnEndedEvent e) => Log($"===== 턴 {e.Turn} 종료 =====");
+        void OnTurnEnded(TurnEndedEvent e) { }
 
         void OnInfoSpread(InfoSpreadEvent e) => Log($"'{e.Card.information.title}' 정보가 {e.Location.displayName}에 퍼졌다.");
 
@@ -58,7 +64,9 @@ namespace Belief.Systems
         }
 
         void OnNpcRelocated(NpcRelocatedEvent e) =>
-            Log($"{e.Npc.displayName}가(이) {(e.From != null ? e.From.displayName : "?")}에서 {e.To.displayName}(으)로 이동했다.");
+            Log($"{KoreanParticle.WithSubject(e.Npc.displayName)} " +
+                $"{(e.From != null ? e.From.displayName : "?")}에서 " +
+                $"{KoreanParticle.WithDirection(e.To.displayName)} 이동했다.");
 
         void OnNpcSpoke(NpcSpokeEvent e)
         {
@@ -82,7 +90,7 @@ namespace Belief.Systems
             };
             if (reaction == null) return;
 
-            Log($"{e.Npc.displayName}가(이) '{e.Card.information.title}' 정보를 {reaction}.");
+            Log($"{KoreanParticle.WithSubject(e.Npc.displayName)} '{e.Card.information.title}' 정보를 {reaction}.");
         }
 
         void OnMissionProgressChanged(MissionProgressChangedEvent e)
