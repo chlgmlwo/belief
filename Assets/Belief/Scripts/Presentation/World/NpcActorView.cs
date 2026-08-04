@@ -25,8 +25,9 @@ namespace Belief.Presentation.World
         [SerializeField] SpriteRenderer nameTag;
 
         // 예전엔 0.35초라 위치 보간이 거의 순간이동처럼 보였다 - 실제로 "걸어서 이동하는" 느낌을
-        // 주려면 걷기 사이클이 최소 한 바퀴 이상 돌 만큼 시간이 필요하다(사용자 지시로 확대).
-        const float MoveDuration = 1.0f;
+        // 주려면 걷기 사이클이 최소 한 바퀴 이상 돌 만큼 시간이 필요하다(사용자 지시로 확대,
+        // 1.0초도 빠르다는 피드백으로 2.5초까지 재조정).
+        const float MoveDuration = 2.5f;
         const float DialogueDuration = 2.5f;
         const float HighlightDuration = 0.3f;
         const float SelectionTweenDuration = 0.18f;
