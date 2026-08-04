@@ -66,8 +66,9 @@ namespace Belief.Presentation.World
         {
             BoundData = data;
             if (label != null) label.text = data.displayName;
-            // 초록/파랑 원색 대신 중립 parchment 톤 - Major/Minor 구분은 미세한 명도차로만 남긴다.
-            baseColor = data.Rank == NpcRank.Major ? new Color(0.68f, 0.64f, 0.56f) : new Color(0.60f, 0.60f, 0.62f);
+            // baseColor는 실제 캐릭터 스프라이트가 들어오기 전 placeholder 단색 시절 값이었다 -
+            // 이제 진짜 캐릭터 아트가 있으므로 흰색(원본 색 그대로)으로 되돌린다.
+            baseColor = Color.white;
             if (body != null) body.color = baseColor;
             if (body != null && data.characterPhoto != null) body.sprite = data.characterPhoto;
             if (dialogueRoot != null) dialogueRoot.SetActive(false);

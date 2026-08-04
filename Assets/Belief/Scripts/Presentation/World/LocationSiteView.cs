@@ -29,8 +29,10 @@ namespace Belief.Presentation.World
         // EventSystem + Physics2DRaycaster(WorldPresenter가 보장)를 통해 클릭을 받는다.
         public void OnPointerClick(PointerEventData eventData) => Clicked?.Invoke(BoundData);
 
-        // 중립 parchment 톤 기준 - 검은/어두운 박스로 보이지 않도록 전부 밝은 톤으로 낮췄다.
-        static readonly Color NormalColor = new Color(0.66f, 0.63f, 0.58f);
+        // NormalColor는 실제 사진 자산이 들어오기 전 placeholder 단색 시절 값이었다 - 이제 진짜
+        // 사진이 있으므로 흰색(원본 색 그대로)으로 되돌린다. Alert/Locked/Highlight/Selection은
+        // 상태 강조용 의도된 틴트라 그대로 유지한다.
+        static readonly Color NormalColor = Color.white;
         static readonly Color AlertColor = new Color(0.80f, 0.62f, 0.38f);
         static readonly Color LockedColor = new Color(0.70f, 0.40f, 0.36f);
         static readonly Color HighlightColor = new Color(0.45f, 0.85f, 0.62f);
