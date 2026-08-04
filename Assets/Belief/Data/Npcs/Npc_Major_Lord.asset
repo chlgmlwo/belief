@@ -23,6 +23,11 @@ MonoBehaviour:
     \uC544\uB2C8\uB77C \uB3C4\uC2DC \uC804\uCCB4 \uBD95\uAD34\uC758 \uACB0\uACFC\uB85C
     \uC2E4\uAC01\uD558\uB294 \uCD5C\uC885 NPC."
   aiNotes: []
+  judgmentTendencyTag: "#\uC2E0\uC911\uD615"
+  priorityTag: "#\uC548\uC804\uC81C\uC77C"
+  sensitiveInfoTag: "#\uAD8C\uC704\uBBFC\uAC10"
+  relationTendencyTag: "#\uBCF4\uD638\uD615"
+  trustJudgmentTag: "#\uADFC\uAC70\uC911\uC2DC"
   trustBias: 0.45
   skepticism: 0.5
   goal: "\uAC00\uBB38\uC758 \uBA85\uC608\uB97C \uC9C0\uD0A8\uB2E4."

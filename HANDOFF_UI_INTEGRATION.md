@@ -867,6 +867,143 @@ GoalCard02(100 높이)는 y 6~91.1였다. 기존 `Description` 박스는 이미 
 
 ---
 
+### 3-27. GOAL2(다음 미션 미리보기) 로직을 `GoalCardConditionAdapter` 어댑터에서 `HudPresenter`로 흡수 (2026-08-04)
+
+3-25에서 만든 `GoalCardConditionAdapter`(읽기 전용 어댑터, `MissionArea`에 부착)는 디자인이
+아직 불안정하던 시점에 "HudPresenter는 절대 수정하지 않는다"는 원칙 하에 임시로 분리해 둔
+것이었다. 사용자가 이제 디자인이 안정됐는데 왜 계속 어댑터로 우회하는지 질문 — 재검토 결과,
+GOAL2 "다음 미션 미리보기"는 순수 비주얼 보정이 아니라 **미션 진행 상태를 다루는 로직**이고,
+이미 `HudPresenter.RefreshMission()`이 같은 성격의 상태(현재 미션 제목/설명/조건)를 갱신하는
+단일 지점이므로, 별도 컴포넌트가 매 프레임 독립적으로 같은 걸 폴링하는 구조를 유지하는 게
+오히려 유지보수상 더 나쁘다고 판단해 흡수하기로 결정.
+
+**흡수 방식**:
+- `HudView.cs`에 `nextMissionCardRoot`/`nextMissionCardTitleText`/`nextMissionCardDescText`/
+  `nextMissionConnectorGo` 필드 + public 접근자 추가(기존 70개 참조 테이블과 동일한 패턴).
+- `HudPresenter.cs`의 `RefreshMission()`에 `FindNextMission(objective)` 호출을 추가 —
+  `GoalCardConditionAdapter.FindNextMission`과 완전히 동일한 로직(`GameInstaller.StageAsset.missions`
+  배열에서 현재 미션 바로 다음 항목을 `Array.IndexOf`로 찾음)을 그대로 옮겨왔다. `objective == null`
+  분기에서도 GOAL2/커넥터를 숨기도록 함께 처리.
+- `MissionArea`의 `GoalCardConditionAdapter` 컴포넌트를 제거하고, `HudView`의 새 필드를
+  `GoalCard02`/`GoalCard02/Texts/Title`/`GoalCard02/Texts/Description`/`GoalConnector`에
+  직접 배선(SerializedObject).
+- 더 이상 참조되지 않는 `GoalCardConditionAdapter.cs` 스크립트는 삭제(죽은 코드 방치 금지).
+
+**Play Mode 검증**:
+- 초기 상태: GOAL1 = 미션1(명령의 근거 흔들기), GOAL2 = 미션2(경비대장의 믿음 전환) — 정상.
+- `Progress.CompletedMissionIds`에 미션1 id를 추가하고 `MissionChangedEvent`를 발행해 미션
+  완료를 시뮬레이션 → GOAL1이 미션2 내용으로 자동 전환, GOAL2/커넥터는 다음 미션이 없으므로
+  (스테이지1 마지막 미션) 자동으로 비활성화됨 — 어댑터 방식과 동일한 동작을 그대로 재현.
+- Console Error/Warning 0. Zone1 저장 완료(`isDirty=False` 재확인).
+
+**수정한 파일**: `HudView.cs`(필드 4개 추가), `HudPresenter.cs`(`RefreshMission()` 확장 +
+`FindNextMission` 헬퍼 추가), `PlayHudCanvas_New.prefab`(어댑터 컴포넌트 제거, `HudView` 필드
+재배선), `Zone1.unity`(동일 반영, 저장 완료). **삭제한 파일**:
+`Assets/Belief/Scripts/Presentation/Mockup/GoalCardConditionAdapter.cs`(더 이상 참조되지 않음).
+
+---
+
+### 3-28. 우측 상단 Log/Profile 탭 — 반투명 스탬프(배경 아트) 확인 + 탭 클릭 시 색깔 박스가 덮이는 배선 버그 수정 (2026-08-04)
+
+사용자가 로그/프로필 패널에 뜨는 "반투명한 것"을 없애 달라고 요청. 조사해보니 두 가지 서로
+다른 문제가 섞여 있었다.
+
+**1) "PRIVATE & CONFIDENTIAL" 대각선 스탬프** — `log 메인UI.png`/`프로필 파일 UI.png` 배경
+아트 자체에 그려져 있는 그림이라 오브젝트를 끄는 걸로는 지울 수 없음을 확인. 대체 아트가
+없어 사용자에게 처리 방식(자동 지우기 시도 / 새 아트 요청 / 보류)을 문의 — 사용자가 실제로는
+이걸 가리킨 게 아니라(뒤 항목 참고) 이 항목은 **보류 상태**로 남아 있다.
+
+**2) 진짜로 사용자가 가리킨 문제 — 탭 선택/비선택 시 색깔 박스가 탭 아트를 덮는 버그**: `HudView`의
+`profileTabIndicator`/`logTabIndicator`가 **클릭 감지 전용 투명 사각형(`ClickArea`, 원래
+`sprite=null, color=(1,1,1,0)`으로 안 보이게 설계됨)**에 잘못 연결돼 있었다. `HudPresenter.
+SetHudPanelState()`가 선택된 탭엔 흰색(불투명), 선택 안 된 탭엔 반투명 갈색을 이 오브젝트
+색상에 대입하는데, 하필 그 대상이 클릭 전용 투명 사각형이다 보니 탭 라벨/아트 위에 색깔
+박스가 그대로 덮이는 것처럼 보였다.
+
+**수정**: `HudView`의 `profileTabIndicator`/`logTabIndicator` 필드를 null로 배선 해제 —
+`HudPresenter`의 `if (profileTabIndicator != null) ...` 가드가 이미 있어 코드 수정 없이
+프리팹 배선만 끊으면 색칠 자체가 일어나지 않는다.
+
+**검증 중 잘못 판단해 만들었던 버그(즉시 되돌림)**: 테스트하다가 `HudView.logPanelGo`/
+`npcProfileGo` 필드가 비어 있는(null) 걸 보고 "배선 누락 버그"로 오판, `LogPanelRoot`/
+`ProfilePanelRoot`에 배선을 추가했다. 그 결과 사용자가 즉시 "로그/프로필 패널이 아예
+사라졌다"고 재보고 — 원인을 다시 조사하니 `RightPeekArea/RightDocumentPanelController`
+(`RightDocumentPanelController.cs`)라는 **이미 완성되어 있던 별도 컨트롤러**가 두 패널의
+슬라이드 열림/닫힘(peek in/out 애니메이션)과 탭 버튼 클릭까지 전부 정상적으로 전담하고
+있었다는 걸 확인했다. `logPanelGo`/`npcProfileGo`가 null이었던 건 버그가 아니라 **의도된
+상태**였다 — `HudPresenter.SetHudPanelState`가 이 두 필드를 건드리지 않아야 컨트롤러의
+`SetActive`/`anchoredPosition` 애니메이션과 충돌하지 않는다. `HudPresenter.Start()`가 항상
+`SetHudPanelState(Default)`를 호출하면서 방금 배선한 `npcProfileGo`/`logPanelGo`를
+`SetActive(false)`로 강제해, 컨트롤러가 `Awake()`에서 이미 세팅해 둔 peek 상태(패널은
+`active=true`, 화면 밖으로 슬라이드만 되어 있음)를 덮어써 버렸던 것 — 그래서 아무것도 안
+보이게 된 것이었다. `logPanelGo`/`npcProfileGo` 배선을 즉시 원복(null)했다.
+
+**Play Mode 검증(원복 후)**: 씬 시작 시 `ProfilePanelRoot`가 `active=true`,
+`anchoredPosition=(1630,-43)`(peek 상태, 화면 밖으로 슬라이드)로 정상 확인. Log 탭 클릭 →
+`RightDocumentPanelController.CurrentState`가 `Log`로 전환, `LogPanelRoot` 활성화 + 애니메이션
+시작(위치가 목표값으로 이동 중), `ProfilePanelRoot` 비활성화 — 정상 동작. 탭 아이콘 색깔 박스
+문제(`profileTabIndicator`/`logTabIndicator` 배선 해제)는 여전히 재현 안 됨. Console
+Error/Warning 0. Zone1 저장 완료(`isDirty=False` 재확인).
+
+**수정한 파일(최종)**: `PlayHudCanvas_New.prefab`(`profileTabIndicator`/`logTabIndicator`
+배선 해제만 유지, `logPanelGo`/`npcProfileGo`는 null로 원복), `Zone1.unity`(동일 반영, 저장
+완료). 스크립트는 수정하지 않았다.
+
+**교훈**: 필드가 비어 있다고 곧바로 "배선 누락"으로 단정하지 말 것 — 이 프로젝트에는
+`RightDocumentPanelController`처럼 목업 단계에서 이미 완성되어 프리팹에 남아 있는 독립
+컨트롤러가 더 있을 수 있다. `HudPresenter`가 특정 오브젝트를 건드리지 않는 게 오히려
+의도된 설계일 수 있으므로, 배선을 추가하기 전에 해당 오브젝트를 다른 컴포넌트가 이미
+제어하고 있지 않은지 먼저 확인한다.
+
+**남은 항목**: PRIVATE & CONFIDENTIAL 스탬프(1번 항목) — 사용자가 "그냥 내버려둬"로 확정,
+현재 아트 그대로 유지하기로 결정. 추가 조치 없음(종결).
+
+---
+
+### 3-29. NPC 조사 파일 "성격 태그" 5종 실데이터 연결 — `NPC기획` PDF 17개에서 추출 (2026-08-04)
+
+프로필 패널의 판단 성향/우선순위/민감 정보/관계 성향/신뢰 판단 방식 텍스트가 전부
+비어 있던(null) 문제를 사용자가 지적 — 데이터 출처는 `C:\Users\CHJ\Desktop\확정기획\NPC기획\`
+폴더의 NPC별 기획서 PDF 17개("NPC_기획서__〈이름〉.pdf", 4스테이지 영주만
+"NPC_콘텐츠_기획서_4스테이지_영주.pdf")이며, 각 문서 "1.2 특성 태그" 표에 5개 축(판단 성향/
+우선순위/민감 정보/관계 성향/신뢰 판단 방식)이 `#태그` 형식으로 정리되어 있었다.
+
+**UI 구조 확인 중 추가로 발견한 문제**: 값 텍스트 오브젝트가 `JudgeTendencyValue`/
+`PriorityValue`/`RelationTendencyValue`/`TrustJudgeValue` 4개뿐이었고 "민감 정보" 칸은
+아예 프리팹에 없었다 — `JudgeTendencyValue`를 복제해 `SensitiveInfoValue`(pos 572,-303)
+로 새로 만들어 보완했다.
+
+**데이터 레이어**: `NpcData.cs`(base 클래스, Major/Minor 공통)에 5개 string 필드 추가 —
+`judgmentTendencyTag`/`priorityTag`/`sensitiveInfoTag`/`relationTendencyTag`/
+`trustJudgmentTag`. 기존 `trustBias`/`skepticism`/`goal`/`loyalty`/`relationships`(v4
+프로필 동기화분, 별도 세션에서 이미 채움)는 전혀 건드리지 않았다.
+
+**UI 레이어**: `HudView.cs`에 5개 TMP_Text 필드 추가 후 프리팹의 실제 오브젝트에 배선.
+`HudPresenter.RefreshNpcProfile()`에서 NPC 선택 시 `data.judgmentTendencyTag` 등 5개
+필드를 그대로 읽어 표시(선택 해제 시 전부 빈 문자열로 초기화)하도록 확장 — 판정 로직에는
+전혀 관여하지 않는 순수 표시 전용 추가.
+
+**데이터 추출/입력**: PDF 17개를 병렬 서브에이전트 5개(배치 A~E, 각 2~3개 PDF)로 나눠
+읽고 "1.2 특성 태그" 표 값을 추출 → `NpcId`/`displayName` 기준으로 기존 17개 NpcData 에셋
+(`Npc_Major_*`/`Npc_Minor_*`, `Deprecated/Npc_Major_Informant` 제외)에 정확히 1:1 매칭
+확인 후 `SerializedObject`로 일괄 반영, `AssetDatabase.SaveAssets()`.
+
+**Play Mode 검증**: `World/NpcActors`(런타임 생성, 기본 비활성) 하위의 경비대장 액터를
+`NpcActorView.OnPointerClick(null)`로 직접 클릭 시뮬레이션 → 프로필 패널에 5개 태그
+(`#의심형`/`#명령충실`/`#권위민감`/`#상명하복`/`#근거중시`)가 정확히 표시됨을 확인. Console
+Error/Warning 0. Zone1 저장 완료(`isDirty=False` 재확인).
+
+**수정한 파일**: `NpcData.cs`(필드 5개 추가), `HudView.cs`(필드 5개 추가), `HudPresenter.cs`
+(`RefreshNpcProfile()` 확장), `PlayHudCanvas_New.prefab`(`SensitiveInfoValue` 신규 생성 +
+5개 필드 배선), `Zone1.unity`(재배선, 저장 완료), NPC 에셋 17개(`Npc_Major_GuardCaptain`,
+`Npc_Minor_SmallMerchant`, `Npc_Major_LowRankGuard`, `Npc_Major_MerchantHead`,
+`Npc_Major_Innkeeper`, `Npc_Major_Steward`, `Npc_Major_GuildMaster`,
+`Npc_Major_CustomsOfficer_Stage2`, `Npc_Major_HeadMaid`, `Npc_Major_RivalNoblewoman`,
+`Npc_Major_Maid`, `Npc_Minor_Smuggler_Stage2`, `Npc_Major_Bookkeeper`,
+`Npc_Major_KnightCommander`, `Npc_Major_Priest`, `Npc_Major_LordsWife`, `Npc_Major_Lord`).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```

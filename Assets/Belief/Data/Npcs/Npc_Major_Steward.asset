@@ -30,6 +30,11 @@ MonoBehaviour:
     \uC790\uAE30 \uAD00\uB9AC\uC5D0\uC11C \uB098\uC628\uB2E4."
   - "\uC2A4\uD14C\uC774\uC9C0 1\uACFC 3 \uBAA8\uB450 \uC9C1\uC811 \uACF5\uB7B5 \uB300\uC0C1\uC774
     \uC544\uB2C8\uB2E4."
+  judgmentTendencyTag: "#\uC21C\uC751\uD615"
+  priorityTag: "#\uBA85\uB839\uCDA9\uC2E4"
+  sensitiveInfoTag: "#\uAD8C\uC704\uBBFC\uAC10"
+  relationTendencyTag: "#\uBCF4\uD638\uD615"
+  trustJudgmentTag: "#\uAD00\uACC4\uC6B0\uC120"
   trustBias: 0.55
   skepticism: 0.45
   goal: "\uC601\uC8FC \uC800\uD0DD\uC5D0\uC11C\uC758 \uC785\uC9C0\uB97C \uC9C0\uD0A4\uBA70,

@@ -20,6 +20,11 @@ MonoBehaviour:
   affiliation: 
   gameplayRoleSummary: 
   aiNotes: []
+  judgmentTendencyTag: "#\uCDA9\uB3D9\uD615"
+  priorityTag: "#\uC548\uC804\uC81C\uC77C"
+  sensitiveInfoTag: "#\uC18C\uBB38\uBBFC\uAC10"
+  relationTendencyTag: "#\uB3C5\uB9BD\uD615"
+  trustJudgmentTag: "#\uC9C1\uAD00\uD615"
   trustBias: 0.5
   skepticism: 0.4
   availableActions:

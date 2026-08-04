@@ -25,6 +25,15 @@ namespace Belief.Presentation.HUD
         [SerializeField] TMP_Text missionTurnsText;
         [SerializeField] TMP_Text nextMissionText;
 
+        /// <summary>GOAL2 카드(다음 미션 미리보기) - 원래는 GoalCardConditionAdapter가 매 프레임
+        /// GameInstaller.StageAsset.missions를 직접 조회해 채웠으나, 디자인이 "현재 미션 카드 옆에
+        /// 다음 미션을 미리 보여준다"로 안정된 뒤 HudPresenter.RefreshMission()으로 흡수했다(순수
+        /// 표시 로직이 아니라 미션 진행 상태를 다루므로 미션 갱신 지점 하나에 모아두는 게 맞다).</summary>
+        [SerializeField] GameObject nextMissionCardRoot;
+        [SerializeField] TMP_Text nextMissionCardTitleText;
+        [SerializeField] TMP_Text nextMissionCardDescText;
+        [SerializeField] GameObject nextMissionConnectorGo;
+
         [Header("Right Panel Tabs (section 7 - 기본/프로필/로그 상태 전환)")]
         [SerializeField] Button profileTabButton;
         [SerializeField] Button logTabButton;
@@ -54,6 +63,13 @@ namespace Belief.Presentation.HUD
         [SerializeField] Transform npcRelationshipsRoot;
         [SerializeField] TMP_Text npcHistoryText;
         [SerializeField] GameObject npcNoneStickerGo;
+
+        [Header("NPC Profile Panel - 성격 태그 (NpcData 특성 태그 5종)")]
+        [SerializeField] TMP_Text npcJudgmentTendencyText;
+        [SerializeField] TMP_Text npcPriorityText;
+        [SerializeField] TMP_Text npcSensitiveInfoText;
+        [SerializeField] TMP_Text npcRelationTendencyText;
+        [SerializeField] TMP_Text npcTrustJudgmentText;
 
         [Header("Bottom Panel")]
         [SerializeField] RectTransform bottomPanelRect;
@@ -113,6 +129,11 @@ namespace Belief.Presentation.HUD
         public TMP_Text MissionTurnsText => missionTurnsText;
         public TMP_Text NextMissionText => nextMissionText;
 
+        public GameObject NextMissionCardRoot => nextMissionCardRoot;
+        public TMP_Text NextMissionCardTitleText => nextMissionCardTitleText;
+        public TMP_Text NextMissionCardDescText => nextMissionCardDescText;
+        public GameObject NextMissionConnectorGo => nextMissionConnectorGo;
+
         public Button ProfileTabButton => profileTabButton;
         public Button LogTabButton => logTabButton;
         public Image ProfileTabIndicator => profileTabIndicator;
@@ -138,6 +159,12 @@ namespace Belief.Presentation.HUD
         public Transform NpcRelationshipsRoot => npcRelationshipsRoot;
         public TMP_Text NpcHistoryText => npcHistoryText;
         public GameObject NpcNoneStickerGo => npcNoneStickerGo;
+
+        public TMP_Text NpcJudgmentTendencyText => npcJudgmentTendencyText;
+        public TMP_Text NpcPriorityText => npcPriorityText;
+        public TMP_Text NpcSensitiveInfoText => npcSensitiveInfoText;
+        public TMP_Text NpcRelationTendencyText => npcRelationTendencyText;
+        public TMP_Text NpcTrustJudgmentText => npcTrustJudgmentText;
 
         public RectTransform BottomPanelRect => bottomPanelRect;
         public TMP_Text OwnedCountLabel => ownedCountLabel;

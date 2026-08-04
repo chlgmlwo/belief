@@ -77,6 +77,10 @@ namespace Belief.Presentation.HUD
         readonly List<GameObject> missionConditionRows = new List<GameObject>();
         TMP_Text missionTurnsText;
         TMP_Text nextMissionText;
+        GameObject nextMissionCardRoot;
+        TMP_Text nextMissionCardTitleText;
+        TMP_Text nextMissionCardDescText;
+        GameObject nextMissionConnectorGo;
         // 우측 패널 상태(section 3/7) - Default/Profile/Log 중 하나만.
         HudPanelState panelState = HudPanelState.Default;
         Button profileTabButton;
@@ -134,6 +138,7 @@ namespace Belief.Presentation.HUD
         TMP_Text npcHistoryText;
         NpcState selectedNpcState;
         GameObject npcNoneStickerGo;
+        TMP_Text npcJudgmentTendencyText, npcPriorityText, npcSensitiveInfoText, npcRelationTendencyText, npcTrustJudgmentText;
 
         GameObject overlayGo;
         CanvasGroup overlayCanvasGroup;
@@ -596,11 +601,23 @@ namespace Belief.Presentation.HUD
                 missionDescText.text = "";
                 missionTurnsText.text = "";
                 nextMissionText.text = "";
+                if (nextMissionCardRoot != null) nextMissionCardRoot.SetActive(false);
+                if (nextMissionConnectorGo != null) nextMissionConnectorGo.SetActive(false);
                 return;
             }
 
             missionTitleText.text = objective.displayTitle;
             missionDescText.text = objective.objectiveText;
+
+            var upcoming = FindNextMission(objective);
+            bool hasUpcoming = upcoming != null;
+            if (hasUpcoming)
+            {
+                if (nextMissionCardTitleText != null) nextMissionCardTitleText.text = upcoming.displayTitle;
+                if (nextMissionCardDescText != null) nextMissionCardDescText.text = upcoming.objectiveText;
+            }
+            if (nextMissionCardRoot != null) nextMissionCardRoot.SetActive(hasUpcoming);
+            if (nextMissionConnectorGo != null) nextMissionConnectorGo.SetActive(hasUpcoming);
 
             var context = new MissionEvaluationContext(installer.Locations, installer.Npcs, installer.Turns.DeliveredInformationCards);
             if (objective.successConditions != null)
@@ -624,6 +641,20 @@ namespace Belief.Presentation.HUD
                     : $"다음 미션: {objective.nextMissionTitle}";
 
             PulseOnce(missionTitleText);
+        }
+
+        /// <summary>GOAL2 카드(다음 미션 미리보기) 전용 조회 - StageAsset.missions 배열에서 현재 미션
+        /// 바로 다음 항목을 찾는다. 판정 로직에는 관여하지 않는 순수 표시용 조회다. 스테이지의 마지막
+        /// 미션이면(다음이 없으면) null을 돌려주고, 호출부에서 GOAL2 카드/연결 이미지를 숨긴다.</summary>
+        MissionData FindNextMission(MissionData current)
+        {
+            var stageAsset = installer.StageAsset;
+            var missions = stageAsset != null ? stageAsset.missions : null;
+            if (missions == null) return null;
+
+            int index = Array.IndexOf(missions, current);
+            if (index < 0 || index + 1 >= missions.Length) return null;
+            return missions[index + 1];
         }
 
         /// <summary>DestroyImmediate를 쓴다 - Destroy()는 프레임 끝까지 파괴를 미루므로, 같은 프레임 안에
@@ -696,11 +727,21 @@ namespace Belief.Presentation.HUD
                 npcBeliefTierText.text = "";
                 npcBeliefDialogueText.text = "";
                 npcHistoryText.text = "";
+                if (npcJudgmentTendencyText != null) npcJudgmentTendencyText.text = "";
+                if (npcPriorityText != null) npcPriorityText.text = "";
+                if (npcSensitiveInfoText != null) npcSensitiveInfoText.text = "";
+                if (npcRelationTendencyText != null) npcRelationTendencyText.text = "";
+                if (npcTrustJudgmentText != null) npcTrustJudgmentText.text = "";
                 return;
             }
 
             var data = selectedNpcState.Data;
             npcNameText.text = data.displayName;
+            if (npcJudgmentTendencyText != null) npcJudgmentTendencyText.text = data.judgmentTendencyTag;
+            if (npcPriorityText != null) npcPriorityText.text = data.priorityTag;
+            if (npcSensitiveInfoText != null) npcSensitiveInfoText.text = data.sensitiveInfoTag;
+            if (npcRelationTendencyText != null) npcRelationTendencyText.text = data.relationTendencyTag;
+            if (npcTrustJudgmentText != null) npcTrustJudgmentText.text = data.trustJudgmentTag;
             // section 3 - NpcData에 나이 필드가 없다(Frozen 스키마 변경 금지) - 임의 생성 대신 "—".
             // 믿음 단계 바(아트에 고정) 바로 위 여백이 좁아 4줄이 들어가지 않는다 - 폰트를 줄이는 대신
             // 2줄로 합쳐 같은 크기 그대로 공간에 맞춘다.
@@ -1034,6 +1075,10 @@ namespace Belief.Presentation.HUD
             missionConditionsRoot = view.MissionConditionsRoot;
             missionTurnsText = view.MissionTurnsText;
             nextMissionText = view.NextMissionText;
+            nextMissionCardRoot = view.NextMissionCardRoot;
+            nextMissionCardTitleText = view.NextMissionCardTitleText;
+            nextMissionCardDescText = view.NextMissionCardDescText;
+            nextMissionConnectorGo = view.NextMissionConnectorGo;
 
             profileTabButton = view.ProfileTabButton;
             logTabButton = view.LogTabButton;
@@ -1060,6 +1105,11 @@ namespace Belief.Presentation.HUD
             npcRelationshipsRoot = view.NpcRelationshipsRoot;
             npcHistoryText = view.NpcHistoryText;
             npcNoneStickerGo = view.NpcNoneStickerGo;
+            npcJudgmentTendencyText = view.NpcJudgmentTendencyText;
+            npcPriorityText = view.NpcPriorityText;
+            npcSensitiveInfoText = view.NpcSensitiveInfoText;
+            npcRelationTendencyText = view.NpcRelationTendencyText;
+            npcTrustJudgmentText = view.NpcTrustJudgmentText;
 
             bottomPanelRect = view.BottomPanelRect;
             if (bottomPanelRect != null) bottomPanelFullMaxX = bottomPanelRect.anchorMax.x;

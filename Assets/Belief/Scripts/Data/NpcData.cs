@@ -16,6 +16,15 @@ namespace Belief.Data
         [TextArea(1, 3)] public string gameplayRoleSummary;
         [TextArea(1, 2)] public string[] aiNotes;
 
+        /// <summary>NPC 기획서 "1.2 특성 태그" 표를 그대로 옮긴 값 - # 포함 원문 그대로 저장한다.
+        /// BeliefSystem 판정 로직은 건드리지 않고 조사 파일(Profile 패널) 표시 전용이다.</summary>
+        [Header("특성 태그 (조사 파일 '성격 태그' 표시용, Frozen 원문)")]
+        public string judgmentTendencyTag;
+        public string priorityTag;
+        public string sensitiveInfoTag;
+        public string relationTendencyTag;
+        public string trustJudgmentTag;
+
         [Header("Personality (BeliefSystem 전용, 플레이어 비공개)")]
         [Range(0f, 1f)] public float trustBias = 0.5f;
         [Range(0f, 1f)] public float skepticism = 0.5f;
