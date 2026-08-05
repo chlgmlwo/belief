@@ -660,7 +660,18 @@ namespace Belief.Presentation.HUD
                 {
                     if (condition == null) continue;
                     bool met = condition.GetCurrentProgress(context) >= condition.TargetCount;
-                    string label = string.IsNullOrEmpty(condition.displayLabel) ? condition.name : condition.displayLabel;
+                    // displayLabel이 비면 애셋 이름(= Condition_Stage02_M01_BookkeeperExposed 같은 원문 ID)이
+                    // 그대로 플레이어에게 노출된다. 폴백 자체는 "아무것도 안 보이는 것"보다 나으므로 남기되,
+                    // 조용히 지나가면 또 이번처럼 플레이 화면에서야 발견되므로 에디터에서 경고를 띄운다.
+                    string label = condition.displayLabel;
+                    if (string.IsNullOrWhiteSpace(label))
+                    {
+                        label = condition.name;
+#if UNITY_EDITOR
+                        Debug.LogWarning($"[Mission] '{objective.displayTitle}'의 클리어 조건 '{condition.name}'에 " +
+                            "displayLabel이 비어 있어 애셋 이름이 그대로 표시된다. 플레이어가 읽을 한글 문구를 채워야 한다.", condition);
+#endif
+                    }
                     AddMissionConditionRow(objective.displayTitle, label, met, missionConditionRows.Count);
                 }
             }

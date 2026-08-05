@@ -3273,7 +3273,7 @@ Console Error/Warning **0**, 세 씬 모두 저장 완료.
 
 **남은 사항(이번 범위 밖, 별도 처리 필요)**:
 - ~~`Loc_manor_row`(저택가)의 흰 카드~~ → 3-87에서 처리.
-- Stage_02 미션 패널에 조건 표시명 대신 `Condition_Stage02_M01_BookkeeperExposed` 원문 ID가 나온다.
+- ~~Stage_02 미션 패널의 원문 ID 노출~~ → 3-89에서 처리.
 - 헤더의 스테이지 이름이 태그 아트를 넘친다("상업지구 · 시장가", "클레르폰 대도시 전역").
 - 접선 카드는 카메라 줌을 따라 작아진다(Zone1 120×159px → Metropolis 43×57px). 다만 같은 화면의
   일반 장소 카드도 35×57px이라 주변과는 일관돼서 그대로 뒀다.
@@ -3353,6 +3353,50 @@ TravelingTypewriter, 프리팹 기본 텍스트 **"1"**)와 `BeliefStageNote`(fs
 
 **수정한 파일**: `HudPresenter.cs`(`BeliefTierNumber` 추가, `CurrentBeliefTag`에 BeliefState out 추가),
 `PlayHudCanvas_New.prefab`(BeliefStageNote 폰트/상자).
+
+---
+
+### 3-89. 미션 클리어 조건에 원문 ID가 노출되던 문제 (2026-08-05, 사용자 스크린샷)
+
+**증상**: Stage_02 미션 패널에 `Condition_Stage02_M01_BookkeeperExposed`라는 애셋 이름이 그대로 떴다.
+
+**원인**: `RefreshMission()`이
+`string label = string.IsNullOrEmpty(condition.displayLabel) ? condition.name : condition.displayLabel;`
+로 **비어 있으면 애셋 이름으로 폴백**한다. 폴백 자체는 "아무것도 안 보이는 것"보다 나으므로 설계는
+타당한데, 조용히 넘어가서 플레이 화면에서야 발견됐다.
+
+**전수 조사 결과 4스테이지에서 화면에 표시되는 조건 18개 중 빈 것은 딱 1개**였다(나머지 17개는
+이미 한글 문구가 있었다). 그 1개가 정확히 사용자가 본 것.
+
+**조건이 실제로 무엇을 검사하는지 확인하고 문구를 지었다** — `AnyOfConditions`(둘 중 하나)이고
+자식이 둘 다 `InformationWorldStateCondition`으로, **장부관리인이 환전소(`Loc_EXCHANGE`)에서
+`Monitoring` 또는 `Investigating` 상태에 도달**하면 달성이다. 어투는 같은 구조인
+Stage_03 M02(`영주부인을 향한 소문이 본인 귀에 들어감`)와 Stage_04 M03(`여관 주인이 민심의 동요를
+감지하거나 부정함`)의 기존 문구에 맞췄다.
+
+| 애셋 | 채운 문구 |
+|---|---|
+| `Condition_Stage02_M01_BookkeeperExposed` (표시됨) | 장부관리인이 환전소에서 소문을 주시하거나 직접 조사함 |
+| `Condition_Stage02_M01_BookkeeperMonitoring` (자식) | 장부관리인이 환전소에서 소문을 주시함 |
+| `Condition_Stage02_M01_BookkeeperVerifying` (자식) | 장부관리인이 환전소의 소문을 직접 조사함 |
+
+자식 둘은 지금은 부모 안에 묶여 있어 화면에 직접 뜨지 않지만, Stage_03의 같은 구조가 자식까지
+문구를 채워 둔 것과 맞췄다(나중에 단독으로 쓰여도 원문 ID가 안 나오게).
+
+**재발 방지**: 폴백이 도는 순간 에디터 콘솔에 경고를 띄우도록 했다(`#if UNITY_EDITOR`, 조건 애셋을
+context로 넘겨 더블클릭으로 바로 찾아가게). 폴백은 그대로 남겼다 — 지우면 빈 줄이 떠서 더 나쁘다.
+
+**검증**: 재조사 결과 표시 조건 **18개 중 빈 것 0개** ✅. Zone2 Play Mode에서 실제 그려진 조건 줄을
+읽어 `"장부관리인이 환전소에서 소문을 주시하거나 직접 조사함"` / `"세관원이 창고 거리로 이동해 조사함"`
+확인, 캡처로도 원문 ID가 사라진 것 확인 ✅. 새 경고는 한 건도 안 뜸(= 오탐 없음),
+Console Error/Warning 0.
+
+**참고 - 아직 `displayLabel`이 빈 조건 애셋(화면에 안 뜨는 것들)**: `Condition_NeverComplete`(더미),
+`Condition_Stage04_M01_*` 하위 5개(부모 `AnyOf`/`AllOf`에 문구가 있어 자식은 표시 안 됨),
+`Condition_Zone1_*` 7개(어느 스테이지에서도 참조되지 않는 구버전 잔재). 지금은 노출되지 않지만
+단독으로 쓰이게 되면 위 경고가 잡아 준다.
+
+**수정한 파일**: `HudPresenter.cs`, `Condition_Stage02_M01_BookkeeperExposed/Monitoring/Verifying.asset`.
 
 ---
 
