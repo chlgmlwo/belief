@@ -10,13 +10,11 @@ using UnityEngine;
 namespace Belief.Systems
 {
     /// <summary>
-    /// 카드 재생을 장소/NPC 노출로 변환하고, Major/Minor에 따라 적절한 판단 시스템(NpcThinkingSystem/
-    /// MinorNpcBehaviorSystem)으로 라우팅한다. 재확산(TryReSpread) 자체는 NpcRank로 제한하지 않는
-    /// 공통 규칙이다 - 어떤 NPC든 Belief 판단이 끝나 Plausible/Trusted에 도달하면 같은 자격으로
-    /// 재확산을 시도한다("정보를 전달하는" 역할이 Minor 전용이 아니게 됨).
-    /// Major NPC 판단(NpcThinkingSystem.HandleExposureAsync)이 LLM Timeout까지 기다릴 수 있어
-    /// 이 클래스도 비동기다 - 한 장소에 여러 NPC가 있으면 순차로 await한다(기존 처리 순서 그대로,
-    /// 병렬 실행 없음).
+    /// 카드 재생을 장소/NPC 노출로 변환하고 판단을 NpcThinkingSystem으로 넘긴다. NPC 등급 구분이
+    /// 없으므로 라우팅 분기도 없다 - 모든 NPC가 같은 판단 경로를 타고, 재확산(TryReSpread) 역시
+    /// 어떤 NPC든 Belief 판단이 끝나 Plausible/Trusted에 도달하면 같은 자격으로 시도한다.
+    /// 판단(NpcThinkingSystem.HandleExposureAsync)이 LLM Timeout까지 기다릴 수 있어 이 클래스도
+    /// 비동기다 - 한 장소에 여러 NPC가 있으면 순차로 await한다(기존 처리 순서 그대로, 병렬 실행 없음).
     ///
     /// Location Mechanics V1: spreadSpeed는 재확산의 유효 확산력(TryReSpread의 확률 게이트)에만,
     /// npcDensity는 재확산 1회가 추가로 영향을 주는 NPC 수 상한에만 적용한다 - 플레이어의 최초 직접
@@ -113,7 +111,7 @@ namespace Belief.Systems
         }
 
         /// <summary>Belief 판단만 Major/Minor로 라우팅하고, 그 결과(BeliefState)로 재확산 조건을
-        /// 판정하는 마지막 단계는 항상 공통으로 실행한다 - 재확산 자격을 NpcRank로 제한하지 않는다.</summary>
+        /// 판정하는 마지막 단계는 항상 공통으로 실행한다 - 재확산 자격을 NPC 유형으로 제한하지 않는다.</summary>
         async Task Judge(NpcState npc, InformationCardData card, LocationState where, SpreadMechanicsSnapshot? spreadInfo)
         {
             int turn = currentTurnProvider();

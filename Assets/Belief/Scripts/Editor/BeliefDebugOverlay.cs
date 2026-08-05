@@ -73,7 +73,8 @@ namespace Belief.EditorTools
             EditorGUILayout.LabelField("NPC 목록", EditorStyles.boldLabel);
             npcListScroll = EditorGUILayout.BeginScrollView(npcListScroll);
 
-            foreach (var npcData in installer.Npcs.Keys.OrderBy(n => n.Rank).ThenBy(n => n.displayName))
+            // 예전에는 Rank(Major/Minor) 순으로 먼저 묶었지만 등급 구분이 사라져 이름순으로만 정렬한다.
+            foreach (var npcData in installer.Npcs.Keys.OrderBy(n => n.displayName))
             {
                 bool isSelected = npcData == selected;
                 var style = isSelected ? EditorStyles.miniButtonMid : EditorStyles.miniButton;
@@ -109,7 +110,7 @@ namespace Belief.EditorTools
 
         void DrawNpcHeader(NpcData data, NpcState state)
         {
-            EditorGUILayout.LabelField($"{data.displayName}  [{data.Rank}]", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField($"{data.displayName}  [{data.job}]", EditorStyles.boldLabel);
             EditorGUILayout.LabelField($"현재 위치: {(state.CurrentLocation != null ? state.CurrentLocation.displayName : "-")}");
             EditorGUILayout.LabelField($"LongMemory 개수: {state.LongMemory.Count}");
             EditorGUILayout.Space(6);

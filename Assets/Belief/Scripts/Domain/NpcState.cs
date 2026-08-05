@@ -70,7 +70,7 @@ namespace Belief.Domain
 
         /// <summary>
         /// 현재 Plausible/Trusted로 믿는 카드 개수 - 정보가 실제로 이 NPC를 움직이는 지렛대가 되도록
-        /// MinorNpcBehaviorSystem의 이동 확률이 이 값에 비례한다.
+        /// (예전에는 Minor 전용 무작위 배회 확률이 이 값에 비례했다 - 등급 구분 제거로 그 경로는 사라졌다.)
         /// 확장 메모(지금 구현 안 함): Fear/Suspicion/Stress 등 다른 심리 축이 실제로 필요해지면
         /// 이 필드 하나를 늘리지 말고 NpcMentalState(혹은 NpcInfluenceState) 같은 별도 값 타입으로 묶어서
         /// NpcState가 그 인스턴스 하나만 들고 있게 리팩터링할 것. 지금은 축이 하나뿐이라 과설계다.

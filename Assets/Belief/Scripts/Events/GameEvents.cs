@@ -31,7 +31,7 @@ namespace Belief.Events
         }
     }
 
-    /// <summary>NpcThinkingSystem/MinorNpcBehaviorSystem이 판단을 마칠 때마다 발행. MemorySystem이 반복 패턴 감지에 사용.</summary>
+    /// <summary>NpcThinkingSystem이 판단을 마칠 때마다 발행. MemorySystem이 반복 패턴 감지에 사용.</summary>
     public readonly struct CardJudgedEvent
     {
         public readonly NpcData Npc;
