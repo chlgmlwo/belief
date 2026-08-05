@@ -1,0 +1,13 @@
+name = "belief-llm-proxy"
+main = "worker.js"
+compatibility_date = "2026-08-05"
+
+# API 키는 여기에 절대 쓰지 않는다. 이 파일은 git에 올라가기 때문이다.
+# 키는 아래 명령으로 Cloudflare에만 저장한다:
+#   wrangler secret put OPENAI_API_KEY
+#
+# 배포:
+#   npx wrangler deploy
+#
+# 배포되면 https://belief-llm-proxy.<계정이름>.workers.dev 주소가 나온다.
+# 그 주소를 Unity의 Assets/Belief/Data/AI/LlmProviderConfig_Proxy.asset > Endpoint 에 넣는다.
