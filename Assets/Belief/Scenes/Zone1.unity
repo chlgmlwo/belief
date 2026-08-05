@@ -4052,6 +4052,8 @@ MonoBehaviour:
   fakeTransportMode: 0
   llmProviderConfig: {fileID: 0}
   llmTimeoutMs: 15000
+  shadowMode: 0
+  shadowPromptLogging: 0
 --- !u!4 &834267442
 Transform:
   m_ObjectHideFlags: 0

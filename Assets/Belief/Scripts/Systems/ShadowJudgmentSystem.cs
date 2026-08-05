@@ -134,6 +134,7 @@ namespace Belief.Systems
                 return;
             }
 
+            record.PromptChars = prompt.Length;
             if (logPrompts) record.PromptText = prompt;
 
             var start = DateTime.UtcNow;
@@ -172,6 +173,18 @@ namespace Belief.Systems
                 {
                     raw = await request;
                     if (string.IsNullOrWhiteSpace(raw)) failure = "EmptyResponse";
+                    else
+                    {
+                        record.ResponseChars = raw.Length;
+                        // 응답 직후에 읽는다 - Transport가 방금 이 호출의 usage를 채워 뒀다.
+                        if (transport is ITokenUsageReporting reporter
+                            && reporter.TryGetLastUsage(out int inTok, out int outTok, out _))
+                        {
+                            record.TokensAvailable = true;
+                            record.InputTokens = inTok;
+                            record.OutputTokens = outTok;
+                        }
+                    }
                 }
                 catch (LlmTransportException ex) { failure = ex.WasCanceled ? "Cancelled" : "TransportException"; }
                 catch (Exception) { failure = "TransportException"; }

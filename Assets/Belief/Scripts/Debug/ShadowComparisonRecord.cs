@@ -73,6 +73,18 @@ namespace Belief.Debugging
         public ShadowOutcome Outcome;
         public string FailureReason;
         public double LatencyMs;
+
+        /// <summary>Transport가 보고한 마지막 호출의 토큰 사용량. ITokenUsageReporting을 구현하지
+        /// 않는 Transport(FakeTransport 등)에서는 TokensAvailable=false로 남는다.
+        /// 동시 요청 중에는 "마지막 호출" 값을 읽는 특성상 드물게 다른 요청의 값이 섞일 수 있어,
+        /// 개별 건이 아니라 합계 수준의 지표로만 쓴다.</summary>
+        public bool TokensAvailable;
+        public int InputTokens;
+        public int OutputTokens;
+
+        /// <summary>토큰 보고가 없을 때를 대비한 참고용 원문 길이(문자 수).</summary>
+        public int PromptChars;
+        public int ResponseChars;
         public string PromptText;         // shadowPromptLogging이 켜졌을 때만 채워진다
         public string RawResponse;
     }
