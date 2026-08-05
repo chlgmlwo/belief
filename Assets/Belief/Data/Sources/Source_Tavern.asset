@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InfoSourceData
   sourceId: src_tavern
   displayName: "\uC8FC\uC810"
-  baseTrustModifier: 0.5
+  baseTrustModifier: 0.3

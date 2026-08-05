@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InfoSourceData
   sourceId: src_anonymous_tip
   displayName: "\uC775\uBA85 \uC81C\uBCF4"
-  baseTrustModifier: 0.5
+  baseTrustModifier: 0.25

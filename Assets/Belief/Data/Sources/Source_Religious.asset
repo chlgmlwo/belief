@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InfoSourceData
   sourceId: src_religious_facility
   displayName: "\uC885\uAD50\uC2DC\uC124"
-  baseTrustModifier: 0.5
+  baseTrustModifier: 0.55

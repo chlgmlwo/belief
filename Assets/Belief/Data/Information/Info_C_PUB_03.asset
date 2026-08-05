@@ -23,6 +23,6 @@ MonoBehaviour:
   - DISCONTENT
   categoryId: PUBLIC
   informationType: 3
-  baseCredibility: 0.5
+  baseCredibility: 0.65
   spreadPower: 0.5
   isActuallyTrue: 1

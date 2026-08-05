@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InfoSourceData
   sourceId: src_merchant_guild
   displayName: "\uC0C1\uC778 \uAE38\uB4DC"
-  baseTrustModifier: 0.5
+  baseTrustModifier: 0.6

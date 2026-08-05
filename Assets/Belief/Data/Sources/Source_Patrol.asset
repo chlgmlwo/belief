@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InfoSourceData
   sourceId: src_patrol
   displayName: "\uC21C\uCC30\uB300"
-  baseTrustModifier: 0.5
+  baseTrustModifier: 0.65

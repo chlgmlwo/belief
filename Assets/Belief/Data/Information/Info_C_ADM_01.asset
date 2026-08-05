@@ -24,6 +24,6 @@ MonoBehaviour:
   - STAFFING
   categoryId: ADMIN
   informationType: 1
-  baseCredibility: 0.5
+  baseCredibility: 0.7
   spreadPower: 0.5
   isActuallyTrue: 1

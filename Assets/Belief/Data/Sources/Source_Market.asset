@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InfoSourceData
   sourceId: src_market
   displayName: "\uC2DC\uC7A5"
-  baseTrustModifier: 0.5
+  baseTrustModifier: 0.35

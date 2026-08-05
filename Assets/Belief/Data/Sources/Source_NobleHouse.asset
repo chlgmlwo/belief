@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InfoSourceData
   sourceId: src_noble_house
   displayName: "\uADC0\uC871\uAC00"
-  baseTrustModifier: 0.5
+  baseTrustModifier: 0.45
