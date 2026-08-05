@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Belief.Data;
+using Belief.Domain;
 using Belief.AI.LLM.Benchmark;
 
 namespace Belief.AI.LLM
@@ -12,7 +13,12 @@ namespace Belief.AI.LLM
     /// </summary>
     public static class ResponseParser
     {
-        public static LlmValidationResult Parse(string rawResponse, IReadOnlyList<NpcActionData> candidateActions, int maxDialogueLength)
+        /// <summary>행동 판단 응답 검증. 기존 검증(빈 응답/JSON/행동 화이트리스트/대사)에 더해
+        /// 근거 3필드를 JudgmentGroundsValidator로 검증한다 - 지어낸 인물이나 태그가 하나라도
+        /// 있으면 그 응답 전체를 무효로 보고 호출자가 RuleBased 폴백 1회를 태운다.</summary>
+        public static LlmValidationResult Parse(
+            string rawResponse, IReadOnlyList<NpcActionData> candidateActions, int maxDialogueLength,
+            NpcState self, IReadOnlyList<NpcState> presentNpcs, NpcState propagator)
         {
             if (string.IsNullOrWhiteSpace(rawResponse))
                 return LlmValidationResult.Failure("빈 응답");
@@ -46,12 +52,21 @@ namespace Belief.AI.LLM
             if (parsed.dialogue.Length > maxDialogueLength)
                 return LlmValidationResult.Failure($"dialogue 길이 초과 ({parsed.dialogue.Length} > {maxDialogueLength})");
 
-            return LlmValidationResult.Success(matched, parsed.dialogue);
+            if (!JudgmentGroundsValidator.TryValidate(
+                    parsed.primaryReason, parsed.profileInfluence, parsed.relationshipInfluence,
+                    self, presentNpcs, propagator, out var grounds, out var groundsFailure))
+                return LlmValidationResult.Failure(groundsFailure);
+
+            return LlmValidationResult.Success(matched, parsed.dialogue, grounds);
         }
 
         /// <summary>LLM 이동 응답을 검증한다. "stay"는 유효한 성공 응답(머묾)이고, [이동 후보] 밖의
-        /// locationId는 실패로 취급해 RuleBased 폴백을 태운다 - 없는 장소로 이동시키지 않기 위함.</summary>
-        public static LlmMoveValidationResult ParseMove(string rawResponse, IReadOnlyList<LocationData> candidates)
+        /// locationId는 실패로 취급해 RuleBased 폴백을 태운다 - 없는 장소로 이동시키지 않기 위함.
+        /// 근거 3필드는 행동 판단과 완전히 같은 규칙으로 검증한다(이동은 카드와 무관하게 매 턴
+        /// 호출되므로 전달자가 없고, 관계 근거는 같은 장소 NPC로만 성립한다).</summary>
+        public static LlmMoveValidationResult ParseMove(
+            string rawResponse, IReadOnlyList<LocationData> candidates,
+            NpcState self, IReadOnlyList<NpcState> presentNpcs)
         {
             if (string.IsNullOrWhiteSpace(rawResponse))
                 return LlmMoveValidationResult.Failure("빈 응답");
@@ -69,8 +84,13 @@ namespace Belief.AI.LLM
             if (parsed == null || string.IsNullOrEmpty(parsed.destination))
                 return LlmMoveValidationResult.Failure("destination 없음");
 
+            if (!JudgmentGroundsValidator.TryValidate(
+                    parsed.primaryReason, parsed.profileInfluence, parsed.relationshipInfluence,
+                    self, presentNpcs, null, out var grounds, out var groundsFailure))
+                return LlmMoveValidationResult.Failure(groundsFailure);
+
             if (parsed.destination == "stay")
-                return LlmMoveValidationResult.Success(null);
+                return LlmMoveValidationResult.Success(null, grounds);
 
             if (candidates == null || candidates.Count == 0)
                 return LlmMoveValidationResult.Failure("이동 후보가 비어 있음");
@@ -79,7 +99,7 @@ namespace Belief.AI.LLM
             if (matched == null)
                 return LlmMoveValidationResult.Failure($"이동 후보에 없는 destination: '{parsed.destination}'");
 
-            return LlmMoveValidationResult.Success(matched);
+            return LlmMoveValidationResult.Success(matched, grounds);
         }
 
         /// <summary>

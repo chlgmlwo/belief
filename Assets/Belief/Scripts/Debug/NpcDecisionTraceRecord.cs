@@ -134,6 +134,13 @@ namespace Belief.Debugging
         public bool FallbackOccurred;
         public string FallbackReason; // Timeout/TransportException/EmptyResponse/JsonParseFailure/InvalidDestination/Cancelled/""
         public string UsedResultSource; // "LLM" / "RuleBased(Fallback)" / "N/A"
+
+        // ── 판단 근거(1단계) - 검증을 통과한 값만 들어온다(지어낸 인물/태그는 여기 도달 전에 무효 처리) ──
+        // 행동 판단과 이동 판단은 서로 다른 호출이므로, 같은 턴 같은 NPC라도 이 값들이 다를 수 있다.
+        public string GroundsPrimaryReason;      // profile/relationship/belief/goal/source/situation
+        public string GroundsProfileInfluence;   // 이 NPC의 5개 성향 태그 중 하나, 없으면 ""
+        public string GroundsRelationshipInfluence; // 이번 문맥에 등장하는 관계 NPC의 npcId, 없으면 ""
+
         public bool ResolvedByLlm;      // 최종적으로 LLM 결과가 확정되었는지
         public bool ResolvedByFallback; // 최종적으로 RuleBased 폴백 결과가 확정되었는지
         public bool LateResponseDiscarded; // Timeout 이후 도착한 응답을 폐기했는지 - 이 판단이 Publish된 뒤에

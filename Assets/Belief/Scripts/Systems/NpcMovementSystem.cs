@@ -140,7 +140,14 @@ namespace Belief.Systems
 #endif
 
                 var beforeLocation = npc.CurrentLocation;
-                var context = new NpcMoveContext(npc, beforeLocation, major.movementCandidates, this.currentTurn);
+
+                // 이동 판단에서 관계를 근거로 쓸 수 있는 유일한 통로 - 지금 같은 장소에 있는 인물.
+                // 발사 단계 안에서 계산하므로(이 루프에는 await가 없다) 전원이 같은 배치를 본다.
+                var presentNpcs = new List<NpcState>();
+                foreach (var other in ordered)
+                    if (other != npc && other.CurrentLocation == beforeLocation) presentNpcs.Add(other);
+
+                var context = new NpcMoveContext(npc, beforeLocation, major.movementCandidates, this.currentTurn, presentNpcs);
 
                 // 여기서 await하지 않는다 - Task만 받아 두고 다음 NPC로 넘어간다. RuleBased는
                 // Task.FromResult라 이 자리에서 이미 완료되고, LLM은 백그라운드로 진행된다.

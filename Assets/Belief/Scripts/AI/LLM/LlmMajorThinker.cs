@@ -96,7 +96,9 @@ namespace Belief.AI.LLM
                 return await fallback.DecideAsync(context, trace);
             }
 
-            var validation = ResponseParser.Parse(outcome.Raw, context.CandidateActions, MaxDialogueLength);
+            var validation = ResponseParser.Parse(
+                outcome.Raw, context.CandidateActions, MaxDialogueLength,
+                context.Npc, context.PresentNpcs, context.Propagator);
 
             if (!validation.IsValid)
             {
@@ -112,6 +114,8 @@ namespace Belief.AI.LLM
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             traceBuilder?.WithLlmResult(true, outcome.Raw, outcome.ElapsedMs, true, true, false, null, "LLM");
+            traceBuilder?.WithJudgmentGrounds(
+                validation.Grounds.PrimaryReason, validation.Grounds.ProfileInfluence, validation.Grounds.RelationshipInfluence);
 #endif
 
             var dialogue = new DialogueContent(validation.Dialogue);
@@ -165,7 +169,7 @@ namespace Belief.AI.LLM
                 return await fallback.DecideMoveAsync(context, trace);
             }
 
-            var validation = ResponseParser.ParseMove(outcome.Raw, context.Candidates);
+            var validation = ResponseParser.ParseMove(outcome.Raw, context.Candidates, context.Npc, context.PresentNpcs);
             if (!validation.IsValid)
             {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
@@ -177,6 +181,8 @@ namespace Belief.AI.LLM
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             traceBuilder?.WithLlmResult(true, outcome.Raw, outcome.ElapsedMs, true, true, false, null, "LLM");
+            traceBuilder?.WithJudgmentGrounds(
+                validation.Grounds.PrimaryReason, validation.Grounds.ProfileInfluence, validation.Grounds.RelationshipInfluence);
 #endif
             return new NpcMoveResult(validation.Destination);
         }
@@ -275,10 +281,27 @@ namespace Belief.AI.LLM
         }
 #endif
 
+        /// <summary>근거 검증(JudgmentGroundsValidator)이 내는 실패 사유는 이미 영문 분류 라벨이라
+        /// 그대로 통과시킨다 - 아래 한국어 매핑을 타면 엉뚱한 라벨로 뭉개진다.</summary>
+        static readonly string[] GroundsFailureLabels =
+        {
+            "MissingPrimaryReason", "InvalidPrimaryReason", "InvalidProfileInfluence",
+            "UnknownRelationship", "IrrelevantRelationship",
+            "RelationshipReasonWithoutTarget", "ProfileReasonWithoutTag"
+        };
+
+        static bool IsGroundsFailure(string failureReason)
+        {
+            if (failureReason == null) return false;
+            foreach (var l in GroundsFailureLabels) if (l == failureReason) return true;
+            return false;
+        }
+
         /// <summary>ResponseParser.Parse/ParseMove의 한국어 자유 텍스트 실패 사유를, 관찰 창이
         /// 요구하는 영문 분류 라벨로만 매핑한다 - 실제 검증 로직(ResponseParser)은 전혀 바꾸지 않는다.</summary>
         static string ClassifyDecideFailure(string raw, string failureReason)
         {
+            if (IsGroundsFailure(failureReason)) return failureReason;
             if (string.IsNullOrWhiteSpace(raw)) return "EmptyResponse";
             if (failureReason != null && failureReason.Contains("JSON 파싱 실패")) return "JsonParseFailure";
             if (failureReason != null && failureReason.Contains("CandidateActions에 없는")) return "InvalidDestination";
@@ -287,6 +310,7 @@ namespace Belief.AI.LLM
 
         static string ClassifyMoveFailure(string raw, string failureReason)
         {
+            if (IsGroundsFailure(failureReason)) return failureReason;
             if (string.IsNullOrWhiteSpace(raw)) return "EmptyResponse";
             if (failureReason != null && failureReason.Contains("이동 후보에 없는")) return "InvalidDestination";
             if (failureReason != null && failureReason.Contains("JSON 파싱 실패")) return "JsonParseFailure";

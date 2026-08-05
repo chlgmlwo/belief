@@ -15,10 +15,27 @@ namespace Belief.AI
         public readonly IReadOnlyList<NpcActionData> CandidateActions;
         public readonly int CurrentTurn;
 
+        /// <summary>지금 같은 장소에 있는 다른 NPC들(본인 제외). 관계를 판단 근거로 쓸 수 있는
+        /// 대상을 "이번 문맥에 실제로 등장하는 인물"로 한정하기 위한 값이다 - 프로필에 관계가
+        /// 적혀 있다는 이유만으로 이번 정보와 무관한 인물을 근거로 삼지 못하게 한다.</summary>
+        public readonly IReadOnlyList<NpcState> PresentNpcs;
+
+        /// <summary>이 정보를 실제로 전달한 NPC. 재확산 경로에서만 채워지고, 플레이어가 정보원을
+        /// 통해 직접 전달한 경우에는 항상 null이다 - 없는 전달자를 억지로 만들지 않는다.</summary>
+        public readonly NpcState Propagator;
+
         public NpcThinkContext(
             NpcState npc, InformationCardData card, BeliefState currentBelief, WorkingMemory workingMemory,
             LocationState currentLocation, IReadOnlyList<NpcActionData> candidateActions,
             int currentTurn)
+            : this(npc, card, currentBelief, workingMemory, currentLocation, candidateActions, currentTurn, null, null)
+        {
+        }
+
+        public NpcThinkContext(
+            NpcState npc, InformationCardData card, BeliefState currentBelief, WorkingMemory workingMemory,
+            LocationState currentLocation, IReadOnlyList<NpcActionData> candidateActions,
+            int currentTurn, IReadOnlyList<NpcState> presentNpcs, NpcState propagator)
         {
             Npc = npc;
             Card = card;
@@ -27,6 +44,8 @@ namespace Belief.AI
             CurrentLocation = currentLocation;
             CandidateActions = candidateActions;
             CurrentTurn = currentTurn;
+            PresentNpcs = presentNpcs;
+            Propagator = propagator;
         }
     }
 
@@ -51,12 +70,24 @@ namespace Belief.AI
         public readonly IReadOnlyList<LocationData> Candidates;
         public readonly int CurrentTurn;
 
+        /// <summary>지금 같은 장소에 있는 다른 NPC들(본인 제외). 이동 판단에서 관계를 근거로 쓸 수
+        /// 있는 유일한 통로다 - 이동 판단은 특정 카드와 무관하게 매 턴 호출되므로 전달자(propagator)
+        /// 개념이 없다.</summary>
+        public readonly IReadOnlyList<NpcState> PresentNpcs;
+
         public NpcMoveContext(NpcState npc, LocationData currentLocation, IReadOnlyList<LocationData> candidates, int currentTurn)
+            : this(npc, currentLocation, candidates, currentTurn, null)
+        {
+        }
+
+        public NpcMoveContext(NpcState npc, LocationData currentLocation, IReadOnlyList<LocationData> candidates,
+            int currentTurn, IReadOnlyList<NpcState> presentNpcs)
         {
             Npc = npc;
             CurrentLocation = currentLocation;
             Candidates = candidates;
             CurrentTurn = currentTurn;
+            PresentNpcs = presentNpcs;
         }
     }
 

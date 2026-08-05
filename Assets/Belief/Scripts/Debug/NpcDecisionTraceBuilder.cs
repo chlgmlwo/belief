@@ -303,6 +303,17 @@ namespace Belief.Debugging
             return this;
         }
 
+        /// <summary>검증을 통과한 판단 근거 3필드를 그대로 옮겨 담는다 - 여기서 해석하거나 보정하지
+        /// 않는다. LlmMajorThinker만 호출하며, RuleBased 폴백으로 확정된 판단에는 붙지 않는다
+        /// (그 경우 세 값이 모두 빈 문자열로 남아 "근거 없음"과 구분된다).</summary>
+        public NpcDecisionTraceBuilder WithJudgmentGrounds(string primaryReason, string profileInfluence, string relationshipInfluence)
+        {
+            record.GroundsPrimaryReason = primaryReason ?? "";
+            record.GroundsProfileInfluence = profileInfluence ?? "";
+            record.GroundsRelationshipInfluence = relationshipInfluence ?? "";
+            return this;
+        }
+
         /// <summary>Action Effect가 실제로 실행된 뒤 남긴 흔적을 관찰만 한다 - 여기서 InvestigationState나
         /// Memory를 만들지 않는다(호출부가 ActionResolutionSystem.Apply 이후의 실제 상태를 읽어 그대로 전달).</summary>
         public NpcDecisionTraceBuilder WithEffectResult(

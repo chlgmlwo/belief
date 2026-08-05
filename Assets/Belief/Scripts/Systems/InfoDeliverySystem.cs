@@ -85,15 +85,18 @@ namespace Belief.Systems
             }
 
             foreach (var npc in targets)
-                await Judge(npc, card, locState, spreadInfo);
+                await Judge(npc, card, locState, spreadInfo, propagator);
         }
 
         public async Task DeliverCardToNpcAsync(InformationCardData card, NpcState target)
         {
             eventBus.Publish(new InfoDeliveredEvent(card, target.Data));
 
+            // 플레이어가 정보원을 통해 직접 전달한 경로 - 전달한 "인물"이 존재하지 않으므로
+            // propagator는 항상 null이다. 관계 근거를 만들어 주려고 여기에 가짜 전달자를 끼워
+            // 넣지 않는다(없는 사실을 판단 근거로 쓰게 되므로).
             if (target.CurrentLocation != null && locations.TryGetValue(target.CurrentLocation, out var where))
-                await Judge(target, card, where, null);
+                await Judge(target, card, where, null, null);
         }
 
         void RecordRumor(LocationState locState, InformationCardData card, NpcData propagator)
@@ -112,7 +115,8 @@ namespace Belief.Systems
 
         /// <summary>Belief 판단만 Major/Minor로 라우팅하고, 그 결과(BeliefState)로 재확산 조건을
         /// 판정하는 마지막 단계는 항상 공통으로 실행한다 - 재확산 자격을 NPC 유형으로 제한하지 않는다.</summary>
-        async Task Judge(NpcState npc, InformationCardData card, LocationState where, SpreadMechanicsSnapshot? spreadInfo)
+        async Task Judge(NpcState npc, InformationCardData card, LocationState where, SpreadMechanicsSnapshot? spreadInfo,
+            NpcState propagator)
         {
             int turn = currentTurnProvider();
             npc.RecordReceivedInformation(card, turn);
@@ -120,7 +124,7 @@ namespace Belief.Systems
             // NPC 등급 구분 없이 모든 NPC가 같은 판단 경로를 탄다 - "AI가 정보를 받고 각 NPC가
             // 해석해서 행동한다"가 이 게임의 핵심이므로, 일부 NPC만 기억 없이 판단하던 별도 경로
             // (구 MinorNpcBehaviorSystem)를 없앴다.
-            var belief = await thinking.HandleExposureAsync(npc, card, where, turn, spreadInfo);
+            var belief = await thinking.HandleExposureAsync(npc, card, where, turn, spreadInfo, propagator);
 
             await TryReSpread(card, where, npc, belief);
         }

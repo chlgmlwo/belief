@@ -42,9 +42,11 @@ namespace Belief.Systems
         /// NPC별로 순차 await하므로 재진입 없음) - 중복 ActionResolution 걱정이 구조적으로 없다.
         /// 반환하는 BeliefState는 InfoDeliverySystem.Judge가 Major/Minor 공통으로 재확산 조건
         /// (TryReSpread)을 판정하는 데 쓰인다 - 이 메서드 자체는 재확산에 전혀 관여하지 않는다.</summary>
+        /// <param name="propagator">이 정보를 실제로 전달한 NPC(재확산 경로에서만 존재). 플레이어가
+        /// 정보원을 통해 직접 전달한 경우는 항상 null이며, 그때는 관계 근거를 만들지 않는다.</param>
         public async Task<BeliefState> HandleExposureAsync(
             NpcState npc, InformationCardData card, LocationState where, int currentTurn,
-            SpreadMechanicsSnapshot? spreadInfo = null)
+            SpreadMechanicsSnapshot? spreadInfo = null, NpcState propagator = null)
         {
             if (!(npc.Data is MajorNpcData major)) return BeliefState.Unknown;
 
@@ -87,8 +89,18 @@ namespace Belief.Systems
             if (beliefResult.FinalBelief != beliefBefore) npc.MarkBeliefChanged();
 
             var candidates = major.availableActions ?? Array.Empty<NpcActionData>();
+
+            // 관계를 판단 근거로 쓸 수 있는 대상을 "이번 문맥에 실제로 등장하는 인물"로 한정하기 위한
+            // 입력. 지금 이 장소에 함께 있는 인물 목록을 이 시점에 복사해 둔다 - 판단 중 재확산으로
+            // 장소 인원이 바뀌어도 이 판단이 본 세계는 고정된다.
+            var presentNpcs = new List<NpcState>();
+            if (where != null)
+                foreach (var other in where.PresentNpcs)
+                    if (other != null && other != npc) presentNpcs.Add(other);
+
             var thinkContext = new NpcThinkContext(
-                npc, card, beliefResult.FinalBelief, workingMemory, where, candidates, currentTurn);
+                npc, card, beliefResult.FinalBelief, workingMemory, where, candidates, currentTurn,
+                presentNpcs, propagator);
 
             // trace를 메서드 인자로 명시적으로 전달한다(더 이상 static 공유 없음) - LlmMajorThinker는
             // LLM/Fallback 정보(J절)를 이 레코드에 직접 채우고, Publish는 항상 아래에서 이 메서드가 한다.
