@@ -35,8 +35,20 @@ namespace Belief.Systems
 
         void OnMemoryWorthyEvent(MemoryWorthyEventOccurred e)
         {
-            if (npcLookup.TryGetValue(e.Target, out var state))
-                state.RecordMemory(e.Entry);
+            if (!npcLookup.TryGetValue(e.Target, out var state)) return;
+
+            // 같은 NPC가 같은 주장(informationId)에 대해 이미 기억을 갖고 있으면 다시 기록하지 않는다 -
+            // 확인(Verify)을 반복해서 Belief 보정을 중첩시키는 것을 막는 유일한 지점이다.
+            // 중복 방지 상태를 별도 컬렉션으로 들지 않고 LongMemory에서 그때그때 도출하므로,
+            // RestartCurrentMission이 LongMemory를 되돌리면 중복 방지 상태도 함께 정확히 되돌아간다
+            // (falseInfoStreak처럼 별도 스냅샷을 관리할 필요가 없다).
+            if (!string.IsNullOrEmpty(e.Entry.RelatedInformationId))
+            {
+                foreach (var existing in state.LongMemory)
+                    if (existing.RelatedInformationId == e.Entry.RelatedInformationId) return;
+            }
+
+            state.RecordMemory(e.Entry);
         }
 
         void OnCardJudged(CardJudgedEvent e)

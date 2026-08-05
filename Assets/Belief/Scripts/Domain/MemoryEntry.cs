@@ -19,6 +19,12 @@ namespace Belief.Domain
         public string RelatedSourceId { get; }
         public string RelatedInformationCategoryId { get; }
 
+        /// <summary>이 기억이 특정 주장 하나에 묶여 있을 때 그 InformationData.informationId.
+        /// 확인(Verify) 결과 기억이 대표적인 예다. MemorySystem은 이 값으로 "같은 NPC가 같은 정보를
+        /// 다시 확인했는가"를 판정해 중복 기록을 막는다 - 중복 방지 상태를 별도 필드로 들지 않고
+        /// LongMemory에서 그때그때 도출하므로, 스냅샷 복원이 자동으로 올바르게 동작한다.</summary>
+        public string RelatedInformationId { get; }
+
         /// <summary>비어있지 않으면 핵심 기억(배신/생명의 은인 등) 후보임을 나타낸다.</summary>
         public string MemoryCategoryId { get; }
 
@@ -33,8 +39,10 @@ namespace Belief.Domain
             string relatedSourceId = null,
             string relatedInformationCategoryId = null,
             string memoryCategoryId = null,
-            float valence = 0f)
+            float valence = 0f,
+            string relatedInformationId = null)
         {
+            RelatedInformationId = relatedInformationId;
             Description = description;
             TurnRecorded = turnRecorded;
             Importance = importance;
