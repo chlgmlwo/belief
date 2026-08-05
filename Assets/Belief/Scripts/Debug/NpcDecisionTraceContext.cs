@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 
 namespace Belief.Debugging
 {
-    /// <summary>StageId/StageTurn/MissionId/MissionTurn/ThinkerMode처럼 판단 시스템(MajorNpcThinkingSystem,
-    /// MajorNpcMovementSystem 등) 안에서는 직접 알 수 없는 상위 문맥값을 트레이스 기록에 채우기 위한
+    /// <summary>StageId/StageTurn/MissionId/MissionTurn/ThinkerMode처럼 판단 시스템(NpcThinkingSystem,
+    /// NpcMovementSystem 등) 안에서는 직접 알 수 없는 상위 문맥값을 트레이스 기록에 채우기 위한
     /// 정적 홀더. GameInstaller.Awake()가 한 번 델리게이트를 등록해 두면, 판단 시스템들은 생성자 인자를
     /// 추가로 받지 않고도 이 값을 읽을 수 있다(ProgressionController.Instance/PlaybackDirector.Instance와
     /// 같은 기존 정적 싱글턴 패턴을 그대로 따른다). 델리게이트가 비어 있으면 빈 값을 반환할 뿐 예외를

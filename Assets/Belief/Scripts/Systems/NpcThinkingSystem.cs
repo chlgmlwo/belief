@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace Belief.Systems
     /// Major NPC 판단 오케스트레이션: MemorySelector -> BeliefSystem -> IMajorNpcThinker ->
     /// ActionResolutionSystem 순서로 위임한다. 이 클래스 자체는 Belief를 계산하지 않고 읽기만 한다.
     /// </summary>
-    public class MajorNpcThinkingSystem
+    public class NpcThinkingSystem
     {
         readonly MemorySelector memorySelector;
         readonly BeliefSystem beliefSystem;
@@ -23,7 +23,7 @@ namespace Belief.Systems
         readonly MemoryTuningData memoryTuning;
         readonly IGameEventBus eventBus;
 
-        public MajorNpcThinkingSystem(
+        public NpcThinkingSystem(
             MemorySelector memorySelector, BeliefSystem beliefSystem, IMajorNpcThinker thinker,
             ActionResolutionSystem actionResolution, MemoryTuningData memoryTuning, IGameEventBus eventBus)
         {

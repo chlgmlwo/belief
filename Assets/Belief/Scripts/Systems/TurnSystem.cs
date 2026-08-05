@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Belief.Data;
@@ -9,15 +9,14 @@ namespace Belief.Systems
 {
     /// <summary>
     /// 턴 루프 오케스트레이션. 플레이어가 정보 카드를 선택하고 장소/NPC에 전달하면 한 턴이 소모된다.
-    /// 턴 종료 시 Minor NPC 배회 + 미션 재평가 + 승패 판정을 수행하고, 다음 턴 시작 시 보유 정보
+    /// 턴 종료 시 NPC 이동 + 미션 재평가 + 승패 판정을 수행하고, 다음 턴 시작 시 보유 정보
     /// 보충 여부를 InformationCardSystem에 위임한다.
     /// </summary>
     public class TurnSystem
     {
         readonly InformationCardSystem cards;
         readonly InfoDeliverySystem delivery;
-        readonly MinorNpcBehaviorSystem minorBehavior;
-        readonly MajorNpcMovementSystem majorMovement;
+        readonly NpcMovementSystem movement;
         readonly MissionSystem mission;
         readonly IReadOnlyDictionary<NpcData, NpcState> allNpcs;
         readonly IReadOnlyDictionary<LocationData, LocationState> allLocations;
@@ -86,8 +85,7 @@ namespace Belief.Systems
         public TurnSystem(
             InformationCardSystem cards,
             InfoDeliverySystem delivery,
-            MinorNpcBehaviorSystem minorBehavior,
-            MajorNpcMovementSystem majorMovement,
+            NpcMovementSystem movement,
             MissionSystem mission,
             IReadOnlyDictionary<NpcData, NpcState> allNpcs,
             IReadOnlyDictionary<LocationData, LocationState> allLocations,
@@ -99,8 +97,7 @@ namespace Belief.Systems
         {
             this.cards = cards;
             this.delivery = delivery;
-            this.minorBehavior = minorBehavior;
-            this.majorMovement = majorMovement;
+            this.movement = movement;
             this.mission = mission;
             this.allNpcs = allNpcs;
             this.allLocations = allLocations;
@@ -272,8 +269,9 @@ namespace Belief.Systems
 
         async Task FinishTurnAsync()
         {
-            minorBehavior.MoveMinorNpcs(allNpcs.Values);
-            await majorMovement.MoveMajorNpcsAsync(allNpcs.Values, CurrentTurn);
+            // 예전에는 여기서 Minor NPC만 확률적으로 무작위 배회시키는 별도 처리가 먼저 돌았다.
+            // NPC 등급 구분을 없애면서 모든 NPC가 아래 한 경로(판단 기반 이동)로 통일됐다.
+            await movement.MoveNpcsAsync(allNpcs.Values, CurrentTurn);
             mission.Evaluate(BuildMissionContext());
 
             // 씬 레벨 즉시 실패 조건 - 계산만 여기서 하고 TurnEndedEvent에 실어 보낸다. 실제 실패

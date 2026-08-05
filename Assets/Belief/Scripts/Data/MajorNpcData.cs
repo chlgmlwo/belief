@@ -38,7 +38,6 @@ namespace Belief.Data
         public LocationData[] preferredLocations;
         public LocationData[] avoidedLocations;
 
-        public override NpcRank Rank => NpcRank.Major;
         public override string InitialGoal => goal;
 
         /// <summary>관계 항목이 아예 없는 경우와 강도 0인 관계를 구분하기 위해 bool로 존재 여부를 반환한다.</summary>

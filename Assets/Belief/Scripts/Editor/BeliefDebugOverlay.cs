@@ -77,7 +77,7 @@ namespace Belief.EditorTools
             {
                 bool isSelected = npcData == selected;
                 var style = isSelected ? EditorStyles.miniButtonMid : EditorStyles.miniButton;
-                string label = $"[{(npcData.Rank == NpcRank.Major ? "M" : "m")}] {npcData.displayName}";
+                string label = npcData.displayName;
                 if (GUILayout.Button(label, style)) selected = npcData;
             }
 

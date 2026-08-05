@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Belief.Data;
@@ -152,7 +152,7 @@ namespace Belief.AI
         }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        /// <summary>호출자(MajorNpcMovementSystem, 또는 LLM 실패 시 LlmMajorThinker)가 만들어 넘긴
+        /// <summary>호출자(NpcMovementSystem, 또는 LLM 실패 시 LlmMajorThinker)가 만들어 넘긴
         /// 레코드에 이동 후보 점수(I절)만 채운다 - 레코드를 새로 만들거나 Publish하지 않는다.
         /// 최종 결과/Publish는 항상 호출자 쪽 책임이다(판단 1건 = 레코드 1개를 보장하기 위함).</summary>
         static void WriteMoveTrace(

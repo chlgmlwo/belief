@@ -43,8 +43,6 @@ namespace Belief.Data
         [Tooltip("이동(AnimateTo) 중 재생할 걷기 사이클 프레임들 - 순서대로 재생 후 반복한다. 비어 있으면 이동 중에도 characterPhoto를 그대로 유지한다(하위 호환).")]
         public Sprite[] walkFrames;
 
-        public abstract NpcRank Rank { get; }
-
         /// <summary>Frozen AI Profile에 정의된 장기 목표(있는 경우). NpcState가 타입 분기 없이
         /// 공통으로 읽을 수 있도록 base에 가상 프로퍼티로 둔다 - 목표가 없는 NPC 유형은 null을 반환한다.</summary>
         public virtual string InitialGoal => null;

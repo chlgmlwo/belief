@@ -17,8 +17,11 @@ namespace Belief.AI.LLM
             var sb = new StringBuilder();
 
             sb.AppendLine("[NPC]");
+            // "주요 인물 / 일반 시민" 구분은 뺐다 - NPC 등급을 없앴을 뿐 아니라, 그 라벨 자체가
+            // AI에게 "이 인물은 덜 중요하다"는 편향을 주어 판단을 납작하게 만들 소지가 있다.
+            // 인물의 차이는 아래 직업·성향 태그·목표로 충분히 드러난다.
             sb.AppendLine($"이름: {npcData.displayName}");
-            sb.AppendLine($"유형: {(npcData is MajorNpcData ? "주요 인물" : "일반 시민")}");
+            if (!string.IsNullOrEmpty(npcData.job)) sb.AppendLine($"직업: {npcData.job}");
             sb.AppendLine($"신뢰경향: {npcData.trustBias:F2}, 의심도: {npcData.skepticism:F2}");
             if (npcData is MajorNpcData major && !string.IsNullOrEmpty(major.goal))
                 sb.AppendLine($"목표: {major.goal}");

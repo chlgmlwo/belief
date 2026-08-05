@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 003fe035ca8873443aa201bc93bd70ff, type: 3}
-  m_Name: Npc_Minor_Smuggler_Stage2
+  m_Script: {fileID: 11500000, guid: 12f18e02d566237418d0e388cef1b29d, type: 3}
+  m_Name: Npc_Major_Smuggler_Stage2
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MinorNpcData
   npcId: npc_minor_smuggler_s2
   displayName: "\uBC00\uC218\uC5C5\uC790"
@@ -75,8 +75,46 @@ MonoBehaviour:
   - {fileID: 2891723579047326615, guid: 02b40ed2f0d2d0d4081999b5bf4c4f4e, type: 3}
   - {fileID: -409629113371050101, guid: 02b40ed2f0d2d0d4081999b5bf4c4f4e, type: 3}
   - {fileID: -7565308032259180555, guid: 02b40ed2f0d2d0d4081999b5bf4c4f4e, type: 3}
+  goal: "\uC790\uC2E0\uC758 \uC815\uCCB4\uC640 \uAC70\uB798\uB97C \uC228\uAE30\uACE0,
+    \uC704\uAE30\uB97C \uD53C\uD558\uBA74\uC11C \uC774\uC775\uC744 \uC5BB\uC73C\uBA70,
+    \uAE30\uD68C\uAC00 \uC0DD\uAE30\uBA74 \uAE38\uB4DC\uC7A5\uC758 \uC790\uB9AC\uB97C
+    \uB300\uC2E0\uD560 \uAC00\uB2A5\uC131\uC744 \uB113\uD78C\uB2E4."
+  loyalty: 0.2
+  relationships:
+  - other: {fileID: 11400000, guid: 7affddfbafc05c445bdc0fc15115a23c, type: 2}
+    type: {fileID: 0}
+    strength: 0.2
+    relationshipTypeLabel: "\uC554\uBB35\uC801 \uD30C\uD2B8\uB108\uC774\uC790 \uACBD\uC7C1\uC790"
+    relationshipDescription: "\uAC89\uC73C\uB85C \uD611\uB825\uD558\uC9C0\uB9CC \uB0B4\uC2EC
+      \uC790\uB9AC\uB97C \uB178\uB9AC\uBA70 \uC704\uAE30 \uC815\uBCF4\uB97C \uC801\uADF9
+      \uD65C\uC6A9\uD55C\uB2E4."
+  - other: {fileID: 11400000, guid: edd7b0ba482ba8147ac42357d8abedce, type: 2}
+    type: {fileID: 0}
+    strength: -0.6
+    relationshipTypeLabel: "\uB2E8\uC18D\uC790\xB7\uD68C\uD53C \uB300\uC0C1"
+    relationshipDescription: "\uC9C1\uC811 \uC5B8\uAE09\uC744 \uD53C\uD558\uACE0
+      \uC138\uAD00 \uAD00\uB828 \uC815\uBCF4\uC5D0 \uAC15\uD558\uAC8C \uACBD\uACC4\uD55C\uB2E4."
+  - other: {fileID: 11400000, guid: 3b6c1c8ed9409ea44807665c423530af, type: 2}
+    type: {fileID: 0}
+    strength: 0.1
+    relationshipTypeLabel: "\uC815\uBCF4 \uC720\uD1B5 \uACBD\uB85C"
+    relationshipDescription: "\uC9C1\uC811 \uB300\uBA74\uBCF4\uB2E4 \uC18C\uC0C1\uC778\uC744
+      \uD1B5\uD574 \uC18C\uBB38\uC744 \uD758\uB9AC\uB294 \uBC29\uC2DD\uC744 \uC120\uD638\uD55C\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
   - {fileID: 11400000, guid: bcdb4f54f283ba04ea0cad5c9bce062e, type: 2}
   - {fileID: 11400000, guid: 45f92c76ef9ea154b8d3f35541395f14, type: 2}
+  beliefDialogues:
+  - {fileID: 11400000, guid: 06a6d6f76d3728047af023e85b9a9250, type: 2}
+  - {fileID: 11400000, guid: 65397ef9d51072e4a816e135f2e112bc, type: 2}
+  - {fileID: 11400000, guid: 9966360d754e4274895f69b8e575c937, type: 2}
+  - {fileID: 11400000, guid: 2cf9115105ba9cd47b0d446796ff562b, type: 2}
+  - {fileID: 11400000, guid: 337516d118db63c4c8f2c3d7769577b8, type: 2}
+  movementCandidates:
+  - {fileID: 11400000, guid: c64bc51fba05aeb43ba46e4d412a79f9, type: 2}
+  - {fileID: 11400000, guid: 19033b22e5426dc4089787dee0e242ed, type: 2}
+  preferredLocations:
+  - {fileID: 11400000, guid: c64bc51fba05aeb43ba46e4d412a79f9, type: 2}
+  avoidedLocations:
+  - {fileID: 11400000, guid: 34e7ab9f748b1c4458b0d3972829ae02, type: 2}

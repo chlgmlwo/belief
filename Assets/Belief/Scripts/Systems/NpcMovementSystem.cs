@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Belief.AI;
 using Belief.Data;
@@ -11,26 +11,26 @@ using Belief.Debugging;
 namespace Belief.Systems
 {
     /// <summary>
-    /// Major NPC 이동. 목적지 후보(movementCandidates)는 v4 destinationCandidateIds를 그대로 반영한
+    /// NPC 이동(등급 구분 없음 - 전원 동일 경로). 목적지 후보(movementCandidates)는 v4 destinationCandidateIds를 그대로 반영한
     /// 실제 데이터이고, 실제 판단(LLM 우선, 실패 시 RuleBased 대체)은 IMajorNpcThinker.DecideMoveAsync에
-    /// 위임한다 - 이 클래스는 매 턴 전체 Major NPC를 순회하며 판단을 요청하고 최종 Move를 실행하는
+    /// 위임한다 - 이 클래스는 매 턴 전체 NPC를 순회하며 판단을 요청하고 최종 Move를 실행하는
     /// 오케스트레이션만 담당한다("8. Unity가 최종 Move를 실행"). NPC별로 순차 await하므로(Task.WhenAll
     /// 같은 병렬 실행 없음) 같은 턴 안에서 서로 다른 NPC의 판단이 겹치지 않는다 - 기존 이동 순서 규칙도
     /// 그대로 유지된다.
     /// </summary>
-    public class MajorNpcMovementSystem
+    public class NpcMovementSystem
     {
         readonly ActionResolutionSystem actionResolution;
         readonly IMajorNpcThinker thinker;
         int currentTurn;
 
-        public MajorNpcMovementSystem(ActionResolutionSystem actionResolution, IMajorNpcThinker thinker)
+        public NpcMovementSystem(ActionResolutionSystem actionResolution, IMajorNpcThinker thinker)
         {
             this.actionResolution = actionResolution;
             this.thinker = thinker;
         }
 
-        public async Task MoveMajorNpcsAsync(IEnumerable<NpcState> allNpcs, int currentTurn)
+        public async Task MoveNpcsAsync(IEnumerable<NpcState> allNpcs, int currentTurn)
         {
             this.currentTurn = currentTurn;
 
@@ -79,7 +79,7 @@ namespace Belief.Systems
                     }
                     else
                     {
-                        Debug.LogWarning($"[MajorNpcMovementSystem] Turn {this.currentTurn}에 {npcKey}의 중복 이동 적용을 차단했습니다.");
+                        Debug.LogWarning($"[NpcMovementSystem] Turn {this.currentTurn}에 {npcKey}의 중복 이동 적용을 차단했습니다.");
                     }
                 }
                 else

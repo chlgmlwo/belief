@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Belief.AI;
 using Belief.AI.LLM;
@@ -132,18 +132,18 @@ namespace Belief.Core
             PromptRepo = promptRepository;
             IMajorNpcThinker thinker = ThinkerFactory.Create(thinkerMode, promptRepository, fakeTransportMode, llmTimeoutMs, llmProviderConfig);
 
-            var majorThinking = new MajorNpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus);
-            var minorBehavior = new MinorNpcBehaviorSystem(beliefSystem, actionResolution, thinker, EventBus);
-            var majorMovement = new MajorNpcMovementSystem(actionResolution, thinker);
+            // NPC 등급 구분 없음 - 모든 NPC가 같은 판단/이동 시스템을 탄다.
+            var thinking = new NpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus);
+            var movement = new NpcMovementSystem(actionResolution, thinker);
 
             TurnSystem turnSystemRef = null;
-            var delivery = new InfoDeliverySystem(locationStates, majorThinking, minorBehavior, EventBus, () => turnSystemRef.CurrentTurn, locationMechanics);
+            var delivery = new InfoDeliverySystem(locationStates, thinking, EventBus, () => turnSystemRef.CurrentTurn, locationMechanics);
             Delivery = delivery;
 
             var informationCards = new InformationCardSystem(effectiveCardPool, EventBus);
             Mission = new MissionSystem(effectiveMission, EventBus);
 
-            Turns = new TurnSystem(informationCards, delivery, minorBehavior, majorMovement, Mission, npcStates, locationStates, effectiveMaxTurns, instantFailCondition, EventBus, locationMechanics, memorySystem);
+            Turns = new TurnSystem(informationCards, delivery, movement, Mission, npcStates, locationStates, effectiveMaxTurns, instantFailCondition, EventBus, locationMechanics, memorySystem);
             turnSystemRef = Turns;
 
             if (finalResultData != null)

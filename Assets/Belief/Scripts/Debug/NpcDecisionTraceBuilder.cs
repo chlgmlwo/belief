@@ -1,4 +1,4 @@
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+﻿#if UNITY_EDITOR || DEVELOPMENT_BUILD
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using Belief.Systems;
 namespace Belief.Debugging
 {
     /// <summary>하나의 판단(정보 판단 또는 턴 이동)에 대한 관찰 기록을 단계별로 채워 나가는 헬퍼.
-    /// 호출부(MajorNpcThinkingSystem/RuleBasedMajorThinker/LlmMajorThinker/MajorNpcMovementSystem 등)가
+    /// 호출부(NpcThinkingSystem/RuleBasedMajorThinker/LlmMajorThinker/NpcMovementSystem 등)가
     /// 이미 계산한 값만 그대로 옮겨 담는다 - 여기서 새로 계산하거나 추론하지 않는다.
     /// 이 클래스는 게임 판단에 어떤 영향도 주지 않는다(Publish 결과를 아무도 읽지 않아도 게임은
     /// 동일하게 동작한다).</summary>

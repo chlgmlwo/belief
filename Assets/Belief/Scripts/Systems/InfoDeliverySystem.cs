@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +10,11 @@ using UnityEngine;
 namespace Belief.Systems
 {
     /// <summary>
-    /// 카드 재생을 장소/NPC 노출로 변환하고, Major/Minor에 따라 적절한 판단 시스템(MajorNpcThinkingSystem/
+    /// 카드 재생을 장소/NPC 노출로 변환하고, Major/Minor에 따라 적절한 판단 시스템(NpcThinkingSystem/
     /// MinorNpcBehaviorSystem)으로 라우팅한다. 재확산(TryReSpread) 자체는 NpcRank로 제한하지 않는
     /// 공통 규칙이다 - 어떤 NPC든 Belief 판단이 끝나 Plausible/Trusted에 도달하면 같은 자격으로
     /// 재확산을 시도한다("정보를 전달하는" 역할이 Minor 전용이 아니게 됨).
-    /// Major NPC 판단(MajorNpcThinkingSystem.HandleExposureAsync)이 LLM Timeout까지 기다릴 수 있어
+    /// Major NPC 판단(NpcThinkingSystem.HandleExposureAsync)이 LLM Timeout까지 기다릴 수 있어
     /// 이 클래스도 비동기다 - 한 장소에 여러 NPC가 있으면 순차로 await한다(기존 처리 순서 그대로,
     /// 병렬 실행 없음).
     ///
@@ -25,23 +25,20 @@ namespace Belief.Systems
     public class InfoDeliverySystem
     {
         readonly IReadOnlyDictionary<LocationData, LocationState> locations;
-        readonly MajorNpcThinkingSystem majorThinking;
-        readonly MinorNpcBehaviorSystem minorBehavior;
+        readonly NpcThinkingSystem thinking;
         readonly IGameEventBus eventBus;
         readonly Func<int> currentTurnProvider;
         readonly LocationMechanicsSettings locationMechanics;
 
         public InfoDeliverySystem(
             IReadOnlyDictionary<LocationData, LocationState> locations,
-            MajorNpcThinkingSystem majorThinking,
-            MinorNpcBehaviorSystem minorBehavior,
+            NpcThinkingSystem thinking,
             IGameEventBus eventBus,
             Func<int> currentTurnProvider,
             LocationMechanicsSettings locationMechanics)
         {
             this.locations = locations;
-            this.majorThinking = majorThinking;
-            this.minorBehavior = minorBehavior;
+            this.thinking = thinking;
             this.eventBus = eventBus;
             this.currentTurnProvider = currentTurnProvider;
             this.locationMechanics = locationMechanics;
@@ -122,16 +119,10 @@ namespace Belief.Systems
             int turn = currentTurnProvider();
             npc.RecordReceivedInformation(card, turn);
 
-            BeliefState belief;
-            if (npc.Data is MajorNpcData)
-            {
-                belief = await majorThinking.HandleExposureAsync(npc, card, where, turn, spreadInfo);
-            }
-            else
-            {
-                var outcome = await minorBehavior.HandleExposureAsync(npc, card, where, turn);
-                belief = outcome.Belief;
-            }
+            // NPC 등급 구분 없이 모든 NPC가 같은 판단 경로를 탄다 - "AI가 정보를 받고 각 NPC가
+            // 해석해서 행동한다"가 이 게임의 핵심이므로, 일부 NPC만 기억 없이 판단하던 별도 경로
+            // (구 MinorNpcBehaviorSystem)를 없앴다.
+            var belief = await thinking.HandleExposureAsync(npc, card, where, turn, spreadInfo);
 
             await TryReSpread(card, where, npc, belief);
         }

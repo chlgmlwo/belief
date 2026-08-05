@@ -16,11 +16,10 @@ namespace Belief.Data
         Deliver
     }
 
-    public enum NpcRank
-    {
-        Major,
-        Minor
-    }
+    // NpcRank(Major/Minor)는 제거됐다. NPC를 등급으로 나누던 시절에는 Minor가 기억 없이 판단하고
+    // 이동도 무작위 배회로 처리됐는데, "AI가 정보를 받고 각 NPC가 해석해서 행동한다"는 이 게임의
+    // 핵심에 어긋나서 전원을 같은 경로로 통일했다. 등급으로 분기하고 싶어지면 그 판단 차이를
+    // 데이터(성향 태그/신뢰 편향)로 표현할 것.
 
     /// <summary>장소·NPC 기획서 2.2의 장소 특성 항목. LocationData의 콘텐츠 필드 전용이며
     /// 아직 어떤 시스템도 이 값을 읽어 수치를 계산하지 않는다(순수 데이터).</summary>
