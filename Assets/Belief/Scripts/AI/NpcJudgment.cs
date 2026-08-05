@@ -30,16 +30,22 @@ namespace Belief.AI
         public readonly IReadOnlyList<NpcState> PresentNpcs;
         public readonly NpcState Propagator;
 
+        /// <summary>이동 후보 장소의 현재 상태(경계 태세, 그곳에 있는 인물)를 읽기 위한 조회용 사전.
+        /// 없으면(null) 프롬프트는 LocationData에 저작된 정적 정보만 제시한다 - 읽기 전용이며
+        /// 이 컨텍스트를 통해 장소 상태를 바꾸는 경로는 없다.</summary>
+        public readonly IReadOnlyDictionary<LocationData, LocationState> AllLocations;
+
         public NpcJudgmentContext(
             NpcState npc, InformationCardData card, LocationState where, int turn,
             BeliefState beliefBefore, string goalBefore, WorkingMemory memory,
             IReadOnlyList<NpcActionData> actionCandidates, IReadOnlyList<LocationData> moveCandidates,
-            IReadOnlyList<NpcState> presentNpcs, NpcState propagator)
+            IReadOnlyList<NpcState> presentNpcs, NpcState propagator,
+            IReadOnlyDictionary<LocationData, LocationState> allLocations = null)
         {
             Npc = npc; Card = card; Where = where; Turn = turn;
             BeliefBefore = beliefBefore; GoalBefore = goalBefore; Memory = memory;
             ActionCandidates = actionCandidates; MoveCandidates = moveCandidates;
-            PresentNpcs = presentNpcs; Propagator = propagator;
+            PresentNpcs = presentNpcs; Propagator = propagator; AllLocations = allLocations;
         }
     }
 
@@ -72,19 +78,50 @@ namespace Belief.AI
         }
     }
 
-    /// <summary>통합 판단 응답 검증 결과. 실패해도 예외를 던지지 않는다.</summary>
+    /// <summary>
+    /// destinationId가 최종값이 되기까지 어떤 경로를 거쳤는지. <b>계측 전용</b>이며 검증·정규화
+    /// 로직 자체는 전혀 바꾸지 않는다 - "LLM이 정말 stay라고 답했는가, 아니면 현재 위치를 답해서
+    /// stay가 된 것인가"를 구분하지 못하면 이동 편향의 원인을 가릴 수 없어서 추가했다.
+    /// </summary>
+    public enum DestinationNormalizationReason
+    {
+        None,
+        /// <summary>LLM이 문자 그대로 "stay"를 반환했다.</summary>
+        ExplicitStay,
+        /// <summary>후보 안의 유효한 값이지만 그것이 현재 위치라서 stay와 같은 뜻으로 정규화됐다.</summary>
+        CurrentLocationNormalizedToStay,
+        /// <summary>현재 위치가 아닌 유효한 이동 후보를 골랐다.</summary>
+        ValidMoveCandidate,
+        /// <summary>후보 목록에 없는 값이라 응답 전체가 무효 처리됐다.</summary>
+        InvalidDestination,
+    }
+
+    /// <summary>통합 판단 응답 검증 결과. 실패해도 예외를 던지지 않는다.
+    /// RawDestinationId와 DestinationReason은 검증 성공·실패와 무관하게 채워진다 - 실패한 응답의
+    /// 원본도 계측 대상이기 때문이다.</summary>
     public readonly struct NpcJudgmentValidation
     {
         public readonly bool IsValid;
         public readonly string FailureReason;
         public readonly NpcJudgment Judgment;
 
-        NpcJudgmentValidation(bool isValid, string failureReason, NpcJudgment judgment)
+        /// <summary>정규화 이전, LLM 응답 JSON에서 그대로 읽은 destinationId.</summary>
+        public readonly string RawDestinationId;
+        public readonly DestinationNormalizationReason DestinationReason;
+
+        NpcJudgmentValidation(bool isValid, string failureReason, NpcJudgment judgment,
+            string rawDestinationId, DestinationNormalizationReason destinationReason)
         {
             IsValid = isValid; FailureReason = failureReason; Judgment = judgment;
+            RawDestinationId = rawDestinationId; DestinationReason = destinationReason;
         }
 
-        public static NpcJudgmentValidation Success(NpcJudgment j) => new NpcJudgmentValidation(true, null, j);
-        public static NpcJudgmentValidation Failure(string reason) => new NpcJudgmentValidation(false, reason, default);
+        public static NpcJudgmentValidation Success(NpcJudgment j, string rawDestinationId,
+            DestinationNormalizationReason reason) =>
+            new NpcJudgmentValidation(true, null, j, rawDestinationId, reason);
+
+        public static NpcJudgmentValidation Failure(string reason, string rawDestinationId = null,
+            DestinationNormalizationReason destinationReason = DestinationNormalizationReason.None) =>
+            new NpcJudgmentValidation(false, reason, default, rawDestinationId, destinationReason);
     }
 }

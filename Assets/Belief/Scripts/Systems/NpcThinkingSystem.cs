@@ -27,11 +27,17 @@ namespace Belief.Systems
         /// 아래 판단 로직은 한 줄도 달라지지 않는다.</summary>
         readonly ShadowJudgmentSystem shadow;
 
+        /// <summary>Shadow 프롬프트가 이동 후보 장소의 현재 상태(경계 태세·재실 인물)를 읽기 위한
+        /// 조회용 참조. 읽기 전용이며 게임 판단에는 전혀 쓰이지 않는다.</summary>
+        readonly IReadOnlyDictionary<LocationData, LocationState> allLocations;
+
         public NpcThinkingSystem(
             MemorySelector memorySelector, BeliefSystem beliefSystem, IMajorNpcThinker thinker,
             ActionResolutionSystem actionResolution, MemoryTuningData memoryTuning, IGameEventBus eventBus,
-            ShadowJudgmentSystem shadow = null)
+            ShadowJudgmentSystem shadow = null,
+            IReadOnlyDictionary<LocationData, LocationState> allLocations = null)
         {
+            this.allLocations = allLocations;
             this.memorySelector = memorySelector;
             this.beliefSystem = beliefSystem;
             this.thinker = thinker;
@@ -146,7 +152,7 @@ namespace Belief.Systems
 
                 var shadowContext = new NpcJudgmentContext(
                     npc, card, where, currentTurn, beliefBefore, goalBefore, workingMemory,
-                    candidates, major.movementCandidates, presentNpcs, propagator);
+                    candidates, major.movementCandidates, presentNpcs, propagator, allLocations);
 
                 shadow.Observe(shadowContext, beliefResult.FinalBelief, thinkResult.ChosenAction,
                     npc.CurrentGoal, ruleDialogue);

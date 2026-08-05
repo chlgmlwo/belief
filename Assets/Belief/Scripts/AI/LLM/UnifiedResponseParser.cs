@@ -54,35 +54,48 @@ namespace Belief.AI.LLM
             if (action == null) return NpcJudgmentValidation.Failure("InvalidAction");
 
             // destinationId - movementCandidates 화이트리스트 또는 stay
+            // 검증·정규화 규칙은 그대로 두고, 어떤 경로를 거쳤는지만 함께 기록한다.
             LocationData destination = null;
+            var destReason = DestinationNormalizationReason.None;
             if (string.IsNullOrWhiteSpace(p.destinationId)) return NpcJudgmentValidation.Failure("MissingDestination");
             string dest = p.destinationId.Trim();
-            if (!string.Equals(dest, "stay", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(dest, "stay", StringComparison.OrdinalIgnoreCase))
+            {
+                destReason = DestinationNormalizationReason.ExplicitStay;
+            }
+            else
             {
                 if (ctx.MoveCandidates == null || ctx.MoveCandidates.Count == 0)
-                    return NpcJudgmentValidation.Failure("InvalidDestination");
+                    return NpcJudgmentValidation.Failure("InvalidDestination", dest, DestinationNormalizationReason.InvalidDestination);
                 destination = ctx.MoveCandidates.FirstOrDefault(l => l != null && l.locationId == dest);
-                if (destination == null) return NpcJudgmentValidation.Failure("InvalidDestination");
+                if (destination == null)
+                    return NpcJudgmentValidation.Failure("InvalidDestination", dest, DestinationNormalizationReason.InvalidDestination);
+
                 // 현재 위치를 목적지로 답한 경우는 stay와 같은 뜻으로 정규화한다.
-                if (ctx.Where != null && destination == ctx.Where.Data) destination = null;
+                if (ctx.Where != null && destination == ctx.Where.Data)
+                {
+                    destination = null;
+                    destReason = DestinationNormalizationReason.CurrentLocationNormalizedToStay;
+                }
+                else destReason = DestinationNormalizationReason.ValidMoveCandidate;
             }
 
             // 자유 텍스트 3종 - 길이만 검사
-            if (p.dialogue == null) return NpcJudgmentValidation.Failure("MissingDialogue");
-            if (p.dialogue.Length > UnifiedPromptBuilder.MaxDialogueLength) return NpcJudgmentValidation.Failure("DialogueTooLong");
+            if (p.dialogue == null) return NpcJudgmentValidation.Failure("MissingDialogue", dest, destReason);
+            if (p.dialogue.Length > UnifiedPromptBuilder.MaxDialogueLength) return NpcJudgmentValidation.Failure("DialogueTooLong", dest, destReason);
             string interpretation = p.interpretation ?? "";
-            if (interpretation.Length > UnifiedPromptBuilder.MaxInterpretationLength) return NpcJudgmentValidation.Failure("InterpretationTooLong");
+            if (interpretation.Length > UnifiedPromptBuilder.MaxInterpretationLength) return NpcJudgmentValidation.Failure("InterpretationTooLong", dest, destReason);
             string goal = p.goal ?? "";
-            if (goal.Length > UnifiedPromptBuilder.MaxGoalLength) return NpcJudgmentValidation.Failure("GoalTooLong");
+            if (goal.Length > UnifiedPromptBuilder.MaxGoalLength) return NpcJudgmentValidation.Failure("GoalTooLong", dest, destReason);
 
             // 근거 3필드 - 1단계에서 만든 검증기를 그대로 재사용한다
             if (!JudgmentGroundsValidator.TryValidate(
                     p.primaryReason, p.profileInfluence, p.relationshipInfluence,
                     ctx.Npc, ctx.PresentNpcs, ctx.Propagator, out var grounds, out var groundsFailure))
-                return NpcJudgmentValidation.Failure(groundsFailure);
+                return NpcJudgmentValidation.Failure(groundsFailure, dest, destReason);
 
             return NpcJudgmentValidation.Success(new NpcJudgment(
-                interpretation, belief, goal, action, destination, p.dialogue, grounds));
+                interpretation, belief, goal, action, destination, p.dialogue, grounds), dest, destReason);
         }
     }
 }

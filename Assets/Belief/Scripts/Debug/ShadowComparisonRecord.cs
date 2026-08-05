@@ -57,7 +57,16 @@ namespace Belief.Debugging
         public string LlmBelief;
         public string LlmGoal;
         public string LlmActionId;
-        public string LlmDestinationId;   // null/"" 이면 stay
+        public string LlmDestinationId;   // null/"" 이면 stay (NormalizedLlmDestinationId와 같은 값)
+
+        /// <summary>정규화 이전, LLM 응답에서 그대로 읽은 destinationId.</summary>
+        public string RawLlmDestinationId;
+
+        /// <summary>검증·정규화를 거친 최종 destinationId. 현재 위치를 골라 stay가 된 경우도 "stay"다.</summary>
+        public string NormalizedLlmDestinationId;
+
+        /// <summary>둘이 왜 달라졌는지 - 명시적 stay와 "현재 위치를 골라 stay가 된 것"을 구분한다.</summary>
+        public Belief.AI.DestinationNormalizationReason DestinationNormalizationReason;
         public string LlmDialogue;
         public string LlmPrimaryReason;
         public string LlmProfileInfluence;

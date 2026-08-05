@@ -169,7 +169,7 @@ namespace Belief.Core
             }
 
             // NPC 등급 구분 없음 - 모든 NPC가 같은 판단/이동 시스템을 탄다.
-            var thinking = new NpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus, ShadowJudgment);
+            var thinking = new NpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus, ShadowJudgment, locationStates);
 
             // 이동 판단은 두 경로를 쓴다: 이번 턴에 판단이 새로 필요해진 NPC만 thinker(LLM 모드면
             // LLM)로 보내고, 나머지는 이 RuleBased 인스턴스로 보낸다. 별도 인스턴스를 하나 더 만드는

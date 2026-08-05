@@ -210,6 +210,12 @@ namespace Belief.Systems
             if (logPrompts) record.RawResponse = raw;
 
             var validation = UnifiedResponseParser.Parse(raw, ctx);
+
+            // 목적지 계측은 검증 성공·실패와 무관하게 남긴다 - 무효 처리된 응답의 원본도
+            // "왜 이동하지 않았는가"를 가리는 데 필요하다.
+            record.RawLlmDestinationId = validation.RawDestinationId;
+            record.DestinationNormalizationReason = validation.DestinationReason;
+
             if (!validation.IsValid)
             {
                 record.Outcome = ShadowOutcome.Failed;
@@ -274,6 +280,7 @@ namespace Belief.Systems
             r.LlmGoal = j.Goal;
             r.LlmActionId = j.Action != null ? j.Action.actionId : null;
             r.LlmDestinationId = j.Destination != null ? j.Destination.locationId : "stay";
+            r.NormalizedLlmDestinationId = r.LlmDestinationId;
             r.LlmDialogue = j.Dialogue;
             r.LlmPrimaryReason = j.Grounds.PrimaryReason;
             r.LlmProfileInfluence = j.Grounds.ProfileInfluence ?? "none";

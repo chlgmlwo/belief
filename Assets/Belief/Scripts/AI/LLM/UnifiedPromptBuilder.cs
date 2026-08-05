@@ -77,13 +77,7 @@ namespace Belief.AI.LLM
                 foreach (var a in ctx.ActionCandidates)
                     if (a != null) sb.AppendLine($"- {a.actionId}: {a.displayLabel}");
 
-            sb.AppendLine();
-            sb.AppendLine("[이동 후보]");
-            if (ctx.MoveCandidates != null && ctx.MoveCandidates.Count > 0)
-                foreach (var l in ctx.MoveCandidates)
-                    if (l != null) sb.AppendLine($"- {l.locationId}: {l.displayName}");
-            else
-                sb.AppendLine("(이동 가능한 곳 없음 - destinationId는 stay여야 합니다)");
+            AppendMoveCandidates(sb, ctx);
 
             AppendPrinciples(sb);
             AppendResponseSpec(sb, ctx);
@@ -168,6 +162,63 @@ namespace Belief.AI.LLM
             sb.AppendLine(parts.Count > 0 ? $"같은 장소에 있는 인물: {string.Join(", ", parts)}" : "같은 장소에 있는 인물: 없음");
         }
 
+        /// <summary>
+        /// 이동 후보를 <b>판단 가능한 형태</b>로 제시한다. 예전에는 locationId와 이름만 나열해서
+        /// LLM 입장에서는 맥락 없는 id 목록이었고, 실측 12건이 전부 명시적 stay였다(현재 위치를
+        /// 골라 정규화된 것이 아니라 진짜로 "stay"라고 답했다).
+        ///
+        /// 여기서 보여주는 값은 전부 <b>이미 저작돼 있는 실제 데이터</b>다 - LocationData의 설명·
+        /// 민감 정보 유형·확산 속도·밀집도·출입 제한과, LocationState의 현재 경계 상태·재실 인물.
+        /// 장소의 역할을 지어내거나 "조사 장소" 같은 새 개념을 만들지 않는다.
+        /// </summary>
+        static void AppendMoveCandidates(StringBuilder sb, NpcJudgmentContext ctx)
+        {
+            sb.AppendLine();
+            sb.AppendLine("[현재 위치]");
+            if (ctx.Where != null)
+            {
+                sb.AppendLine($"- {ctx.Where.Data.locationId}: {ctx.Where.Data.displayName}");
+                AppendLocationDetail(sb, ctx.Where.Data, ctx.Where, ctx.Npc, "    ");
+            }
+            else sb.AppendLine("- 알 수 없음");
+
+            sb.AppendLine();
+            sb.AppendLine("[이동 후보]");
+            if (ctx.MoveCandidates == null || ctx.MoveCandidates.Count == 0)
+            {
+                sb.AppendLine("(이동 가능한 곳 없음 - destinationId는 stay여야 합니다)");
+                return;
+            }
+
+            foreach (var l in ctx.MoveCandidates)
+            {
+                if (l == null) continue;
+                bool isCurrent = ctx.Where != null && l == ctx.Where.Data;
+                sb.AppendLine($"- {l.locationId}: {l.displayName}{(isCurrent ? "   ※ 현재 위치" : "")}");
+
+                LocationState state = null;
+                if (ctx.AllLocations != null) ctx.AllLocations.TryGetValue(l, out state);
+                AppendLocationDetail(sb, l, state, ctx.Npc, "    ");
+            }
+        }
+
+        static void AppendLocationDetail(StringBuilder sb, LocationData data, LocationState state, NpcState self, string indent)
+        {
+            if (!string.IsNullOrWhiteSpace(data.description))
+                sb.AppendLine($"{indent}설명: {data.description.Trim().Replace("\n", " ")}");
+            sb.AppendLine($"{indent}민감 정보 유형: {data.sensitiveInformationType} / 정보 확산 속도: {data.spreadSpeed} / 인구 밀집도: {data.npcDensity}");
+            sb.AppendLine($"{indent}출입: {data.accessType}");
+
+            if (state != null)
+            {
+                sb.AppendLine($"{indent}현재 장소 상태: {state.SiteState}");
+                var here = new List<string>();
+                foreach (var n in state.PresentNpcs)
+                    if (n != null && n != self && n.Data != null) here.Add($"{n.Data.npcId}({n.Data.displayName})");
+                sb.AppendLine($"{indent}현재 인물: {(here.Count > 0 ? string.Join(", ", here) : "없음")}");
+            }
+        }
+
         static void AppendPrinciples(StringBuilder sb)
         {
             sb.AppendLine();
@@ -177,6 +228,16 @@ namespace Belief.AI.LLM
             sb.AppendLine("지금 이 자리에 있는 인물과의 관계가 충분히 강하다면 평소와 다른 선택을 해도 됩니다.");
             sb.AppendLine("다만 그렇게 했다면 위에 실제로 제시된 성향 태그나 관계 npcId를 근거로 반환해야 합니다.");
             sb.AppendLine("위에 제시되지 않은 인물, 관계, 기억, 과거 사건을 지어내지 마세요. 지어내면 응답 전체가 무효입니다.");
+
+            sb.AppendLine();
+            sb.AppendLine("action과 destinationId는 하나의 계획으로 함께 판단하세요.");
+            sb.AppendLine("- 확인하는 행동이라면, 확인에 도움이 되는 실제 장소나 그곳의 인물이 있는지 보세요.");
+            sb.AppendLine("- 보고하는 행동이라면, 보고할 상대가 실제로 있는 장소인지 보세요.");
+            sb.AppendLine("- 정보를 퍼뜨리는 행동이라면, 확산 속도와 인구 밀집도가 그에 맞는 장소인지 보세요.");
+            sb.AppendLine("현재 위치에서 그 행동을 수행할 수 있으면 stay를 선택할 수 있습니다.");
+            sb.AppendLine("다른 장소나 그곳의 인물이 행동·목표 달성에 실질적으로 도움이 된다면 해당 이동 후보를 선택하세요.");
+            sb.AppendLine("이동할 이유가 분명하지 않은데 억지로 움직이지 말고, 반대로 이유가 충분한데 습관적으로 stay를 고르지도 마세요.");
+            sb.AppendLine("위에 제시된 장소 정보만 사용하고, 장소의 기능이나 그곳에 있는 인물을 지어내지 마세요.");
         }
 
         static void AppendResponseSpec(StringBuilder sb, NpcJudgmentContext ctx)
