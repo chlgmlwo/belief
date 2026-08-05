@@ -4050,7 +4050,8 @@ MonoBehaviour:
   locationMechanics: {fileID: 11400000, guid: cb842d1484f7bd74bad8291bf44ed501, type: 2}
   thinkerMode: 0
   fakeTransportMode: 0
-  llmTimeoutMs: 3000
+  llmProviderConfig: {fileID: 0}
+  llmTimeoutMs: 15000
 --- !u!4 &834267442
 Transform:
   m_ObjectHideFlags: 0
@@ -7937,6 +7938,7 @@ MonoBehaviour:
   locationRoot: {fileID: 259889620}
   npcRoot: {fileID: 1046827319}
   skin: {fileID: 11400000, guid: 42ea88bdba813664a8296bb65edf49bc, type: 2}
+  contactPointScreenAnchor: {x: 0.1287, y: 0.25}
 --- !u!4 &1709372778
 Transform:
   m_ObjectHideFlags: 0

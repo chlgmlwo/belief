@@ -204,7 +204,8 @@ MonoBehaviour:
   locationMechanics: {fileID: 0}
   thinkerMode: 0
   fakeTransportMode: 0
-  llmTimeoutMs: 3000
+  llmProviderConfig: {fileID: 0}
+  llmTimeoutMs: 15000
 --- !u!4 &834267442
 Transform:
   m_ObjectHideFlags: 0
