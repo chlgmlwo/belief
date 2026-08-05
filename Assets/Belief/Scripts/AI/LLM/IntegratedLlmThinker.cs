@@ -77,12 +77,32 @@ namespace Belief.AI.LLM
         readonly IIntegratedNpcThinker fallback;
         readonly int timeoutMs;
 
+        /// <summary>null이면 호출 상한이 없다 - 기존 동작과 완전히 같다.
+        /// 파일럿에서만 채워지며, 소진되면 Transport를 부르지 않고 전체 폴백으로 확정한다.</summary>
+        readonly IJudgmentCallBudget callBudget;
+
+        /// <summary>프롬프트 원문을 관찰 기록에 담을지. 기본은 꺼짐 - 프롬프트는 판단 1건에도
+        /// 수천 자라 기본값으로 켜면 기록이 감당이 안 된다.</summary>
+        readonly bool logPrompts;
+
+        /// <summary>프롬프트 원문을 기록 중인지. 기록은 에디터·개발 빌드에서만 일어나며,
+        /// 이 값 자체는 어느 빌드에서나 읽을 수 있다(출시 빌드에서 "쓰지 않는 필드"가 되지 않도록).</summary>
+        public bool LogsPrompts => logPrompts;
+
+        /// <summary>null이면 아무것도 관찰하지 않는다(기본). 계측 전용이라 판단 결과에 관여하지 못한다.</summary>
+        readonly IIntegratedJudgmentObserver observer;
+
         public IntegratedLlmThinker(ILlmTransport transport, IIntegratedNpcThinker fallback,
-            int timeoutMs = LlmMajorThinker.DefaultTimeoutMs)
+            int timeoutMs = LlmMajorThinker.DefaultTimeoutMs,
+            IJudgmentCallBudget callBudget = null, bool logPrompts = false,
+            IIntegratedJudgmentObserver observer = null)
         {
             this.transport = transport;
             this.fallback = fallback;
             this.timeoutMs = timeoutMs > 0 ? timeoutMs : LlmMajorThinker.DefaultTimeoutMs;
+            this.callBudget = callBudget;
+            this.logPrompts = logPrompts;
+            this.observer = observer;
         }
 
         public async Task<IntegratedJudgmentOutcome> DecideAsync(
@@ -93,6 +113,15 @@ namespace Belief.AI.LLM
 #endif
             var start = DateTime.UtcNow;
 
+            // ── 계측(선택) ──────────────────────────────────────────────────────
+            // LLM으로 가든 폴백으로 끝나든 모든 통합 판단이 여기를 지난다. 관찰자 예외는 삼킨다 -
+            // 계측 실패가 판단을 망가뜨리면 계측을 붙인 것 자체가 위험이 된다.
+            if (observer != null)
+            {
+                try { observer.OnJudgmentRequested(context, identity); }
+                catch (Exception ex) { Debug.LogWarning($"[IntegratedLlm] 판단 계측 중 예외(판단에는 영향 없음): {ex.Message}"); }
+            }
+
             // ── 프롬프트 조립 ────────────────────────────────────────────────────
             string prompt;
             try { prompt = UnifiedPromptBuilder.Build(context); }
@@ -100,6 +129,19 @@ namespace Belief.AI.LLM
             {
                 return await FallbackAsync(context, identity, "PromptBuildFailure", Elapsed(start), null, trace);
             }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (logPrompts && traceBuilder != null) traceBuilder.Record.PromptText = prompt;
+#endif
+
+            // ── 호출 예산 ────────────────────────────────────────────────────────
+            // 프롬프트를 만든 뒤, Transport를 부르기 <b>전</b>에 소비한다. 그래서 실제 Transport
+            // 호출 수는 소비한 예산 수를 절대 넘지 않는다("최대 20회"의 유일한 근거).
+            // 거부되면 아래 코드는 한 줄도 실행되지 않고 곧바로 RuleBased 전체 폴백으로 간다.
+            if (callBudget != null && !callBudget.TryConsume(out string budgetDenyReason))
+                return await FallbackAsync(context, identity,
+                    string.IsNullOrEmpty(budgetDenyReason) ? "CallBudgetExhausted" : budgetDenyReason,
+                    Elapsed(start), null, trace);
 
             // ── Transport 요청 (재시도 없음) ──────────────────────────────────────
             var cts = new CancellationTokenSource();

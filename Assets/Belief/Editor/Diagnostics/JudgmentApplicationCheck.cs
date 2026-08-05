@@ -23,7 +23,10 @@ namespace Belief.EditorTools.Diagnostics
     /// </summary>
     public static class JudgmentApplicationCheck
     {
-        class ScriptedTransport : ILlmTransport, ICancellableLlmTransport
+        /// <summary>응답을 직접 지정하는 가짜 Transport. 파일럿 결정적 검증(IntegratedPilotFakeCheck)도
+        /// 이 타입과 아래 <see cref="Build"/> 리그를 그대로 재사용한다 - 같은 세계를 두 벌 만들면
+        /// 한쪽만 고쳤을 때 두 검증이 다른 것을 보게 된다.</summary>
+        internal class ScriptedTransport : ILlmTransport, ICancellableLlmTransport
         {
             public string Response;
             public int SendCount;
@@ -31,7 +34,7 @@ namespace Belief.EditorTools.Diagnostics
             public Task<string> SendAsync(string prompt, CancellationToken t) => SendAsync(prompt);
         }
 
-        class Rig
+        internal class Rig
         {
             public NpcState Npc; public MajorNpcData Data;
             public InformationCardData Card; public LocationState Loc;
@@ -46,7 +49,7 @@ namespace Belief.EditorTools.Diagnostics
             public int SpokeCount, JudgedCount;
         }
 
-        static Rig Build(int turn = 2)
+        internal static Rig Build(int turn = 2)
         {
             var installer = UnityEngine.Object.FindFirstObjectByType<GameInstaller>();
             if (installer == null)
@@ -113,7 +116,7 @@ namespace Belief.EditorTools.Diagnostics
             return rig;
         }
 
-        static string Json(string action, string dest, string belief = "Plausible") =>
+        internal static string Json(string action, string dest, string belief = "Plausible") =>
             "{\"interpretation\":\"해석\",\"belief\":\"" + belief + "\",\"goal\":\"새 목표\",\"action\":\"" + action
             + "\",\"destinationId\":\"" + dest + "\",\"dialogue\":\"대사\",\"primaryReason\":\"belief\","
             + "\"profileInfluence\":\"none\",\"relationshipInfluence\":\"none\"}";

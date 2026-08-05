@@ -102,13 +102,26 @@ namespace Belief.Core
         public IPromptRepository PromptRepo { get; private set; }
         public LocationMechanicsSettings LocationMechanics => locationMechanics;
 
-        public ThinkerMode CurrentThinkerMode => thinkerMode;
+        /// <summary>Awake에서 확정된 실제 판단 모드. 씬에 저장된 thinkerMode와 다를 수 있다 -
+        /// 정책 거부로 강등됐거나, 파일럿 opt-in으로 IntegratedLlm이 켜진 경우다. Awake 이전에는
+        /// 씬 값 그대로 보고한다.</summary>
+        ThinkerMode? effectiveThinkerMode;
+        public ThinkerMode CurrentThinkerMode => effectiveThinkerMode ?? thinkerMode;
+
+        /// <summary>통합 판단이 실제로 쓰는 설정. 씬 값이 비어 있으면 파일럿이 넘겨준 자산이 들어온다 -
+        /// 씬에 저장된 llmProviderConfig 필드는 어느 경우에도 바뀌지 않는다.</summary>
+        LlmProviderConfig activeIntegratedConfig;
 
         /// <summary>Debug Overlay가 지금 무엇으로 판단하고 있는지 한눈에 보여주기 위한 설명 문자열.</summary>
-        public string CurrentTransportDescription => thinkerMode switch
+        public string CurrentTransportDescription => CurrentThinkerMode switch
         {
             ThinkerMode.RuleOnly => "없음 (RuleOnly)",
             ThinkerMode.FakeLlm => $"FakeTransport ({fakeTransportMode})",
+            ThinkerMode.IntegratedLlm =>
+                "통합 판단 "
+                + (activeIntegratedConfig != null
+                    ? $"{activeIntegratedConfig.modelId} @ {activeIntegratedConfig.endpoint}" : "(설정 없음)")
+                + $" [파일럿 {IntegratedLlmPilotSession.CallsUsed}/{IntegratedLlmPilotSession.MaxCalls}]",
             ThinkerMode.Llm when llmProviderConfig != null =>
                 $"{llmProviderConfig.modelId} @ {llmProviderConfig.endpoint}"
                 + (llmProviderConfig.useProxy ? " (중계 서버)" : " (직접 호출)"),
@@ -151,26 +164,69 @@ namespace Belief.Core
             // ── IntegratedLlm 파일럿 판정 ────────────────────────────────────────
             // 씬의 thinkerMode가 IntegratedLlm이어도 정책이 허용하지 않으면 RuleOnly로 강등한다.
             // 강등되면 아래 조립은 기존 RuleOnly와 완전히 동일해지고 Transport 호출도 0이다.
+            // 파일럿 opt-in은 씬에 저장되지 않고 이 Awake 1회만 소비된다 - 그래서 씬을 IntegratedLlm으로
+            // 바꿔 저장할 필요가 없고, 다음 실행이나 다음 씬은 자동으로 RuleOnly로 돌아온다.
             var effectiveMode = thinkerMode;
-            IntegratedLlmThinker integratedThinker = null;
-            if (thinkerMode == ThinkerMode.IntegratedLlm)
+            IJudgmentCallBudget pilotBudget = null;
+            bool pilotLogPrompts = false;
+
+            // 통합 판단 전용 설정 - 씬 값이 비어 있을 때만 파일럿이 넘겨준 자산을 쓴다. 씬에 저장된
+            // llmProviderConfig 자체는 절대 바꾸지 않으므로 다른 모드의 동작은 그대로다.
+            var integratedProviderConfig = llmProviderConfig;
+
+            if (IntegratedLlmPilotSession.TryConsumeOptIn(out string pilotSessionId, out pilotLogPrompts,
+                    out var pilotProviderConfig))
             {
+                if (integratedProviderConfig == null) integratedProviderConfig = pilotProviderConfig;
+
+                if (thinkerMode != ThinkerMode.RuleOnly)
+                {
+                    // 이미 Transport를 쓰는 모드라면 두 경로가 같은 판단에 겹쳐 이중 비용이 된다.
+                    IntegratedLlmPilotSession.End("SceneModeConflict");
+                    Debug.LogWarning($"[GameInstaller] 씬 thinkerMode가 {thinkerMode}라 파일럿 opt-in을 무시했습니다 - 씬 값을 RuleOnly로 두고 다시 실행하세요.");
+                }
+                else
+                {
+                    effectiveMode = ThinkerMode.IntegratedLlm;
+                    pilotBudget = new IntegratedLlmPilotCallBudget(pilotSessionId);
+                }
+            }
+
+            IntegratedLlmThinker integratedThinker = null;
+            if (effectiveMode == ThinkerMode.IntegratedLlm)
+            {
+                // 씬 값으로 직접 켠 경우(파일럿 도구를 거치지 않음)에도 호출 상한은 반드시 걸린다 -
+                // "20회"는 파일럿 도구의 정책이 아니라 이 경로 전체의 안전장치이기 때문이다.
+                if (pilotBudget == null)
+                {
+                    Debug.LogWarning($"[GameInstaller] 씬 값으로 IntegratedLlm이 켜져 있습니다 - 상한 {IntegratedLlmPilotSession.MaxCalls}회를 적용합니다. "
+                                   + "권장 방식은 씬을 RuleOnly로 두고 BELIEF/Diagnostics의 파일럿 도구로 여는 것입니다.");
+                    IntegratedLlmPilotSession.BeginSession("scene-" + name);
+                    pilotBudget = new IntegratedLlmPilotCallBudget(IntegratedLlmPilotSession.ActiveSessionId);
+                }
+
                 string stageId = stageData != null ? stageData.stageId : null;
                 if (!IntegratedLlmPilotPolicy.IsAllowed(stageId, out string denyReason))
                 {
                     Debug.LogWarning($"[GameInstaller] IntegratedLlm이 허용되지 않아 RuleOnly로 동작합니다 - {denyReason}");
                     effectiveMode = ThinkerMode.RuleOnly;
+                    IntegratedLlmPilotSession.End("StageNotAllowed");
                 }
                 else
                 {
-                    integratedThinker = ThinkerFactory.CreateIntegrated(beliefSystem, llmProviderConfig, llmTimeoutMs);
+                    integratedThinker = ThinkerFactory.CreateIntegrated(
+                        beliefSystem, integratedProviderConfig, llmTimeoutMs, pilotBudget, pilotLogPrompts,
+                        IntegratedLlmPilotSession.Coverage);
                     if (integratedThinker == null)
                     {
                         Debug.LogWarning("[GameInstaller] IntegratedLlm 조립에 실패해 RuleOnly로 동작합니다.");
                         effectiveMode = ThinkerMode.RuleOnly;
+                        IntegratedLlmPilotSession.End("AssemblyFailed");
                     }
                 }
             }
+            effectiveThinkerMode = effectiveMode;
+            activeIntegratedConfig = integratedThinker != null ? integratedProviderConfig : null;
 
             // IntegratedLlm은 기존 IMajorNpcThinker 경로를 쓰지 않는다 - 그 경로는 RuleOnly로 만들어
             // 두고(이동 판단 등 공용 사용), 정보 판단만 통합 경로가 가져간다.
@@ -222,7 +278,10 @@ namespace Belief.Core
                         var objective = pc != null ? pc.CurrentObjective() : null;
                         return objective != null ? objective.missionId : "";
                     });
-                Debug.LogWarning("[GameInstaller] IntegratedLlm 파일럿이 활성화되었습니다 - 통합 판단 결과가 실제 월드에 적용되며 토큰이 소모됩니다.");
+                Debug.LogWarning("[GameInstaller] IntegratedLlm 파일럿이 활성화되었습니다 - 통합 판단 결과가 실제 월드에 적용되며 토큰이 소모됩니다.\n"
+                               + $"  호출 상한 : {IntegratedLlmPilotSession.MaxCalls}회 (초과 요청은 Transport를 부르지 않고 RuleBased 전체 폴백)\n"
+                               + $"  프롬프트 원문 기록 : {(pilotLogPrompts ? "켜짐" : "꺼짐")}\n"
+                               + $"  {IntegratedLlmPilotSession.Describe()}");
             }
 
             // NPC 등급 구분 없음 - 모든 NPC가 같은 판단/이동 시스템을 탄다.
@@ -262,7 +321,9 @@ namespace Belief.Core
                 return objective != null ? objective.missionId : "";
             };
             NpcDecisionTraceContext.MissionTurnProvider = () => turnSystemRef.CurrentTurn;
-            NpcDecisionTraceContext.ThinkerModeProvider = () => thinkerMode.ToString();
+            // 씬 값이 아니라 실제로 확정된 모드를 보고한다 - 강등되거나 파일럿으로 켜진 경우
+            // 씬 값을 그대로 적으면 기록이 사실과 달라진다.
+            NpcDecisionTraceContext.ThinkerModeProvider = () => effectiveMode.ToString();
 #endif
 
             var turnState = new TurnState(effectiveMaxTurns);
@@ -279,6 +340,10 @@ namespace Belief.Core
         void OnDestroy()
         {
             ShadowJudgment?.Disable();
+
+            // 이 구역이 내려가면 파일럿도 끝난다 - 다음 씬(Zone2 등)에서 남은 예산이 되살아나
+            // 허용되지 않은 스테이지의 판단이 Transport를 부르는 일이 없도록 여기서 닫는다.
+            if (JudgmentApplication != null) IntegratedLlmPilotSession.End("SceneUnloaded");
         }
 
         void BuildDomainState(LocationData[] locations, NpcData[] npcs, NpcPlacementEntry[] placements)

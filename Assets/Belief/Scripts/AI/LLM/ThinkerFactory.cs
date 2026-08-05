@@ -93,9 +93,14 @@ namespace Belief.AI.LLM
         ///
         /// 준비되지 않았으면 null을 반환한다(예외를 던지지 않는다) - 호출자는 RuleOnly로 강등한다.
         /// </summary>
+        /// <param name="callBudget">null이면 호출 상한 없음(기본). 파일럿에서만 채운다.</param>
+        /// <param name="logPrompts">프롬프트 원문 기록 여부 - 기본 꺼짐.</param>
+        /// <param name="observer">판단 요청 계측 - 기본 없음. 결과에 관여하지 않는다.</param>
         public static IntegratedLlmThinker CreateIntegrated(
             Belief.Systems.BeliefSystem beliefSystem, LlmProviderConfig providerConfig,
-            int timeoutMs = LlmMajorThinker.DefaultTimeoutMs)
+            int timeoutMs = LlmMajorThinker.DefaultTimeoutMs,
+            IJudgmentCallBudget callBudget = null, bool logPrompts = false,
+            IIntegratedJudgmentObserver observer = null)
         {
             if (beliefSystem == null)
             {
@@ -111,7 +116,7 @@ namespace Belief.AI.LLM
             }
 
             var fallback = new RuleBasedUnifiedThinker(beliefSystem, new RuleBasedMajorThinker());
-            return new IntegratedLlmThinker(transport, fallback, timeoutMs);
+            return new IntegratedLlmThinker(transport, fallback, timeoutMs, callBudget, logPrompts, observer);
         }
 
         /// <summary>
