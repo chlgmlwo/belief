@@ -74,7 +74,7 @@ namespace Belief.Presentation.Mockup
             Capture();
             if (cardRect == null) return;
 
-            targetText.enableWordWrapping = false;
+            targetText.textWrappingMode = TextWrappingModes.NoWrap;
             targetText.ForceMeshUpdate();
 
             float width = Mathf.Max(minWidth, targetText.preferredWidth + leftPadding + rightPadding);

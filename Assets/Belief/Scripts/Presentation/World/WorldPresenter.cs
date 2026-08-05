@@ -66,6 +66,19 @@ namespace Belief.Presentation.World
 
         /// <summary>StageData.locationLayout(스테이지별 수동 배치)을 조회용 사전으로 미리 펼쳐 둔다 -
         /// 지정 안 된 장소는 LocationData.worldPosition을 그대로 쓴다(하위 호환).</summary>
+        /// <summary>이 스테이지에서 장소 카드/NPC를 몇 배로 그릴지(StageData.worldViewScale).
+        /// 카메라 orthographicSize가 스테이지마다 달라 화면상 크기가 크게 차이 나는 걸 보정하는 값이다.
+        /// <b>배치 좌표는 건드리지 않고 보이는 크기만</b> 바꾼다 - 대신 NPC가 카드 옆에 붙는 간격도
+        /// 같은 비율로 늘려야 카드만 커지고 NPC가 카드 안으로 파고드는 일이 없다.</summary>
+        float ViewScale
+        {
+            get
+            {
+                var stage = installer != null ? installer.StageAsset : null;
+                return stage != null && stage.worldViewScale > 0f ? stage.worldViewScale : 1f;
+            }
+        }
+
         Vector2 ResolveLocationPosition(LocationData location)
         {
             var layout = installer.StageAsset != null ? installer.StageAsset.locationLayout : null;
@@ -84,6 +97,7 @@ namespace Belief.Presentation.World
             foreach (var kvp in installer.Locations)
             {
                 var view = Instantiate(locationSitePrefab, locationRoot);
+                view.transform.localScale = Vector3.one * ViewScale;
                 view.Bind(kvp.Key, ResolveLocationPosition(kvp.Key), skin);
                 view.Clicked += d => LocationClicked?.Invoke(d);
                 view.HoverEnter += d => LocationHoverEnter?.Invoke(d);
@@ -97,6 +111,7 @@ namespace Belief.Presentation.World
             foreach (var kvp in installer.Npcs)
             {
                 var view = Instantiate(npcActorPrefab, npcRoot);
+                view.transform.localScale *= ViewScale;
                 view.Bind(kvp.Key, skin);
                 view.Clicked += d => NpcClicked?.Invoke(d);
                 npcViews[kvp.Key] = view;

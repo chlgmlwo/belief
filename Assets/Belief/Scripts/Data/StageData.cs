@@ -35,6 +35,14 @@ namespace Belief.Data
         [Header("World Layout (수동 배치 - 지정 시 LocationData.worldPosition보다 우선)")]
         public LocationLayoutEntry[] locationLayout;
 
+        /// <summary>이 스테이지의 장소 카드/NPC를 화면에서 얼마나 크게 그릴지(1 = 기본).
+        /// 스테이지마다 카메라 orthographicSize가 달라(Zone1 5 / Zone2·3 6 / Metropolis 14)
+        /// 같은 월드 크기라도 화면상 크기가 최대 2.8배까지 차이 난다. 배치 좌표는 그대로 두고
+        /// <b>보이는 크기만</b> 키우는 값이라, 너무 키우면 이웃한 장소끼리 겹친다
+        /// (Metropolis 현재 배치 기준 한계 ≈1.32). NPC가 카드 옆에 붙는 간격도 같은 비율로 늘어난다.</summary>
+        [Tooltip("장소 카드/NPC를 화면에서 키우는 배율(1 = 기본). 배치 좌표는 그대로 두고 크기만 바뀌므로 너무 키우면 이웃과 겹친다.")]
+        public float worldViewScale = 1f;
+
         /// <summary>NPC 시작 위치 수동 배치 - 지정된 NPC는 소속 장소를 따라가는 자동 슬롯 계산
         /// (WorldPresenter.ComputeNpcSlot) 대신 이 좌표에서 시작한다. 이후 게임 중 NPC가 다른
         /// 장소로 이동하면(NpcRelocatedEvent) 그 시점부터는 기존처럼 자동 슬롯 계산을 그대로

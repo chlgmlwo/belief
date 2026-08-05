@@ -91,36 +91,70 @@ MonoBehaviour:
   cityBackground: {fileID: 21300000, guid: 2408092b6dd1c2244bfd054f65210b3b, type: 3}
   locationLayout:
   - location: {fileID: 11400000, guid: cbfd6be4454d78a48a2443caff90c231, type: 2}
-    position: {x: -12.8, y: 9.2}
+    position: {x: 6.8266563, y: -1.9030089}
   - location: {fileID: 11400000, guid: 0f1e4801687d47ea97b53024ca1fe1ed, type: 2}
-    position: {x: -6.4, y: 9.2}
+    position: {x: -6.0571175, y: 10.292202}
   - location: {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}
-    position: {x: 0, y: 9.2}
+    position: {x: 9.411778, y: 10.482006}
   - location: {fileID: 11400000, guid: f89dbfbdbe6867b449119cc4075222a2, type: 2}
-    position: {x: 6.4, y: 9.2}
+    position: {x: 12.630362, y: 4.5813518}
   - location: {fileID: 11400000, guid: 9f27dbef602f7834f9e01da0e5382ce1, type: 2}
-    position: {x: 12.8, y: 9.2}
+    position: {x: 17.177574, y: 9.825367}
   - location: {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
-    position: {x: -12.8, y: 2.7}
+    position: {x: -2.4057527, y: 11.39716}
   - location: {fileID: 11400000, guid: aae10202969e7d546a41f9a4da180735, type: 2}
-    position: {x: -6.4, y: 2.7}
+    position: {x: 20.044151, y: 6.948699}
   - location: {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
-    position: {x: 0, y: 2.7}
+    position: {x: -11.67553, y: 7.080662}
   - location: {fileID: 11400000, guid: 40858fb8ee9999b4eb99d6bbbed06936, type: 2}
-    position: {x: 6.4, y: 2.7}
+    position: {x: -5.1681194, y: -3.3090394}
   - location: {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
-    position: {x: 12.8, y: 2.7}
+    position: {x: -6.908889, y: 3.3105295}
   - location: {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
-    position: {x: -12.8, y: -3.8}
+    position: {x: -1.136579, y: 8.2409725}
   - location: {fileID: 11400000, guid: 19033b22e5426dc4089787dee0e242ed, type: 2}
-    position: {x: -6.4, y: -3.8}
+    position: {x: -0.36520433, y: -5.488491}
   - location: {fileID: 11400000, guid: c64bc51fba05aeb43ba46e4d412a79f9, type: 2}
-    position: {x: 0, y: -3.8}
+    position: {x: 0.22080708, y: -1.7085443}
   - location: {fileID: 11400000, guid: 34e7ab9f748b1c4458b0d3972829ae02, type: 2}
-    position: {x: 6.4, y: -3.8}
+    position: {x: 13.360055, y: -4.6593823}
   - location: {fileID: 11400000, guid: bbd7eddf854b7ea49961419069a30f82, type: 2}
-    position: {x: 12.8, y: -3.8}
-  npcLayout: []
+    position: {x: 4.4513445, y: 3.2353814}
+  npcLayout:
+  - npc: {fileID: 11400000, guid: b61f1196e7ee84945894e1c731022573, type: 2}
+    position: {x: -12.136211, y: 6.6167603}
+  - npc: {fileID: 11400000, guid: 65e54763f0fe3d64e9fd7d32cc2360f7, type: 2}
+    position: {x: 12.125197, y: 4.080347}
+  - npc: {fileID: 11400000, guid: 084757cbcf2e7ab4ca8e7e8ee0ca824d, type: 2}
+    position: {x: 16.677279, y: 9.463712}
+  - npc: {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}
+    position: {x: 8.880216, y: 10.026547}
+  - npc: {fileID: 11400000, guid: 5f072483136bf894d8b273ad71277d2b, type: 2}
+    position: {x: 9.974609, y: 10.0265465}
+  - npc: {fileID: 11400000, guid: 6477404e365cb9f47b6edca2591b5846, type: 2}
+    position: {x: 3.857243, y: 2.6235785}
+  - npc: {fileID: 11400000, guid: 3b6c1c8ed9409ea44807665c423530af, type: 2}
+    position: {x: 0.16635752, y: -5.9439497}
+  - npc: {fileID: 11400000, guid: 6d76d44d879c888408a1d9d7bc8fd8ce, type: 2}
+    position: {x: 19.576387, y: 6.4610314}
+  - npc: {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}
+    position: {x: -7.4418373, y: 2.8223975}
+  - npc: {fileID: 11400000, guid: edd7b0ba482ba8147ac42357d8abedce, type: 2}
+    position: {x: 13.813617, y: -5.283308}
+  - npc: {fileID: 11400000, guid: a27482ef6e129d147a681d2d7b59dadb, type: 2}
+    position: {x: 0.7217965, y: -2.2165143}
+  - npc: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
+    position: {x: -2.949205, y: 10.979082}
+  - npc: {fileID: 11400000, guid: ea3287ffc1f349ae8a59b02b23150c98, type: 2}
+    position: {x: -1.8623008, y: 10.901445}
+  - npc: {fileID: 11400000, guid: 57f9b30ac5617b24398c5f2e5273a3b4, type: 2}
+    position: {x: -0.5775998, y: 7.7763133}
+  - npc: {fileID: 11400000, guid: 4677f620c23745329d98e141b738510f, type: 2}
+    position: {x: -6.5634966, y: 9.842546}
+  - npc: {fileID: 11400000, guid: 7affddfbafc05c445bdc0fc15115a23c, type: 2}
+    position: {x: -5.7637424, y: -3.8983986}
+  - npc: {fileID: 11400000, guid: 4febb1b6d554c674c94eef84b79c170f, type: 2}
+    position: {x: -4.6626434, y: -3.8064618}
   contactPoint: {fileID: 11400000, guid: d9df1ab9864b415f8c8cdfef418992d2, type: 2}
   contactPointPosition: {x: 0, y: 0}
   cardPool: {fileID: 11400000, guid: 9fe9e7d462e145afa8f2a19c1f48492f, type: 2}

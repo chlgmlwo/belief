@@ -16,8 +16,11 @@ MonoBehaviour:
   displayName: "\uC800\uD0DD\uAC00"
   description: "\uADC0\uC871\uB4E4\uC758 \uC800\uD0DD\uC774 \uB298\uC5B4\uC120 \uAC70\uB9AC."
   worldPosition: {x: -18, y: 3}
+  locationPhoto: {fileID: 0}
   spreadModifier: 1
-  connectedLocations:
-  - {fileID: 11400000, guid: 094a1d5382db9be4081b7e437df265d7, type: 2}
-  - {fileID: 11400000, guid: f84d055ed33cdf148954436912830eb8, type: 2}
-  - {fileID: 11400000, guid: 7c062e15b21fb8c4ba86217a84a320a7, type: 2}
+  connectedLocations: []
+  spreadSpeed: 0
+  npcDensity: 0
+  sensitiveInformationType: 0
+  accessType: 0
+  credibilityModifier: 0
