@@ -79,6 +79,36 @@ namespace Belief.AI.LLM
         }
 
         /// <summary>
+        /// 통합 판단(IntegratedLlm) 조립 지점. <b>아직 런타임에 연결되지 않는다</b> - 실제 적용
+        /// 단계에서 호출자가 생긴다. 여기서는 조립 방법만 한 곳에 모아 둔다.
+        ///
+        /// 기존 <see cref="Create"/>가 만드는 IMajorNpcThinker 경로와 완전히 분리돼 있다 -
+        /// RuleOnly/FakeLlm/Llm 세 모드는 이 메서드를 거치지 않으며 동작도 달라지지 않는다.
+        ///
+        /// 준비되지 않았으면 null을 반환한다(예외를 던지지 않는다) - 호출자는 RuleOnly로 강등한다.
+        /// </summary>
+        public static IntegratedLlmThinker CreateIntegrated(
+            Belief.Systems.BeliefSystem beliefSystem, LlmProviderConfig providerConfig,
+            int timeoutMs = LlmMajorThinker.DefaultTimeoutMs)
+        {
+            if (beliefSystem == null)
+            {
+                Debug.LogWarning("[ThinkerFactory] IntegratedLlm에 BeliefSystem이 필요합니다 - 폴백을 만들 수 없어 중단합니다.");
+                return null;
+            }
+
+            var transport = CreateShadowTransport(providerConfig);   // 같은 조립 규칙을 공유한다
+            if (transport == null)
+            {
+                Debug.LogWarning("[ThinkerFactory] IntegratedLlm Transport를 만들 수 없어 통합 판단을 시작하지 않습니다.");
+                return null;
+            }
+
+            var fallback = new RuleBasedUnifiedThinker(beliefSystem, new RuleBasedMajorThinker());
+            return new IntegratedLlmThinker(transport, fallback, timeoutMs);
+        }
+
+        /// <summary>
         /// Shadow Mode 전용 Transport. ThinkerMode와 <b>독립</b>이다 - 게임이 RuleOnly로 도는 동안에도
         /// 관찰용 호출을 하기 위해서다. "RuleOnly에서 Transport를 호출하지 않는다"는 Frozen 규칙은
         /// 게임 판단 경로에 적용되며, 이 경로는 명시적으로 켜야만 생성된다(shadowMode 기본값 false).

@@ -81,11 +81,19 @@ namespace Belief.AI.LLM
             }
 
             // 자유 텍스트 3종 - 길이만 검사
+            // 자유 텍스트 3종. 여기가 <b>LLM 응답 품질 규칙의 소유자</b>다 - ValidatedNpcJudgment는
+            // 규칙 기반 결과도 담아야 해서 빈 문자열을 허용하므로, "비어 있으면 안 된다"는 LLM에만
+            // 해당하는 요구를 공통 생성자가 아니라 이 파서가 책임진다.
             if (p.dialogue == null) return NpcJudgmentValidation.Failure("MissingDialogue", dest, destReason);
             if (p.dialogue.Length > UnifiedPromptBuilder.MaxDialogueLength) return NpcJudgmentValidation.Failure("DialogueTooLong", dest, destReason);
+            // Dialogue는 빈 문자열을 허용한다(규칙 기반도 대사가 없을 수 있다). null만 형식 위반이다.
+
             string interpretation = p.interpretation ?? "";
+            if (string.IsNullOrWhiteSpace(interpretation)) return NpcJudgmentValidation.Failure("EmptyInterpretation", dest, destReason);
             if (interpretation.Length > UnifiedPromptBuilder.MaxInterpretationLength) return NpcJudgmentValidation.Failure("InterpretationTooLong", dest, destReason);
+
             string goal = p.goal ?? "";
+            if (string.IsNullOrWhiteSpace(goal)) return NpcJudgmentValidation.Failure("EmptyGoal", dest, destReason);
             if (goal.Length > UnifiedPromptBuilder.MaxGoalLength) return NpcJudgmentValidation.Failure("GoalTooLong", dest, destReason);
 
             // 근거 3필드 - 1단계에서 만든 검증기를 그대로 재사용한다

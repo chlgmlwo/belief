@@ -104,11 +104,28 @@ namespace Belief.Systems
 
         void OnGameOver(GameOverEvent e) => Log(e.Won ? "게임 종료 - 승리" : "게임 종료 - 턴 소진");
 
+        /// <summary>
+        /// 로그 한 줄을 남기고 구독자(Presentation)에게 알린다.
+        ///
+        /// <b>OnLogAdded 구독자의 예외를 여기서 막는다.</b> GameEventBus는 멀티캐스트 델리게이트라
+        /// 구독자 하나가 던지면 (1) 그 뒤에 등록된 구독자들이 아예 호출되지 않고 (2) 예외가
+        /// ActionResolutionSystem.Apply 같은 도메인 호출자까지 전파된다. 이 클래스는 CardJudgedEvent를
+        /// MemorySystem보다 <b>먼저</b> 구독하므로(GameInstaller 조립 순서), 여기서 새어 나간 예외
+        /// 하나가 기억·스트릭 갱신을 통째로 건너뛰게 만들 수 있었다.
+        ///
+        /// 로그는 관찰용이므로 실패해도 게임 진행을 멈춰서는 안 된다 - 다만 조용히 삼키지 않고
+        /// Console에 남긴다. 도메인 필수 구독자(MemorySystem 등)에는 이런 보호를 두지 않는다.
+        /// </summary>
         void Log(string message)
         {
             entries.Add(message);
             Debug.Log("[BELIEF] " + message);
-            OnLogAdded?.Invoke(message);
+
+            try { OnLogAdded?.Invoke(message); }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[EventLogSystem] 로그 표시 중 예외가 발생했습니다(게임 진행은 계속됩니다): {ex}");
+            }
         }
     }
 }
