@@ -579,7 +579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7925441253325892795, guid: a3a6b2b07eb5b2843adfbe3ab84addc0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6461,10 +6461,6 @@ PrefabInstance:
       propertyPath: m_ActiveFontFeatures.Array.size
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 208825289277194208, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 367284176218980393, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_isOrthographic
       value: 1
@@ -6504,10 +6500,6 @@ PrefabInstance:
     - target: {fileID: 1421896898113173369, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -130
-      objectReference: {fileID: 0}
-    - target: {fileID: 1518057758299035393, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 233.6
       objectReference: {fileID: 0}
     - target: {fileID: 1765687172525995108, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_IsActive
@@ -6629,10 +6621,6 @@ PrefabInstance:
       propertyPath: m_ActiveFontFeatures.Array.size
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6110693733576969324, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 233.6
-      objectReference: {fileID: 0}
     - target: {fileID: 6479803501983104586, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -130
@@ -6672,10 +6660,6 @@ PrefabInstance:
     - target: {fileID: 7650969991906814393, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_ActiveFontFeatures.Array.size
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8757319857201181738, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 233.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8087,6 +8071,7 @@ MonoBehaviour:
   npcRoot: {fileID: 1046827319}
   skin: {fileID: 11400000, guid: 42ea88bdba813664a8296bb65edf49bc, type: 2}
   contactPointScreenAnchor: {x: 0.932, y: 0.269}
+  spawnContactPointInWorld: 0
   contactButtonSprite: {fileID: 21300000, guid: 98e75443f48153a4785a661c35b6bb9f, type: 3}
   contactButtonScreenWidth: 230
 --- !u!4 &1709372778
