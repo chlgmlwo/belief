@@ -96,6 +96,13 @@ MonoBehaviour:
     relationshipTypeLabel: "\uBD80\uD558\xB7\uBA85\uB839 \uC218\uD589\uC790"
     relationshipDescription: "\uC5C5\uBB34 \uB2A5\uB825\uC740 \uC2E0\uB8B0\uD558\uC9C0\uB9CC
       \uACB0\uACFC\uC5D0 \uB300\uD55C \uCC45\uC784\uC744 \uC5C4\uACA9\uD788 \uBB3B\uB294\uB2E4."
+  - other: {fileID: 11400000, guid: b61f1196e7ee84945894e1c731022573, type: 2}
+    type: {fileID: 0}
+    strength: 0.6
+    relationshipTypeLabel: "\uC0C1\uAD00(\uCDA9\uC131 \uB300\uC0C1)"
+    relationshipDescription: "\uAC89\uC73C\uB85C\uB294 \uC808\uB300\uC801 \uC874\uC911\uC774\uC9C0\uB9CC,
+      \uC2E4\uB9AC \uACC4\uC0B0\uC774 \uD754\uB4E4\uB9AC\uBA74 \uAC00\uC7A5 \uBA3C\uC800
+      \uC7AC\uACE0\uD558\uB294 \uAD00\uACC4\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}

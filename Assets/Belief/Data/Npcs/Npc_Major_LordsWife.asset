@@ -89,7 +89,7 @@ MonoBehaviour:
       \uC2E0\uB8B0\uD55C\uB2E4."
   - other: {fileID: 11400000, guid: 65e54763f0fe3d64e9fd7d32cc2360f7, type: 2}
     type: {fileID: 0}
-    strength: -0.3
+    strength: -0.5
     relationshipTypeLabel: "\uACBD\uC7C1\uC790"
     relationshipDescription: "\uACF5\uC2DD\uC801\uC73C\uB85C\uB294 \uC6B0\uD638\uC801\uC774\uC9C0\uB9CC,
       \uADC0\uC871\uBD80\uC778\uC5D0\uAC8C\uC11C \uB098\uC628 \uC815\uBCF4\uB294

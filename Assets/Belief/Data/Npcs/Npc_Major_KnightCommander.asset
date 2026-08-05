@@ -88,7 +88,7 @@ MonoBehaviour:
       \uC544\uB2C8\uB77C\uACE0 \uC120\uC744 \uAE0B\uB294\uB2E4."
   - other: {fileID: 11400000, guid: 084757cbcf2e7ab4ca8e7e8ee0ca824d, type: 2}
     type: {fileID: 0}
-    strength: 0
+    strength: 0.35
     relationshipTypeLabel: "\uC0C1\uD638 \uC874\uC911"
     relationshipDescription: "\uC885\uAD50\uC801 \uAD8C\uC704\uB97C \uC874\uC911\uD558\uBA70,
       \uD544\uC694 \uC2DC \uC815\uBCF4\uB97C \uACF5\uC720\uD558\uB294 \uC678\uBD80\uC790\uB85C

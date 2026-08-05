@@ -82,7 +82,7 @@ MonoBehaviour:
   relationships:
   - other: {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}
     type: {fileID: 0}
-    strength: -0.3
+    strength: -0.6
     relationshipTypeLabel: "\uACBD\uC7C1\uC790"
     relationshipDescription: "\uAC89\uC73C\uB85C\uB294 \uC608\uC758\uB97C \uCC28\uB9AC\uC9C0\uB9CC
       \uAC00\uC7A5 \uBBFC\uAC10\uD558\uAC8C \uACBD\uACC4\uD558\uBA70, \uC559\uAE08\uC744

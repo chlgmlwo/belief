@@ -71,6 +71,13 @@ MonoBehaviour:
     relationshipDescription: "\uC815\uC911\uD558\uC9C0\uB9CC \uAC00\uAE5D\uAC8C \uC9C0\uB3C4\uD558\uBA70,
       \uBCF4\uACE0\uAC00 \uB298\uC5B4\uC9C0\uBA74 \uC5C4\uACA9\uD574\uC9C0\uB294
       \uD3B8\uC774\uB2E4."
+  - other: {fileID: 11400000, guid: 65e54763f0fe3d64e9fd7d32cc2360f7, type: 2}
+    type: {fileID: 0}
+    strength: -0.45
+    relationshipTypeLabel: "\uAC04\uC811 \uC811\uCD09(\uACBD\uACC4 \uB300\uC0C1)"
+    relationshipDescription: "\uB9C8\uB2D8\uC744 \uACAC\uC81C\uD558\uB294 \uC778\uBB3C\uC774\uB77C,
+      \uADC0\uC871\uBD80\uC778\uC5D0\uAC8C\uC11C \uB098\uC628 \uC815\uBCF4\uB294
+      \uC758\uC2EC\uBD80\uD130 \uD55C\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}

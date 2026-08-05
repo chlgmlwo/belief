@@ -89,11 +89,18 @@ MonoBehaviour:
       \uBC16\uC5D0\uC11C\uB294 \uC798 \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uB294\uB2E4."
   - other: {fileID: 11400000, guid: a27482ef6e129d147a681d2d7b59dadb, type: 2}
     type: {fileID: 0}
-    strength: -0.3
+    strength: -0.5
     relationshipTypeLabel: "\uB2E8\uC18D \uB300\uC0C1(\uAC04\uC811)"
     relationshipDescription: "\uBC00\uC218 \uAD00\uB828 \uC815\uBCF4\uB294 \uC9C1\uBB34\uC640
       \uC9C1\uACB0\uB418\uC5B4 \uC788\uC5B4 \uB2E4\uB978 \uC815\uBCF4\uBCF4\uB2E4
       \uD6E8\uC52C \uBBFC\uAC10\uD558\uAC8C \uBC18\uC751\uD55C\uB2E4."
+  - other: {fileID: 11400000, guid: 7affddfbafc05c445bdc0fc15115a23c, type: 2}
+    type: {fileID: 0}
+    strength: -0.15
+    relationshipTypeLabel: "\uAC10\uC2DC\xB7\uB2E8\uC18D \uB300\uC0C1"
+    relationshipDescription: "\uC9C1\uC811\uC801\uC778 \uCE5C\uBD84\uC774 \uC5C6\uC5B4
+      \uC0AC\uBB34\uC801\uC73C\uB85C\uB9CC \uB300\uD558\uBA70, \uC758\uC2EC\uC2A4\uB7EC\uC6B4
+      \uC815\uBCF4\uB294 \uADDC\uC815 \uC704\uBC18 \uC5EC\uBD80\uB85C\uB9CC \uD310\uB2E8\uD55C\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}
