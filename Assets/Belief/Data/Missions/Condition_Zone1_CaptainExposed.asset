@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Zone1_CaptainExposed
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.AnyOfConditions
   TargetCount: 1
+  displayLabel: "\uACBD\uBE44\uB300\uC7A5\uC774 \uD758\uB824\uBCF4\uB0B8 \uC18C\uBB38
+    \uC911 \uD558\uB098\uB97C \uC644\uC804\uD788 \uBD80\uC815\uD568"
   subConditions:
   - {fileID: 11400000, guid: dbdeccdbd31ade5419fc96ae556e840e, type: 2}
   - {fileID: 11400000, guid: 55a787e31af155d448335960b7aac465, type: 2}

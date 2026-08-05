@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M01_RumorAtNobleDistrict
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationRumorActiveCondition
   TargetCount: 1
-  displayLabel: 
+  displayLabel: "\uC800\uD0DD\uAC00\uC5D0 \uC18C\uBB38\uC774 \uD37C\uC838 \uC788\uC74C"
   targetLocation: {fileID: 11400000, guid: cbfd6be4454d78a48a2443caff90c231, type: 2}
   requiredInformation: {fileID: 0}
   requiredCategoryId: 

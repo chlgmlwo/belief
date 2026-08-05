@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Zone1_M2_SC1
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcBeliefReachedCondition
   TargetCount: 1
+  displayLabel: "\uACBD\uBE44\uB300\uC7A5\uC774 '\uD589\uC815\uAE30\uAD00 \uAD8C\uB825
+    \uB2E4\uD23C' \uC18C\uBB38\uC744 \uC758\uC2EC\uD568"
   targetNpc: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
   referenceCard: {fileID: 11400000, guid: 543e6dd736790be4eaa182cf8b68db0b, type: 2}
   thresholdState: 2

@@ -3391,12 +3391,40 @@ context로 넘겨 더블클릭으로 바로 찾아가게). 폴백은 그대로 �
 확인, 캡처로도 원문 ID가 사라진 것 확인 ✅. 새 경고는 한 건도 안 뜸(= 오탐 없음),
 Console Error/Warning 0.
 
-**참고 - 아직 `displayLabel`이 빈 조건 애셋(화면에 안 뜨는 것들)**: `Condition_NeverComplete`(더미),
-`Condition_Stage04_M01_*` 하위 5개(부모 `AnyOf`/`AllOf`에 문구가 있어 자식은 표시 안 됨),
-`Condition_Zone1_*` 7개(어느 스테이지에서도 참조되지 않는 구버전 잔재). 지금은 노출되지 않지만
-단독으로 쓰이게 되면 위 경고가 잡아 준다.
-
 **수정한 파일**: `HudPresenter.cs`, `Condition_Stage02_M01_BookkeeperExposed/Monitoring/Verifying.asset`.
+
+**후속(사용자 지시 "남은 빈 조건들도 다 채워줘")**: 화면에 안 뜨던 나머지 13개도 전부 채웠다.
+각 애셋의 실제 판정 필드를 열어 확인한 뒤 문구를 지었다(추정으로 쓰지 않음). 판정 규칙은
+`BeliefRank`(부정 0 ~ 신뢰 4) 기준 `atOrBelow`로, **`Doubtful` 이하 = "의심함"**,
+**`Denied` 이하 = "완전히 부정함"** — 기존 문구들이 쓰던 표현과 같다.
+
+| 애셋 | 실제 판정 | 채운 문구 |
+|---|---|---|
+| `..._Stage04_M01_StewardScandalToLord` | 영주, `C-POL-01`, ≤의심 | 영주가 '행정기관 권력 다툼' 소문을 의심함 |
+| `..._Stage04_M01_GuildMasterScandalToLord` | 영주, `C-PUB-01`, ≤의심 | 영주가 '주민 불안감 확산' 소문을 의심함 |
+| `..._Stage04_M01_LordsWifeScandalToLord` | 영주, `C-REL-01`, ≤의심 | 영주가 '이단 의심 집회' 소문을 의심함 |
+| `..._Stage04_M01_RumorAtNobleDistrict` | `Loc_manor_row` 활성 소문 | 저택가에 소문이 퍼져 있음 |
+| `..._Stage04_M01_RumorAtCommercialDistrict` | `Loc_Market` 활성 소문 | 시장에 소문이 퍼져 있음 |
+| `Condition_NeverComplete` | 감시 대상이 비어 영원히 미충족 | 구역 목표를 진행 중 |
+| `Condition_Zone1_M1_SC1` | 집사, `C-ADM-01`, ≤의심 | 집사가 '민원 처리 지연' 소문을 의심함 |
+| `Condition_Zone1_M2_SC1` | 경비대장, `C-POL-01`, ≤의심 | 경비대장이 '행정기관 권력 다툼' 소문을 의심함 |
+| `Condition_Zone1_CaptainDenied_POL01` | 경비대장, `C-POL-01`, ≤부정 | 경비대장이 '행정기관 권력 다툼' 소문을 완전히 부정함 |
+| `Condition_Zone1_CaptainDenied_ADM01` | 경비대장, `C-ADM-01`, ≤부정 | 경비대장이 '민원 처리 지연' 소문을 완전히 부정함 |
+| `Condition_Zone1_CaptainExposed` | 위 둘 중 하나 | 경비대장이 흘려보낸 소문 중 하나를 완전히 부정함 |
+| `Condition_Zone1_Mission1_Any` | Stage01 M01 조건 둘 중 하나 | 집사가 명령의 근거를 의심하거나 경비 초소가 빔 |
+| `Condition_Zone1_Mission2_Any` | Stage01 M02 조건 둘 중 하나 | 경비대장이 명령 계통을 의심하거나 여관으로 이동함 |
+
+**작업 중 확인된 데이터 사실 2가지(고치지 않음, 판단 필요)**:
+1. `Condition_Stage04_M01_TarnishedRumorReachesLord`의 문구는 "무너진 측근(집사/길드장/영주부인)의
+   소문"이라고 되어 있지만, 자식 3개가 실제로 보는 건 **인물 스캔들 카드가 아니라 카테고리 카드**다
+   (POLITICS/PUBLIC/RELIGION). 즉 "그 인물이 쥐고 있는 분야의 소문"이라는 뜻으로 읽어야 맞다.
+   자식 문구는 **실제로 검사하는 카드 이름**으로 적었다.
+2. `Condition_Zone1_*` 7개는 **어느 스테이지·미션에서도 참조되지 않는 구버전 잔재**다
+   (`CaptainExposed`, `M1_SC1`, `M2_SC1`, `Mission1_Any`, `Mission2_Any` 및 자식 2개). 문구는 채웠지만,
+   정리한다면 삭제가 맞다 — 지금은 지우지 않았다.
+
+**최종 검증**: 프로젝트 전체 조건 애셋 **39개 중 빈 것 0개** ✅. Zone2/Metropolis Play Mode에서
+미션 패널 조건 줄이 정상 출력되고 새 경고는 한 건도 안 뜸(오탐 없음), Console Error/Warning 0.
 
 ---
 
