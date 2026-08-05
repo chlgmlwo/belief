@@ -3272,14 +3272,87 @@ Loc_Alley 참조처를 전수 조사해 안전을 확인했다 — NPC 6명이 �
 Console Error/Warning **0**, 세 씬 모두 저장 완료.
 
 **남은 사항(이번 범위 밖, 별도 처리 필요)**:
-- `Loc_manor_row`(저택가)는 `locationPhoto`가 비어 있어 Metropolis 지도에서 **흰 카드로 뜬다** —
-  아트가 없는 유일한 장소.
+- ~~`Loc_manor_row`(저택가)의 흰 카드~~ → 3-87에서 처리.
 - Stage_02 미션 패널에 조건 표시명 대신 `Condition_Stage02_M01_BookkeeperExposed` 원문 ID가 나온다.
 - 헤더의 스테이지 이름이 태그 아트를 넘친다("상업지구 · 시장가", "클레르폰 대도시 전역").
 - 접선 카드는 카메라 줌을 따라 작아진다(Zone1 120×159px → Metropolis 43×57px). 다만 같은 화면의
   일반 장소 카드도 35×57px이라 주변과는 일관돼서 그대로 뒀다.
 
 **수정한 파일**: `WorldPresenter.cs`, `Stage_01~04.asset`, `Zone2.unity`, `Zone3.unity`, `Metropolis.unity`.
+
+---
+
+### 3-87. 사진 없는 장소가 지도에 흰 카드로 뜨던 문제 (2026-08-05, 3-86 후속)
+
+**증상**: Metropolis 지도 좌상단에 사진 없이 새하얀 카드가 하나 떠 있다(`Loc_manor_row` / 저택가).
+
+**원인**: `LocationSiteView.Bind`가
+```csharp
+if (background != null && data.locationPhoto != null) background.sprite = data.locationPhoto;
+```
+처럼 **사진이 없으면 조용히 넘어가기만** 했다. 그러면 프리팹 기본값인 `PlaceholderSquare`가 그대로
+남고, 바로 아래 `SetSiteState(Normal)`이 그걸 `NormalColor`(= 흰색)로 칠해서 1×1 흰 사각형이 그려진다.
+`NormalColor`는 원래 placeholder 시절 회색이었다가 **진짜 사진 아트가 들어온 뒤 흰색으로 바뀐 값**이라
+(3-55), 그 시점부터 "사진 없는 장소 = 흰 카드"가 됐다 — [[placeholder-era-leftovers]] 패턴의 재발.
+
+**저택가는 지울 수 없다.** `Condition_Stage04_M01_RumorAtNobleDistrict.targetLocation`이 이 장소라
+Stage_04 첫 미션의 클리어 조건 지점이다. 즉 화면에서 없애면 안 되고 **클릭 대상으로 남아야 한다.**
+
+**수정**: 사진이 없으면 사진 렌더러 자체를 끈다(`background.enabled = false`). 압정과 이름표는
+남기므로 "사진 없는 지도 표식"으로 읽히고, 클릭 판정은 사진이 아니라 **루트 콜라이더**라 그대로 동작한다.
+아트를 임의로 만들어 넣거나 다른 장소 사진을 돌려쓰지 않았다 — 그건 지도에 같은 그림이 두 번 나오게 된다.
+
+**검증**(Metropolis Play Mode): 사진 렌더러가 꺼진 장소는 **저택가 하나뿐**(나머지 14곳 정상),
+이름표 sprite `장소 표기 UI (최대 3글자)` + 압정 + 라벨 "저택가" 모두 살아 있음, 카드 중심
+`Physics2D.RaycastAll` **1건 히트(저택가)** = 클릭 유지 ✅. 캡처로 흰 카드가 사라진 것 확인.
+Console Error/Warning 0.
+
+**아직 사진이 없는 LocationData 8개**: `Loc_castle_gate`(성문), `Loc_courthouse`(재판소),
+`Loc_customs`(세관), `Loc_docks`(부두), `Loc_fish_market`(어시장), `Loc_manor_row`(저택가),
+`Loc_tavern`(선술집), `Loc_temple`(신전). 이 중 실제 스테이지에 들어가는 건 **저택가 하나**이고
+나머지는 어느 스테이지에도 안 쓰인다. 저택가 아트가 생기면 `locationPhoto`에 물리기만 하면
+이 코드는 자동으로 다시 사진을 그린다.
+
+**수정한 파일**: `LocationSiteView.cs`.
+
+---
+
+### 3-88. 프로필 패널 믿음 단계를 "숫자 + 단계 이름"으로 교정 (2026-08-05, 사용자 지시 + 시안 대조)
+
+**증상**: 믿음 단계 자리에 큰 글씨로 `가능성 있음`이 나오고, 그 아래 작은 자리에는 그 단계의 NPC 대사
+미리보기가 8pt로 깔려 거의 안 읽혔다.
+
+**원인은 배치가 아니라 넣는 값이었다.** 배경 아트의 슬롯 이름부터 `BeliefStageValue`(fs 32, 빨강,
+TravelingTypewriter, 프리팹 기본 텍스트 **"1"**)와 `BeliefStageNote`(fs 8, 프리팹 기본 텍스트
+**"확인이 필요하다고 판단"**)로, **원래 설계가 "숫자 + 짧은 설명"이었는데 코드가 반대로 채우고 있었다.**
+
+**수정**:
+- 큰 자리 = 믿음 단계 **1~5 숫자**. 순서를 새로 정하지 않고 Log 탭 눈금(`BeliefScalePosition`,
+  불신 0 ~ 신뢰 1)에서 `round(t*4+1)`로 환산한다 — **두 표시가 절대 어긋나지 않게** 하려는 것이라,
+  단계 정의가 바뀌면 그 함수 하나만 고치면 양쪽이 같이 따라간다. 판단 전(Unknown)은 `-`.
+- 작은 자리 = 단계 이름(`가능성 있음` 등). 여기 있던 **NPC 대사 미리보기는 제거** — 실제로 한 말은
+  Log 탭에 `NpcSpokeEvent`로 쌓이므로 같은 걸 두 군데서 보여줄 필요가 없다. `beliefDialogues` 데이터
+  자체는 `RuleBasedMajorThinker`가 실제 대사 선택에 계속 쓰므로 고아가 되지 않는다.
+- 작은 자리 폰트 **8 → 14**, 상자 높이 16 → 22. 8pt는 사실상 안 읽혔고, 들어갈 문구가 최장 6자
+  (`가능성 있음`/`확인 필요함` = 64px)라 114px 상자에 여유가 크다. 20까지 들어가지만 숫자(32)와
+  위계가 무너져서 14로 잡았다.
+
+| 믿음 상태 | 표시 |
+|---|---|
+| Denied | **1** / 부정함 |
+| Doubtful | **2** / 의심함 |
+| NeedsVerification | **3** / 확인 필요함 |
+| Plausible | **4** / 가능성 있음 |
+| Trusted | **5** / 신뢰함 |
+| Unknown | **-** / 판단 전 |
+
+**검증**(Zone1 Play Mode): NpcState에 카드를 기록하고 6개 상태를 차례로 넣어 **실제 표시 경로**
+(NPC 클릭 → `RefreshNpcProfile`)를 태운 결과 위 표대로 전부 일치 ✅. 글리프 실측으로 숫자 1/1,
+설명 라벨 전 글자 렌더 확인, 숫자와 설명의 **세로 간격 2.3~12.2px로 겹침 없음**, 최장 문구
+가로 64/114px로 상자 안 ✅. Console Error/Warning 0.
+
+**수정한 파일**: `HudPresenter.cs`(`BeliefTierNumber` 추가, `CurrentBeliefTag`에 BeliefState out 추가),
+`PlayHudCanvas_New.prefab`(BeliefStageNote 폰트/상자).
 
 ---
 

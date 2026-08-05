@@ -94,7 +94,17 @@ namespace Belief.Presentation.World
             transform.position = new Vector3(position.x, position.y, transform.position.z);
             SetSiteState(LocationSiteState.Normal);
 
-            if (background != null && data.locationPhoto != null) background.sprite = data.locationPhoto;
+            // 사진이 없으면 사진 자리를 아예 그리지 않는다. 예전에는 여기서 조용히 넘어갔는데,
+            // 그러면 프리팹 기본값인 PlaceholderSquare가 남고 SetSiteState(Normal)이 그걸 흰색
+            // (NormalColor)으로 칠해서 지도 위에 "빈 흰 카드"가 떴다(Stage_04의 저택가 - 아직 아트가
+            // 없는 유일한 장소인데 M01 클리어 조건 지점이라 뺄 수도 없다). 압정과 이름표는 남겨서
+            // "사진 없는 지도 표식"으로 읽히게 하고, 클릭 판정은 루트 콜라이더라 그대로 동작한다.
+            if (background != null)
+            {
+                bool hasPhoto = data.locationPhoto != null;
+                background.enabled = hasPhoto;
+                if (hasPhoto) background.sprite = data.locationPhoto;
+            }
 
             if (frame != null && skin != null) frame.sprite = skin.locationImageFrame;
             if (pin != null && skin != null) pin.sprite = skin.pin;

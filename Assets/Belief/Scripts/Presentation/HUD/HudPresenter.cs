@@ -786,16 +786,13 @@ namespace Belief.Presentation.HUD
             // 보였고, 나이는 NpcData에 필드 자체가 없어 항상 "—"로 나오던 자리였다. 상단은 이제
             // NPC 이름만 표시한다.
 
-            string tag = CurrentBeliefTag(selectedNpcState, out string koreanLabel);
-            npcBeliefTierText.text = koreanLabel;
-
-            string dialogueLine = "";
-            if (data is MajorNpcData majorForDialogue && majorForDialogue.beliefDialogues != null && tag != null)
-            {
-                var line = Array.Find(majorForDialogue.beliefDialogues, d => d != null && d.contextTag == tag);
-                if (line != null) dialogueLine = line.text;
-            }
-            npcBeliefDialogueText.text = dialogueLine;
+            // 배경 아트의 슬롯 이름 그대로(BeliefStageValue / BeliefStageNote) - 큰 자리는 믿음 단계를
+            // 1~5 숫자로, 그 아래 작은 자리는 단계 이름("가능성 있음")으로 넣는다. 예전에는 큰 자리에
+            // 단계 이름을, 작은 자리에 그 단계의 NPC 대사 미리보기를 넣고 있었다(사용자 지시로 교체 -
+            // 실제로 한 말은 Log 탭에 NpcSpokeEvent로 쌓이므로 여기서 미리보기를 겹쳐 보여줄 필요가 없다).
+            CurrentBeliefTag(selectedNpcState, out string koreanLabel, out var beliefState);
+            npcBeliefTierText.text = BeliefTierNumber(beliefState);
+            npcBeliefDialogueText.text = koreanLabel;
 
             if (data is MajorNpcData majorForRel && majorForRel.relationships != null)
             {
@@ -820,13 +817,23 @@ namespace Belief.Presentation.HUD
         /// <summary>NpcState가 받은 정보 중 가장 최근 것에 대한 믿음 단계를 "현재 믿음"으로 삼는다 -
         /// 아직 아무 정보도 받지 않았으면 Unknown(판단 대상 없음)으로 취급한다. contextTag는
         /// RuleBasedMajorThinker.ChooseDialogue와 동일한 5단계 태그를 그대로 재사용한다.</summary>
-        string CurrentBeliefTag(NpcState state, out string koreanLabel)
+        /// <summary>믿음 단계를 프로필 패널에 크게 띄우는 1~5 숫자. 순서는 새로 정하지 않고
+        /// Log 탭 눈금(BeliefScalePosition, 불신 0 ~ 신뢰 1)에서 그대로 환산한다 - 두 표시가
+        /// 절대 어긋나지 않게 하려는 것이므로, 단계가 바뀌면 그쪽 하나만 고치면 된다.
+        /// 판단 전(Unknown)은 매길 숫자가 없으므로 "-".</summary>
+        static string BeliefTierNumber(BeliefState state)
+        {
+            float t = BeliefScalePosition(state);
+            return t < 0f ? "-" : Mathf.RoundToInt(t * 4f + 1f).ToString();
+        }
+
+        string CurrentBeliefTag(NpcState state, out string koreanLabel, out BeliefState belief)
         {
             InformationCardData lastCard = null;
             var received = state.ReceivedInformation;
             if (received.Count > 0) lastCard = received[received.Count - 1].Card;
 
-            var belief = lastCard != null ? state.GetBelief(lastCard) : BeliefState.Unknown;
+            belief = lastCard != null ? state.GetBelief(lastCard) : BeliefState.Unknown;
             switch (belief)
             {
                 case BeliefState.Trusted: koreanLabel = "신뢰함"; return "Trust";
