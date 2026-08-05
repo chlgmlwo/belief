@@ -5,8 +5,16 @@ namespace Belief.Domain
 {
     /// <summary>
     /// NPC의 런타임 가변 상태. 정적 정의(성격/관계 등)는 NpcData에 있다.
-    /// beliefs 쓰기는 BeliefSystem, LongMemory 쓰기는 MemorySystem,
-    /// BehaviorModifier 쓰기는 ActionResolutionSystem(Effect 경유) 전용이다.
+    ///
+    /// 쓰기 소유권:
+    /// <list type="bullet">
+    /// <item><b>beliefs</b> - 일반(RuleOnly/FakeLlm/Llm) 판단에서는 BeliefSystem이 소유한다.
+    ///   통합 판단(IntegratedLlm) 경로에서는 <b>검증을 마친 결과</b>를 JudgmentApplicationSystem이
+    ///   적용한다. 그 두 곳 외에서 직접 바꾸지 않는다.</item>
+    /// <item><b>CurrentGoal</b> - 통합 판단 경로에서 JudgmentApplicationSystem만 바꾼다.</item>
+    /// <item><b>LongMemory</b> - MemorySystem 전용.</item>
+    /// <item><b>BehaviorModifier</b> - ActionResolutionSystem(Effect 경유) 전용.</item>
+    /// </list>
     /// </summary>
     /// <summary>NPC가 받은 정보 카드 한 건의 기록. 전달 여부만 보는 InformationCardSystem.DeliveredCardRecord와
     /// 달리 "누가 받았는지"까지 NpcState에 귀속시켜 보관한다.</summary>
@@ -28,8 +36,9 @@ namespace Belief.Domain
         public LocationData CurrentLocation { get; set; }
 
         /// <summary>NPC의 목표. NpcData.InitialGoal(Frozen AI Profile, 고정 데이터)에서 초기화된다 -
-        /// 목표가 없는 NPC 유형은 항상 null. 쓰기는 SetGoal을 통해서만(현재는 아무 시스템도 호출하지 않는다 -
-        /// 목표를 바꾸는 판단 로직은 아직 없다).</summary>
+        /// 목표가 없는 NPC 유형은 항상 null. 쓰기는 SetGoal을 통해서만 이루어지며, 이를 호출하는 곳은
+        /// 통합 판단(IntegratedLlm) 경로의 JudgmentApplicationSystem 하나다 - 규칙 기반 판단은
+        /// 목표를 바꾸지 않으므로 그 경로에서는 초기값이 그대로 유지된다.</summary>
         public string CurrentGoal { get; private set; }
 
         /// <summary>ApplyNpcBehaviorModifierEffect가 설정하는 행동 모드 태그. 없으면 null.</summary>
@@ -75,7 +84,9 @@ namespace Belief.Domain
         /// (InfoDeliverySystem이 판단 직전에 기록한다).</summary>
         public IReadOnlyList<ReceivedInformationEntry> ReceivedInformation => receivedInformation;
 
-        /// <summary>Debug Overlay 등 읽기 전용 조회용. 쓰기는 SetBelief를 통해서만.</summary>
+        /// <summary>Debug Overlay 등 읽기 전용 조회용. 쓰기는 SetBelief를 통해서만 이루어지며,
+        /// 이를 호출해도 되는 곳은 BeliefSystem.Apply(일반 판단)와 JudgmentApplicationSystem
+        /// (검증을 마친 통합 판단) 둘뿐이다 - 새로운 직접 호출 경로를 만들지 않는다.</summary>
         public IReadOnlyDictionary<InformationCardData, BeliefState> Beliefs => beliefs;
 
         public NpcState(NpcData data)
