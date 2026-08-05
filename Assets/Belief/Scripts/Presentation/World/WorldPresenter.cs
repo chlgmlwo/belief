@@ -33,6 +33,11 @@ namespace Belief.Presentation.World
         LocationSiteView contactPointView;
         public LocationSiteView ContactPointView => contactPointView;
 
+        /// <summary>접선 지점을 화면 어디에 놓을지(뷰포트 비율 0~1, 좌하단 기준). 월드 좌표가 아니라
+        /// 화면 기준이라 스테이지별 카메라 줌과 무관하게 항상 같은 자리에 보인다. 기본값은 Zone1에서
+        /// 실측해 확정한 자리(왼쪽 12.87% / 아래 25%) - 하단 안내 띠(x 17.7%부터 시작)와도 겹치지 않는다.</summary>
+        [SerializeField] Vector2 contactPointScreenAnchor = new Vector2(0.1287f, 0.25f);
+
         public event Action<LocationData> LocationClicked;
         public event Action<LocationData> LocationHoverEnter;
         public event Action<LocationData> LocationHoverExit;
@@ -127,10 +132,33 @@ namespace Belief.Presentation.World
             if (stage == null || stage.contactPoint == null) return;
 
             var view = Instantiate(locationSitePrefab, locationRoot);
-            view.Bind(stage.contactPoint, stage.contactPointPosition, skin);
+            view.Bind(stage.contactPoint, ResolveContactPointPosition(stage), skin);
             view.BindContactTag(skin != null ? skin.blockedStamp : null);
             view.Clicked += _ => ContactPointClicked?.Invoke();
             contactPointView = view;
+        }
+
+        /// <summary>접선 지점은 게임 세계의 장소가 아니라 "전달"이라는 시스템 동작이 놓인 자리라,
+        /// 스테이지가 바뀌어도 <b>화면상 같은 자리</b>에 있어야 플레이어가 매번 찾지 않는다. 그런데
+        /// 카메라 orthographicSize가 스테이지마다 5(Zone1)~14(Metropolis)로 달라서, 월드 좌표를 고정하면
+        /// 화면 위치가 제각각이 된다(실측: 같은 (-6.6,-1.9)가 Zone1에서는 왼쪽 12.9%/아래 25.0%,
+        /// Metropolis에서는 36.7%/41.4% = 거의 화면 한복판). 그래서 기본값은 월드 좌표가 아니라
+        /// <b>뷰포트 비율</b>로 잡고 매번 카메라에서 역산한다 - 해상도·화면비가 달라져도 자리가 유지된다.
+        /// StageData.contactPointPosition에 0이 아닌 값이 들어 있으면 그 월드 좌표를 그대로 써서
+        /// 스테이지별 예외를 둘 수 있다(하위 호환).</summary>
+        Vector2 ResolveContactPointPosition(StageData stage)
+        {
+            if (stage.contactPointPosition != Vector2.zero) return stage.contactPointPosition;
+
+            var cam = Camera.main;
+            if (cam == null || !cam.orthographic) return stage.contactPointPosition;
+
+            float halfHeight = cam.orthographicSize;
+            float halfWidth = halfHeight * cam.aspect;
+            var camPos = cam.transform.position;
+            return new Vector2(
+                camPos.x + (contactPointScreenAnchor.x - 0.5f) * 2f * halfWidth,
+                camPos.y + (contactPointScreenAnchor.y - 0.5f) * 2f * halfHeight);
         }
 
         /// <summary>StageData.cityBackground가 있으면 Main Camera의 현재 뷰(orthographicSize·aspect)를

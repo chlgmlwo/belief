@@ -3225,6 +3225,64 @@ mission이 null이라 기본값 1을 돌려줘 "NO. 001"이 됐다.
 
 ---
 
+### 3-86. 새 HUD를 전 스테이지로 확산 + 접선 지점을 화면 기준 배치로 전환 (2026-08-05, 사용자 지시)
+
+**발단**: "나머지 스테이지도 zone1 씬 복사해서 데이터만 바꾸면 되냐"는 질문에 4개 씬을 실제로 비교했더니,
+**Zone2/Zone3/Metropolis는 아직 옛 `HudCanvas` 프리팹(오브젝트 94개)을 쓰고 있었다.** Zone1만
+`PlayHudCanvas_New`(231개)라 3-78 이후 작업(실제 아트 HUD·작전 결과 화면·접선 태그·하단 안내 띠·
+3-85 통합)이 전부 **1스테이지에만** 적용돼 있던 상태.
+
+**씬 통째 복사 대신 캔버스만 교체했다.** `GameInstaller`는 `stageData.locations`를 우선 쓰고 씬의
+`allLocations`/`allNpcs`는 "stageData 미지정 시" 폴백일 뿐이라(코드 확인), 씬 복사로 얻을 게 거의 없는
+반면 카메라 `orthographicSize`(5/6/6/**14**)·`instantFailCondition`(Zone1 전용)·`finalResultData`
+(Metropolis 전용)·`LockedDistricts`(Metropolis 전용)·`Zone1HudMockupCanvas`(Zone1 전용) 같은
+**씬 고유 설정 6가지를 매번 다시 맞춰야** 한다. 캔버스만 갈아끼우면 그걸 하나도 안 건드린다.
+
+교체 전 **사전 스캔**으로 옛 캔버스 내부를 가리키는 외부 참조를 전수 조사했더니 3개 씬 모두
+`HudPresenter.view` **하나뿐**이었다(도시 배경은 `WorldPresenter`가 `StageData.cityBackground`로
+직접 깔기 때문에 HUD와 무관). 그래서 교체 = 프리팹 인스턴스 갈아끼우기 + `view` 재배선 +
+`missionConditionRowPrefab`을 Zone1과 같은 `MissionConditionRowView_Mockup`으로 정렬, 이 3가지뿐.
+
+**접선 지점을 월드 좌표에서 화면(뷰포트) 기준으로 바꿨다.** 4스테이지가 전부 같은
+`contactPointPosition = (-6.6, -1.9)`였는데 **월드 좌표라 카메라 줌이 다르면 화면 위치가 달라진다** —
+실측: Zone1 왼쪽 12.9%/아래 25.0%, Zone2·3 19.1%/30.0%, **Metropolis 36.7%/41.4%(거의 화면 한복판)**.
+안내 문구가 "지도 왼쪽 아래 뒷골목"이라 4스테이지 중 1곳만 맞는 말이었다. `WorldPresenter`에
+`contactPointScreenAnchor`(뷰포트 비율, 기본 `(0.1287, 0.25)` = Zone1 실측값)를 추가하고
+`ResolveContactPointPosition()`이 매번 카메라에서 역산하도록 했다. **스테이지별 월드 좌표를
+계산해 넣는 방법도 있었지만 그건 16:9 가정이 데이터에 박히는 것** — 뷰포트 기준이면 해상도·화면비가
+바뀌어도 자리가 유지된다. `StageData.contactPointPosition`은 0이 아니면 그 값을 그대로 쓰는
+예외 통로로 남겼고, 4스테이지 모두 `(0,0)`으로 비웠다.
+
+**Stage_03에서 뒷골목을 일반 장소 목록에서 뺐다.** Stage_03만 `Loc_Alley`가 `locations`에도 있어서
+장소 카드로 한 번 + 접선 지점으로 또 한 번 = **지도에 뒷골목 카드가 2개** 뜰 상태였다. 제거 전
+Loc_Alley 참조처를 전수 조사해 안전을 확인했다 — NPC 6명이 참조하는 건 전부 `avoidedLocations`뿐이고
+(없는 장소는 애초에 후보에 안 잡힘), **Stage_03의 미션 조건 2개는 Loc_Alley를 참조하지 않는다.**
+`locations[5]`와 `locationLayout[4]`를 지우고, 아랫줄이 2개만 남아 가운데가 비므로 좌우
+대칭(`±2.10`)으로 다시 모았다.
+
+**검증**(3개 스테이지 각각 Play Mode 실행):
+
+| | Zone2 | Zone3 | Metropolis |
+|---|---|---|---|
+| 새 HUD 요소(Instruction/Notice/Bg/HandArea/ResultScreen) | 전부 존재 ✅ | ✅ | ✅ |
+| 장소/NPC | 4개 / 5명 | **5개 / 6명**(뒷골목 빠짐 ✅) | 15개 / 17명(영주 포함 ✅) |
+| 접선 카드 화면 위치 | 왼쪽 10.8% / 아래 19.3% | 10.8% / 19.3% | 12.0% / 22.6% |
+| 안내 띠와 겹침 | 없음 ✅ | 없음 ✅ | 없음 ✅ |
+
+Console Error/Warning **0**, 세 씬 모두 저장 완료.
+
+**남은 사항(이번 범위 밖, 별도 처리 필요)**:
+- `Loc_manor_row`(저택가)는 `locationPhoto`가 비어 있어 Metropolis 지도에서 **흰 카드로 뜬다** —
+  아트가 없는 유일한 장소.
+- Stage_02 미션 패널에 조건 표시명 대신 `Condition_Stage02_M01_BookkeeperExposed` 원문 ID가 나온다.
+- 헤더의 스테이지 이름이 태그 아트를 넘친다("상업지구 · 시장가", "클레르폰 대도시 전역").
+- 접선 카드는 카메라 줌을 따라 작아진다(Zone1 120×159px → Metropolis 43×57px). 다만 같은 화면의
+  일반 장소 카드도 35×57px이라 주변과는 일관돼서 그대로 뒀다.
+
+**수정한 파일**: `WorldPresenter.cs`, `Stage_01~04.asset`, `Zone2.unity`, `Zone3.unity`, `Metropolis.unity`.
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```
