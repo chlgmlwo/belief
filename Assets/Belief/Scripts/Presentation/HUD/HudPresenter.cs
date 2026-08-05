@@ -1013,7 +1013,10 @@ namespace Belief.Presentation.HUD
         }
 
         /// <summary>NpcSpokeEvent를 EventLogSystem과 별도로 한 번 더 구독 - 최근 대사 2줄을 상단(최신)/
-        /// 하단(이전) 카드에 채운다. 새 저장소가 아니라 같은 이벤트를 두 번째로 구독하는 것뿐이다.</summary>
+        /// 하단(이전) 카드에 채운다. 새 저장소가 아니라 같은 이벤트를 두 번째로 구독하는 것뿐이다.
+        ///
+        /// 대사가 1개뿐일 때 하단 카드는 글자만 비고 카드 배경은 남는다 - 이는 의도된 동작이다
+        /// (카드 두 장이 항상 자리를 지키는 시안). 카드를 숨기도록 바꿔 봤다가 되돌렸다.</summary>
         void OnLogNpcSpoke(NpcSpokeEvent e)
         {
             string text = e.Dialogue.IsGenerated ? e.Dialogue.GeneratedText : e.Dialogue.PredefinedLine?.text;
