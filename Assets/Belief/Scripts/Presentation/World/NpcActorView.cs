@@ -29,6 +29,9 @@ namespace Belief.Presentation.World
         // 1.0초도 빠르다는 피드백으로 2.5초까지 재조정).
         const float MoveDuration = 2.5f;
         const float DialogueDuration = 2.5f;
+        /// <summary>말풍선 프리팹 수치(글자 크기/폭/머리 위 간격)를 맞춰 둔 기준 카메라 크기 - Zone1 기준.
+        /// 다른 줌의 스테이지에서는 FitDialogueToCamera가 이 값과의 비율만큼 되곱해 보정한다.</summary>
+        const float DialogueReferenceOrthoSize = 5f;
         const float HighlightDuration = 0.3f;
         const float SelectionTweenDuration = 0.18f;
         // ⚠️ 실측 결과 36장 전부가 사실상 거의 같은 자세의 미세한 노이즈성 변형이었다(행 1과 행 2를
@@ -341,9 +344,26 @@ namespace Belief.Presentation.World
 
             StopAndUnregister(dialogueRoutine, dialoguePlayback);
             dialogueLabel.text = text;
+            FitDialogueToCamera();
             dialogueRoot.SetActive(true);
             dialogueSkipRequested = false;
             dialogueRoutine = StartCoroutine(DialogueRoutine());
+        }
+
+        /// <summary>말풍선은 월드 스페이스라 카메라 줌에 그대로 끌려다닌다 - 스테이지마다 orthographicSize가
+        /// 5(Zone1) ~ 14(Metropolis)로 2.8배 차이가 나서, 한쪽에서 읽기 좋게 맞추면 반대쪽에서는 글자가
+        /// 화면을 덮거나 반대로 못 읽을 만큼 작아진다(실측: 고정 크기일 때 같은 글자가 Zone1 62px /
+        /// Metropolis 22px). 그래서 프리팹 수치는 기준 줌(DialogueReferenceOrthoSize)에서 한 번만 맞추고,
+        /// 실제 표시 직전에 현재 줌 비율만큼 되곱해 <b>화면상 크기를 어느 스테이지에서나 동일</b>하게 만든다.
+        /// 루트가 캐릭터 크기 보정 스케일을 갖고 있으므로(lossyScale) 그만큼은 나눠서 상쇄한다.</summary>
+        void FitDialogueToCamera()
+        {
+            var cam = Camera.main;
+            float ortho = cam != null && cam.orthographic ? cam.orthographicSize : DialogueReferenceOrthoSize;
+            float zoom = ortho / DialogueReferenceOrthoSize;
+            float parentScale = Mathf.Abs(transform.lossyScale.y);
+            if (parentScale < 0.0001f) parentScale = 1f;
+            dialogueRoot.transform.localScale = Vector3.one * (zoom / parentScale);
         }
 
         /// <summary>동시에 대사는 최대 1개만 표시한다는 규칙을 지키기 위해 WorldPresenter가 새 대사를

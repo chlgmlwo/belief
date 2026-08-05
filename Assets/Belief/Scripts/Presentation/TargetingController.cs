@@ -76,12 +76,11 @@ namespace Belief.Presentation
                 return;
             }
 
+            // 카드를 안 고른 채 지도를 눌렀을 뿐이라 알릴 게 없다 - 예전엔 "먼저 카드를 선택하세요."를
+            // 띄웠지만 손패가 이미 화면에 깔려 있고 시작 동작이 그것뿐이라 잔소리였다(3-85에서 삭제).
+            // NPC 조사 클릭(HudPresenter.OnNpcClickedForProfile)은 이 경로와 별개로 계속 동작한다.
             var card = installer.Turns.SelectedCard;
-            if (card == null)
-            {
-                InteractionRejected?.Invoke("먼저 카드를 선택하세요.");
-                return;
-            }
+            if (card == null) return;
 
             if (card.cardType != InfoCardType.Spread)
             {
@@ -110,12 +109,10 @@ namespace Belief.Presentation
                 return;
             }
 
+            // 위 OnLocationClicked와 같은 이유로 삭제(3-85) - 카드 없이 NPC를 누르는 건 "조사"이지
+            // 잘못된 조작이 아니다.
             var card = installer.Turns.SelectedCard;
-            if (card == null)
-            {
-                InteractionRejected?.Invoke("먼저 카드를 선택하세요.");
-                return;
-            }
+            if (card == null) return;
 
             if (card.cardType != InfoCardType.Deliver)
             {

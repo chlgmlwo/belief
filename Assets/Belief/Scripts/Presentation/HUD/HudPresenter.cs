@@ -121,11 +121,17 @@ namespace Belief.Presentation.HUD
         GameObject cardInfoGo;
         TMP_Text cardTitleText, cardDescText, cardKindText;
 
+        // 하단 안내 띠(3-85) - 예전에는 안내가 세 군데로 흩어져 있었다: 이 띠, 지도 한가운데 떠 있던
+        // FeedbackBanner, 그리고 손패 위 NoSelectionHint. 셋을 이 띠 하나로 합쳤다. 판(barBackgroundGo)은
+        // 지속 안내와 일시 알림이 공유하고, 알림이 뜬 동안에는 지속 안내를 잠시 감춰 글자가 겹치지 않게 한다.
+        GameObject barBackgroundGo;
         GameObject instructionGo;
         TMP_Text instructionText;
         GameObject deliverButtonGo;
         Button deliverButton;
         GameObject noSelectionHintGo;
+        string barInstruction = "";
+        bool noticeShowing;
 
         // 장소 정보 패널(LocationInfoPaper) - LocationData의 콘텐츠 필드를 enum 그대로 표시한다.
         GameObject locationNoteGo;
@@ -199,7 +205,9 @@ namespace Belief.Presentation.HUD
             var bus = installer.EventBus;
             bus.Subscribe<TurnStartedEvent>(_ => { RefreshAll(); PulseOnce(missionTurnText); PulseOnce(stageTurnText); });
             bus.Subscribe<CardSelectedEvent>(_ => RefreshAll());
-            bus.Subscribe<CardPlayedEvent>(_ => { RefreshAll(); ShowTransientNotice("결과를 확인하세요.", AccentColor); });
+            // 예전엔 여기서 "결과를 확인하세요." 알림을 띄웠지만 3-85에서 삭제 - 무엇을 확인하라는
+            // 건지도 모호했고, 카드를 낸 직후에는 NPC 대사/로그가 이미 결과를 말해 준다.
+            bus.Subscribe<CardPlayedEvent>(_ => RefreshAll());
             bus.Subscribe<InformationAcquiredEvent>(OnInformationAcquired);
             // 미션 자체가 교체됐다는 직접 신호 - ObjectivesChanged/TurnStartedEvent 경로와 별개로
             // MissionSystem.LoadMission이 발행하는 즉시 미션 패널을 완전히 재구성한다.
@@ -495,8 +503,9 @@ namespace Belief.Presentation.HUD
             StartCoroutine(PulseGraphic(text, AccentColor, baseColor, 0.3f));
         }
 
-        /// <summary>카드 선택 여부와 무관하게 항상 보이는 배너로 짧게 메시지를 띄운다 -
-        /// 잘못된 클릭 사유, 실행 직후 "결과를 확인하세요" 안내에 쓰인다.</summary>
+        /// <summary>하단 안내 띠의 "일시 알림" 슬롯에 짧게 띄운다 - 클릭이 거부된 이유, 손패가 저절로
+        /// 늘어난 이유처럼 <b>규칙이 뒤에서 움직인 사실</b>을 보고하는 용도다. 3-85에서 "~하세요" 류의
+        /// 지시 문구는 전부 걷어냈으니 여기에 다시 넣지 말 것.</summary>
         void ShowTransientNotice(string message, Color color)
         {
             if (feedbackRoutine != null) StopCoroutine(feedbackRoutine);
@@ -508,6 +517,8 @@ namespace Belief.Presentation.HUD
             feedbackText.text = message;
             feedbackText.color = color;
             feedbackGo.SetActive(true);
+            noticeShowing = true;
+            RefreshBarVisibility();
             feedbackCanvasGroup.alpha = 0f;
 
             const float fade = 0.2f;
@@ -522,6 +533,8 @@ namespace Belief.Presentation.HUD
             feedbackCanvasGroup.alpha = 0f;
 
             feedbackGo.SetActive(false);
+            noticeShowing = false;
+            RefreshBarVisibility();
             feedbackRoutine = null;
         }
 
@@ -1137,10 +1150,16 @@ namespace Belief.Presentation.HUD
             bool hasSelection = card != null;
 
             cardInfoGo.SetActive(hasSelection);
-            instructionGo.SetActive(hasSelection);
-            noSelectionHintGo.SetActive(!hasSelection);
+            // NoSelectionHint("전달할 정보를 선택하세요.")는 3-85에서 폐기 - 손패가 이미 화면에 깔려
+            // 있어 같은 말을 반복할 뿐이었다. 프리팹에 남아 있어도 항상 꺼 둔다.
+            if (noSelectionHintGo != null) noSelectionHintGo.SetActive(false);
 
-            if (!hasSelection) return;
+            if (!hasSelection)
+            {
+                SetBarInstruction("");
+                SetDeliverAffordance(false, false);
+                return;
+            }
 
             cardTitleText.text = card.information != null ? card.information.title : "?";
             cardDescText.text = card.information != null ? card.information.description : "";
@@ -1156,24 +1175,43 @@ namespace Belief.Presentation.HUD
             switch (targeting.Phase)
             {
                 case TargetingPhase.AwaitingTarget:
-                    instructionText.text = card.cardType == InfoCardType.Spread
-                        ? "정보를 전달할 장소를 선택하세요."
-                        : "정보를 전달할 대상을 선택하세요.";
+                    // "장소/대상을 선택하세요"는 3-85에서 삭제 - 카드를 고르면 지도에서 유효한 대상이
+                    // 이미 강조되므로 화면이 하는 말을 글로 한 번 더 하는 것뿐이었다.
+                    SetBarInstruction("");
                     SetDeliverAffordance(false, false);
                     break;
 
                 case TargetingPhase.AwaitingConfirm:
-                    instructionText.text = card.cardType == InfoCardType.Spread
+                    // 접선 태그는 아직 새 UI라 위치를 모르면 진행 자체가 막힌다 - 이 안내만 남긴다.
+                    SetBarInstruction(card.cardType == InfoCardType.Spread
                         ? "지도 왼쪽 아래 뒷골목의 접선 태그를 눌러 전달한다. (다른 장소를 클릭하면 대상을 바꿀 수 있습니다.)"
-                        : "지도 왼쪽 아래 뒷골목의 접선 태그를 눌러 전달한다. (다른 사람을 클릭하면 대상을 바꿀 수 있습니다.)";
+                        : "지도 왼쪽 아래 뒷골목의 접선 태그를 눌러 전달한다. (다른 사람을 클릭하면 대상을 바꿀 수 있습니다.)");
                     SetDeliverAffordance(true, canDeliver);
                     break;
 
                 default:
-                    instructionText.text = "";
+                    SetBarInstruction("");
                     SetDeliverAffordance(false, false);
                     break;
             }
+        }
+
+        /// <summary>하단 안내 띠의 "지속 안내" 슬롯. 빈 문자열이면 슬롯이 꺼지고, 일시 알림도 없으면
+        /// 판까지 꺼져서 지도 위에 빈 띠가 남지 않는다.</summary>
+        void SetBarInstruction(string text)
+        {
+            barInstruction = text ?? "";
+            if (instructionText != null) instructionText.text = barInstruction;
+            RefreshBarVisibility();
+        }
+
+        /// <summary>지속 안내와 일시 알림이 판 하나를 공유한다 - 알림이 뜬 동안에는 지속 안내를 감춰
+        /// 같은 자리에 두 문장이 겹쳐 그려지지 않게 한다.</summary>
+        void RefreshBarVisibility()
+        {
+            bool hasInstruction = !string.IsNullOrEmpty(barInstruction);
+            if (instructionGo != null) instructionGo.SetActive(hasInstruction && !noticeShowing);
+            if (barBackgroundGo != null) barBackgroundGo.SetActive(hasInstruction || noticeShowing);
         }
 
         /// <summary>전달 확정 입력 자리를 켠다 - 접선 지점(지도 위 "전달" 태그)이 있는 스테이지에서는
@@ -1271,6 +1309,7 @@ namespace Belief.Presentation.HUD
             cardTitleText = view.CardTitleText;
             cardDescText = view.CardDescText;
             cardKindText = view.CardKindText;
+            barBackgroundGo = view.BarBackgroundGo;
             instructionGo = view.InstructionGo;
             instructionText = view.InstructionText;
             deliverButtonGo = view.DeliverButtonGo;

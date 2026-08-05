@@ -86,10 +86,14 @@ namespace Belief.Presentation.HUD
         [SerializeField] TMP_Text cardTitleText;
         [SerializeField] TMP_Text cardDescText;
         [SerializeField] TMP_Text cardKindText;
+        /// <summary>하단 안내 띠의 어두운 판 + 강조선. 지속 안내와 일시 알림이 이 판 하나를 같이 쓰므로
+        /// 둘 중 하나라도 표시 중이면 켜고, 둘 다 없으면 꺼서 빈 띠가 남지 않게 한다(3-85).</summary>
+        [SerializeField] GameObject barBackgroundGo;
         [SerializeField] GameObject instructionGo;
         [SerializeField] TMP_Text instructionText;
         [SerializeField] GameObject deliverButtonGo;
         [SerializeField] Button deliverButton;
+        /// <summary>3-85에서 하단 안내 띠로 통합되며 폐기됐다 - 프리팹에 남아 있어도 항상 꺼 둔다.</summary>
         [SerializeField] GameObject noSelectionHintGo;
 
         [Header("Overlay")]
@@ -191,6 +195,7 @@ namespace Belief.Presentation.HUD
         public TMP_Text CardTitleText => cardTitleText;
         public TMP_Text CardDescText => cardDescText;
         public TMP_Text CardKindText => cardKindText;
+        public GameObject BarBackgroundGo => barBackgroundGo;
         public GameObject InstructionGo => instructionGo;
         public TMP_Text InstructionText => instructionText;
         public GameObject DeliverButtonGo => deliverButtonGo;
