@@ -312,11 +312,14 @@ namespace Belief.Presentation.World
         {
             float side = index % 2 == 0 ? 1f : -1f;
             int slot = index / 2;
-            float x = side * (NpcFlankBaseOffset + slot * NpcFlankStep);
+            // 카드/NPC를 키운 스테이지에서는 옆에 붙는 간격도 같은 비율로 벌어져야 한다 -
+            // 안 그러면 카드만 커지고 NPC가 카드 안으로 파고든다(ViewScale=1이면 기존과 동일).
+            float scale = ViewScale;
+            float x = side * (NpcFlankBaseOffset + slot * NpcFlankStep) * scale;
 
             Vector2 basePos = locationViews.TryGetValue(location, out var view)
                 ? (Vector2)view.transform.position : location.worldPosition;
-            return basePos + new Vector2(x, NpcFlankVerticalOffset);
+            return basePos + new Vector2(x, NpcFlankVerticalOffset * scale);
         }
 
         void RefreshNpcSlots(LocationData location)
