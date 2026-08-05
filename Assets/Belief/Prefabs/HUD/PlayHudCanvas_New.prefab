@@ -3364,11 +3364,11 @@ RectTransform:
   - {fileID: 2325980063725929118}
   m_Father: {fileID: 264497468964978601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 147, y: 85}
-  m_Pivot: {x: 0, y: 1}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1396211423192719407
 GameObject:
   m_ObjectHideFlags: 0
@@ -17744,10 +17744,10 @@ RectTransform:
   m_Father: {fileID: 8625186941547927017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 13.5, y: -36}
-  m_SizeDelta: {x: 120, y: 34}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -4.25, y: -36}
+  m_SizeDelta: {x: -35.5, y: 34}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &165151933709471282
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17820,7 +17820,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -21327,11 +21327,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 264497468964978601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 147, y: 85}
-  m_Pivot: {x: 0, y: 1}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7072013296208631079
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21361,7 +21361,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 23808665c1d178342bd1f913fccbd06f, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -22985,6 +22985,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Presentation.Mockup.StageRegionNameAdapter
   targetText: {fileID: 1925024667828661446}
+  leftPadding: 13.5
+  rightPadding: 22
+  minWidth: 147
 --- !u!1 &9036662444485642689
 GameObject:
   m_ObjectHideFlags: 0
