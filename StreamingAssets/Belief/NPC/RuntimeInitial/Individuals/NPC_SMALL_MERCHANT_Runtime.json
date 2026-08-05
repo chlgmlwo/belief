@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "npcId": "NPC_SMALL_MERCHANT",
+  "runtimeStatus": {
+    "currentStageId": "STAGE_02",
+    "currentLocationId": "LOC_MARKET_SQUARE",
+    "isActive": true,
+    "isAvailable": true,
+    "lastUpdatedTurn": 0
+  },
+  "currentGoal": {
+    "goalId": "",
+    "goalType": "None",
+    "reasonInformationId": "",
+    "targetLocationId": "",
+    "status": "None"
+  },
+  "currentMove": {
+    "targetLocationId": "",
+    "reasonGoalId": "",
+    "status": "Idle",
+    "startedTurn": -1
+  },
+  "beliefStates": [
+    {
+      "informationId": "INFO_SMALL_MERCHANT_01",
+      "currentLevel": "Trust",
+      "previousLevel": "Trust",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_SMALL_MERCHANT_02",
+      "currentLevel": "Possible",
+      "previousLevel": "Possible",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    },
+    {
+      "informationId": "INFO_SMALL_MERCHANT_03",
+      "currentLevel": "NeedVerification",
+      "previousLevel": "NeedVerification",
+      "sourceId": "PROFILE_INITIAL",
+      "evidenceIds": [],
+      "lastUpdatedTurn": 0,
+      "isInitialBelief": true
+    }
+  ],
+  "workingMemory": {
+    "knownInformationIds": [
+      "INFO_SMALL_MERCHANT_01",
+      "INFO_SMALL_MERCHANT_02",
+      "INFO_SMALL_MERCHANT_03"
+    ],
+    "recentInformationIds": [],
+    "recentEventIds": [],
+    "observedNpcIds": []
+  },
+  "relationshipStates": [
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_GUILD_MASTER",
+      "trust": "Normal",
+      "intimacy": "Low",
+      "influence": "High",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_CUSTOMS_OFFICER",
+      "trust": "Low",
+      "intimacy": "Low",
+      "influence": "High",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    },
+    {
+      "targetType": "Npc",
+      "targetId": "NPC_SMUGGLER",
+      "trust": "Low",
+      "intimacy": "Low",
+      "influence": "Normal",
+      "trustDelta": 0,
+      "intimacyDelta": 0,
+      "influenceDelta": 0,
+      "initializedFromProfile": true
+    }
+  ]
+}
