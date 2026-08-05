@@ -248,9 +248,29 @@ namespace Belief.AI.LLM
             sb.AppendLine("위에 제시되지 않은 인물, 관계, 기억, 과거 사건을 지어내지 마세요. 지어내면 응답 전체가 무효 처리됩니다.");
         }
 
+        /// <summary>primaryReason 6종의 뜻을 명시한다. 정의가 없으면 실측에서 관계가 실제로 판단을
+        /// 움직였는데도 belief나 situation으로 귀속되는 일이 반복됐다 - 특히 "경쟁자가 같은 장소에
+        /// 있다"는 사실이 [관계]와 [상황] 양쪽에 나오므로, 정의를 주지 않으면 situation으로 부르는
+        /// 것도 틀린 답이 아니게 된다. 판단 결과를 바꾸려는 것이 아니라 이미 내린 판단의 근거를
+        /// 정확히 분류하기 위한 지시다.</summary>
         static void AppendGroundsFieldSpec(StringBuilder sb, NpcState self, IReadOnlyList<NpcState> presentNpcs, NpcState propagator)
         {
-            sb.AppendLine($"primaryReason은 다음 중 하나여야 합니다: {string.Join(" / ", JudgmentGroundsValidator.PrimaryReasons)}");
+            sb.AppendLine("primaryReason은 아래 정의에 따라 하나만 고르세요.");
+            sb.AppendLine("  relationship : 특정 인물과의 관계(관계 유형·strength·관계 설명), 또는 그 정보를 전달한 인물이나");
+            sb.AppendLine("                 같은 장소에 있는 인물과의 관계 때문에 판단이 달라진 경우");
+            sb.AppendLine("  situation    : 특정 인물과의 관계가 아니라 장소 상태·봉쇄·경계 태세·주변 환경 같은");
+            sb.AppendLine("                 비인격적 상황이 직접적인 근거인 경우");
+            sb.AppendLine("  belief       : 이 정보에 대한 현재 믿음 상태 자체가 가장 직접적인 근거인 경우");
+            sb.AppendLine("  profile      : 성향 태그와 기본 성격이 가장 직접적인 근거인 경우");
+            sb.AppendLine("  goal         : 현재 목표를 유지하거나 달성하는 것이 직접적인 근거인 경우");
+            sb.AppendLine("  source       : 정보 출처의 신뢰도나 종류가 직접적인 근거인 경우");
+            sb.AppendLine("분류 규칙:");
+            sb.AppendLine("  - relationshipInfluence를 none이 아닌 값으로 반환했고 그 관계가 행동이나 대사에 실제로");
+            sb.AppendLine("    영향을 줬다면, primaryReason은 relationship이어야 합니다.");
+            sb.AppendLine("  - 어떤 인물이 그 자리에 '있다'는 사실이 아니라 '그 인물과의 관계' 때문에 판단이 달라졌다면");
+            sb.AppendLine("    situation이 아니라 relationship으로 분류하세요.");
+            sb.AppendLine("  - 반대로 관계 인물을 그저 언급했을 뿐 선택에 영향을 주지 않았다면 relationship을 고르지 말고,");
+            sb.AppendLine("    relationshipInfluence도 none으로 두세요.");
 
             var tags = JudgmentGroundsValidator.ProfileTagsOf(self.Data);
             sb.AppendLine(tags.Count > 0
