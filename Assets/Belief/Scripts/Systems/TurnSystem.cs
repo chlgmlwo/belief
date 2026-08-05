@@ -109,9 +109,15 @@ namespace Belief.Systems
             eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
         }
 
+        /// <summary>카드 선택/사용을 막아야 하는 상태인지. 턴 소진뿐 아니라 <b>미션이 이미 완료된
+        /// 구간</b>도 포함한다 - 미션 완료 팝업이 확인 대기 중이거나, 구역의 마지막 미션을 깨고 다음
+        /// 씬이 로드되기 직전까지의 짧은 창에서도 입력이 그대로 먹혀 카드가 헛되이 소모되던 문제를
+        /// 막는다(그 구간에서는 ProgressionController가 다음 미션을 아직/영영 LoadMission 하지 않아
+        /// mission.State.IsComplete가 true로 남아 있다). 레거시 씬은 완료되지 않는 더미 미션을 쓰므로
+        /// 기존과 동일하게 턴 소진만 판정된다.</summary>
         public void SelectCard(InformationCardData card)
         {
-            if (TurnsExhausted || card == null || !cards.OwnedInformationCards.Contains(card)) return;
+            if (IsGameOver || card == null || !cards.OwnedInformationCards.Contains(card)) return;
             SelectedCard = card;
             eventBus.Publish(new CardSelectedEvent(card));
         }
@@ -120,7 +126,7 @@ namespace Belief.Systems
         /// 비동기(LLM 판단이 Timeout까지 대기할 수 있음) - Unity 메인 스레드를 막지 않는다.</summary>
         public async Task<bool> PlayCardOnLocationAsync(LocationData location)
         {
-            if (TurnsExhausted || SelectedCard == null || SelectedCard.cardType != InfoCardType.Spread) return false;
+            if (IsGameOver || SelectedCard == null || SelectedCard.cardType != InfoCardType.Spread) return false;
             if (!CanTargetLocationDirectly(location)) return false; // accessType 차단 - 카드 소비/턴 진행 전에 막는다(§7)
 
             var card = SelectedCard;
@@ -132,7 +138,7 @@ namespace Belief.Systems
 
         public async Task<bool> PlayCardOnNpcAsync(NpcState target)
         {
-            if (TurnsExhausted || SelectedCard == null || SelectedCard.cardType != InfoCardType.Deliver) return false;
+            if (IsGameOver || SelectedCard == null || SelectedCard.cardType != InfoCardType.Deliver) return false;
 
             var card = SelectedCard;
             cards.Deliver(card, CurrentTurn);

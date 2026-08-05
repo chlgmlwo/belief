@@ -66,7 +66,7 @@ namespace Belief.Presentation.HUD
             BindMap(view, pc, stageIndex);
 
             view.LaunchButton.onClick.AddListener(Dismiss);
-            view.BackButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
+            view.BackButton.onClick.AddListener(GoToMainMenu);
         }
 
         /// <summary>이 구역의 GOAL 제목 목록. StageData.missions와 ProgressionData.objectives는 같은
@@ -103,9 +103,32 @@ namespace Belief.Presentation.HUD
             view.BindMap(currentName, remaining, skin?.currentStageIcon, skin?.lockedStageIcon);
         }
 
+        /// <summary>"작전 실행"/"메인 화면"은 눌린 뒤에도 0.25초 페이드가 도는 동안 화면이 그대로
+        /// 살아 있어서 버튼이 계속 눌렸다(연타하면 코루틴이 여러 개 뜨거나 LoadScene이 중복 호출된다).
+        /// 첫 클릭에서 바로 입력을 끊는다 - 플래그만으로는 이미 큐에 들어간 클릭을 못 막으므로
+        /// 버튼 자체를 비활성화하고 캔버스의 레이캐스트도 함께 닫는다.</summary>
+        bool inputClosed;
+
+        bool CloseInput()
+        {
+            if (inputClosed) return false;
+            inputClosed = true;
+            if (view.LaunchButton != null) view.LaunchButton.interactable = false;
+            if (view.BackButton != null) view.BackButton.interactable = false;
+            if (canvasGroup != null) canvasGroup.blocksRaycasts = false;
+            return true;
+        }
+
         void Dismiss()
         {
+            if (!CloseInput()) return;
             StartCoroutine(FadeOutAndDisable());
+        }
+
+        void GoToMainMenu()
+        {
+            if (!CloseInput()) return;
+            SceneManager.LoadScene("MainMenu");
         }
 
         IEnumerator FadeIn()

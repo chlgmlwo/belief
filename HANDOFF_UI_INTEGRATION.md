@@ -3598,6 +3598,62 @@ Stage_01~03은 `worldViewScale = 1`로 두어 **기존 화면이 전혀 바뀌�
 
 ---
 
+### 3-94. 입력이 살아 있으면 안 되는 두 구간 차단 (2026-08-05, 3-91 검수에서 발견한 기능 결함)
+
+3-91의 전체 플레이 검수에서 나온 문제 3개 중 **실제 결함은 2개**였다.
+
+#### (1) 미션이 이미 끝났는데 카드가 그대로 먹힌다
+
+`TurnSystem`의 카드 입력 가드 3곳(`SelectCard` / `PlayCardOnLocationAsync` / `PlayCardOnNpcAsync`)이
+`TurnsExhausted`(= 턴 소진)만 봤다. 그런데 **턴이 남아 있는데도 입력을 막아야 하는 구간**이 두 군데 있다:
+
+| 구간 | 상태 | 이전 동작 |
+|---|---|---|
+| 미션 완료 팝업이 확인 대기 중 | `IsComplete=true`, 턴은 남음 | **카드가 소모된다** |
+| 구역 마지막 미션 클리어 ~ 다음 씬 로드 직전 | 동상 (`LoadMission`이 영영 안 불림) | **카드가 소모된다** |
+
+두 구간 모두 `mission.State.IsComplete == true`라는 공통점이 있고, `TurnSystem`에는 이미
+`IsGameOver => TurnsExhausted || mission.State.IsComplete`가 있었다. 가드 3곳을 `IsGameOver`로 바꾸는 것으로 끝.
+
+> **소프트락 검토가 이 수정의 핵심이었다.** `IsComplete`로 막는 이상 그게 제때 풀리는지가 관건인데,
+> `MissionSystem.LoadMission`이 `state = new MissionState(data)`로 **상태를 통째로 새로 만들기 때문에**
+> 다음 미션이 로드되는 순간 `IsComplete`가 false로 리셋된다. 레거시 씬은 완료되지 않는 더미 미션을
+> 쓰므로 기존과 동일하게 턴 소진만 판정된다.
+
+**Play Mode 실측 검증**(Zone1 → Zone2 전 구간):
+
+| 시점 | `IsGameOver` | `SelectCard` | 카드 소모 |
+|---|---|---|---|
+| 미션1 진행 중 | False | 정상 선택 | - |
+| 미션1 완료 팝업 대기 | **True** | **null(차단)** | **hand 3→3, delivered 1→1** |
+| 확인 후 미션2 시작 | False | 정상 선택 | 소프트락 없음 |
+| 미션2(마지막) 완료, 씬 전환 대기 | **True** | **차단** | - |
+| Zone2 진입 후 | False | 정상 선택 | 소프트락 없음 |
+
+`PlayCardOnLocationAsync`도 차단 구간에서 `IsCompleted=true / Result=false`로 즉시 반환된다.
+
+#### (2) 브리핑 버튼이 페이드 도는 동안 계속 눌린다
+
+"작전 실행"/"메인 화면"은 클릭 후 0.25초 페이드가 도는 동안 화면이 그대로 살아 있어서
+연타하면 `FadeOutAndDisable` 코루틴이 여러 개 뜨거나 `LoadScene`이 중복 호출됐다.
+
+`StageBriefingPresenter`에 `inputClosed` + `CloseInput()`을 넣어 첫 클릭에서 입력을 끊는다.
+**플래그만으로는 부족하다** — 이미 이벤트 큐에 들어간 클릭을 못 막으므로 버튼 두 개를
+`interactable = false`로 내리고 `canvasGroup.blocksRaycasts`도 함께 닫는다.
+
+검증: "작전 실행" 10회 연타 → 1회만 처리(`interactable=False`, `blocksRaycasts=False`), 나머지 9회 무시.
+
+#### (3) "스테이지 진행 턴이 상한을 넘는다(S43/12)" — 결함 아님
+
+`HudPresenter.RefreshHeader`가 이미 `Mathf.Min(turns.StageTurn, turns.StageMaxTurns)`로 클램프하고 있고,
+`stageTurnText`가 물린 `StageTurnValue`는 `activeSelf=False`라 애초에 화면에 나오지 않는다.
+S43/12는 3-91의 자동 플레이 드라이버가 **내부 값 `turns.StageTurn`을 직접 읽어서** 나온 수치였다.
+코드 수정 없음.
+
+**수정한 파일**: `TurnSystem.cs`(가드 3곳), `StageBriefingPresenter.cs`(`CloseInput`/`GoToMainMenu` 추가).
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```
