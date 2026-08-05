@@ -77,5 +77,35 @@ namespace Belief.AI.LLM
                     return ruleBased;
             }
         }
+
+        /// <summary>
+        /// Shadow Mode 전용 Transport. ThinkerMode와 <b>독립</b>이다 - 게임이 RuleOnly로 도는 동안에도
+        /// 관찰용 호출을 하기 위해서다. "RuleOnly에서 Transport를 호출하지 않는다"는 Frozen 규칙은
+        /// 게임 판단 경로에 적용되며, 이 경로는 명시적으로 켜야만 생성된다(shadowMode 기본값 false).
+        ///
+        /// 준비되지 않았으면 null을 반환하고, 호출자는 Shadow를 아예 만들지 않는다 - 게임은 평소대로 돈다.
+        /// </summary>
+        public static ILlmTransport CreateShadowTransport(LlmProviderConfig providerConfig)
+        {
+            if (providerConfig == null)
+            {
+                Debug.LogWarning("[ThinkerFactory] Shadow Mode가 켜져 있지만 LlmProviderConfig가 비어 있어 관찰을 시작하지 않습니다.");
+                return null;
+            }
+
+            string apiKey = null;
+            if (!providerConfig.useProxy
+                && !ApiKeyProvider.TryGetApiKey(providerConfig.provider.ToString(), out apiKey))
+            {
+                Debug.LogWarning("[ThinkerFactory] Shadow Mode가 켜져 있지만 API 키를 찾을 수 없어 관찰을 시작하지 않습니다.");
+                return null;
+            }
+
+            return providerConfig.provider switch
+            {
+                LlmProviderType.OpenAi => new OpenAiTransport(providerConfig, apiKey),
+                _ => null
+            };
+        }
     }
 }

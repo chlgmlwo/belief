@@ -1,0 +1,220 @@
+using System.Collections.Generic;
+using System.Text;
+using Belief.Data;
+using Belief.Domain;
+
+namespace Belief.AI.LLM
+{
+    /// <summary>
+    /// 통합 판단(Interpretation/Belief/Goal/Action/Destination/Dialogue) 전용 프롬프트.
+    /// 기존 PromptBuilder와 분리해 둔 이유는, 실제 게임 판단이 쓰는 프롬프트를 Shadow Mode 실험이
+    /// 건드리지 않게 하기 위해서다 - 두 경로가 같은 파일을 공유하면 관찰용 수정이 실제 판단에
+    /// 새어 나간다.
+    ///
+    /// 기존 프롬프트와 결정적으로 다른 점: <b>현재 믿음을 확정값으로 주지 않는다.</b> "직전 믿음"만
+    /// 알려주고 이번 정보를 반영한 믿음은 AI가 직접 고르게 한다. 기존 프롬프트가 믿음을 확정값으로
+    /// 넘겨줬기 때문에 근거가 belief로 쏠렸다.
+    /// </summary>
+    public static class UnifiedPromptBuilder
+    {
+        static readonly string[] BeliefValues =
+            { "Trusted", "Plausible", "NeedsVerification", "Doubtful", "Denied" };
+
+        public const int MaxInterpretationLength = 200;
+        public const int MaxGoalLength = 120;
+        public const int MaxDialogueLength = 200;
+
+        public static string Build(NpcJudgmentContext ctx)
+        {
+            var npcData = ctx.Npc.Data;
+            var sb = new StringBuilder();
+
+            sb.AppendLine("[NPC]");
+            sb.AppendLine($"이름: {npcData.displayName}");
+            if (!string.IsNullOrEmpty(npcData.job)) sb.AppendLine($"직업: {npcData.job}");
+            if (!string.IsNullOrEmpty(npcData.affiliation)) sb.AppendLine($"소속: {npcData.affiliation}");
+            sb.Append($"신뢰경향: {npcData.trustBias:F2}, 의심도: {npcData.skepticism:F2}");
+            if (npcData is MajorNpcData m) sb.Append($", 충성도: {m.loyalty:F2}");
+            sb.AppendLine();
+            if (npcData is MajorNpcData major && !string.IsNullOrEmpty(ctx.GoalBefore))
+                sb.AppendLine($"지금까지의 목표: {ctx.GoalBefore}");
+
+            AppendProfileTags(sb, npcData);
+            AppendNotesAndBackstory(sb, npcData);
+            AppendRelationships(sb, ctx);
+
+            sb.AppendLine();
+            sb.AppendLine("[상황]");
+            sb.AppendLine($"현재 위치: {(ctx.Where != null ? ctx.Where.Data.displayName : "알 수 없음")}");
+            sb.AppendLine($"현재 턴: {ctx.Turn}");
+            AppendPresentNpcs(sb, ctx);
+            sb.AppendLine(ctx.Propagator != null
+                ? $"이 정보를 전달한 인물: {ctx.Propagator.Data.npcId} ({ctx.Propagator.Data.displayName})"
+                : "이 정보를 전달한 인물: none (정보원을 통한 전달이라 전달한 인물이 없음)");
+            sb.AppendLine($"이 주장에 대해 지금까지 갖고 있던 믿음: {ctx.BeliefBefore}");
+
+            sb.AppendLine();
+            sb.AppendLine("[이번에 접한 주장]");
+            var info = ctx.Card.information;
+            sb.AppendLine($"제목: {(info != null ? info.title : "알 수 없음")}");
+            sb.AppendLine($"내용: {(info != null ? info.description : "알 수 없음")}");
+
+            sb.AppendLine();
+            sb.AppendLine("[정보 출처]");
+            sb.AppendLine($"선언된 출처: {(ctx.Card.source != null ? ctx.Card.source.displayName : "알 수 없음")}");
+            sb.AppendLine($"출처 Id: {(ctx.Card.source != null ? ctx.Card.source.sourceId : "알 수 없음")}");
+
+            sb.AppendLine();
+            sb.AppendLine("[관련 기억]");
+            if (ctx.Memory != null && !ctx.Memory.IsEmpty)
+                foreach (var e in ctx.Memory.Entries) sb.AppendLine($"- {e.Description}");
+            else
+                sb.AppendLine("(관련된 특별한 기억 없음)");
+
+            sb.AppendLine();
+            sb.AppendLine("[선택 가능한 행동]");
+            if (ctx.ActionCandidates != null)
+                foreach (var a in ctx.ActionCandidates)
+                    if (a != null) sb.AppendLine($"- {a.actionId}: {a.displayLabel}");
+
+            sb.AppendLine();
+            sb.AppendLine("[이동 후보]");
+            if (ctx.MoveCandidates != null && ctx.MoveCandidates.Count > 0)
+                foreach (var l in ctx.MoveCandidates)
+                    if (l != null) sb.AppendLine($"- {l.locationId}: {l.displayName}");
+            else
+                sb.AppendLine("(이동 가능한 곳 없음 - destinationId는 stay여야 합니다)");
+
+            AppendPrinciples(sb);
+            AppendResponseSpec(sb, ctx);
+            return sb.ToString();
+        }
+
+        static void AppendProfileTags(StringBuilder sb, NpcData npcData)
+        {
+            var tags = JudgmentGroundsValidator.ProfileTagsOf(npcData);
+            if (tags.Count == 0) return;
+            sb.AppendLine();
+            sb.AppendLine("[성향 태그]  (profileInfluence로는 아래 값 중 하나만 반환할 수 있습니다)");
+            if (!string.IsNullOrWhiteSpace(npcData.judgmentTendencyTag)) sb.AppendLine($"판단경향: {npcData.judgmentTendencyTag.Trim()}");
+            if (!string.IsNullOrWhiteSpace(npcData.priorityTag)) sb.AppendLine($"우선순위: {npcData.priorityTag.Trim()}");
+            if (!string.IsNullOrWhiteSpace(npcData.sensitiveInfoTag)) sb.AppendLine($"민감주제: {npcData.sensitiveInfoTag.Trim()}");
+            if (!string.IsNullOrWhiteSpace(npcData.relationTendencyTag)) sb.AppendLine($"관계처리: {npcData.relationTendencyTag.Trim()}");
+            if (!string.IsNullOrWhiteSpace(npcData.trustJudgmentTag)) sb.AppendLine($"신뢰판단: {npcData.trustJudgmentTag.Trim()}");
+        }
+
+        static void AppendNotesAndBackstory(StringBuilder sb, NpcData npcData)
+        {
+            if (npcData.aiNotes != null && npcData.aiNotes.Length > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine("[인물 메모]");
+                foreach (var n in npcData.aiNotes)
+                    if (!string.IsNullOrWhiteSpace(n)) sb.AppendLine($"- {n.Trim()}");
+            }
+            if (!string.IsNullOrWhiteSpace(npcData.backstory))
+            {
+                sb.AppendLine();
+                sb.AppendLine("[배경]");
+                sb.AppendLine(npcData.backstory.Trim());
+            }
+        }
+
+        static void AppendRelationships(StringBuilder sb, NpcJudgmentContext ctx)
+        {
+            if (!(ctx.Npc.Data is MajorNpcData major) || major.relationships == null || major.relationships.Length == 0) return;
+            var usable = JudgmentGroundsValidator.UsableRelationships(ctx.Npc, ctx.PresentNpcs, ctx.Propagator);
+
+            sb.AppendLine();
+            sb.AppendLine("[관계]");
+            if (usable.Count > 0)
+            {
+                sb.AppendLine("▶ 지금 이 자리/이번 정보에 실제로 관련된 인물 (relationshipInfluence로 반환 가능):");
+                foreach (var r in usable) AppendRelationshipLine(sb, r, ctx.Propagator);
+            }
+            else
+            {
+                sb.AppendLine("▶ 지금 이 자리/이번 정보에 관련된 인물: 없음");
+                sb.AppendLine("  (따라서 relationshipInfluence는 반드시 none이어야 합니다)");
+            }
+
+            var background = new List<RelationshipEntry>();
+            foreach (var r in major.relationships)
+                if (r.other != null && !usable.Contains(r)) background.Add(r);
+            if (background.Count > 0)
+            {
+                sb.AppendLine("▷ 참고용 배경 관계 (지금 자리에 없으므로 근거로 반환할 수 없음):");
+                foreach (var r in background) AppendRelationshipLine(sb, r, null);
+            }
+        }
+
+        static void AppendRelationshipLine(StringBuilder sb, RelationshipEntry rel, NpcState propagator)
+        {
+            bool isProp = propagator != null && propagator.Data == rel.other;
+            string label = !string.IsNullOrWhiteSpace(rel.relationshipTypeLabel) ? rel.relationshipTypeLabel.Trim() : "관계 유형 미지정";
+            sb.AppendLine($"  - {rel.other.npcId} ({rel.other.displayName}) | {label} | "
+                        + $"strength={rel.strength:F2} ({JudgmentGroundsValidator.DescribeStrength(rel.strength)})"
+                        + (isProp ? " | ★이 정보를 전달한 당사자" : ""));
+            if (!string.IsNullOrWhiteSpace(rel.relationshipDescription))
+                sb.AppendLine($"      {rel.relationshipDescription.Trim()}");
+        }
+
+        static void AppendPresentNpcs(StringBuilder sb, NpcJudgmentContext ctx)
+        {
+            var parts = new List<string>();
+            if (ctx.PresentNpcs != null)
+                foreach (var n in ctx.PresentNpcs)
+                    if (n != null && n != ctx.Npc && n.Data != null) parts.Add($"{n.Data.npcId} ({n.Data.displayName})");
+            sb.AppendLine(parts.Count > 0 ? $"같은 장소에 있는 인물: {string.Join(", ", parts)}" : "같은 장소에 있는 인물: 없음");
+        }
+
+        static void AppendPrinciples(StringBuilder sb)
+        {
+            sb.AppendLine();
+            sb.AppendLine("[판단 원칙]");
+            sb.AppendLine("이 인물의 입장에서 이번 주장을 해석하고, 믿음·목표·행동·이동·대사를 한 번에 정하세요.");
+            sb.AppendLine("성향 태그는 기본 경향일 뿐 반드시 따라야 하는 규칙이 아닙니다. 관계, 정보 출처,");
+            sb.AppendLine("지금 이 자리에 있는 인물과의 관계가 충분히 강하다면 평소와 다른 선택을 해도 됩니다.");
+            sb.AppendLine("다만 그렇게 했다면 위에 실제로 제시된 성향 태그나 관계 npcId를 근거로 반환해야 합니다.");
+            sb.AppendLine("위에 제시되지 않은 인물, 관계, 기억, 과거 사건을 지어내지 마세요. 지어내면 응답 전체가 무효입니다.");
+        }
+
+        static void AppendResponseSpec(StringBuilder sb, NpcJudgmentContext ctx)
+        {
+            sb.AppendLine();
+            sb.AppendLine("[응답 형식]");
+            sb.AppendLine("반드시 아래 JSON 형식으로만, 다른 텍스트 없이 응답하세요.");
+            sb.AppendLine($"belief는 다음 중 하나여야 합니다: {string.Join(" / ", BeliefValues)}");
+            sb.AppendLine("action은 [선택 가능한 행동]의 id 중 하나, destinationId는 [이동 후보]의 locationId 중 하나이거나 \"stay\"여야 합니다.");
+            sb.AppendLine($"interpretation은 {MaxInterpretationLength}자, goal은 {MaxGoalLength}자, dialogue는 {MaxDialogueLength}자 이내입니다.");
+
+            sb.AppendLine($"primaryReason은 아래 정의에 따라 하나만 고르세요.");
+            sb.AppendLine("  relationship : 특정 인물과의 관계, 또는 전달자·동석 인물과의 관계 때문에 판단이 달라진 경우");
+            sb.AppendLine("  situation    : 인물 관계가 아니라 장소 상태·봉쇄·경계 태세 같은 비인격적 상황이 근거인 경우");
+            sb.AppendLine("  belief       : 이 주장에 대해 갖고 있던 기존 믿음 자체가 가장 직접적인 근거인 경우");
+            sb.AppendLine("  profile      : 성향 태그와 기본 성격이 가장 직접적인 근거인 경우");
+            sb.AppendLine("  goal         : 목표를 유지하거나 달성하는 것이 직접적인 근거인 경우");
+            sb.AppendLine("  source       : 정보 출처의 신뢰도나 종류가 직접적인 근거인 경우");
+
+            var tags = JudgmentGroundsValidator.ProfileTagsOf(ctx.Npc.Data);
+            sb.AppendLine(tags.Count > 0
+                ? $"profileInfluence는 다음 중 하나이거나 none: {string.Join(" / ", tags)}"
+                : "profileInfluence는 none이어야 합니다.");
+
+            var usable = JudgmentGroundsValidator.UsableRelationships(ctx.Npc, ctx.PresentNpcs, ctx.Propagator);
+            if (usable.Count > 0)
+            {
+                var ids = new List<string>();
+                foreach (var r in usable) ids.Add(r.other.npcId);
+                sb.AppendLine($"relationshipInfluence는 다음 중 하나이거나 none: {string.Join(" / ", ids)}");
+            }
+            else sb.AppendLine("relationshipInfluence는 none이어야 합니다.");
+
+            sb.AppendLine("{\"interpretation\":\"<이 인물이 이번 주장을 어떻게 받아들였는지>\","
+                        + "\"belief\":\"<위 5개 중 하나>\",\"goal\":\"<지금부터의 목표>\","
+                        + "\"action\":\"<행동 id>\",\"destinationId\":\"<locationId 또는 stay>\","
+                        + "\"dialogue\":\"<짧은 대사>\",\"primaryReason\":\"<위 6개 중 하나>\","
+                        + "\"profileInfluence\":\"<성향 태그 또는 none>\",\"relationshipInfluence\":\"<npcId 또는 none>\"}");
+        }
+    }
+}

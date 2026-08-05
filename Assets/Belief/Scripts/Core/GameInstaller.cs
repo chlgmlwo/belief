@@ -62,6 +62,16 @@ namespace Belief.Core
         /// RuleBased 결과로 즉시 대체한다(늦게 도착하는 원래 응답은 폐기).</summary>
         [SerializeField, Min(1)] int llmTimeoutMs = LlmMajorThinker.DefaultTimeoutMs;
 
+        [Header("Shadow Mode (개발·관찰 전용)")]
+        /// <summary>켜면 실제 판단이 끝난 뒤 같은 스냅샷으로 LLM 통합 판단을 따로 돌려 규칙 기반
+        /// 결과와 비교만 한다. <b>결과는 월드와 미션에 절대 적용되지 않는다.</b> thinkerMode와 독립이라
+        /// RuleOnly로 게임을 돌리면서도 관찰할 수 있다 - 그래서 <b>토큰이 나간다</b>. 기본값은 꺼짐.</summary>
+        [SerializeField] bool shadowMode = false;
+
+        /// <summary>Shadow 요청의 전체 프롬프트와 원문 응답을 비교 기록에 담는다. 로그가 매우 커지므로
+        /// 필요할 때만 켠다 - 꺼져 있으면 어떤 파일도 만들지 않는다.</summary>
+        [SerializeField] bool shadowPromptLogging = false;
+
         readonly Dictionary<LocationData, LocationState> locationStates = new Dictionary<LocationData, LocationState>();
         readonly Dictionary<NpcData, NpcState> npcStates = new Dictionary<NpcData, NpcState>();
 
@@ -77,6 +87,10 @@ namespace Belief.Core
         public StageState Stage { get; private set; }
 
         public IGameEventBus EventBus { get; private set; }
+
+        /// <summary>Shadow Mode가 꺼져 있으면 null. 관찰 전용이라 게임 로직은 이 값을 읽지 않는다
+        /// (검증 하네스와 관찰 창에서만 참조).</summary>
+        public ShadowJudgmentSystem ShadowJudgment { get; private set; }
         public EventLogSystem Log { get; private set; }
         public TurnSystem Turns { get; private set; }
         public InfoDeliverySystem Delivery { get; private set; }
@@ -132,8 +146,30 @@ namespace Belief.Core
             PromptRepo = promptRepository;
             IMajorNpcThinker thinker = ThinkerFactory.Create(thinkerMode, promptRepository, fakeTransportMode, llmTimeoutMs, llmProviderConfig);
 
+            // Shadow Mode - 명시적으로 켰을 때만 만들어진다. thinkerMode와 독립이라 게임이 RuleOnly로
+            // 도는 동안에도 관찰할 수 있고, 그래서 토큰이 나간다(기본값 꺼짐). 결과는 비교 로그로만
+            // 흘러가며 ShadowJudgmentSystem은 월드를 바꿀 수단 자체를 참조하지 않는다.
+            ShadowJudgment = null;
+            if (shadowMode)
+            {
+                var shadowTransport = ThinkerFactory.CreateShadowTransport(llmProviderConfig);
+                if (shadowTransport != null)
+                {
+                    ShadowJudgment = new ShadowJudgmentSystem(
+                        shadowTransport, llmTimeoutMs, shadowPromptLogging, EventBus,
+                        () => stageData != null ? stageData.stageId : "",
+                        () =>
+                        {
+                            var pc = ProgressionController.Instance;
+                            var objective = pc != null ? pc.CurrentObjective() : null;
+                            return objective != null ? objective.missionId : "";
+                        });
+                    Debug.LogWarning("[GameInstaller] Shadow Mode가 켜져 있습니다 - 게임 판단과 별개로 관찰용 LLM 호출이 발생하며 토큰이 소모됩니다(결과는 월드에 적용되지 않습니다).");
+                }
+            }
+
             // NPC 등급 구분 없음 - 모든 NPC가 같은 판단/이동 시스템을 탄다.
-            var thinking = new NpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus);
+            var thinking = new NpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus, ShadowJudgment);
 
             // 이동 판단은 두 경로를 쓴다: 이번 턴에 판단이 새로 필요해진 NPC만 thinker(LLM 모드면
             // LLM)로 보내고, 나머지는 이 RuleBased 인스턴스로 보낸다. 별도 인스턴스를 하나 더 만드는
@@ -178,6 +214,13 @@ namespace Belief.Core
             EventBus.Publish(new GameInitializedEvent(effectiveLocations.Length, effectiveNpcs.Length, effectiveCardPool.cards.Length));
 
             Turns.StartGame();
+        }
+
+        /// <summary>씬이 내려가면 이 구역의 Shadow 관찰도 끝난다 - 이후에는 새 요청을 발사하지 않고,
+        /// 이미 떠 있던 요청이 늦게 돌아와도 이 인스턴스와 함께 사라지므로 다음 씬에 섞이지 않는다.</summary>
+        void OnDestroy()
+        {
+            ShadowJudgment?.Disable();
         }
 
         void BuildDomainState(LocationData[] locations, NpcData[] npcs, NpcPlacementEntry[] placements)

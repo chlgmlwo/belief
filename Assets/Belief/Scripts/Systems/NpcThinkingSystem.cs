@@ -23,9 +23,14 @@ namespace Belief.Systems
         readonly MemoryTuningData memoryTuning;
         readonly IGameEventBus eventBus;
 
+        /// <summary>Shadow Mode가 꺼져 있으면 null. 관찰 전용이라 이 값이 null이든 아니든
+        /// 아래 판단 로직은 한 줄도 달라지지 않는다.</summary>
+        readonly ShadowJudgmentSystem shadow;
+
         public NpcThinkingSystem(
             MemorySelector memorySelector, BeliefSystem beliefSystem, IMajorNpcThinker thinker,
-            ActionResolutionSystem actionResolution, MemoryTuningData memoryTuning, IGameEventBus eventBus)
+            ActionResolutionSystem actionResolution, MemoryTuningData memoryTuning, IGameEventBus eventBus,
+            ShadowJudgmentSystem shadow = null)
         {
             this.memorySelector = memorySelector;
             this.beliefSystem = beliefSystem;
@@ -33,6 +38,7 @@ namespace Belief.Systems
             this.actionResolution = actionResolution;
             this.memoryTuning = memoryTuning;
             this.eventBus = eventBus;
+            this.shadow = shadow;
         }
 
         /// <summary>비동기(LLM 요청이 Timeout까지 여러 프레임에 걸쳐 대기할 수 있다) - Unity 메인
@@ -127,6 +133,24 @@ namespace Belief.Systems
                 eventBus.Publish(new NpcSpokeEvent(npc.Data, thinkResult.Dialogue));
 
             eventBus.Publish(new CardJudgedEvent(npc.Data, card, beliefResult.FinalBelief, currentTurn));
+
+            // ── Shadow Mode(관찰 전용) ────────────────────────────────────────────────
+            // 실제 판단이 전부 끝나고 월드에 적용된 뒤에 발사한다. 컨텍스트에 담는 값은 이 메서드
+            // 앞부분에서 이미 캡처해 둔 "판단 직전" 값들이라, 여기서 만들어도 그때의 세계를 그대로
+            // 본다. await하지 않으므로 턴 진행은 Shadow 응답을 기다리지 않는다.
+            if (shadow != null)
+            {
+                string ruleDialogue = thinkResult.Dialogue == null ? null
+                    : (thinkResult.Dialogue.IsGenerated ? thinkResult.Dialogue.GeneratedText
+                        : (thinkResult.Dialogue.PredefinedLine != null ? thinkResult.Dialogue.PredefinedLine.text : null));
+
+                var shadowContext = new NpcJudgmentContext(
+                    npc, card, where, currentTurn, beliefBefore, goalBefore, workingMemory,
+                    candidates, major.movementCandidates, presentNpcs, propagator);
+
+                shadow.Observe(shadowContext, beliefResult.FinalBelief, thinkResult.ChosenAction,
+                    npc.CurrentGoal, ruleDialogue);
+            }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (trace != null)
