@@ -1,0 +1,1132 @@
+fileFormatVersion: 2
+guid: 4293572b7a89559478823f98f8b293b0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8223779337991181697
+    second: Npc_Major_Lord_Walk_0
+  - first:
+      213: -2530943261417246986
+    second: Npc_Major_Lord_Walk_1
+  - first:
+      213: 7111190144272580433
+    second: Npc_Major_Lord_Walk_2
+  - first:
+      213: 8401152661436624604
+    second: Npc_Major_Lord_Walk_3
+  - first:
+      213: 69117943905207267
+    second: Npc_Major_Lord_Walk_4
+  - first:
+      213: 3794144423279492887
+    second: Npc_Major_Lord_Walk_5
+  - first:
+      213: 1047865277913041107
+    second: Npc_Major_Lord_Walk_6
+  - first:
+      213: 8626037375691445724
+    second: Npc_Major_Lord_Walk_7
+  - first:
+      213: 98654392055801798
+    second: Npc_Major_Lord_Walk_8
+  - first:
+      213: 4239182283325911214
+    second: Npc_Major_Lord_Walk_9
+  - first:
+      213: 436629199052050401
+    second: Npc_Major_Lord_Walk_10
+  - first:
+      213: -6008756766323425886
+    second: Npc_Major_Lord_Walk_11
+  - first:
+      213: 4640985773350907707
+    second: Npc_Major_Lord_Walk_12
+  - first:
+      213: 7375889742674235319
+    second: Npc_Major_Lord_Walk_13
+  - first:
+      213: 5901785270994257568
+    second: Npc_Major_Lord_Walk_14
+  - first:
+      213: 1629576116220170433
+    second: Npc_Major_Lord_Walk_15
+  - first:
+      213: -5195580449487093709
+    second: Npc_Major_Lord_Walk_16
+  - first:
+      213: 6080723725624359624
+    second: Npc_Major_Lord_Walk_17
+  - first:
+      213: -8386335537083395104
+    second: Npc_Major_Lord_Walk_18
+  - first:
+      213: 3302394892009794826
+    second: Npc_Major_Lord_Walk_19
+  - first:
+      213: -3569921172625206088
+    second: Npc_Major_Lord_Walk_20
+  - first:
+      213: -8385776629272231105
+    second: Npc_Major_Lord_Walk_21
+  - first:
+      213: 6564647883133671954
+    second: Npc_Major_Lord_Walk_22
+  - first:
+      213: 4107594667019013885
+    second: Npc_Major_Lord_Walk_23
+  - first:
+      213: -2853125558611828670
+    second: Npc_Major_Lord_Walk_24
+  - first:
+      213: 5080375920438811310
+    second: Npc_Major_Lord_Walk_25
+  - first:
+      213: -7877594552848710247
+    second: Npc_Major_Lord_Walk_26
+  - first:
+      213: 7446732983059233350
+    second: Npc_Major_Lord_Walk_27
+  - first:
+      213: 2900338685052597463
+    second: Npc_Major_Lord_Walk_28
+  - first:
+      213: -6426262495354927739
+    second: Npc_Major_Lord_Walk_29
+  - first:
+      213: 8713147789848806619
+    second: Npc_Major_Lord_Walk_30
+  - first:
+      213: -5723043338559525295
+    second: Npc_Major_Lord_Walk_31
+  - first:
+      213: 2134869008019010985
+    second: Npc_Major_Lord_Walk_32
+  - first:
+      213: -788771014703965698
+    second: Npc_Major_Lord_Walk_33
+  - first:
+      213: -4308440983775397718
+    second: Npc_Major_Lord_Walk_34
+  - first:
+      213: -8451160669731599732
+    second: Npc_Major_Lord_Walk_35
+  - first:
+      213: -2154098263124401596
+    second: Npc_Major_Lord_Walk_00
+  - first:
+      213: -5660462024366247607
+    second: Npc_Major_Lord_Walk_01
+  - first:
+      213: 5018561334508897324
+    second: Npc_Major_Lord_Walk_02
+  - first:
+      213: 392508992534754284
+    second: Npc_Major_Lord_Walk_03
+  - first:
+      213: -1288942524231603387
+    second: Npc_Major_Lord_Walk_04
+  - first:
+      213: -3215801422413802873
+    second: Npc_Major_Lord_Walk_05
+  - first:
+      213: -7741518800590267742
+    second: Npc_Major_Lord_Walk_06
+  - first:
+      213: 723874065391705245
+    second: Npc_Major_Lord_Walk_07
+  - first:
+      213: 8238009682683737027
+    second: Npc_Major_Lord_Walk_08
+  - first:
+      213: -4935473955796930605
+    second: Npc_Major_Lord_Walk_09
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_00
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 501
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4422f27ea0b1b12e0800000000000000
+      internalID: -2154098263124401596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_01
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 501
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 941bf0d77cff171b0800000000000000
+      internalID: -5660462024366247607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_02
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 501
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c24c9eab1f285a540800000000000000
+      internalID: 5018561334508897324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_03
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 501
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce33e2f59d8727500800000000000000
+      internalID: 392508992534754284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_04
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 501
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54ba7437a91cc1ee0800000000000000
+      internalID: -1288942524231603387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_05
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 501
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78254d4f4ad2f53d0800000000000000
+      internalID: -3215801422413802873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_06
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 401
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2aa1fcccaa9909490800000000000000
+      internalID: -7741518800590267742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_07
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 401
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9c5ac190a7bb0a00800000000000000
+      internalID: 723874065391705245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_08
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 401
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c3b798d82a435270800000000000000
+      internalID: 8238009682683737027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_09
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 401
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3df2882269ca18bb0800000000000000
+      internalID: -4935473955796930605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 401
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef8f0471f73f0600800000000000000
+      internalID: 436629199052050401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 401
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ad31998e8b9c9ca0800000000000000
+      internalID: -6008756766323425886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 301
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3fe83cc8f7186040800000000000000
+      internalID: 4640985773350907707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 301
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bf8b8e44ac6c5660800000000000000
+      internalID: 7375889742674235319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 301
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a6ce3a5f6a57e150800000000000000
+      internalID: 5901785270994257568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 301
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c093c508da6d9610800000000000000
+      internalID: 1629576116220170433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 301
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3308b5acb1795e7b0800000000000000
+      internalID: -5195580449487093709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 301
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ca312be202136450800000000000000
+      internalID: 6080723725624359624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 201
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e3d8e00340cd9b80800000000000000
+      internalID: -8386335537083395104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 201
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0dee4e48a674dd20800000000000000
+      internalID: 3302394892009794826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 201
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b457859b97157ec0800000000000000
+      internalID: -3569921172625206088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 201
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f33c47ed59cbf9b80800000000000000
+      internalID: -8385776629272231105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 201
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21ad3bdf7705a1b50800000000000000
+      internalID: 6564647883133671954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 201
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfe05f0369b110930800000000000000
+      internalID: 4107594667019013885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_24
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 101
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 240aa53cb69a768d0800000000000000
+      internalID: -2853125558611828670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_25
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 101
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaa143f8bfe118640800000000000000
+      internalID: 5080375920438811310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_26
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 101
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99586e0dd792da290800000000000000
+      internalID: -7877594552848710247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_27
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 101
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64a3e60913c185760800000000000000
+      internalID: 7446732983059233350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_28
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 101
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d432eadaa2104820800000000000000
+      internalID: 2900338685052597463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_29
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 101
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58544faee4451d6a0800000000000000
+      internalID: -6426262495354927739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_30
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 1
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd40b6920c15be870800000000000000
+      internalID: 8713147789848806619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_31
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 1
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15e6ef2d76aa390b0800000000000000
+      internalID: -5723043338559525295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_32
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 1
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a5b6f04d0490ad10800000000000000
+      internalID: 2134869008019010985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_33
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 1
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef91273f0f8bd05f0800000000000000
+      internalID: -788771014703965698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_34
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 1
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa8355a90c75534c0800000000000000
+      internalID: -4308440983775397718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Npc_Major_Lord_Walk_35
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1
+        width: 60
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8a45e4a52277ba80800000000000000
+      internalID: -8451160669731599732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Npc_Major_Lord_Walk_0: -8223779337991181697
+      Npc_Major_Lord_Walk_00: -2154098263124401596
+      Npc_Major_Lord_Walk_01: -5660462024366247607
+      Npc_Major_Lord_Walk_02: 5018561334508897324
+      Npc_Major_Lord_Walk_03: 392508992534754284
+      Npc_Major_Lord_Walk_04: -1288942524231603387
+      Npc_Major_Lord_Walk_05: -3215801422413802873
+      Npc_Major_Lord_Walk_06: -7741518800590267742
+      Npc_Major_Lord_Walk_07: 723874065391705245
+      Npc_Major_Lord_Walk_08: 8238009682683737027
+      Npc_Major_Lord_Walk_09: -4935473955796930605
+      Npc_Major_Lord_Walk_1: -2530943261417246986
+      Npc_Major_Lord_Walk_10: 436629199052050401
+      Npc_Major_Lord_Walk_11: -6008756766323425886
+      Npc_Major_Lord_Walk_12: 4640985773350907707
+      Npc_Major_Lord_Walk_13: 7375889742674235319
+      Npc_Major_Lord_Walk_14: 5901785270994257568
+      Npc_Major_Lord_Walk_15: 1629576116220170433
+      Npc_Major_Lord_Walk_16: -5195580449487093709
+      Npc_Major_Lord_Walk_17: 6080723725624359624
+      Npc_Major_Lord_Walk_18: -8386335537083395104
+      Npc_Major_Lord_Walk_19: 3302394892009794826
+      Npc_Major_Lord_Walk_2: 7111190144272580433
+      Npc_Major_Lord_Walk_20: -3569921172625206088
+      Npc_Major_Lord_Walk_21: -8385776629272231105
+      Npc_Major_Lord_Walk_22: 6564647883133671954
+      Npc_Major_Lord_Walk_23: 4107594667019013885
+      Npc_Major_Lord_Walk_24: -2853125558611828670
+      Npc_Major_Lord_Walk_25: 5080375920438811310
+      Npc_Major_Lord_Walk_26: -7877594552848710247
+      Npc_Major_Lord_Walk_27: 7446732983059233350
+      Npc_Major_Lord_Walk_28: 2900338685052597463
+      Npc_Major_Lord_Walk_29: -6426262495354927739
+      Npc_Major_Lord_Walk_3: 8401152661436624604
+      Npc_Major_Lord_Walk_30: 8713147789848806619
+      Npc_Major_Lord_Walk_31: -5723043338559525295
+      Npc_Major_Lord_Walk_32: 2134869008019010985
+      Npc_Major_Lord_Walk_33: -788771014703965698
+      Npc_Major_Lord_Walk_34: -4308440983775397718
+      Npc_Major_Lord_Walk_35: -8451160669731599732
+      Npc_Major_Lord_Walk_4: 69117943905207267
+      Npc_Major_Lord_Walk_5: 3794144423279492887
+      Npc_Major_Lord_Walk_6: 1047865277913041107
+      Npc_Major_Lord_Walk_7: 8626037375691445724
+      Npc_Major_Lord_Walk_8: 98654392055801798
+      Npc_Major_Lord_Walk_9: 4239182283325911214
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

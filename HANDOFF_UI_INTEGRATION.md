@@ -3095,6 +3095,61 @@ mission이 null이라 기본값 1을 돌려줘 "NO. 001"이 됐다.
 
 ---
 
+### 3-84. 알현실 앞 광장 장소 아트 + 영주 NPC 아트/걷기 애니메이션 임포트 (2026-08-05, 사용자 업로드)
+
+사용자가 `C:\Users\CHJ\Desktop\장소&npc`에 새 아트를 올렸다 — `배경\장소\알현실 앞 광장.png`,
+`캐릭터\영주\영주.png`(idle), `영주_스프라이트_36분할.png`(걷기 시트), `영주_스프라이트_3분할.png`.
+**둘 다 데이터 애셋은 이미 존재했고 아트 슬롯만 비어 있었다** — `Loc_Plaza.locationPhoto = NULL`,
+`Npc_Major_Lord.characterPhoto = NULL / walkFrames = 0`. (3-55 노트의 "영주는 소스 폴더 자체가
+없다"는 공백이 이번에 채워진 것.)
+
+**임포트 규칙은 추측하지 않고 기존 애셋에서 역산해서 그대로 맞췄다.**
+
+| | 규칙(기존 애셋에서 확인) | 영주/광장 적용값 |
+|---|---|---|
+| 장소 카드 | `Single`, `ppu = 텍스처높이 / 1.4537` (카드 높이 항상 1.4537 유닛) | 301px → **ppu 207.0579** |
+| NPC idle | `Single`, `ppu = 알파 실내용 높이` (캐릭터 실제 높이 = 정확히 1 유닛, 3-62) | 알파 bbox 64×**91** → **ppu 91** |
+| 걷기 시트 | `Multiple`, `ppu 500`, 블롭 검출 슬라이스, pivot Center | 36슬라이스, 각 60×93 |
+
+걷기 시트 슬라이싱은 3-55에서 만든 방식 그대로 — **배경은 흰색이 아니라 투명(alpha<20)**이라
+알파 기준 flood-fill 연결요소 검출 → Y 근접으로 행 묶기 → 행 안에서 X 오름차순. 결과 **36블롭 / 6행×6개**로
+깔끔하게 떨어졌고(HeadMaid 같은 변칙 그리드 아님), `Npc_Major_Lord_Walk_00`~`_35`로 이름 붙였다.
+
+**검증**(코드/픽셀 실측 + 비교 몽타주 1장):
+
+- **다른 캐릭터 아트가 섞였는지** — 3-60(경비대장 폴더에 기사단장 아트가 들어있던 사고)의 교훈대로
+  idle 사진과 걷기 프레임 00~05를 나란히 붙여 확인. **동일 인물**(남색 망토 + 지팡이 + 갈색 머리) ✅
+- **크기 정규화** — 영주 idle과 집사(기준) idle을 같은 baseline에 놓고 비교, 실제 콘텐츠 높이 둘 다
+  1.000 유닛으로 동일 ✅ (canvas bounds는 영주 1.099 / 집사 1.050 — 기존 16명 범위 1.05~1.40 안쪽)
+- **해상도** — Metropolis는 ortho 14 @1080p라 **1 월드 유닛 = 38.6px**. 영주 소스 91px는 화면 크기의
+  2.4배라 충분(원본이 100×100으로 작지만 문제 없음). 참고로 모든 NPC의 걷기 프레임은 원래부터
+  60~70px대라 영주만 특별히 낮은 게 아니다.
+- **슬라이스 품질** — 순환에 실제로 쓰이는 앞 6프레임 전부 잘림/이웃 병합 없음 ✅
+- `walkFrames` 36개 중 null 0개, Console Error/Warning 0, 씬 무수정 ✅
+
+**`영주_스프라이트_3분할.png`은 쓰지 않았다.** 다른 NPC 16명이 전부 36분할 시트를 쓰고
+`NpcActorView`가 앞 6프레임만 순환하므로(3-57), "지금 npc들이랑 똑같이"에 맞추려면 36분할이 맞다.
+3분할도 셀 크기(88×100)가 같아서 나중에 필요하면 그대로 교체 가능.
+
+**알려진 잔여 사항**(영주만의 문제가 아니라 16명 전원 공통, 이번 범위 밖): `ApplyWalkFrame`이
+걷기 프레임을 `characterPhoto.bounds.size.y`(=**캔버스** 높이)에 맞춰 리스케일해서, 걷는 동안
+캐릭터가 idle보다 canvas/content 비율만큼 커 보인다(영주 +9.9%, 집사 +5.0%, 세관원 +40%).
+영주는 기존 범위 한가운데라 눈에 띄지 않는다. 고치려면 기준을 캔버스가 아니라 알파 실내용 높이로
+바꿔야 하는데 16명 전원 영향이라 별도 요청 시 처리.
+
+**추가/수정한 파일**:
+- 신규 `Assets/Belief/UI/World/Locations/Loc_Plaza.png`
+- 신규 `Assets/Belief/UI/World/Npcs/Npc_Major_Lord.png`
+- 신규 `Assets/Belief/UI/World/NpcWalkSheets/Npc_Major_Lord_Walk.png`
+- `Assets/Belief/Data/Locations/Loc_Plaza.asset` (locationPhoto)
+- `Assets/Belief/Data/Npcs/Npc_Major_Lord.asset` (characterPhoto, walkFrames 36)
+
+**등장 위치**: 둘 다 `Metropolis.unity`(Stage_04)에서만 쓰인다. `Loc_Plaza`는 이미
+`Stage_04.locationLayout`에 `(0, 2.70)`으로 배치돼 있었고(그동안 아트만 비어 있던 상태),
+`Npc_Major_Lord.homeLocation`도 원래부터 `Loc_Plaza`였다. 코드 변경 0줄.
+
+---
+
 ## 4. 현재 Hierarchy (Zone1.unity, Edit Mode 확인)
 
 ```
