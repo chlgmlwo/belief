@@ -38,6 +38,33 @@ namespace Belief.Domain
         /// <summary>가장 최근 ActionResolutionSystem이 적용한 행동. 없으면 null. 쓰기는 ActionResolutionSystem 전용.</summary>
         public NpcActionData CurrentAction { get; private set; }
 
+        /// <summary>이번 턴에 이 NPC의 Belief가 실제로 다른 값으로 바뀌었는지. NpcThinkingSystem이
+        /// 판단 전/후를 비교해 기록하고, NpcMovementSystem이 "LLM 이동 판단이 필요한 NPC"를 고르는
+        /// 유일한 기준으로 읽는다. 턴 스코프 값이라 이동 처리 끝에서 전원 초기화된다.</summary>
+        public bool BeliefChangedThisTurn { get; private set; }
+
+        /// <summary>이번 턴에 CurrentGoal이 바뀌었는지. 구조만 미리 만들어 둔다 - 현재 SetGoal을
+        /// 호출하는 시스템이 하나도 없어서(목표를 바꾸는 판단 로직 미구현) 실제로는 절대 true가
+        /// 되지 않는다. 이 값이 참이 되는 경로가 생기기 전까지는 선별 성능의 근거로 삼지 말 것.</summary>
+        public bool GoalChangedThisTurn { get; private set; }
+
+        /// <summary>이번 턴에 새 판단이 필요해졌는지. 지금은 Belief 변화만 실질적으로 기여한다.
+        /// 목적지 도착/행동 실패/Intent 재평가 같은 다른 사유는 그 개념 자체가 아직 도메인에 없다 -
+        /// 생기면 여기에 OR로 추가하고, NpcMovementSystem 쪽은 손대지 않는다.</summary>
+        public bool NeedsFreshDecision => BeliefChangedThisTurn || GoalChangedThisTurn;
+
+        public void MarkBeliefChanged() => BeliefChangedThisTurn = true;
+
+        public void MarkGoalChanged() => GoalChangedThisTurn = true;
+
+        /// <summary>턴 스코프 마커를 모두 내린다. 호출 시점은 NpcMovementSystem이 선별을 끝낸
+        /// 뒤(finally)로 한 곳뿐이다 - 선별보다 먼저 초기화되면 그 턴의 대상이 통째로 사라진다.</summary>
+        public void ClearDecisionMarkers()
+        {
+            BeliefChangedThisTurn = false;
+            GoalChangedThisTurn = false;
+        }
+
         readonly Dictionary<InformationCardData, BeliefState> beliefs = new Dictionary<InformationCardData, BeliefState>();
         readonly List<MemoryEntry> longMemory = new List<MemoryEntry>();
         readonly List<ReceivedInformationEntry> receivedInformation = new List<ReceivedInformationEntry>();
@@ -124,9 +151,13 @@ namespace Belief.Domain
 
         /// <summary>스냅샷 시점의 가변 상태로 되돌린다. CurrentLocation만 되돌리고 LocationState.PresentNpcs는
         /// 건드리지 않는다 - 여러 NPC를 한꺼번에 복원할 때 호출자(TurnSystem)가 전체 NPC의 위치가 확정된
-        /// 뒤 한 번에 PresentNpcs를 재구성해야 장소별 목록이 어긋나지 않는다.</summary>
+        /// 뒤 한 번에 PresentNpcs를 재구성해야 장소별 목록이 어긋나지 않는다.
+        ///
+        /// 턴 스코프 마커는 스냅샷에 담지 않고 여기서 그냥 내린다 - 복원은 항상 "새 시도의 1턴 시작"
+        /// 이라 이전 시도가 남긴 마커가 이어질 이유가 없다.</summary>
         public void RestoreSnapshot(NpcStateSnapshot snapshot)
         {
+            ClearDecisionMarkers();
             CurrentLocation = snapshot.Location;
             CurrentGoal = snapshot.Goal;
             CurrentBehaviorModifier = snapshot.BehaviorModifier;

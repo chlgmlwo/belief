@@ -48,17 +48,20 @@ namespace Belief.Systems
         {
             if (!(npc.Data is MajorNpcData major)) return BeliefState.Unknown;
 
+            // 판단 전 상태 - 관찰용이 아니라 실제 게임 로직(이동 판단 대상 선별)이 읽는 값이라
+            // #if로 감싸지 않는다. 예전에는 이 두 줄이 에디터 전용 + 리스너 있을 때만 실행됐는데,
+            // 그러면 빌드에서는 "Belief가 바뀌었는지"를 알 방법이 아예 없다. 비용은 딕셔너리 조회
+            // 1회 + 참조 복사 1회뿐이다.
+            var beliefBefore = npc.GetBelief(card);
+            string goalBefore = npc.CurrentGoal;
+
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             // 관찰 전용 - 실제 판단에 쓰이는 어떤 값도 여기서 계산하지 않는다(전부 아래 실제 판단
             // 코드가 만든 결과를 그대로 옮겨 담기만 한다). trace는 이 호출의 지역 변수이므로(예전의
             // static CurrentBuilder와 달리) 비동기 대기 중에도 다른 NPC의 판단과 섞일 수 없다.
             NpcDecisionTraceBuilder trace = null;
-            BeliefState beliefBeforeForTrace = BeliefState.Unknown;
-            string goalBeforeForTrace = null;
             if (NpcDecisionTraceHub.HasListeners)
             {
-                beliefBeforeForTrace = npc.GetBelief(card);
-                goalBeforeForTrace = npc.CurrentGoal;
                 trace = new NpcDecisionTraceBuilder(
                     "InformationJudgment", npc,
                     NpcDecisionTraceContext.StageId, NpcDecisionTraceContext.StageTurn,
@@ -77,6 +80,11 @@ namespace Belief.Systems
 
             var beliefResult = beliefSystem.Evaluate(npc, card, where, workingMemory, currentTurn);
             beliefSystem.Apply(npc, card, beliefResult);
+
+            // 이번 턴 이동 판단에서 LLM을 쓸 NPC를 고르는 유일한 근거. "정보를 받았다"가 아니라
+            // "받은 결과 판단이 실제로 달라졌다"만 대상으로 삼는다 - 같은 값으로 재확정된 경우는
+            // 새로 판단할 것이 없으므로 호출하지 않는다(토큰이 그대로 비용이다).
+            if (beliefResult.FinalBelief != beliefBefore) npc.MarkBeliefChanged();
 
             var candidates = major.availableActions ?? Array.Empty<NpcActionData>();
             var thinkContext = new NpcThinkContext(
@@ -98,6 +106,11 @@ namespace Belief.Systems
             if (thinkResult.ChosenAction != null)
                 actionResolution.Apply(thinkResult.ChosenAction, npc, card, where, currentTurn);
 
+            // Effect가 목표를 바꿀 수 있으므로 Apply 이후에 본다. 지금은 SetGoal을 호출하는 시스템이
+            // 하나도 없어 절대 true가 되지 않는다 - 구조만 미리 열어 두는 것이고, 이번 병렬화의
+            // 선별 성능은 오직 위의 Belief 변화로만 판단해야 한다.
+            if (npc.CurrentGoal != goalBefore) npc.MarkGoalChanged();
+
             if (thinkResult.Dialogue != null)
                 eventBus.Publish(new NpcSpokeEvent(npc.Data, thinkResult.Dialogue));
 
@@ -107,10 +120,10 @@ namespace Belief.Systems
             if (trace != null)
             {
                 trace.WithBeliefEvaluation(beliefResult);
-                trace.WithBeliefChange(beliefBeforeForTrace, beliefResult.FinalBelief);
+                trace.WithBeliefChange(beliefBefore, beliefResult.FinalBelief);
                 trace.WithActionDecision(beliefResult.FinalBelief, candidates, thinkResult.ChosenAction);
                 trace.WithDialogueDecision(beliefResult.FinalBelief, major.beliefDialogues, thinkResult.Dialogue);
-                trace.WithGoal(goalBeforeForTrace, npc.CurrentGoal);
+                trace.WithGoal(goalBefore, npc.CurrentGoal);
 
                 // ActivatedTurn == currentTurn으로 생성/갱신(Refresh) 둘 다 잡는다 - Count 증감만으로는
                 // Refresh(같은 항목 재사용, Count 불변)를 놓친다.

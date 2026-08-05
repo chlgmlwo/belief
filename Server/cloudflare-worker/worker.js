@@ -59,7 +59,23 @@ export default {
 
     if (!env.OPENAI_API_KEY) {
       // 키를 안 넣고 배포한 경우. 게임은 이 응답을 받고 규칙 기반으로 대체하므로 멈추지는 않는다.
-      return json({ error: { message: "서버에 API 키가 설정되지 않았습니다 (wrangler secret put OPENAI_API_KEY)." } }, 500, cors);
+      //
+      // ⚠️ 진단용으로 변수 "이름" 목록을 응답에 실었다가 실제 사고가 났다 - Name/Value를 바꿔 넣으면
+      // 이름 자리에 API 키가 들어가고, 그 목록이 공개 URL로 그대로 나간다. 이름이라고 안전하지 않다.
+      // 그래서 이제 개수와 "그럴듯한 이름이 있는지"만 알려준다. 값도 이름도 절대 내보내지 않는다.
+      const names = Object.keys(env || {});
+      const looksLikeKey = names.some((n) => n.startsWith("sk-") || n.length > 40);
+      return json({
+        error: {
+          message: "서버에 API 키가 설정되지 않았습니다.",
+          변수_개수: names.length,
+          진단: names.length === 0
+            ? "변수가 하나도 없다 - 변수를 추가한 뒤 Deploy를 눌렀는지, 같은 Worker인지 확인"
+            : looksLikeKey
+              ? "Name과 Value를 바꿔 넣은 것 같다. Name은 OPENAI_API_KEY, Value가 키다"
+              : "변수는 있으나 이름이 OPENAI_API_KEY가 아니다(대소문자/언더바/공백 확인)",
+        },
+      }, 500, cors);
     }
 
     let body;
@@ -138,14 +154,22 @@ function sanitize(body) {
 }
 
 // ─── 유틸 ────────────────────────────────────────────────────────────────────
+// Origin이 비어 있는 요청은 통과시킨다. Unity 에디터/데스크톱 빌드처럼 브라우저가 아닌
+// 클라이언트는 이 헤더를 아예 보내지 않기 때문이다(막으면 에디터 테스트가 전부 403이 된다).
+// 브라우저에서 온 요청은 Origin이 반드시 붙으므로, 목록에 없는 사이트는 그대로 차단된다.
+//
+// 한계: curl 등으로 Origin을 지우면 이 검사를 우회할 수 있다. 애초에 Origin은 위조도 가능해서
+// 이 검사만으로 악용을 막지는 못한다 - 실제 비용 상한은 위쪽의 모델 고정과 토큰 제한이 담당한다.
 function isAllowedOrigin(origin) {
-  return ALLOWED_ORIGINS.includes(origin);
+  return !origin || ALLOWED_ORIGINS.includes(origin);
 }
 
 function corsHeaders(origin) {
   // 허용 목록에 있는 origin만 그대로 되돌려준다. 와일드카드(*)를 쓰지 않는 이유는
   // 아무 웹페이지나 이 서버를 불러 쓰는 것을 막기 위해서다.
-  const allow = isAllowedOrigin(origin) ? origin : ALLOWED_ORIGINS[0];
+  // origin이 없는 요청(브라우저가 아닌 클라이언트)에는 대표 주소를 넣어 둔다 - 그쪽은 CORS를
+  // 검사하지 않으므로 값 자체는 의미가 없지만 헤더가 비면 안 된다.
+  const allow = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
     "Access-Control-Allow-Origin": allow,
     "Access-Control-Allow-Methods": "POST, OPTIONS",

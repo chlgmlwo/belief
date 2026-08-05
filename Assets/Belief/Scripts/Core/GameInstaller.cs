@@ -134,7 +134,13 @@ namespace Belief.Core
 
             // NPC 등급 구분 없음 - 모든 NPC가 같은 판단/이동 시스템을 탄다.
             var thinking = new NpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus);
-            var movement = new NpcMovementSystem(actionResolution, thinker);
+
+            // 이동 판단은 두 경로를 쓴다: 이번 턴에 판단이 새로 필요해진 NPC만 thinker(LLM 모드면
+            // LLM)로 보내고, 나머지는 이 RuleBased 인스턴스로 보낸다. 별도 인스턴스를 하나 더 만드는
+            // 이유는 LlmMajorThinker가 자기 fallback을 private으로 갖고 있어 꺼낼 수 없기 때문인데,
+            // RuleBasedMajorThinker는 필드가 하나도 없는 완전 무상태라 인스턴스가 둘이어도 동작이
+            // 똑같다(RuleOnly 모드에서는 thinker 자체가 RuleBased라 어느 쪽으로 가든 결과가 같다).
+            var movement = new NpcMovementSystem(actionResolution, thinker, new RuleBasedMajorThinker());
 
             TurnSystem turnSystemRef = null;
             var delivery = new InfoDeliverySystem(locationStates, thinking, EventBus, () => turnSystemRef.CurrentTurn, locationMechanics);
