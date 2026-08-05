@@ -39,7 +39,21 @@ namespace Belief.Systems
         public int CurrentTurn { get; private set; } = 1;
         public int MaxTurns { get; private set; }
         public bool TurnsExhausted => CurrentTurn > MaxTurns;
-        public bool IsGameOver => TurnsExhausted || mission.State.IsComplete;
+
+        /// <summary>이번 미션 시도의 결과(성공/실패)가 이미 확정됐는지. 세 가지를 모두 본다:
+        /// <list type="number">
+        /// <item>턴 소진(CurrentTurn이 MaxTurns를 넘어선 레거시 폴백 경로)</item>
+        /// <item>현재 미션 완료(완료 팝업 확인 대기 구간, 구역 마지막 미션 후 씬 로드 직전 구간)</item>
+        /// <item>ProgressionController가 GameOverEvent로 선언한 결과 확정</item>
+        /// </list>
+        /// 3번이 없으면 <b>턴 소진 실패를 못 잡는다</b>. 정식 스테이지에서는 턴 소진 시
+        /// ProgressionController가 FreezeTurnAdvance()를 걸어 CurrentTurn을 MaxTurns에서 멈춰
+        /// 세우므로 TurnsExhausted(= CurrentTurn &gt; MaxTurns)가 영원히 false로 남고, 실패했으니
+        /// mission.State.IsComplete도 false다 - 그 결과 실패가 확정된 뒤에도 카드가 계속 먹혀
+        /// 손패와 카드 풀이 0까지 고갈됐다(실측: 실패한 시도마다 카드 4~6장 추가 소모).
+        /// 실패 팝업은 WaitForPlaybackThen으로 NPC 이동 연출이 끝난 뒤에야 뜨기 때문에 화면을
+        /// 막아 주는 것도 그때까지는 없다.</summary>
+        public bool IsGameOver => TurnsExhausted || mission.State.IsComplete || resultDeclared;
 
         /// <summary>구역 전체를 통틀어 누적되는 턴 수(UI 표시 전용) - CurrentTurn/MaxTurns와 달리
         /// ResetForNewMission이 호출돼도 리셋되지 않는다. 턴 진행/판정 로직에는 전혀 관여하지 않는다.</summary>
@@ -58,6 +72,12 @@ namespace Belief.Systems
         public int RemainingCardPoolCount => cards.RemainingInPoolCount;
 
         bool gameOverAnnounced;
+
+        /// <summary>GameOverEvent가 한 번이라도 발행됐는지 - 즉 이번 미션 시도의 결과가 확정됐는지.
+        /// 최종 판정 권한은 ProgressionController에 있고 TurnSystem은 그 결과를 이벤트로만 알 수 있어서,
+        /// 상태를 직접 계산하지 않고 선언을 받아 적기만 한다. 다음 미션 시작(ResetForNewMission)이나
+        /// 재도전(RestartMissionAttempt)에서만 풀린다 - 그 두 곳이 "새 시도가 시작되는" 유일한 지점이다.</summary>
+        bool resultDeclared;
 
         /// <summary>같은 턴 종료 처리 안에서 ResetForNewMission이 호출됐는지 표시한다 - FinishTurn의
         /// 뒤이은 CurrentTurn++/TurnStartedEvent가 방금 초기화한 값을 덮어쓰지 않게 막는 용도.</summary>
@@ -90,6 +110,10 @@ namespace Belief.Systems
             this.eventBus = eventBus;
             this.locationMechanics = locationMechanics;
             this.memorySystem = memorySystem;
+
+            // 결과가 확정되는 순간을 알 수 있는 유일한 신호. 승리(Won=true)도 똑같이 잡는다 -
+            // 최종 승리 화면이 떠 있는 동안에도 카드가 먹혀선 안 된다.
+            eventBus.Subscribe<GameOverEvent>(_ => resultDeclared = true);
         }
 
         /// <summary>Location Mechanics V1(§7) - 이 장소를 "장소 전체" 대상으로 직접 지정할 수 있는지.
@@ -109,12 +133,10 @@ namespace Belief.Systems
             eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
         }
 
-        /// <summary>카드 선택/사용을 막아야 하는 상태인지. 턴 소진뿐 아니라 <b>미션이 이미 완료된
-        /// 구간</b>도 포함한다 - 미션 완료 팝업이 확인 대기 중이거나, 구역의 마지막 미션을 깨고 다음
-        /// 씬이 로드되기 직전까지의 짧은 창에서도 입력이 그대로 먹혀 카드가 헛되이 소모되던 문제를
-        /// 막는다(그 구간에서는 ProgressionController가 다음 미션을 아직/영영 LoadMission 하지 않아
-        /// mission.State.IsComplete가 true로 남아 있다). 레거시 씬은 완료되지 않는 더미 미션을 쓰므로
-        /// 기존과 동일하게 턴 소진만 판정된다.</summary>
+        /// <summary>카드 선택. 결과가 이미 확정된 구간(<see cref="IsGameOver"/>)에서는 아무것도 하지
+        /// 않는다 - 성공/실패 팝업이 확인 대기 중이거나 다음 씬이 로드되기 직전인 구간에서 입력이
+        /// 그대로 먹혀 카드가 헛되이 소모되던 문제를 막는다. 레거시 씬은 완료되지 않는 더미 미션을
+        /// 쓰고 GameOverEvent도 자체 폴백 경로로만 발행하므로 기존과 동일하게 동작한다.</summary>
         public void SelectCard(InformationCardData card)
         {
             if (IsGameOver || card == null || !cards.OwnedInformationCards.Contains(card)) return;
@@ -156,6 +178,7 @@ namespace Belief.Systems
             CurrentTurn = 1;
             MaxTurns = newMaxTurns;
             gameOverAnnounced = false;
+            resultDeclared = false; // 새 미션 = 새 시도. 여기서 풀지 않으면 입력이 영영 막힌다.
             SelectedCard = null;
             resetRequestedThisTurn = true;
 
@@ -185,6 +208,7 @@ namespace Belief.Systems
             CurrentTurn = 1;
             MaxTurns = newMaxTurns;
             gameOverAnnounced = false;
+            resultDeclared = false; // 재도전 = 새 시도.
             SelectedCard = null;
             resetRequestedThisTurn = true;
 
