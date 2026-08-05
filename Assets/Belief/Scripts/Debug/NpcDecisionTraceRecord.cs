@@ -137,6 +137,23 @@ namespace Belief.Debugging
 
         // ── 판단 근거(1단계) - 검증을 통과한 값만 들어온다(지어낸 인물/태그는 여기 도달 전에 무효 처리) ──
         // 행동 판단과 이동 판단은 서로 다른 호출이므로, 같은 턴 같은 NPC라도 이 값들이 다를 수 있다.
+        // ── IntegratedLlm 실제 적용 전용 ─────────────────────────────────────────
+        // ShadowComparisonRecord와 섞지 않는다 - 그쪽은 "규칙 vs LLM 비교"용이라 적용 개념이 없다.
+        public string Mode;                      // RuleOnly / Shadow / IntegratedLlm / IntegratedLlm-Fallback
+        public string RequestId;
+        public int MissionAttemptId;
+        public string ApplicationKey;
+        public string FinalInterpretation;
+        public int InputTokens;
+        public int OutputTokens;
+        /// <summary>단가가 코드에 없으므로 비용은 계산하지 않는다 - 외부 설정이 생기기 전까지 true.</summary>
+        public bool CostUnavailable = true;
+        public string EstimatedCost;
+        public string[] SoftWarnings = System.Array.Empty<string>();
+        public bool DuplicateApplicationBlocked;
+        public bool StaleRequestDiscarded;
+        public string DestinationReservationType; // None / Stay / MoveTo
+
         public string GroundsPrimaryReason;      // profile/relationship/belief/goal/source/situation
         public string GroundsProfileInfluence;   // 이 NPC의 5개 성향 태그 중 하나, 없으면 ""
         public string GroundsRelationshipInfluence; // 이번 문맥에 등장하는 관계 NPC의 npcId, 없으면 ""

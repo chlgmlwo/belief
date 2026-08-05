@@ -91,6 +91,9 @@ namespace Belief.Core
         /// <summary>Shadow Mode가 꺼져 있으면 null. 관찰 전용이라 게임 로직은 이 값을 읽지 않는다
         /// (검증 하네스와 관찰 창에서만 참조).</summary>
         public ShadowJudgmentSystem ShadowJudgment { get; private set; }
+
+        /// <summary>IntegratedLlm 파일럿이 꺼져 있으면 null. 검증 하네스와 관찰 창이 참조한다.</summary>
+        public JudgmentApplicationSystem JudgmentApplication { get; private set; }
         public EventLogSystem Log { get; private set; }
         public TurnSystem Turns { get; private set; }
         public InfoDeliverySystem Delivery { get; private set; }
@@ -144,13 +147,48 @@ namespace Belief.Core
 
             var promptRepository = new PromptRepository();
             PromptRepo = promptRepository;
-            IMajorNpcThinker thinker = ThinkerFactory.Create(thinkerMode, promptRepository, fakeTransportMode, llmTimeoutMs, llmProviderConfig);
+
+            // ── IntegratedLlm 파일럿 판정 ────────────────────────────────────────
+            // 씬의 thinkerMode가 IntegratedLlm이어도 정책이 허용하지 않으면 RuleOnly로 강등한다.
+            // 강등되면 아래 조립은 기존 RuleOnly와 완전히 동일해지고 Transport 호출도 0이다.
+            var effectiveMode = thinkerMode;
+            IntegratedLlmThinker integratedThinker = null;
+            if (thinkerMode == ThinkerMode.IntegratedLlm)
+            {
+                string stageId = stageData != null ? stageData.stageId : null;
+                if (!IntegratedLlmPilotPolicy.IsAllowed(stageId, out string denyReason))
+                {
+                    Debug.LogWarning($"[GameInstaller] IntegratedLlm이 허용되지 않아 RuleOnly로 동작합니다 - {denyReason}");
+                    effectiveMode = ThinkerMode.RuleOnly;
+                }
+                else
+                {
+                    integratedThinker = ThinkerFactory.CreateIntegrated(beliefSystem, llmProviderConfig, llmTimeoutMs);
+                    if (integratedThinker == null)
+                    {
+                        Debug.LogWarning("[GameInstaller] IntegratedLlm 조립에 실패해 RuleOnly로 동작합니다.");
+                        effectiveMode = ThinkerMode.RuleOnly;
+                    }
+                }
+            }
+
+            // IntegratedLlm은 기존 IMajorNpcThinker 경로를 쓰지 않는다 - 그 경로는 RuleOnly로 만들어
+            // 두고(이동 판단 등 공용 사용), 정보 판단만 통합 경로가 가져간다.
+            IMajorNpcThinker thinker = ThinkerFactory.Create(
+                integratedThinker != null ? ThinkerMode.RuleOnly : effectiveMode,
+                promptRepository, fakeTransportMode, llmTimeoutMs, llmProviderConfig);
 
             // Shadow Mode - 명시적으로 켰을 때만 만들어진다. thinkerMode와 독립이라 게임이 RuleOnly로
             // 도는 동안에도 관찰할 수 있고, 그래서 토큰이 나간다(기본값 꺼짐). 결과는 비교 로그로만
             // 흘러가며 ShadowJudgmentSystem은 월드를 바꿀 수단 자체를 참조하지 않는다.
             ShadowJudgment = null;
-            if (shadowMode)
+            if (shadowMode && integratedThinker != null)
+            {
+                // 같은 판단에 실제 LLM과 Shadow LLM을 둘 다 부르면 비용이 두 배가 된다.
+                // 실제 적용이 우선이므로 Shadow를 끈다.
+                Debug.LogWarning("[GameInstaller] IntegratedLlm이 활성화되어 Shadow Mode를 비활성화합니다 - 같은 판단에 대한 중복 호출과 이중 비용을 막습니다.");
+            }
+            else if (shadowMode)
             {
                 var shadowTransport = ThinkerFactory.CreateShadowTransport(llmProviderConfig);
                 if (shadowTransport != null)
@@ -168,15 +206,35 @@ namespace Belief.Core
                 }
             }
 
+            // IntegratedLlm 전용 - 이동 예약과 적용 시스템. 통합 모드가 아니면 둘 다 null이라
+            // 아래 시스템들의 동작이 지금까지와 완전히 같다.
+            DestinationReservation reservations = null;
+            JudgmentApplication = null;
+            if (integratedThinker != null)
+            {
+                reservations = new DestinationReservation(locationStates, EventBus);
+                JudgmentApplication = new JudgmentApplicationSystem(
+                    actionResolution, reservations, EventBus,
+                    () => stageData != null ? stageData.stageId : "",
+                    () =>
+                    {
+                        var pc = ProgressionController.Instance;
+                        var objective = pc != null ? pc.CurrentObjective() : null;
+                        return objective != null ? objective.missionId : "";
+                    });
+                Debug.LogWarning("[GameInstaller] IntegratedLlm 파일럿이 활성화되었습니다 - 통합 판단 결과가 실제 월드에 적용되며 토큰이 소모됩니다.");
+            }
+
             // NPC 등급 구분 없음 - 모든 NPC가 같은 판단/이동 시스템을 탄다.
-            var thinking = new NpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus, ShadowJudgment, locationStates);
+            var thinking = new NpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus,
+                ShadowJudgment, locationStates, integratedThinker, JudgmentApplication);
 
             // 이동 판단은 두 경로를 쓴다: 이번 턴에 판단이 새로 필요해진 NPC만 thinker(LLM 모드면
             // LLM)로 보내고, 나머지는 이 RuleBased 인스턴스로 보낸다. 별도 인스턴스를 하나 더 만드는
             // 이유는 LlmMajorThinker가 자기 fallback을 private으로 갖고 있어 꺼낼 수 없기 때문인데,
             // RuleBasedMajorThinker는 필드가 하나도 없는 완전 무상태라 인스턴스가 둘이어도 동작이
             // 똑같다(RuleOnly 모드에서는 thinker 자체가 RuleBased라 어느 쪽으로 가든 결과가 같다).
-            var movement = new NpcMovementSystem(actionResolution, thinker, new RuleBasedMajorThinker());
+            var movement = new NpcMovementSystem(actionResolution, thinker, new RuleBasedMajorThinker(), reservations);
 
             TurnSystem turnSystemRef = null;
             var delivery = new InfoDeliverySystem(locationStates, thinking, EventBus, () => turnSystemRef.CurrentTurn, locationMechanics);

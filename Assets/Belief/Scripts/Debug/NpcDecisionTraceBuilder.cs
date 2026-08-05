@@ -314,6 +314,58 @@ namespace Belief.Debugging
             return this;
         }
 
+        /// <summary>IntegratedLlm 통합 판단 한 건의 결과와 적용 결과를 그대로 옮겨 담는다 -
+        /// 여기서 해석하거나 재계산하지 않는다. 비용은 단가가 코드에 없으므로 계산하지 않고
+        /// CostUnavailable로 남긴다(외부 설정이 생기면 그때 채운다).</summary>
+        public NpcDecisionTraceBuilder WithIntegratedJudgment(
+            Belief.AI.LLM.IntegratedJudgmentOutcome outcome, Belief.Systems.JudgmentApplicationResult applied)
+        {
+            record.Mode = outcome.Source == Belief.AI.LLM.JudgmentResultSource.IntegratedLlm
+                ? "IntegratedLlm" : "IntegratedLlm-Fallback";
+            record.FallbackOccurred = outcome.Source == Belief.AI.LLM.JudgmentResultSource.RuleBasedFallback;
+            record.FallbackReason = outcome.FallbackReason ?? "";
+            record.UsedResultSource = record.Mode;
+            record.ResolvedByLlm = !record.FallbackOccurred;
+            record.ResolvedByFallback = record.FallbackOccurred;
+            record.LlmResponseTimeMs = outcome.LatencyMs;
+            record.RawResponseText = outcome.RawResponse;
+
+            record.InputTokens = outcome.InputTokens;
+            record.OutputTokens = outcome.OutputTokens;
+            record.CostUnavailable = true;
+            record.EstimatedCost = "";
+
+            record.ApplicationKey = applied.ApplicationKey ?? "";
+            record.DuplicateApplicationBlocked = applied.DuplicateBlocked;
+            record.StaleRequestDiscarded = applied.StaleRequestDiscarded;
+            record.DestinationReservationType = applied.ReservationType.ToString();
+
+            if (outcome.HasJudgment)
+            {
+                var j = outcome.Judgment;
+                record.RequestId = j.Identity.RequestId ?? "";
+                record.MissionAttemptId = j.Identity.MissionAttemptId;
+                record.FinalInterpretation = j.Interpretation ?? "";
+                record.SoftWarnings = j.Summary.SoftWarnings != null
+                    ? System.Linq.Enumerable.ToArray(j.Summary.SoftWarnings) : System.Array.Empty<string>();
+
+                record.FinalActionId = j.Action != null ? j.Action.actionId : null;
+                record.FinalMoveDestinationId = j.Destination != null ? j.Destination.locationId : "stay";
+                record.FinalDialogueText = j.Dialogue;
+                record.FinalGoal = j.Goal;
+                record.ActionResolutionCount = applied.ActionApplied ? 1 : 0;
+
+                record.GroundsPrimaryReason = j.Grounds.PrimaryReason ?? "";
+                record.GroundsProfileInfluence = j.Grounds.ProfileInfluence ?? "";
+                record.GroundsRelationshipInfluence = j.Grounds.RelationshipInfluence ?? "";
+            }
+
+            if (!string.IsNullOrEmpty(applied.FailureReason))
+                WithError(applied.FailureReason + (applied.Exception != null ? ": " + applied.Exception.Message : ""));
+
+            return this;
+        }
+
         /// <summary>Action Effect가 실제로 실행된 뒤 남긴 흔적을 관찰만 한다 - 여기서 InvestigationState나
         /// Memory를 만들지 않는다(호출부가 ActionResolutionSystem.Apply 이후의 실제 상태를 읽어 그대로 전달).</summary>
         public NpcDecisionTraceBuilder WithEffectResult(

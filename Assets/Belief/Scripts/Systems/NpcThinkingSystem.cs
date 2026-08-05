@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Belief.AI;
+using Belief.AI.LLM;
 using Belief.Data;
 using Belief.Debugging;
 using Belief.Domain;
@@ -31,12 +32,23 @@ namespace Belief.Systems
         /// 조회용 참조. 읽기 전용이며 게임 판단에는 전혀 쓰이지 않는다.</summary>
         readonly IReadOnlyDictionary<LocationData, LocationState> allLocations;
 
+        /// <summary>IntegratedLlm 모드에서만 채워진다. 둘 다 null이면 아래 판단 흐름은
+        /// 지금까지와 완전히 동일하다 - RuleOnly/FakeLlm/Llm은 이 분기를 타지 않는다.</summary>
+        readonly IntegratedLlmThinker integrated;
+        readonly JudgmentApplicationSystem application;
+
+        int requestCounter;
+
         public NpcThinkingSystem(
             MemorySelector memorySelector, BeliefSystem beliefSystem, IMajorNpcThinker thinker,
             ActionResolutionSystem actionResolution, MemoryTuningData memoryTuning, IGameEventBus eventBus,
             ShadowJudgmentSystem shadow = null,
-            IReadOnlyDictionary<LocationData, LocationState> allLocations = null)
+            IReadOnlyDictionary<LocationData, LocationState> allLocations = null,
+            IntegratedLlmThinker integrated = null,
+            JudgmentApplicationSystem application = null)
         {
+            this.integrated = integrated;
+            this.application = application;
             this.allLocations = allLocations;
             this.memorySelector = memorySelector;
             this.beliefSystem = beliefSystem;
@@ -61,6 +73,11 @@ namespace Belief.Systems
             SpreadMechanicsSnapshot? spreadInfo = null, NpcState propagator = null)
         {
             if (!(npc.Data is MajorNpcData major)) return BeliefState.Unknown;
+
+            // IntegratedLlm 모드 전용 경로. 여기서 반환하므로 아래 기존 흐름은 한 줄도 실행되지
+            // 않는다 - 두 경로의 결과가 섞이는 일이 구조적으로 없다.
+            if (integrated != null && application != null)
+                return await HandleIntegratedAsync(npc, major, card, where, currentTurn, propagator);
 
             // 판단 전 상태 - 관찰용이 아니라 실제 게임 로직(이동 판단 대상 선별)이 읽는 값이라
             // #if로 감싸지 않는다. 예전에는 이 두 줄이 에디터 전용 + 리스너 있을 때만 실행됐는데,
@@ -197,6 +214,76 @@ namespace Belief.Systems
             }
 #endif
             return beliefResult.FinalBelief;
+        }
+
+        /// <summary>
+        /// IntegratedLlm 경로. 판단 전 스냅샷을 잡고 → 통합 판단을 요청하고 →
+        /// JudgmentApplicationSystem이 한 번에 적용한다.
+        ///
+        /// 여기서는 Belief를 계산하지도, ActionResolution을 직접 부르지도 않는다 - 적용은 전부
+        /// JudgmentApplicationSystem 한 곳에서만 일어난다. 반환하는 Belief는 기존과 같은 의미로
+        /// InfoDeliverySystem.TryReSpread가 그대로 받아 재확산을 판정한다.
+        /// </summary>
+        async Task<BeliefState> HandleIntegratedAsync(
+            NpcState npc, MajorNpcData major, InformationCardData card, LocationState where,
+            int currentTurn, NpcState propagator)
+        {
+            var beliefBefore = npc.GetBelief(card);
+            string goalBefore = npc.CurrentGoal;
+
+            var selectionContext = new MemorySelectionContext(card, where, currentTurn);
+            var workingMemory = memorySelector.Select(npc, selectionContext, memoryTuning);
+
+            var presentNpcs = new List<NpcState>();
+            if (where != null)
+                foreach (var other in where.PresentNpcs)
+                    if (other != null && other != npc) presentNpcs.Add(other);
+
+            var ctx = new NpcJudgmentContext(
+                npc, card, where, currentTurn, beliefBefore, goalBefore, workingMemory,
+                major.availableActions ?? Array.Empty<NpcActionData>(), major.movementCandidates,
+                presentNpcs, propagator, allLocations);
+
+            // 요청 신원은 요청을 만들기 전에 발급한다 - 응답이 돌아왔을 때 그때의 세계와 대조할
+            // 기준이 되어야 하므로, 나중에 만들면 의미가 없다.
+            var identity = application.CreateIdentity(npc, card, currentTurn, $"req-{++requestCounter}");
+
+            // 판단 1건 = trace 1개(지역 변수). 공유 mutable trace를 쓰지 않는다.
+            object traceParam = null;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            NpcDecisionTraceBuilder trace = null;
+            if (NpcDecisionTraceHub.HasListeners)
+            {
+                trace = new NpcDecisionTraceBuilder(
+                    "IntegratedJudgment", npc,
+                    NpcDecisionTraceContext.StageId, NpcDecisionTraceContext.StageTurn,
+                    NpcDecisionTraceContext.MissionId, NpcDecisionTraceContext.MissionTurn,
+                    NpcDecisionTraceContext.ThinkerMode);
+                trace.WithReceivedInformation(card);
+                trace.WithStateBefore(npc, card);
+            }
+            traceParam = trace;
+#endif
+
+            var outcome = await integrated.DecideAsync(ctx, identity, traceParam);
+            var applied = application.Apply(outcome, ctx, currentTurn, traceParam);
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (trace != null)
+            {
+                trace.WithIntegratedJudgment(outcome, applied);
+                trace.WithBeliefChange(beliefBefore, applied.Applied ? applied.FinalBelief : beliefBefore);
+                trace.WithGoal(goalBefore, npc.CurrentGoal);
+                trace.Publish();
+            }
+#endif
+
+            if (!applied.Applied) return beliefBefore;   // 적용되지 않았으면 세계는 그대로다
+
+            if (applied.FinalBelief != beliefBefore) npc.MarkBeliefChanged();
+            if (npc.CurrentGoal != goalBefore) npc.MarkGoalChanged();
+
+            return applied.FinalBelief;
         }
     }
 }

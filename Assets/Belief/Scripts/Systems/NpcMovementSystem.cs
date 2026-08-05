@@ -47,13 +47,19 @@ namespace Belief.Systems
         /// "판단이 필요 없는 NPC는 호출하지 않는다"를 코드 구조로 보장하는 지점이다.</summary>
         readonly RuleBasedMajorThinker ruleBased;
 
+        /// <summary>통합 판단이 이미 이번 턴 이동을 정해 둔 NPC를 걸러내기 위한 저장소.
+        /// null이면(IntegratedLlm 모드가 아니면) 아래 흐름은 지금까지와 완전히 동일하다.</summary>
+        readonly DestinationReservation reservations;
+
         int currentTurn;
 
-        public NpcMovementSystem(ActionResolutionSystem actionResolution, IMajorNpcThinker thinker, RuleBasedMajorThinker ruleBased)
+        public NpcMovementSystem(ActionResolutionSystem actionResolution, IMajorNpcThinker thinker,
+            RuleBasedMajorThinker ruleBased, DestinationReservation reservations = null)
         {
             this.actionResolution = actionResolution;
             this.thinker = thinker;
             this.ruleBased = ruleBased;
+            this.reservations = reservations;
         }
 
         /// <summary>발사 단계에서 만들어 적용 단계까지 들고 가는 한 NPC분의 진행 중 판단.</summary>
@@ -98,6 +104,25 @@ namespace Belief.Systems
             }
         }
 
+        /// <summary>예약 경로에서도 관찰 기록을 남길 수 있도록 트레이스를 만든다 - 판단 경로와
+        /// 같은 방식으로 판단 1건당 지역 객체 하나다(공유 mutable 없음).</summary>
+        object MakeTrace(NpcState npc)
+        {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (!NpcDecisionTraceHub.HasListeners) return null;
+            var t = new NpcDecisionTraceBuilder(
+                "TurnMove", npc,
+                NpcDecisionTraceContext.StageId, NpcDecisionTraceContext.StageTurn,
+                NpcDecisionTraceContext.MissionId, NpcDecisionTraceContext.MissionTurn,
+                NpcDecisionTraceContext.ThinkerMode);
+            t.WithReceivedInformation(null);
+            t.WithStateBefore(npc, null);
+            return t;
+#else
+            return null;
+#endif
+        }
+
         /// <summary>세 단계가 공유하는 유일한 순서 원본. npcId Ordinal 정렬이라 입력 컬렉션의 열거
         /// 순서가 무엇이든 결과가 같다(npcId는 애셋마다 고유하므로 동률이 없어 정렬이 결정론적이다).</summary>
         static List<NpcState> BuildStableOrder(IEnumerable<NpcState> allNpcs)
@@ -120,6 +145,20 @@ namespace Belief.Systems
             {
                 if (!(npc.Data is MajorNpcData major)) continue;
                 if (major.movementCandidates == null || major.movementCandidates.Length == 0) continue;
+
+                // 통합 판단이 이번 턴 이동을 이미 확정했다면 여기서 소비하고 판단을 건너뛴다.
+                // Stay도 하나의 확정이므로 기존 이동 판단을 실행하지 않는다 - 그러지 않으면
+                // "LLM은 머문다고 했는데 규칙 기반이 옮겨 버리는" 혼합 결과가 된다.
+                if (reservations != null)
+                {
+                    var reserved = reservations.TryConsume(npc, this.currentTurn, out var reservedDestination);
+                    if (reserved != DestinationReservationType.None)
+                    {
+                        pending.Add(new PendingMove(npc, npc.CurrentLocation,
+                            Task.FromResult(new NpcMoveResult(reservedDestination)), false, MakeTrace(npc)));
+                        continue;
+                    }
+                }
 
                 bool needsFreshDecision = npc.NeedsFreshDecision;
 

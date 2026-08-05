@@ -14,7 +14,13 @@ namespace Belief.AI.LLM
         FakeLlm,
 
         /// <summary>실제 AI 호출. LlmProviderConfig의 endpoint로 요청한다(중계 서버 또는 AI 회사 서버).</summary>
-        Llm
+        Llm,
+
+        /// <summary>통합 판단(Interpretation/Belief/Goal/Action/Destination/Dialogue)을 한 번에 받아
+        /// 실제로 적용한다. <b>기존 IMajorNpcThinker 경로를 쓰지 않고</b> IIntegratedNpcThinker
+        /// 전용 경로를 탄다 - 위 세 모드의 동작은 이 값이 추가돼도 전혀 달라지지 않는다.
+        /// IntegratedLlmPilotPolicy가 허용하는 스테이지·빌드에서만 유효하며, 아니면 RuleOnly로 강등된다.</summary>
+        IntegratedLlm
     }
 
     /// <summary>
