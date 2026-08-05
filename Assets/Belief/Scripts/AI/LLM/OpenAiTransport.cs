@@ -107,7 +107,8 @@ namespace Belief.AI.LLM
 
         IEnumerator SendRoutine(string prompt, CancellationToken cancellationToken, TaskCompletionSource<string> tcs)
         {
-            if (string.IsNullOrEmpty(apiKey))
+            // 중계 서버 모드에서는 키가 클라이언트에 없는 것이 정상이다 - 키는 서버가 갖고 있다.
+            if (!config.useProxy && string.IsNullOrEmpty(apiKey))
             {
                 tcs.SetException(new LlmTransportException("API 키가 설정되어 있지 않습니다 (환경 변수 또는 로컬 개발 설정을 확인하세요)."));
                 yield break;
@@ -121,7 +122,9 @@ namespace Belief.AI.LLM
                 request.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-Type", "application/json");
-                request.SetRequestHeader("Authorization", "Bearer " + apiKey);
+                // 중계 서버 모드에서는 Authorization을 붙이지 않는다 - 키를 클라이언트가 들고 있지
+                // 않을뿐더러, 브라우저에서 이 헤더를 붙이면 preflight(OPTIONS) 요청이 추가로 발생한다.
+                if (!config.useProxy) request.SetRequestHeader("Authorization", "Bearer " + apiKey);
                 request.timeout = Mathf.Max(1, config.timeoutSeconds);
 
                 var operation = request.SendWebRequest();

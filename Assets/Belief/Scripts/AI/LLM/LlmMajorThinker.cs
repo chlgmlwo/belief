@@ -18,9 +18,10 @@ namespace Belief.AI.LLM
     /// 다시 LLM을 시도한다.
     ///
     /// 동기 블로킹 없음(중요): 이 클래스는 GetAwaiter().GetResult()/.Result/.Wait()를 어디서도 쓰지
-    /// 않는다. Transport 요청은 BenchmarkRunner.InvokeTransportAsync와 동일한 Task.WhenAny(요청,
-    /// Task.Delay(timeoutMs)) 경합 패턴으로 기다린다 - Unity 메인 스레드는 매 프레임 그대로 진행되며,
-    /// Timeout이 지나면 남은 요청을 기다리지 않고 즉시 RuleBased 결과로 넘어간다.
+    /// 않는다. Transport 요청은 Task.WhenAny(요청, CoroutineRunner.DelayAsync(timeoutMs)) 경합
+    /// 패턴으로 기다린다 - Unity 메인 스레드는 매 프레임 그대로 진행되며, Timeout이 지나면 남은
+    /// 요청을 기다리지 않고 즉시 RuleBased 결과로 넘어간다. 대기에 Task.Delay를 쓰지 않는 것이
+    /// 중요하다(WebGL에서는 깨어나지 않는다) - CoroutineRunner.DelayAsync 주석 참고.
     ///
     /// 불변식(반드시 유지): ThinkerFactory는 RuleOnly 모드에서 이 클래스를 아예 생성하지 않는다 -
     /// Transport 호출 자체가 발생하지 않는다.
@@ -219,7 +220,10 @@ namespace Belief.AI.LLM
                 return TransportOutcome.Failed("TransportException", 0);
             }
 
-            var timeoutTask = Task.Delay(timeoutMs);
+            // Task.Delay가 아니라 CoroutineRunner.DelayAsync를 쓴다 - WebGL은 싱글스레드라
+            // Task.Delay가 영영 깨어나지 않고, 그러면 Timeout이 안 걸려 RuleBased 대체로 못 넘어간다
+            // (그 NPC의 판단이 통째로 멈춘다). 자세한 이유는 CoroutineRunner.DelayAsync 주석 참고.
+            var timeoutTask = CoroutineRunner.DelayAsync(timeoutMs);
             var completed = await Task.WhenAny(requestTask, timeoutTask);
             double elapsed = (DateTime.UtcNow - requestStart).TotalMilliseconds;
 

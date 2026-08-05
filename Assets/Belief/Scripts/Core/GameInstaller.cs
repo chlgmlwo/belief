@@ -47,9 +47,15 @@ namespace Belief.Core
         /// 공유해야 한다(스테이지별로 다른 자산을 물리지 않는다).</summary>
         [SerializeField] LocationMechanicsSettings locationMechanics;
 
-        [Header("AI (LLM Layer) - 실제 API 미연동, Fake로만 동작")]
+        [Header("AI (LLM Layer)")]
+        /// <summary>RuleOnly = AI 호출 없음(자동 테스트 기본값, 토큰 안 듦) / FakeLlm = 가짜 응답으로
+        /// 배선 확인 / Llm = 실제 호출. Llm으로 두면 아래 llmProviderConfig가 반드시 필요하다.</summary>
         [SerializeField] ThinkerMode thinkerMode = ThinkerMode.RuleOnly;
         [SerializeField] FakeTransportMode fakeTransportMode = FakeTransportMode.AlwaysSuccess;
+
+        /// <summary>ThinkerMode.Llm일 때만 쓰인다. 어떤 모델을 어느 주소로 부를지가 여기 들어간다 -
+        /// API 키는 여기에 절대 넣지 않는다(ApiKeyProvider 또는 중계 서버가 담당).</summary>
+        [SerializeField] LlmProviderConfig llmProviderConfig;
 
         /// <summary>LLM 요청 Timeout의 유일한 설정 위치 - 여기 값 하나만 ThinkerFactory를 거쳐
         /// LlmMajorThinker로 전달된다. 이 요청이 이 시간(ms) 안에 끝나지 않으면 그 판단 1회만
@@ -81,9 +87,16 @@ namespace Belief.Core
 
         public ThinkerMode CurrentThinkerMode => thinkerMode;
 
-        /// <summary>Debug Overlay가 "지금 RuleOnly인지 FakeLlm인지"를 한눈에 보여주기 위한 설명 문자열.</summary>
-        public string CurrentTransportDescription =>
-            thinkerMode == ThinkerMode.RuleOnly ? "없음 (RuleOnly)" : $"FakeTransport ({fakeTransportMode})";
+        /// <summary>Debug Overlay가 지금 무엇으로 판단하고 있는지 한눈에 보여주기 위한 설명 문자열.</summary>
+        public string CurrentTransportDescription => thinkerMode switch
+        {
+            ThinkerMode.RuleOnly => "없음 (RuleOnly)",
+            ThinkerMode.FakeLlm => $"FakeTransport ({fakeTransportMode})",
+            ThinkerMode.Llm when llmProviderConfig != null =>
+                $"{llmProviderConfig.modelId} @ {llmProviderConfig.endpoint}"
+                + (llmProviderConfig.useProxy ? " (중계 서버)" : " (직접 호출)"),
+            _ => "Llm (설정 없음 - RuleOnly로 동작)"
+        };
 
         // Awake()에서 전부 조립한다 - Unity는 씬의 모든 Awake()가 모든 Start()보다 먼저 끝나는 것을
         // 보장하므로, WorldPresenter/HudPresenter/TargetingController가 자신의 Start()에서
@@ -117,7 +130,7 @@ namespace Belief.Core
 
             var promptRepository = new PromptRepository();
             PromptRepo = promptRepository;
-            IMajorNpcThinker thinker = ThinkerFactory.Create(thinkerMode, promptRepository, fakeTransportMode, llmTimeoutMs);
+            IMajorNpcThinker thinker = ThinkerFactory.Create(thinkerMode, promptRepository, fakeTransportMode, llmTimeoutMs, llmProviderConfig);
 
             var majorThinking = new MajorNpcThinkingSystem(memorySelector, beliefSystem, thinker, actionResolution, memoryTuning, EventBus);
             var minorBehavior = new MinorNpcBehaviorSystem(beliefSystem, actionResolution, thinker, EventBus);
