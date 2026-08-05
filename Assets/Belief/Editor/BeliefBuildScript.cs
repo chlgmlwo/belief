@@ -115,6 +115,12 @@ namespace Belief.EditorTools
             PlayerSettings.defaultWebScreenWidth = 1920;
             PlayerSettings.defaultWebScreenHeight = 1080;
 
+            // 기본(Default) 템플릿은 index.html에서 캔버스 CSS 크기를 1920x1080으로 못박아,
+            // 브라우저 창이 그보다 작으면(주소창·북마크바 높이만큼은 항상 그렇다) 캔버스가
+            // 넘쳐서 위/오른쪽이 잘렸다. BeliefResponsive는 창에 들어가는 가장 큰 16:9
+            // 사각형에 맞춘다. 경로는 Assets/WebGLTemplates/BeliefResponsive.
+            PlayerSettings.WebGL.template = "PROJECT:BeliefResponsive";
+
             // 릴리스 기준. 디버깅이 필요하면 FullWithStacktrace로 올리면 되지만 빌드가 크고 느려진다.
             PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
             PlayerSettings.WebGL.debugSymbolMode = WebGLDebugSymbolMode.Off;

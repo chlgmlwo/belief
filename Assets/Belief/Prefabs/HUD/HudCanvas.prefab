@@ -969,8 +969,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ad5e4e9f037dd5b4981c1dc086c4ca88, type: 2}
-  m_sharedMaterial: {fileID: -6855420628345319835, guid: ad5e4e9f037dd5b4981c1dc086c4ca88, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
+  m_sharedMaterial: {fileID: -6520637364355772205, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4131,6 +4131,10 @@ MonoBehaviour:
   missionConditionsRoot: {fileID: 5451676520552555248}
   missionTurnsText: {fileID: 804087213115016723}
   nextMissionText: {fileID: 7785494044556866467}
+  nextMissionCardRoot: {fileID: 0}
+  nextMissionCardTitleText: {fileID: 0}
+  nextMissionCardDescText: {fileID: 0}
+  nextMissionConnectorGo: {fileID: 0}
   profileTabButton: {fileID: 5391639749110223521}
   logTabButton: {fileID: 6273133029665496202}
   profileTabIndicator: {fileID: 3128560964139755333}
@@ -4139,20 +4143,26 @@ MonoBehaviour:
   logTopDialogueText: {fileID: 1499628365435753804}
   logGeneralText: {fileID: 5804697748754802649}
   logStatHeaderText: {fileID: 2017885803462365831}
-  logBeliefFromText: {fileID: 5288527620976129362}
-  logBeliefToText: {fileID: 7633477980815260170}
+  logTrustArrowLine: {fileID: 0}
+  logTrustArrowHead: {fileID: 0}
   logBottomDialogueText: {fileID: 6473947179546837647}
   locationNoteGo: {fileID: 5275414409411681334}
   locationNoteTitleText: {fileID: 5114436813089402710}
   locationNoteBodyText: {fileID: 5744558457283962750}
   npcProfileGo: {fileID: 2353510769748345441}
+  npcPortraitFrameGo: {fileID: 0}
+  npcPortraitImage: {fileID: 0}
   npcNameText: {fileID: 2243269060747369268}
-  npcBasicInfoText: {fileID: 8780656873801293115}
   npcBeliefTierText: {fileID: 6829797833965167240}
   npcBeliefDialogueText: {fileID: 8807610176288502787}
   npcRelationshipsRoot: {fileID: 5646256653118542519}
   npcHistoryText: {fileID: 7604949401673987484}
   npcNoneStickerGo: {fileID: 6545834920484151094}
+  npcJudgmentTendencyText: {fileID: 0}
+  npcPriorityText: {fileID: 0}
+  npcSensitiveInfoText: {fileID: 0}
+  npcRelationTendencyText: {fileID: 0}
+  npcTrustJudgmentText: {fileID: 0}
   bottomPanelRect: {fileID: 1536707568959678131}
   ownedCountLabel: {fileID: 2538526891365708658}
   ownedRoot: {fileID: 4903307828968056600}
@@ -4160,6 +4170,7 @@ MonoBehaviour:
   cardTitleText: {fileID: 612565910843387885}
   cardDescText: {fileID: 1584923094583018431}
   cardKindText: {fileID: 7517066311835150606}
+  barBackgroundGo: {fileID: 0}
   instructionGo: {fileID: 8340558029722938968}
   instructionText: {fileID: 6569855791668537652}
   deliverButtonGo: {fileID: 9092500519649249913}
@@ -4177,8 +4188,11 @@ MonoBehaviour:
   resultCanvasGroup: {fileID: 1612745471473770726}
   resultPanelImg: {fileID: 4207189675388409567}
   resultPhotoFrameImg: {fileID: 171136871006398638}
+  resultLayout: {fileID: 0}
   resultTitleText: {fileID: 8022218641262133959}
   resultDescText: {fileID: 4229519968937833236}
+  resultMissionNoText: {fileID: 0}
+  resultStageLabelText: {fileID: 0}
   resultStageTagText: {fileID: 2705514510339737590}
   resultTurnsText: {fileID: 2392191619921529536}
   resultPrimaryButtonGo: {fileID: 4584060845692336392}
@@ -6453,8 +6467,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '?'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ad5e4e9f037dd5b4981c1dc086c4ca88, type: 2}
-  m_sharedMaterial: {fileID: -6855420628345319835, guid: ad5e4e9f037dd5b4981c1dc086c4ca88, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
+  m_sharedMaterial: {fileID: -6520637364355772205, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -1,0 +1,46 @@
+/* BELIEF WebGL 템플릿 - Unity 기본(Default) 템플릿에서 캔버스 크기 지정만 반응형으로 바꾼 것.
+   기본 템플릿은 index.html에서 canvas.style.width를 "1920px"로 못박아 브라우저 창이 더 작으면
+   캔버스가 넘쳐 잘렸다. 여기서는 창에 들어가는 가장 큰 16:9 사각형에 맞춘다. */
+
+html, body { padding: 0; margin: 0; height: 100%; background: #000; overflow: hidden }
+
+/* 캔버스를 화면 정중앙에 놓는다. 기본 템플릿의 translate(-50%,-50%) 방식은 캔버스가 창보다
+   클 때 위쪽이 화면 밖으로 밀려나 잘렸다 - flex 중앙정렬은 그런 음수 오프셋이 생기지 않는다. */
+#unity-container.unity-desktop {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+#unity-container.unity-mobile { position: fixed; width: 100%; height: 100% }
+
+/* aspect-ratio + max-* 조합이 핵심. 가로가 넉넉하면 높이에 맞고, 세로가 넉넉하면 너비에 맞는다.
+   레터박스는 body의 검정 배경이 그대로 담당한다. */
+#unity-canvas {
+  display: block;
+  background: {{{ BACKGROUND_COLOR }}};
+  aspect-ratio: 16 / 9;
+  width: 100vw; height: auto;
+  max-width: calc(100vh * 16 / 9);
+  max-height: 100vh;
+}
+.unity-mobile #unity-canvas { width: 100%; height: 100%; max-width: none; max-height: none; aspect-ratio: auto }
+
+#unity-loading-bar { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
+#unity-logo { width: 154px; height: 130px; background: url('unity-logo-{{{ SPLASH_SCREEN_STYLE.toLowerCase() }}}.png') no-repeat center }
+#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-{{{ SPLASH_SCREEN_STYLE.toLowerCase() }}}.png') no-repeat center }
+#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-{{{ SPLASH_SCREEN_STYLE.toLowerCase() }}}.png') no-repeat center }
+
+/* 푸터는 캔버스 높이를 깎지 않도록 화면 위에 겹쳐 띄운다(기본 템플릿은 relative라 캔버스
+   아래에 자리를 차지했고, 그만큼 캔버스가 세로로 더 잘렸다). 평소엔 반투명하게 두고
+   마우스를 올렸을 때만 또렷해진다. */
+#unity-footer {
+  position: fixed; right: 8px; bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+  opacity: 0.35; transition: opacity 0.15s;
+}
+#unity-footer:hover { opacity: 1 }
+.unity-mobile #unity-footer { display: none }
+#unity-logo-title-footer { width: 102px; height: 38px; background: url('unity-logo-title-footer.png') no-repeat center }
+#unity-build-title { line-height: 38px; font-family: arial; font-size: 18px; color: #fff }
+#unity-fullscreen-button { cursor: pointer; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
+
+#unity-warning { position: fixed; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }

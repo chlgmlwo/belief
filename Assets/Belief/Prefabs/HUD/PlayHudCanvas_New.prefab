@@ -19543,8 +19543,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '?'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ad5e4e9f037dd5b4981c1dc086c4ca88, type: 2}
-  m_sharedMaterial: {fileID: -6855420628345319835, guid: ad5e4e9f037dd5b4981c1dc086c4ca88, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
+  m_sharedMaterial: {fileID: -6520637364355772205, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
