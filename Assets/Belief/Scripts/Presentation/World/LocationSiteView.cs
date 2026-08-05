@@ -140,6 +140,57 @@ namespace Belief.Presentation.World
             SetContactReady(false);
         }
 
+        /// <summary>접선 지점을 <b>"진행 완료" 버튼 하나</b>로만 표시한다 - 장소 사진/프레임/압정/이름표를
+        /// 전부 끄고 태그만 남긴다. 여기는 게임 세계의 장소가 아니라 "턴을 확정한다"는 시스템 동작이
+        /// 놓인 자리라, 다른 장소들과 똑같은 지도 표식으로 보이면 오히려 헷갈린다(사용자 지시).
+        ///
+        /// 크기는 <b>화면 픽셀 기준</b>으로 맞춘다. 카메라 orthographicSize가 스테이지마다 5~14로
+        /// 달라서 월드 스케일을 고정하면 Zone1과 Metropolis에서 버튼 크기가 2.8배까지 차이 난다.
+        /// 클릭 판정도 태그로 옮긴다 - 루트 콜라이더(카드 한 장 크기)를 남겨 두면 버튼 바깥의
+        /// 빈 지도를 눌러도 턴이 확정돼 버린다.</summary>
+        public void ShowAsActionButtonOnly(Sprite sprite, float targetScreenWidthPx, Camera cam)
+        {
+            IsContactPoint = true;
+
+            if (background != null) background.enabled = false;
+            if (frame != null) frame.enabled = false;
+            if (nameTag != null) nameTag.enabled = false;
+            if (pin != null) pin.enabled = false;
+            if (label != null) label.gameObject.SetActive(false);
+
+            // 카드 전체를 덮던 루트 콜라이더는 끈다(아래에서 태그 콜라이더만 남긴다).
+            var rootCollider = GetComponent<Collider2D>();
+            if (rootCollider != null) rootCollider.enabled = false;
+
+            if (contactTag == null) return;
+            contactTag.gameObject.SetActive(true);
+            if (sprite != null) contactTag.sprite = sprite;
+            contactTag.transform.localPosition = Vector3.zero;   // 카드 모서리가 아니라 지정된 자리 그대로
+
+            var s = contactTag.sprite;
+            if (s != null && cam != null && cam.orthographic && Screen.height > 0)
+            {
+                float spriteWorldWidth = s.rect.width / s.pixelsPerUnit;
+                float pxPerWorldUnit = Screen.height / (2f * cam.orthographicSize);
+                float wantWorldWidth = targetScreenWidthPx / pxPerWorldUnit;
+                // 부모(카드 루트)에 이미 걸려 있는 스케일을 상쇄해 최종 화면 크기를 맞춘다.
+                float parentScale = transform.lossyScale.x != 0f ? transform.lossyScale.x : 1f;
+                float scale = wantWorldWidth / spriteWorldWidth / parentScale;
+                contactTag.transform.localScale = new Vector3(scale, scale, 1f);
+            }
+
+            // 콜라이더를 스프라이트 크기에 맞춘다 - 스케일은 Transform이 처리하므로 원본 크기 그대로.
+            var tagCollider = contactTag.GetComponent<BoxCollider2D>();
+            if (tagCollider != null && s != null)
+            {
+                tagCollider.enabled = true;
+                tagCollider.offset = Vector2.zero;
+                tagCollider.size = new Vector2(s.rect.width / s.pixelsPerUnit, s.rect.height / s.pixelsPerUnit);
+            }
+
+            SetContactReady(false);
+        }
+
         public void SetContactReady(bool ready)
         {
             if (!IsContactPoint || contactTag == null) return;

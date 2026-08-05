@@ -36,7 +36,20 @@ namespace Belief.Presentation.World
         /// <summary>접선 지점을 화면 어디에 놓을지(뷰포트 비율 0~1, 좌하단 기준). 월드 좌표가 아니라
         /// 화면 기준이라 스테이지별 카메라 줌과 무관하게 항상 같은 자리에 보인다. 기본값은 Zone1에서
         /// 실측해 확정한 자리(왼쪽 12.87% / 아래 25%) - 하단 안내 띠(x 17.7%부터 시작)와도 겹치지 않는다.</summary>
-        [SerializeField] Vector2 contactPointScreenAnchor = new Vector2(0.1287f, 0.25f);
+        /// <summary>지도 오른쪽 아래. 손패 카드는 선택되면 120px 솟아 화면 아래 0~228px를 덮으므로
+        /// (카드 4는 가로로도 1395~1869px를 차지한다) 버튼 아랫변이 그보다 위에 오도록 잡았다 -
+        /// 실측 기준 버튼은 화면 x 1675~1905 / 아래에서 y 255~325에 놓인다.</summary>
+        [SerializeField] Vector2 contactPointScreenAnchor = new Vector2(0.932f, 0.269f);
+
+        [Header("진행 완료 버튼(접선 지점)")]
+        /// <summary>지도 위에 접선 지점 카드를 만들지 여부. 기본은 꺼짐 - 진행 완료 버튼은 HUD로
+        /// 옮겨갔다(월드에 두면 화면 테두리에 가린다). 지도 위 표식이 다시 필요해지면 켜면 된다.</summary>
+        [SerializeField] bool spawnContactPointInWorld;
+        [SerializeField] Sprite contactButtonSprite;
+
+        /// <summary>버튼의 화면 가로 크기(px). 카메라 줌이 스테이지마다 달라 월드 스케일을 고정하면
+        /// 크기가 제각각이 되므로 화면 픽셀로 지정하고 매번 역산한다.</summary>
+        [SerializeField] float contactButtonScreenWidth = 230f;
 
         public event Action<LocationData> LocationClicked;
         public event Action<LocationData> LocationHoverEnter;
@@ -146,9 +159,16 @@ namespace Belief.Presentation.World
             var stage = installer.StageAsset;
             if (stage == null || stage.contactPoint == null) return;
 
+            // 진행 완료 버튼은 이제 HUD 캔버스(PlayHudCanvas_New/ProceedButton)에 있다.
+            // 월드 오브젝트로 두면 화면 테두리(ScreenFrame)에 가린다 - 그 테두리는 Screen Space
+            // Overlay 캔버스라 월드에 있는 것은 구조적으로 그 위로 올라올 수 없기 때문이다.
+            // 이 자리는 게임 세계의 장소가 아니라 "턴 확정"이라는 시스템 동작이므로 HUD가 맞다.
+            // StageData.contactPoint 데이터 자체는 그대로 두되 지도 위에 카드를 만들지 않는다.
+            if (!spawnContactPointInWorld) return;
+
             var view = Instantiate(locationSitePrefab, locationRoot);
             view.Bind(stage.contactPoint, ResolveContactPointPosition(stage), skin);
-            view.BindContactTag(skin != null ? skin.blockedStamp : null);
+            view.ShowAsActionButtonOnly(contactButtonSprite, contactButtonScreenWidth, Camera.main);
             view.Clicked += _ => ContactPointClicked?.Invoke();
             contactPointView = view;
         }

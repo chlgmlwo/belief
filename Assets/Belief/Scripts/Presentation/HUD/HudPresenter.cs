@@ -1203,10 +1203,10 @@ namespace Belief.Presentation.HUD
                     break;
 
                 case TargetingPhase.AwaitingConfirm:
-                    // 접선 태그는 아직 새 UI라 위치를 모르면 진행 자체가 막힌다 - 이 안내만 남긴다.
+                    // 확정 버튼 위치를 모르면 진행 자체가 막히므로 이 안내만 남긴다.
                     SetBarInstruction(card.cardType == InfoCardType.Spread
-                        ? "지도 왼쪽 아래 뒷골목의 접선 태그를 눌러 전달한다. (다른 장소를 클릭하면 대상을 바꿀 수 있습니다.)"
-                        : "지도 왼쪽 아래 뒷골목의 접선 태그를 눌러 전달한다. (다른 사람을 클릭하면 대상을 바꿀 수 있습니다.)");
+                        ? "오른쪽 아래 [진행 완료]를 눌러 전달한다. (다른 장소를 클릭하면 대상을 바꿀 수 있습니다.)"
+                        : "오른쪽 아래 [진행 완료]를 눌러 전달한다. (다른 사람을 클릭하면 대상을 바꿀 수 있습니다.)");
                     SetDeliverAffordance(true, canDeliver);
                     break;
 
@@ -1235,9 +1235,14 @@ namespace Belief.Presentation.HUD
             if (barBackgroundGo != null) barBackgroundGo.SetActive(hasInstruction || noticeShowing);
         }
 
-        /// <summary>전달 확정 입력 자리를 켠다 - 접선 지점(지도 위 "전달" 태그)이 있는 스테이지에서는
-        /// 그 태그가 버튼 역할을 하므로 하단 패널 버튼은 계속 꺼 둔다. 접선 지점이 없는 스테이지는
-        /// 예전 하단 버튼을 그대로 쓴다(하위 호환).</summary>
+        /// <summary>전달 확정 입력 자리(우하단 "진행 완료" 버튼)의 상태를 갱신한다.
+        ///
+        /// 버튼은 <b>껐다 켜지 않고 항상 두되 누를 수 있는지만 바꾼다</b> - 사라졌다 나타나면
+        /// "진행 지점이 없어졌다"처럼 읽히고, 매 턴 위치를 다시 찾게 된다(지도 위 접선 태그 시절에
+        /// 같은 이유로 정한 규칙을 그대로 가져왔다).
+        ///
+        /// 지도 위 접선 지점을 쓰는 스테이지가 있으면(WorldPresenter.spawnContactPointInWorld) 그쪽을
+        /// 우선하고 이 버튼은 숨긴다 - 현재 4개 스테이지는 모두 HUD 버튼을 쓴다.</summary>
         void SetDeliverAffordance(bool visible, bool canDeliver)
         {
             var contact = worldPresenter != null ? worldPresenter.ContactPointView : null;
@@ -1248,8 +1253,8 @@ namespace Belief.Presentation.HUD
                 return;
             }
 
-            if (deliverButtonGo != null) deliverButtonGo.SetActive(visible);
-            if (deliverButton != null) deliverButton.interactable = canDeliver;
+            if (deliverButtonGo != null) deliverButtonGo.SetActive(true);
+            if (deliverButton != null) deliverButton.interactable = visible && canDeliver;
         }
 
         void OnDeliverClicked()

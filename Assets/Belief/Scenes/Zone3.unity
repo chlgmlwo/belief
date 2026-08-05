@@ -599,7 +599,9 @@ MonoBehaviour:
   locationRoot: {fileID: 259889620}
   npcRoot: {fileID: 1046827319}
   skin: {fileID: 11400000, guid: 42ea88bdba813664a8296bb65edf49bc, type: 2}
-  contactPointScreenAnchor: {x: 0.1287, y: 0.25}
+  contactPointScreenAnchor: {x: 0.932, y: 0.269}
+  contactButtonSprite: {fileID: 21300000, guid: 98e75443f48153a4785a661c35b6bb9f, type: 3}
+  contactButtonScreenWidth: 230
 --- !u!4 &1709372778
 Transform:
   m_ObjectHideFlags: 0
