@@ -3529,7 +3529,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC81C\uD55C \uAE30\uAC04"
+  m_text: DAY LIMIT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1b641c8aa19e54c4db471e295f992ebf, type: 2}
   m_sharedMaterial: {fileID: -2037329929356684654, guid: 1b641c8aa19e54c4db471e295f992ebf, type: 2}
