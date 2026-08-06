@@ -4048,9 +4048,9 @@ MonoBehaviour:
   memoryTuning: {fileID: 11400000, guid: 2cab1061d83833242986932687afe6d2, type: 2}
   repeatedLiesCategory: {fileID: 11400000, guid: 0175e68d365b81c48af6d2f59f0ee9c4, type: 2}
   locationMechanics: {fileID: 11400000, guid: cb842d1484f7bd74bad8291bf44ed501, type: 2}
-  thinkerMode: 0
+  thinkerMode: 3
   fakeTransportMode: 0
-  llmProviderConfig: {fileID: 0}
+  llmProviderConfig: {fileID: 11400000, guid: 23d836c569e74ed42af508397e7bca6c, type: 2}
   llmTimeoutMs: 15000
   shadowMode: 0
   shadowPromptLogging: 0

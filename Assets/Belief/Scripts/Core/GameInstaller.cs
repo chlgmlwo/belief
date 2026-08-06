@@ -195,13 +195,12 @@ namespace Belief.Core
             IntegratedLlmThinker integratedThinker = null;
             if (effectiveMode == ThinkerMode.IntegratedLlm)
             {
-                // 씬 값으로 직접 켠 경우(파일럿 도구를 거치지 않음)에도 호출 상한은 반드시 걸린다 -
-                // "20회"는 파일럿 도구의 정책이 아니라 이 경로 전체의 안전장치이기 때문이다.
+                // 씬 값으로 켠 경우 = 출시 경로다. 게임 자체가 통합 판단으로 도는 구성이므로
+                // 파일럿용 호출 상한을 걸지 않는다 - 상한을 걸면 그 지점부터 NPC가 규칙 기반으로
+                // 퇴화해서 배포된 게임의 판단 품질이 도중에 바뀐다. 비용은 중계 서버가 통제한다.
                 if (pilotBudget == null)
                 {
-                    Debug.LogWarning($"[GameInstaller] 씬 값으로 IntegratedLlm이 켜져 있습니다 - 상한 {IntegratedLlmPilotSession.CurrentMaxCalls}회를 적용합니다. "
-                                   + "권장 방식은 씬을 RuleOnly로 두고 BELIEF/Diagnostics의 파일럿 도구로 여는 것입니다.");
-                    IntegratedLlmPilotSession.BeginSession("scene-" + name);
+                    IntegratedLlmPilotSession.BeginSession("release-" + name, PilotRunMode.Release);
                     pilotBudget = new IntegratedLlmPilotCallBudget(IntegratedLlmPilotSession.ActiveSessionId);
                 }
 
@@ -278,10 +277,15 @@ namespace Belief.Core
                         var objective = pc != null ? pc.CurrentObjective() : null;
                         return objective != null ? objective.missionId : "";
                     });
-                Debug.LogWarning("[GameInstaller] IntegratedLlm 파일럿이 활성화되었습니다 - 통합 판단 결과가 실제 월드에 적용되며 토큰이 소모됩니다.\n"
-                               + $"  호출 상한 : {IntegratedLlmPilotSession.CurrentMaxCalls}회 (초과 요청은 Transport를 부르지 않고 RuleBased 전체 폴백)\n"
-                               + $"  프롬프트 원문 기록 : {(pilotLogPrompts ? "켜짐" : "꺼짐")}\n"
-                               + $"  {IntegratedLlmPilotSession.Describe()}");
+                bool release = IntegratedLlmPilotSession.RunMode == PilotRunMode.Release;
+                Debug.Log((release ? "[GameInstaller] IntegratedLlm(출시 경로)이 활성화되었습니다"
+                                   : "[GameInstaller] IntegratedLlm 파일럿이 활성화되었습니다")
+                        + " - 통합 판단 결과가 실제 월드에 적용되며 토큰이 소모됩니다.\n"
+                        + "  호출 상한 : " + (release
+                            ? "없음 (중계 서버에서 통제)"
+                            : $"{IntegratedLlmPilotSession.CurrentMaxCalls}회 (초과 요청은 Transport를 부르지 않고 RuleBased 전체 폴백)") + "\n"
+                        + $"  프롬프트 원문 기록 : {(pilotLogPrompts ? "켜짐" : "꺼짐")}\n"
+                        + $"  {IntegratedLlmPilotSession.Describe()}");
             }
 
             // NPC 등급 구분 없음 - 모든 NPC가 같은 판단/이동 시스템을 탄다.
@@ -344,11 +348,13 @@ namespace Belief.Core
             // 이 구역이 내려가면 파일럿도 끝난다 - 다음 씬(Zone2 등)에서 남은 예산이 되살아나
             // 허용되지 않은 스테이지의 판단이 Transport를 부르는 일이 없도록 여기서 닫는다.
             //
-            // 전 구역 연속 플레이는 예외다. 그 모드에서는 <b>다음 구역으로 이어지는 것이 목적</b>이라
-            // 여기서 닫으면 Zone2부터 전부 규칙 기반이 된다. 대신 예산이 구역마다 새로 채워지고,
-            // Play가 끝나면 러너가 세션과 토큰을 확실히 닫는다.
+            // 두 모드는 예외다. 전 구역 연속 플레이와 출시 경로는 <b>다음 구역으로 이어지는 것이
+            // 목적</b>이라 여기서 닫으면 Zone2부터 전부 규칙 기반이 된다. 어느 쪽이든 다음 씬의
+            // Awake가 세션을 새로 열므로, 닫지 않아도 이전 구역의 예산이 새어 나가지는 않는다.
+            var mode = IntegratedLlmPilotSession.RunMode;
             if (JudgmentApplication != null
-                && IntegratedLlmPilotSession.RunMode != PilotRunMode.FullPlaythrough)
+                && mode != PilotRunMode.FullPlaythrough
+                && mode != PilotRunMode.Release)
                 IntegratedLlmPilotSession.End("SceneUnloaded");
         }
 

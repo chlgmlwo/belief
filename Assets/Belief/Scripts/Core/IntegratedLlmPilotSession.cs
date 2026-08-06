@@ -33,6 +33,16 @@ namespace Belief.Core
         /// GameInstaller가 같은 토큰을 다시 소비해야 하므로 <b>토큰이 소멸하지 않는다</b> -
         /// 대신 Play가 끝나면(Disarm) 반드시 사라진다. 예산은 <b>구역당</b> 다시 채워진다.</summary>
         FullPlaythrough,
+
+        /// <summary>
+        /// <b>출시 경로.</b> 씬의 thinkerMode가 IntegratedLlm이라 게임 자체가 통합 판단으로 도는
+        /// 경우다 - 위 두 모드가 "실험을 좁게 열어 둔다"면 이것은 "정상 플레이가 곧 통합 판단"이다.
+        ///
+        /// 그래서 파일럿용 안전벽 셋이 전부 풀린다 - 호출 상한 없음, 스테이지 제한 없음,
+        /// 출시 빌드에서도 동작. 비용은 게임 안이 아니라 <b>중계 서버에서</b> 통제한다(2026-08-06 결정).
+        /// 파일럿 도구로 여는 경로는 이 값을 쓰지 않으므로 실험용 안전벽은 그대로 남는다.
+        /// </summary>
+        Release,
     }
 
     public static class IntegratedLlmPilotSession
@@ -45,9 +55,15 @@ namespace Belief.Core
         /// 구역이 바뀌면 다시 이 값만큼 채워지므로, 한 구역이 폭주해도 다음 구역을 굶기지 않는다.</summary>
         public const int FullPlaythroughMaxCallsPerZone = 150;
 
-        /// <summary>지금 실행에 적용되는 실제 상한.</summary>
-        public static int CurrentMaxCalls =>
-            runMode == PilotRunMode.FullPlaythrough ? FullPlaythroughMaxCallsPerZone : MaxCalls;
+        /// <summary>지금 실행에 적용되는 실제 상한. Release(출시 경로)는 상한이 없다 -
+        /// 정상 플레이가 곧 통합 판단이므로 게임 안에서 판단 횟수를 깎으면 그만큼 NPC가
+        /// 규칙 기반으로 퇴화한다. 비용 통제는 중계 서버가 맡는다.</summary>
+        public static int CurrentMaxCalls => runMode switch
+        {
+            PilotRunMode.Release => int.MaxValue,
+            PilotRunMode.FullPlaythrough => FullPlaythroughMaxCallsPerZone,
+            _ => MaxCalls
+        };
 
         public static PilotRunMode RunMode => runMode;
 
@@ -241,9 +257,14 @@ namespace Belief.Core
         /// 걸어 주는 GameInstaller의 방어 경로. <b>정상 파일럿은 <see cref="TryConsumeOptIn"/>만
         /// 쓴다</b> - 이 메서드는 일회성 보장을 우회하므로 게임 진행 코드에서 부르지 않는다.
         /// </summary>
-        public static void BeginSession(string sessionId)
+        public static void BeginSession(string sessionId) => BeginSession(sessionId, PilotRunMode.SingleZone);
+
+        /// <summary><paramref name="mode"/>로 세션을 연다. 출시 경로(<see cref="PilotRunMode.Release"/>)는
+        /// 씬 값으로 IntegratedLlm이 켜졌을 때 GameInstaller가 이 오버로드로 시작한다.</summary>
+        public static void BeginSession(string sessionId, PilotRunMode mode)
         {
             activeSessionId = sessionId;
+            runMode = mode;
             callsUsed = 0;
             callsDenied = 0;
             endReason = null;
