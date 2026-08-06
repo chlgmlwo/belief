@@ -55,8 +55,15 @@ namespace Belief.EditorTools.Diagnostics
             public readonly string Npc, Label, Loc;
             public readonly float Cred, Trust;
             public readonly int Repeat;
-            public Row(string npc, string label, float cred, float trust, string loc, int repeat)
-            { Npc = npc; Label = label; Cred = cred; Trust = trust; Loc = loc; Repeat = repeat; }
+
+            /// <summary>값이 있으면 <b>고정된 한 장소</b>를 쓰면서 credibilityModifier만 이 값으로
+            /// 덮어쓴다 - 설명·민감유형·확산속도·밀집도·이름이 전부 그대로라 보정만 변수로 남는다.
+            /// null이면 보정에 맞는 실제 장소를 골라 쓴다(그 경우 다른 속성도 함께 달라진다).</summary>
+            public readonly LocationCredibilityModifier? Override;
+
+            public Row(string npc, string label, float cred, float trust, string loc, int repeat,
+                LocationCredibilityModifier? over = null)
+            { Npc = npc; Label = label; Cred = cred; Trust = trust; Loc = loc; Repeat = repeat; Override = over; }
         }
 
         [MenuItem("BELIEF/Diagnostics/신뢰도 입력 표적 검증 (실제 API)", priority = 141)]
@@ -97,6 +104,35 @@ namespace Belief.EditorTools.Diagnostics
             _ = RunAsync(rows);
         }
 
+        /// <summary>장소 보정만 분리해서 본다 - 같은 장소에서 credibilityModifier만 Low/High로
+        /// 덮어쓰고 나머지는 전부 고정한다. 앞선 검증이 보정별로 다른 장소를 써서 설명·민감유형·
+        /// 확산속도가 함께 바뀐 탓에 방향을 판정할 수 없었던 것을 바로잡는다.</summary>
+        public static void StartLocationIsolationHeadless()
+        {
+            if (!Application.isPlaying)
+            {
+                Debug.LogError("[장소 격리] Play Mode가 아닙니다 - 요청이 나가지 않으므로 중단합니다.");
+                return;
+            }
+            var rows = BuildLocationIsolationScenarios();
+            Debug.Log($"[장소 격리] 시작 - 시나리오 {rows.Count}건, 상한 {MaxCalls}회, 예상 약 ${CostOf(rows.Count):F4}");
+            _ = RunAsync(rows, "장소 보정 분리 검증");
+        }
+
+        /// <summary>NPC 2명 × Low/High 2조건 × 6회 = 24회. 대비가 가장 큰 두 값(-0.10 / +0.10)에
+        /// 표본을 몰아준다 - 동일 입력 반복이 절반가량 흔들리므로 조건당 6회는 있어야 방향이 보인다.</summary>
+        static List<Row> BuildLocationIsolationScenarios()
+        {
+            var rows = new List<Row>();
+            string[] npcs = { "npc_guard_captain", "npc_major_guild_master" };
+            var mods = new[] { LocationCredibilityModifier.Low, LocationCredibilityModifier.High };
+            for (int r = 1; r <= 6; r++)
+                foreach (var n in npcs)
+                    foreach (var m in mods)
+                        rows.Add(new Row(n, "보정만 " + m, 0.50f, 0.50f, null, r, m));
+            return rows;
+        }
+
         /// <summary>NPC 3명 × 신뢰도 4조합 × 2회 = 24, 장소 3종 × 2회 = 6. 합계 30회.</summary>
         static List<Row> BuildScenarios()
         {
@@ -123,7 +159,9 @@ namespace Belief.EditorTools.Diagnostics
             return rows;
         }
 
-        static async Task RunAsync(List<Row> rows)
+        static async Task RunAsync(List<Row> rows) => await RunAsync(rows, "신뢰도 입력 표적 검증");
+
+        static async Task RunAsync(List<Row> rows, string title)
         {
             var config = AssetDatabase.LoadAssetAtPath<LlmProviderConfig>(ProviderConfigPath);
             var tuning = FirstAsset<BeliefTuningData>();
@@ -158,9 +196,16 @@ namespace Belief.EditorTools.Diagnostics
             float origCred = card.information.baseCredibility;
             float origTrust = card.source.baseTrustModifier;
 
+            // 장소 격리 모드에서 보정을 덮어쓸 고정 장소 - 이 한 곳만 값을 바꿨다 되돌린다.
+            var fixedLoc = AllAssets<LocationData>().FirstOrDefault(l => l != null && l.locationId == "LOC_GUARD_POST")
+                           ?? AllAssets<LocationData>().FirstOrDefault(l => l != null);
+            var origLocMod = fixedLoc != null ? fixedLoc.credibilityModifier : LocationCredibilityModifier.Unspecified;
+
             var sb = new StringBuilder();
-            sb.AppendLine("# 신뢰도 입력 표적 검증");
+            sb.AppendLine("# " + title);
             sb.AppendLine($"- 카드 {card.cardId} / 원본 cred {origCred:0.00} · trust {origTrust:0.00}");
+            if (rows.Any(r => r.Override.HasValue))
+                sb.AppendLine($"- 고정 장소 {fixedLoc?.locationId} (원래 보정 {origLocMod}) — 보정만 덮어쓰고 나머지 속성은 전부 동일");
             sb.AppendLine();
             sb.AppendLine("| # | NPC | 조합 | 장소 | Belief | Action | Dest | primaryReason | profile | relation | 내용언급 | 출처언급 | 장소언급 | 폴백 |");
             sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|");
@@ -179,7 +224,15 @@ namespace Belief.EditorTools.Diagnostics
 
                     var npc = MakeNpc(row.Npc);
                     if (npc == null) { sb.AppendLine($"| {i} | {row.Npc} | - | - | (NPC 에셋 없음) |||||||||"); continue; }
-                    var where = MakeLocation(row.Loc);
+
+                    LocationState where;
+                    if (row.Override.HasValue)
+                    {
+                        if (fixedLoc == null) { sb.AppendLine($"| {i} | {row.Npc} | {row.Label} | - | (고정 장소 없음) |||||||||"); continue; }
+                        fixedLoc.credibilityModifier = row.Override.Value;   // 메모리 전용, finally에서 복원
+                        where = new LocationState(fixedLoc);
+                    }
+                    else where = MakeLocation(row.Loc);
                     if (where == null) { sb.AppendLine($"| {i} | {row.Npc} | {row.Label} | {row.Loc} | (장소 없음) |||||||||"); continue; }
 
                     var ctx = new NpcJudgmentContext(
@@ -214,16 +267,20 @@ namespace Belief.EditorTools.Diagnostics
             {
                 card.information.baseCredibility = origCred;
                 card.source.baseTrustModifier = origTrust;
+                if (fixedLoc != null) fixedLoc.credibilityModifier = origLocMod;
             }
 
             sb.AppendLine();
             sb.AppendLine($"- 호출 {budget.Used}회 / 상한 {MaxCalls} / 폴백 {fallbacks}건");
             sb.AppendLine($"- 실비 추정 약 ${CostOf(budget.Used):F4}");
             sb.AppendLine($"- 카드 수치 복원: cred {card.information.baseCredibility:0.00} · trust {card.source.baseTrustModifier:0.00}");
+            if (fixedLoc != null) sb.AppendLine($"- 장소 보정 복원: {fixedLoc.locationId} = {fixedLoc.credibilityModifier}");
 
-            Directory.CreateDirectory(Path.GetDirectoryName(OutPath));
-            File.WriteAllText(OutPath, sb.ToString());
-            Debug.Log($"[신뢰도 표적] 완료 - 호출 {budget.Used}회, 폴백 {fallbacks}건, 약 ${CostOf(budget.Used):F4}\n결과: {OutPath}");
+            string outPath = rows.Any(r => r.Override.HasValue)
+                ? "Library/BeliefLogs/credibility_location_isolation.md" : OutPath;
+            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
+            File.WriteAllText(outPath, sb.ToString());
+            Debug.Log($"[{title}] 완료 - 호출 {budget.Used}회, 폴백 {fallbacks}건, 약 ${CostOf(budget.Used):F4}\n결과: {outPath}");
         }
 
         // ── 헬퍼 ────────────────────────────────────────────────────────────────

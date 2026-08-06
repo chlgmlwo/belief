@@ -156,7 +156,7 @@ namespace Belief.Debugging
         public bool StaleRequestDiscarded;
         public string DestinationReservationType; // None / Stay / MoveTo
 
-        public string GroundsPrimaryReason;      // profile/relationship/belief/goal/source/situation
+        public string GroundsPrimaryReason;      // profile/relationship/belief/goal/source/situation/location
         public string GroundsProfileInfluence;   // 이 NPC의 5개 성향 태그 중 하나, 없으면 ""
         public string GroundsRelationshipInfluence; // 이번 문맥에 등장하는 관계 NPC의 npcId, 없으면 ""
 

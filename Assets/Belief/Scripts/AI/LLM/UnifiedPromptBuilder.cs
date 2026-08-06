@@ -60,6 +60,9 @@ namespace Belief.AI.LLM
             sb.AppendLine($"내용: {(info != null ? info.description : "알 수 없음")}");
             // 주장 자체의 그럴듯함(0~1). 출처 신뢰도와는 별개의 축이라 반드시 따로 제시한다 -
             // 재확산으로 넘어와도 카드 객체가 그대로 전달되므로 이 값에 감쇠가 붙지 않는다(원본 = 유효값).
+            // 정보 유형은 장소의 민감 정보 유형과 맞춰 보기 위한 값이다 - 이게 없으면 LLM이
+            // "이 자리가 이 주제에 민감한가"를 판정할 재료 자체가 없다.
+            if (info != null) sb.AppendLine($"정보 유형: {info.informationType}");
             sb.AppendLine(info != null
                 ? $"내용 신뢰도: {info.baseCredibility:0.00}  (0~1, 높을수록 주장 자체가 그럴듯함)"
                 : "내용 신뢰도: 알 수 없음");
@@ -71,6 +74,8 @@ namespace Belief.AI.LLM
             sb.AppendLine(ctx.Card.source != null
                 ? $"출처 신뢰도: {ctx.Card.source.baseTrustModifier:0.00}  (0~1, 높을수록 출처가 믿을 만함)"
                 : "출처 신뢰도: 알 수 없음");
+
+            AppendHearingPlace(sb, ctx);
 
             sb.AppendLine();
             sb.AppendLine("[관련 기억]");
@@ -186,9 +191,9 @@ namespace Belief.AI.LLM
             if (ctx.Where != null)
             {
                 sb.AppendLine($"- {ctx.Where.Data.locationId}: {ctx.Where.Data.displayName}");
-                // 신뢰도 보정은 "지금 이 주장을 듣고 있는 자리"에만 붙인다 - 이동 후보에까지 붙이면
-                // 아직 가지도 않은 장소의 보정을 이번 판단 근거로 쓰게 된다.
-                AppendLocationDetail(sb, ctx.Where.Data, ctx.Where, ctx.Npc, "    ", includeCredibility: true);
+                // 신뢰도 보정은 위의 [이 주장을 듣고 있는 자리]가 전담한다 - 여기에도 넣으면
+                // 같은 값이 프롬프트에 두 번 등장한다.
+                AppendLocationDetail(sb, ctx.Where.Data, ctx.Where, ctx.Npc, "    ");
             }
             else sb.AppendLine("- 알 수 없음");
 
@@ -232,6 +237,38 @@ namespace Belief.AI.LLM
             }
         }
 
+        /// <summary>
+        /// 이 주장을 <b>듣고 있는 자리</b>가 신빙성에 주는 영향만 따로 모은 섹션.
+        ///
+        /// 왜 독립 섹션인가: 같은 값을 [현재 위치] 안에 한 줄로 넣었을 때는 48회 실측에서 판단에
+        /// 전혀 반영되지 않았다(Low/High 평균이 소수점까지 동일). 출처는 [정보 출처]라는 독립
+        /// 섹션을 갖고 있어 primaryReason이 source로 쏠렸는데, 장소만 다른 속성들 사이에 묻혀
+        /// 있었던 것이 원인으로 보여 <b>같은 위상</b>으로 올린다.
+        ///
+        /// [현재 위치]는 이동 판단용으로 그대로 두고, 신뢰도 보정 줄만 이쪽으로 옮겨 중복을 없앤다.
+        /// </summary>
+        static void AppendHearingPlace(StringBuilder sb, NpcJudgmentContext ctx)
+        {
+            if (ctx.Where == null || ctx.Where.Data == null) return;
+            var d = ctx.Where.Data;
+
+            sb.AppendLine();
+            sb.AppendLine("[이 주장을 듣고 있는 자리]");
+            sb.AppendLine($"장소: {d.displayName}");
+            sb.AppendLine($"장소 신뢰도 보정: {d.credibilityModifier} ({CredibilityModifierMeaning(d.credibilityModifier)})");
+
+            // 민감 정보 유형은 "이 자리가 이 주제에 예민한가"를 뜻한다. 일치 여부를 미리 계산해
+            // 알려 주되, 그것이 믿음을 얼마나 움직여야 하는지는 정하지 않는다.
+            var info = ctx.Card != null ? ctx.Card.information : null;
+            string cardType = info != null ? info.informationType.ToString() : null;
+            string placeType = d.sensitiveInformationType.ToString();
+            bool matched = !string.IsNullOrEmpty(cardType)
+                           && cardType != "Unspecified" && placeType != "Unspecified"
+                           && cardType == placeType;
+            sb.AppendLine($"이 자리가 민감하게 다루는 주제: {placeType}"
+                          + (matched ? "  → 이번 주장의 유형과 일치한다" : "  → 이번 주장의 유형과는 다르다"));
+        }
+
         /// <summary>LocationCredibilityModifier의 실제 값(Unspecified/Low/Neutral/High/VeryHigh)을
         /// 사람이 읽는 한 줄 의미로 옮긴다. 여기 없는 값을 지어내지 않는다 - enum이 늘어나면
         /// default가 "별도 정보 없음"으로 안전하게 떨어진다.</summary>
@@ -256,6 +293,8 @@ namespace Belief.AI.LLM
             sb.AppendLine("정보의 내용 신뢰도와 출처 신뢰도는 서로 독립적인 단서이며, NPC의 성향·관계·기억·현재 장소와");
             sb.AppendLine("함께 종합적으로 판단하세요. 이 수치들은 판단 근거 중 하나일 뿐이며, 정해진 공식으로 계산하거나");
             sb.AppendLine("특정 값을 기준으로 믿음 단계를 기계적으로 정하지 마세요.");
+            sb.AppendLine("[이 주장을 듣고 있는 자리]도 같은 무게의 단서입니다 - 어디서 들었는지가 그 말을 얼마나");
+            sb.AppendLine("믿을 만하게 만드는지, 이 자리가 그 주제에 예민한 곳인지를 함께 따져 보세요.");
 
             sb.AppendLine();
             sb.AppendLine("action과 destinationId는 하나의 계획으로 함께 판단하세요.");
@@ -280,6 +319,7 @@ namespace Belief.AI.LLM
             sb.AppendLine($"primaryReason은 아래 정의에 따라 하나만 고르세요.");
             sb.AppendLine("  relationship : 특정 인물과의 관계, 또는 전달자·동석 인물과의 관계 때문에 판단이 달라진 경우");
             sb.AppendLine("  situation    : 인물 관계가 아니라 장소 상태·봉쇄·경계 태세 같은 비인격적 상황이 근거인 경우");
+            sb.AppendLine("  location     : 지금 있는 장소의 성격(장소 신뢰도 보정 등)이 이 주장을 얼마나 믿을지에 직접 영향을 준 경우");
             sb.AppendLine("  belief       : 이 주장에 대해 갖고 있던 기존 믿음 자체가 가장 직접적인 근거인 경우");
             sb.AppendLine("  profile      : 성향 태그와 기본 성격이 가장 직접적인 근거인 경우");
             sb.AppendLine("  goal         : 목표를 유지하거나 달성하는 것이 직접적인 근거인 경우");

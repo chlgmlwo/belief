@@ -121,11 +121,21 @@ namespace Belief.EditorTools.Diagnostics
             Check("D6 장소가 없어도 예외 없이 생성된다", !string.IsNullOrEmpty(noWhere));
             Check("D7 장소가 없으면 신뢰도 보정 줄이 없다", !noWhere.Contains("장소 신뢰도 보정:"));
 
-            // 이동 후보에는 붙이지 않는다 - 아직 가지 않은 장소의 보정을 이번 판단 근거로 쓰지 않게 한다.
+            // 프롬프트 전체에 정확히 한 번만 나와야 한다 - [이 주장을 듣고 있는 자리]로 옮긴 뒤
+            // [현재 위치]에도 남아 있으면 같은 값이 두 번 등장한다.
             string p2 = Build(cred: 0.50f, trust: 0.50f, modifier: LocationCredibilityModifier.High);
             int first = p2.IndexOf("장소 신뢰도 보정:", StringComparison.Ordinal);
             int last = p2.LastIndexOf("장소 신뢰도 보정:", StringComparison.Ordinal);
-            Check("D8 신뢰도 보정은 현재 위치에만 1회", first >= 0 && first == last);
+            Check("D8 신뢰도 보정이 프롬프트에 정확히 1회", first >= 0 && first == last);
+
+            // 독립 섹션으로 승격됐는지 - 출처와 같은 위상이어야 한다는 것이 이번 변경의 요지다.
+            Check("D9 듣고 있는 자리 섹션이 있다", p2.Contains("[이 주장을 듣고 있는 자리]"));
+            Check("D10 보정이 그 섹션 안에 있다",
+                IsAfter(p2, "[이 주장을 듣고 있는 자리]", "장소 신뢰도 보정:", "[관련 기억]"));
+            Check("D11 민감 주제 일치 여부를 알려준다",
+                p2.Contains("이 자리가 민감하게 다루는 주제:")
+                && (p2.Contains("유형과 일치한다") || p2.Contains("유형과는 다르다")));
+            Check("D12 카드 정보 유형이 실린다", p2.Contains("정보 유형:"));
         }
 
         // ── E. 회귀 ─────────────────────────────────────────────────────────────
@@ -136,13 +146,25 @@ namespace Belief.EditorTools.Diagnostics
 
             foreach (var section in new[]
                      { "[NPC]", "[성향 태그]", "[상황]", "[이번에 접한 주장]", "[정보 출처]",
-                       "[관련 기억]", "[선택 가능한 행동]", "[현재 위치]", "[이동 후보]",
-                       "[판단 원칙]", "[응답 형식]" })
+                       "[이 주장을 듣고 있는 자리]", "[관련 기억]", "[선택 가능한 행동]",
+                       "[현재 위치]", "[이동 후보]", "[판단 원칙]", "[응답 형식]" })
                 Check($"E 섹션 유지 {section}", p.Contains(section));
 
             Check("E1 NPC 성향 수치가 그대로 있다", p.Contains("신뢰경향:") && p.Contains("의심도:"));
             Check("E2 공식 계산을 지시하지 않는다",
                 p.Contains("정해진 공식으로 계산하거나") && !p.Contains("평균내"));
+
+            // primaryReason에 location을 추가한 뒤 - 프롬프트 정의와 검증기 허용값이 어긋나면
+            // LLM이 location을 골라도 InvalidPrimaryReason으로 전체 폴백된다.
+            // 이 파일은 System.Linq를 쓰지 않으므로 확장 메서드 대신 직접 순회한다.
+            Check("E3 프롬프트에 location 정의가 있다", p.Contains("location     :"));
+            Check("E4 검증기가 location을 허용한다", ReasonAllowed("location"));
+            bool allKept = true;
+            foreach (var r in new[] { "profile", "relationship", "belief", "goal", "source", "situation" })
+                if (!ReasonAllowed(r)) allKept = false;
+            Check("E5 기존 6개 카테고리가 그대로 있다", allKept);
+            Check("E6 situation 정의가 location과 구분된다",
+                p.Contains("경계 태세 같은 비인격적 상황") && p.Contains("장소의 성격"));
 
             // 프롬프트 증가량 - 토큰 비용에 직접 연결되므로 수치를 기록해 둔다.
             string before = BuildLegacyApproximation();
@@ -249,6 +271,14 @@ namespace Belief.EditorTools.Diagnostics
         }
 
         // ── 헬퍼 ────────────────────────────────────────────────────────────────
+
+        /// <summary>검증기의 primaryReason 허용 목록에 값이 있는지 - Linq 없이 직접 순회한다.</summary>
+        static bool ReasonAllowed(string reason)
+        {
+            foreach (var r in JudgmentGroundsValidator.PrimaryReasons)
+                if (r == reason) return true;
+            return false;
+        }
 
         static void Check(string label, bool ok)
         {

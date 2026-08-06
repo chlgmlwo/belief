@@ -48,8 +48,16 @@ namespace Belief.AI.LLM
     {
         public const string NoneToken = "none";
 
+        /// <summary>
+        /// primaryReason 허용값. <b>location은 2026-08-06에 추가</b>됐다 - 장소 신뢰도 보정을
+        /// 프롬프트에 넣었는데도 판단에 반영되지 않아 24회 실측으로 확인해 보니, 장소를 근거로
+        /// 삼아도 <b>반환할 카테고리가 없어서</b> source/belief로 흘러가고 있었다.
+        ///
+        /// situation과 구분된다 - situation은 봉쇄·경계 태세 같은 <b>그때그때의 상태</b>,
+        /// location은 그 장소가 원래 가진 <b>성격</b>(신뢰도 보정)이 근거인 경우다.
+        /// </summary>
         static readonly string[] AllowedPrimaryReasons =
-            { "profile", "relationship", "belief", "goal", "source", "situation" };
+            { "profile", "relationship", "belief", "goal", "source", "situation", "location" };
 
         public static IReadOnlyList<string> PrimaryReasons => AllowedPrimaryReasons;
 
