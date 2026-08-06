@@ -324,6 +324,11 @@ namespace Belief.Presentation.HUD
             resultScreenGo.SetActive(true);
             resultCanvasGroup.alpha = 0f;
 
+            // 리포트가 뜨는 순간 플레이용 입력 자리를 감춘다 - 여기서 할 수 있는 행동은 RETRY와
+            // 메인 화면뿐이다. RefreshBottomPanel은 이 시점에 다시 불리지 않으므로 직접 부른다.
+            SetDeliverAffordance(false, false);
+            SetBarInstruction("");
+
             if (resultLayout != null) resultLayout.Apply(won);
 
             if (resultPanelImg != null && skin != null)
@@ -393,6 +398,9 @@ namespace Belief.Presentation.HUD
             if (resultSecondaryButton != null) resultSecondaryButton.interactable = false;
             yield return FadeCanvasGroupRoutine(resultCanvasGroup, 1f, 0f, PopupFadeDuration);
             resultScreenGo.SetActive(false);
+            // 리포트가 닫혔으니 플레이용 입력 자리를 원래대로 되돌린다 - 감춘 주체가 여기라
+            // 되살리는 것도 여기서 해야 한다(재시작/다음 미션 어느 쪽이든 하단 패널이 다시 산다).
+            RefreshBottomPanel();
             onConfirm?.Invoke();
         }
 
@@ -1289,10 +1297,22 @@ namespace Belief.Presentation.HUD
         /// 같은 이유로 정한 규칙을 그대로 가져왔다).
         ///
         /// 지도 위 접선 지점을 쓰는 스테이지가 있으면(WorldPresenter.spawnContactPointInWorld) 그쪽을
-        /// 우선하고 이 버튼은 숨긴다 - 현재 4개 스테이지는 모두 HUD 버튼을 쓴다.</summary>
+        /// 우선하고 이 버튼은 숨긴다 - 현재 4개 스테이지는 모두 HUD 버튼을 쓴다.
+        ///
+        /// <b>단, 작전 결과 화면이 떠 있는 동안에는 아예 감춘다.</b> "항상 두되 누를 수만 없게" 규칙은
+        /// 플레이 중 진행 지점을 잃지 않게 하려는 것인데, 결과 리포트에서는 할 수 있는 행동이
+        /// RETRY/메인 화면뿐이라 진행 완료 버튼이 남아 있으면 아직 뭔가 더 할 수 있는 것처럼 읽힌다.</summary>
         void SetDeliverAffordance(bool visible, bool canDeliver)
         {
             var contact = worldPresenter != null ? worldPresenter.ContactPointView : null;
+
+            if (IsResultScreenOpen)
+            {
+                if (contact != null) contact.SetContactReady(false);
+                if (deliverButtonGo != null) deliverButtonGo.SetActive(false);
+                return;
+            }
+
             if (contact != null)
             {
                 contact.SetContactReady(visible && canDeliver);
@@ -1303,6 +1323,9 @@ namespace Belief.Presentation.HUD
             if (deliverButtonGo != null) deliverButtonGo.SetActive(true);
             if (deliverButton != null) deliverButton.interactable = visible && canDeliver;
         }
+
+        /// <summary>작전 결과 리포트가 화면을 차지하고 있는지 - 이때는 플레이용 입력 자리를 감춘다.</summary>
+        bool IsResultScreenOpen => resultScreenGo != null && resultScreenGo.activeSelf;
 
         void OnDeliverClicked()
         {
