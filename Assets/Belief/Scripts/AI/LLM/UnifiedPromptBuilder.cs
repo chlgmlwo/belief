@@ -288,7 +288,11 @@ namespace Belief.AI.LLM
             sb.AppendLine("이 인물의 입장에서 이번 주장을 해석하고, 믿음·목표·행동·이동·대사를 한 번에 정하세요.");
             sb.AppendLine("성향 태그는 기본 경향일 뿐 반드시 따라야 하는 규칙이 아닙니다. 관계, 정보 출처,");
             sb.AppendLine("지금 이 자리에 있는 인물과의 관계가 충분히 강하다면 평소와 다른 선택을 해도 됩니다.");
-            sb.AppendLine("다만 그렇게 했다면 위에 실제로 제시된 성향 태그나 관계 npcId를 근거로 반환해야 합니다.");
+            // 이전 문구는 "평소와 다른 선택을 했다면 근거를 반환하라"였다. 근거 반환이 일탈에만
+            // 붙는 의무처럼 읽혀서, 관계가 평소 성향과 같은 방향으로 작용한 경우(대부분이 그렇다)에는
+            // 관계를 근거로 올릴 이유가 없어졌다. 일탈 여부와 무관하게 "실제로 작용한 것"을 대게 한다.
+            sb.AppendLine("평소와 같은 선택을 했든 다른 선택을 했든, 위에 실제로 제시된 성향 태그나 관계 npcId 중");
+            sb.AppendLine("이번 판단에 실제로 작용한 것을 근거로 반환하세요.");
             sb.AppendLine("위에 제시되지 않은 인물, 관계, 기억, 과거 사건을 지어내지 마세요. 지어내면 응답 전체가 무효입니다.");
             sb.AppendLine("정보의 내용 신뢰도와 출처 신뢰도는 서로 독립적인 단서이며, NPC의 성향·관계·기억·현재 장소와");
             sb.AppendLine("함께 종합적으로 판단하세요. 이 수치들은 판단 근거 중 하나일 뿐이며, 정해진 공식으로 계산하거나");
@@ -316,8 +320,13 @@ namespace Belief.AI.LLM
             sb.AppendLine("action은 [선택 가능한 행동]의 id 중 하나, destinationId는 [이동 후보]의 locationId 중 하나이거나 \"stay\"여야 합니다.");
             sb.AppendLine($"interpretation은 {MaxInterpretationLength}자, goal은 {MaxGoalLength}자, dialogue는 {MaxDialogueLength}자 이내입니다.");
 
-            sb.AppendLine($"primaryReason은 아래 정의에 따라 하나만 고르세요.");
-            sb.AppendLine("  relationship : 특정 인물과의 관계, 또는 전달자·동석 인물과의 관계 때문에 판단이 달라진 경우");
+            sb.AppendLine("primaryReason은 아래 정의에 따라 하나만 고르세요.");
+            // relationship만 "판단이 달라진 경우"(반사실)를 요구하고 나머지 6개는 "근거인 경우"만
+            // 요구했다. 그래서 관계를 인식하고 relationshipInfluence로 보고하면서도 primaryReason은
+            // 다른 값으로 흘러갔다 - 관계를 강제로 만들어 준 표적검사 12건에서 relationshipInfluence는
+            // 12/12 채워졌는데 primaryReason=relationship은 1/12였다. 문턱을 나머지와 같은 높이로 맞춘다.
+            sb.AppendLine("  relationship : 특정 인물과의 관계(관계 유형·strength·관계 설명), 또는 전달자·동석");
+            sb.AppendLine("                 인물과의 관계가 직접적인 근거인 경우");
             sb.AppendLine("  situation    : 인물 관계가 아니라 장소 상태·봉쇄·경계 태세 같은 비인격적 상황이 근거인 경우");
             sb.AppendLine("  location     : 지금 있는 장소의 성격(장소 신뢰도 보정 등)이 이 주장을 얼마나 믿을지에 직접 영향을 준 경우");
             sb.AppendLine("  belief       : 이 주장에 대해 갖고 있던 기존 믿음 자체가 가장 직접적인 근거인 경우");
@@ -325,12 +334,32 @@ namespace Belief.AI.LLM
             sb.AppendLine("  goal         : 목표를 유지하거나 달성하는 것이 직접적인 근거인 경우");
             sb.AppendLine("  source       : 정보 출처의 신뢰도나 종류가 직접적인 근거인 경우");
 
+            // 이 분류 규칙은 구 PromptBuilder(섀도·이동 경로)에는 원래 있었는데 통합 프롬프트로
+            // 옮겨 오면서 빠졌다. 정의만 있고 규칙이 없으면 "관계 인물이 그 자리에 있다"는 사실이
+            // [관계]와 [상황] 양쪽에 나오므로 situation으로 부르는 것도 틀린 답이 아니게 된다.
+            // 판단 자체를 바꾸려는 것이 아니라 이미 내린 판단의 근거를 정확히 분류하기 위한 지시다.
+            //
+            // 관계 후보가 없을 때는 내보내지 않는다 - 그 경우 relationship은 애초에 반환이 금지돼
+            // 있어서(아래 "none이어야 합니다"), 규칙만 읽고 relationship을 고르면 검증기가
+            // RelationshipReasonWithoutTarget으로 거부하고 그 판단이 통째로 RuleBased 폴백이 된다.
+            // 규칙을 넣어 폴백을 만들어 내는 것은 목적과 정반대다.
+            var usable = JudgmentGroundsValidator.UsableRelationships(ctx.Npc, ctx.PresentNpcs, ctx.Propagator);
+            if (usable.Count > 0)
+            {
+                sb.AppendLine("분류 규칙:");
+                sb.AppendLine("  - relationshipInfluence를 none이 아닌 값으로 반환했고 그 관계가 믿음·행동·대사에 실제로");
+                sb.AppendLine("    영향을 줬다면, primaryReason은 relationship이어야 합니다.");
+                sb.AppendLine("  - 어떤 인물이 그 자리에 '있다'는 사실이 아니라 '그 인물과의 관계' 때문에 판단이 달라졌다면");
+                sb.AppendLine("    situation이 아니라 relationship으로 분류하세요.");
+                sb.AppendLine("  - 반대로 관계 인물을 그저 언급했을 뿐 선택에 영향을 주지 않았다면 relationship을 고르지 말고,");
+                sb.AppendLine("    relationshipInfluence도 none으로 두세요.");
+            }
+
             var tags = JudgmentGroundsValidator.ProfileTagsOf(ctx.Npc.Data);
             sb.AppendLine(tags.Count > 0
                 ? $"profileInfluence는 다음 중 하나이거나 none: {string.Join(" / ", tags)}"
                 : "profileInfluence는 none이어야 합니다.");
 
-            var usable = JudgmentGroundsValidator.UsableRelationships(ctx.Npc, ctx.PresentNpcs, ctx.Propagator);
             if (usable.Count > 0)
             {
                 var ids = new List<string>();
@@ -342,7 +371,10 @@ namespace Belief.AI.LLM
             sb.AppendLine("{\"interpretation\":\"<이 인물이 이번 주장을 어떻게 받아들였는지>\","
                         + "\"belief\":\"<위 5개 중 하나>\",\"goal\":\"<지금부터의 목표>\","
                         + "\"action\":\"<행동 id>\",\"destinationId\":\"<locationId 또는 stay>\","
-                        + "\"dialogue\":\"<짧은 대사>\",\"primaryReason\":\"<위 6개 중 하나>\","
+                        // 허용값은 JudgmentGroundsValidator.AllowedPrimaryReasons가 유일한 기준이다.
+                        // 개수를 손으로 적어 두면 값이 늘 때마다(2026-08-06 location 추가) 어긋나므로
+                        // 목록 길이에서 뽑아 쓴다.
+                        + $"\"dialogue\":\"<짧은 대사>\",\"primaryReason\":\"<위 {JudgmentGroundsValidator.PrimaryReasons.Count}개 중 하나>\","
                         + "\"profileInfluence\":\"<성향 태그 또는 none>\",\"relationshipInfluence\":\"<npcId 또는 none>\"}");
         }
     }
