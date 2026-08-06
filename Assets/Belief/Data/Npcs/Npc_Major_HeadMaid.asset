@@ -36,7 +36,7 @@ MonoBehaviour:
   sensitiveInfoTag: "#\uC18C\uBB38\uBBFC\uAC10"
   relationTendencyTag: "#\uC0C1\uBA85\uD558\uBCF5"
   trustJudgmentTag: "#\uAD00\uACC4\uC6B0\uC120"
-  trustBias: 0.62
+  trustBias: 0.8
   skepticism: 0.7
   characterPhoto: {fileID: 21300000, guid: c0be6a853763ef747ae8f754a78bbf8c, type: 3}
   walkFrames:
