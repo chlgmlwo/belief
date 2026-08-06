@@ -30,6 +30,10 @@ namespace Belief.Presentation.Mockup
 
         public HandCardMockupView MockupView => mockupView;
 
+        /// <summary>이 슬롯이 지금 보여주고 있는 카드 - 손패에서 빠진 카드가 어느 슬롯에 있었는지
+        /// 찾아 소멸 연출을 재생하려고 브리지가 읽는다.</summary>
+        public InformationCardData BoundCard => lastBoundCard;
+
         void Awake()
         {
             mockupView = GetComponent<HandCardMockupView>();

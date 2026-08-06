@@ -1130,6 +1130,11 @@ namespace Belief.Presentation.HUD
                     if (layoutElement == null) layoutElement = tile.gameObject.AddComponent<LayoutElement>();
                     layoutElement.ignoreLayout = true;
 
+                    // 소멸 연출(0.2초) 동안 이 타일은 컨테이너에 그대로 남는다. 그 사이 살아 있는
+                    // 카드들이 앞쪽 sibling으로 밀려 이 타일이 마지막 자리로 오는데, 화면의 손패를
+                    // 인덱스로 물려 주는 HandCardHudBridge가 그걸 집으면 아직 SelectedCard인 카드가
+                    // 맨 오른쪽 슬롯에 붙어 혼자 솟았다 내려앉는다. 상태를 남겨 걸러지게 한다.
+                    tile.SetHandState(CardHandState.Removed);
                     tile.PlayDisappear(() => Destroy(tile.gameObject));
                 }
             }

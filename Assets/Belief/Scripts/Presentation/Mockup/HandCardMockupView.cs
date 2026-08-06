@@ -29,11 +29,17 @@ namespace Belief.Presentation.Mockup
         /// 조명을 받은 것처럼 살짝 물들인다.</summary>
         static readonly Color HoverTint = new Color(1f, 0.95f, 0.82f);
 
+        /// <summary>이번 턴에 쓴 카드가 아래로 빠지는 연출. 카드 높이(230)보다 넉넉히 내려야
+        /// 화면 밖으로 완전히 사라진다.</summary>
+        public const float ConsumeDuration = 0.32f;
+        const float ConsumeDropDistance = 300f;
+
         float animationDuration = 0.25f;
         float selectedScale = 1f;
         int collapsedSiblingIndex;
         bool hovered;
         Image background;
+        CanvasGroup canvasGroup;
 
         Coroutine moveRoutine;
 
@@ -91,6 +97,71 @@ namespace Belief.Presentation.Mockup
             selectedScale = scale;
         }
 
+        /// <summary>이번 턴에 사용된 카드가 아래로 미끄러져 사라지는 연출. 끝나면 이 자리는 다음
+        /// 카드가 그대로 물려받으므로 위치/투명도/선택 상태를 전부 처음으로 되돌려 둔다.
+        ///
+        /// 호출자(HandCardHudBridge)는 이 연출이 끝날 때까지 손패 재배치를 미뤄야 한다 - 미루지
+        /// 않으면 떨어지는 카드가 이미 다음 카드의 내용으로 바뀌어 엉뚱한 카드가 떨어진다.</summary>
+        /// <summary>소멸 연출이 도는 동안 참. 이 사이에 들어오는 선택/해제 트윈은 무시한다 -
+        /// 무시하지 않으면 같은 프레임에 이어지는 CollapseSelectedVisual이 moveRoutine을 덮어써
+        /// 낙하가 시작하자마자 취소된다(실제로 그래서 연출이 아예 안 보였다).</summary>
+        bool consuming;
+
+        public void PlayConsumed()
+        {
+            if (!isActiveAndEnabled) return;
+            if (moveRoutine != null) StopCoroutine(moveRoutine);
+            consuming = true;
+            moveRoutine = StartCoroutine(ConsumeRoutine());
+        }
+
+        IEnumerator ConsumeRoutine()
+        {
+            EnsureCanvasGroup();
+            cardRoot.SetAsLastSibling();   // 떨어지는 동안 옆 카드에 가리지 않게
+
+            Vector2 from = cardRoot.anchoredPosition;
+            Vector2 to = CollapsedPosition + new Vector2(0f, -ConsumeDropDistance);
+            float startScale = cardRoot.localScale.x;
+
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.unscaledDeltaTime / ConsumeDuration;
+                float e = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t));
+                cardRoot.anchoredPosition = Vector2.Lerp(from, to, e);
+                cardRoot.localScale = Vector3.one * Mathf.Lerp(startScale, 1f, e);
+                canvasGroup.alpha = 1f - e;
+                yield return null;
+            }
+
+            IsSelected = false;
+            hovered = false;
+            cardRoot.anchoredPosition = CollapsedPosition;
+            cardRoot.localScale = Vector3.one;
+            cardRoot.SetSiblingIndex(collapsedSiblingIndex);
+            if (background != null) background.color = Color.white;
+            canvasGroup.alpha = 1f;
+            moveRoutine = null;
+            consuming = false;
+        }
+
+        /// <summary>손패가 4장보다 적을 때 남는 빈 슬롯을 감춘다 - 감추지 않으면 직전 카드의
+        /// 내용이 그대로 남아 "쓴 카드가 아직 있다"처럼 보인다.</summary>
+        public void SetEmpty(bool empty)
+        {
+            EnsureCanvasGroup();
+            canvasGroup.alpha = empty ? 0f : 1f;
+            canvasGroup.blocksRaycasts = !empty;
+        }
+
+        void EnsureCanvasGroup()
+        {
+            if (canvasGroup != null) return;
+            canvasGroup = cardRoot.GetComponent<CanvasGroup>();
+            if (canvasGroup == null) canvasGroup = cardRoot.gameObject.AddComponent<CanvasGroup>();
+        }
+
         public void SetSelected(bool selected)
         {
             if (IsSelected == selected) return;
@@ -112,6 +183,9 @@ namespace Belief.Presentation.Mockup
         /// 바뀌든 항상 이 하나의 트윈만 돌리고, 목표는 그때그때 다시 계산한다.</summary>
         void StartStateTween(float duration)
         {
+            // 사라지는 중인 카드는 선택/호버 상태를 더 이상 따르지 않는다 - 낙하가 최우선이다.
+            if (consuming) return;
+
             // 카드는 460px 폭에 간격 0으로 맞닿아 있어 조금만 커져도 옆 카드에 가린다 - 올라오거나
             // 선택된 동안에는 앞으로 끌어온다.
             if (IsSelected || hovered) cardRoot.SetAsLastSibling();
