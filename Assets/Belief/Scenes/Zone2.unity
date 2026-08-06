@@ -158,9 +158,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1003480518}
     m_Modifications:
+    - target: {fileID: 126335812086560585, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 3289341f9f493d44c876afce0382f56b, type: 2}
+    - target: {fileID: 126335812086560585, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 126335812086560585, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4682580491269844099, guid: 3289341f9f493d44c876afce0382f56b, type: 2}
     - target: {fileID: 1396211423192719407, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_Name
       value: HudCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817586941716634679, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontSize
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817586941716634679, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817586941716634679, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015110310041802440, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 3289341f9f493d44c876afce0382f56b, type: 2}
+    - target: {fileID: 3015110310041802440, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015110310041802440, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4682580491269844099, guid: 3289341f9f493d44c876afce0382f56b, type: 2}
+    - target: {fileID: 3443419488516282307, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontSize
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443419488516282307, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443419488516282307, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3777498168656231679, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_Pivot.x
@@ -241,6 +289,10 @@ PrefabInstance:
     - target: {fileID: 3777498168656231679, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605599162515549927, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 36
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
