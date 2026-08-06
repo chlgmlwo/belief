@@ -6421,8 +6421,8 @@ MonoBehaviour:
     hideOnSuccess: 0
     hideOnFailure: 0
   - target: {fileID: 1481389555200391733}
-    successPos: {x: 240, y: -285}
-    failurePos: {x: 586, y: 60}
+    successPos: {x: 240, y: -223}
+    failurePos: {x: 623.5, y: 133}
     hideOnSuccess: 0
     hideOnFailure: 0
   - target: {fileID: 3058663104341096564}

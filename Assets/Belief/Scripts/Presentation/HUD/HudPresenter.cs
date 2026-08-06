@@ -604,9 +604,11 @@ namespace Belief.Presentation.HUD
         {
             // 표기만 일수로 바꾼다 - CurrentTurn/StageTurn 계산과 의미는 그대로다.
             // 제한 기간은 아래 남은 기간 UI가 따로 보여주므로 여기서 "/N"을 중복 표시하지 않는다.
+            // "DAY" 라벨은 턴 카드 아트(턴UI_수정본.png)에 인쇄돼 있으므로 여기서는 숫자만 넣는다 -
+            // 둘 다 쓰면 카드에 "DAY"와 "DAY 1"이 겹쳐 보인다.
             var turns = installer.Turns;
             int missionShown = Mathf.Min(turns.CurrentTurn, turns.MaxTurns);
-            missionTurnText.text = $"DAY {missionShown}";
+            missionTurnText.text = missionShown.ToString();
 
             // 미션 일차(DAY N)와 축이 다르다 - 미션이 바뀌어도 StageTurn은 리셋되지 않으므로
             // "경과 N일"로 누적임을 문구에 드러내 DAY 1과 나란히 놓여도 모순으로 읽히지 않게 한다.
