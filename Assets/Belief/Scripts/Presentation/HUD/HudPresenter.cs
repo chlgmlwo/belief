@@ -336,7 +336,7 @@ namespace Belief.Presentation.HUD
             if (resultDescText != null)
                 resultDescText.text = won
                     ? (mission != null ? mission.objectiveText : "")
-                    : "제한 턴 안에 목표를 달성하지 못했다.";
+                    : "제한 기간 안에 목표를 달성하지 못했다.";
             if (resultMissionNoText != null)
                 resultMissionNoText.text = $"NO. {MissionNumber(stage, mission):000}";
 
@@ -351,6 +351,12 @@ namespace Belief.Presentation.HUD
 
             if (resultTurnsText != null)
                 resultTurnsText.text = Mathf.Min(installer.Turns.CurrentTurn, installer.Turns.MaxTurns).ToString();
+
+            // 결과 리포트가 뜨는 동안에는 뒤에 남은 기간이 남아 있으면 안 된다 - 마지막 날 행동 후
+            // 실패하는 구조라 표시가 "남은 기간 1일"에서 얼어붙고, 리포트의 "제한 기간 초과"와
+            // 나란히 보이면 서로 모순처럼 읽힌다. RefreshMission은 이 시점에 다시 호출되지 않으므로
+            // 여기서 직접 지운다(재시작·다음 미션은 RefreshMission을 다시 타 정상 값으로 돌아온다).
+            if (missionTurnsText != null) missionTurnsText.text = "";
 
             resultPrimaryButton.interactable = true;
             resultPrimaryButton.onClick.RemoveAllListeners();
@@ -596,12 +602,16 @@ namespace Belief.Presentation.HUD
 
         void RefreshHeader()
         {
+            // 표기만 일수로 바꾼다 - CurrentTurn/StageTurn 계산과 의미는 그대로다.
+            // 제한 기간은 아래 남은 기간 UI가 따로 보여주므로 여기서 "/N"을 중복 표시하지 않는다.
             var turns = installer.Turns;
             int missionShown = Mathf.Min(turns.CurrentTurn, turns.MaxTurns);
-            missionTurnText.text = $"{missionShown} /{turns.MaxTurns}";
+            missionTurnText.text = $"DAY {missionShown}";
 
+            // 미션 일차(DAY N)와 축이 다르다 - 미션이 바뀌어도 StageTurn은 리셋되지 않으므로
+            // "경과 N일"로 누적임을 문구에 드러내 DAY 1과 나란히 놓여도 모순으로 읽히지 않게 한다.
             int stageShown = Mathf.Min(turns.StageTurn, turns.StageMaxTurns);
-            stageTurnText.text = $"스테이지 진행 {stageShown}/{turns.StageMaxTurns}";
+            stageTurnText.text = $"구역 경과 {stageShown}일 / {turns.StageMaxTurns}일";
 
             if (stageNumberText != null) stageNumberText.text = installer.StageAsset != null ? $"STAGE {installer.StageAsset.stageNumber}" : "";
             if (stageNameText != null) stageNameText.text = installer.StageAsset != null ? installer.StageAsset.stageName : "";
@@ -676,8 +686,11 @@ namespace Belief.Presentation.HUD
                 }
             }
 
+            // 표기만 일수로 바꾼다 - inclusive 계산(마지막 날에 1일)은 그대로다.
+            // 제한 기간 초과로 결과 리포트가 뜰 때 이 값을 지우는 것은 ShowResultScreen이 담당한다
+            // (그 시점엔 이 메서드가 다시 호출되지 않아 여기서 처리할 수 없다).
             int remaining = Mathf.Max(0, installer.Turns.MaxTurns - installer.Turns.CurrentTurn + 1);
-            missionTurnsText.text = $"남은 턴: {remaining}";
+            missionTurnsText.text = $"남은 기간 {remaining}일";
 
             nextMissionText.text = string.IsNullOrEmpty(objective.nextMissionTitle)
                 ? ""

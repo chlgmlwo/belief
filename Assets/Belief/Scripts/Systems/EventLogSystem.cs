@@ -45,9 +45,10 @@ namespace Belief.Systems
         /// <summary>턴 구분선 - 예전엔 `===== 턴 1 시작 =====`처럼 일반 로그와 완전히 같은 크기·색으로
         /// 나와서 수사 파일 톤과 어울리지 않고 시각적 위계도 없었다(2026-08-05 사용자 지적).
         /// TMP 리치 텍스트로 한 단계 작고 흐리게 눌러 배경 구분선처럼 보이게 한다.
-        /// 턴 종료 로그는 바로 다음 줄의 "턴 N+1" 시작 구분선과 의미가 겹쳐 지웠다.</summary>
+        /// 턴 종료 로그는 바로 다음 줄의 "DAY N+1" 시작 구분선과 의미가 겹쳐 지웠다.
+        /// 제한 기간은 HUD의 남은 기간이 이미 보여주므로 구분선에는 현재 일차만 남긴다.</summary>
         void OnTurnStarted(TurnStartedEvent e) =>
-            Log($"<size=85%><color=#8A857EFF>――  턴 {e.Turn} / {e.MaxTurns}  ――</color></size>");
+            Log($"<size=85%><color=#8A857EFF>――  DAY {e.Turn}  ――</color></size>");
 
         void OnTurnEnded(TurnEndedEvent e) { }
 
@@ -102,7 +103,7 @@ namespace Belief.Systems
 
         void OnMissionCompleted(MissionCompletedEvent e) => Log("임무 성공!");
 
-        void OnGameOver(GameOverEvent e) => Log(e.Won ? "게임 종료 - 승리" : "게임 종료 - 턴 소진");
+        void OnGameOver(GameOverEvent e) => Log(e.Won ? "게임 종료 - 승리" : "게임 종료 - 제한 기간 초과");
 
         /// <summary>
         /// 로그 한 줄을 남기고 구독자(Presentation)에게 알린다.
