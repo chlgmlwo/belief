@@ -32,6 +32,15 @@ namespace Belief.Presentation.World
         /// <summary>말풍선 프리팹 수치(글자 크기/폭/머리 위 간격)를 맞춰 둔 기준 카메라 크기 - Zone1 기준.
         /// 다른 줌의 스테이지에서는 FitDialogueToCamera가 이 값과의 비율만큼 되곱해 보정한다.</summary>
         const float DialogueReferenceOrthoSize = 5f;
+
+        /// <summary>말풍선을 화면 가장자리에서 이만큼 띄운다. HUD는 ScreenSpaceOverlay 캔버스라
+        /// 정렬 순서로는 월드 오브젝트를 그 위로 올릴 수 없다(Overlay는 order와 무관하게 항상 위에
+        /// 그려진다) - 그래서 "앞으로 당기기"가 아니라 "가장자리에 들어가지 않게 막기"로 푼다.</summary>
+        const float DialogueScreenMargin = 24f;
+
+        /// <summary>프리팹이 정한 머리 위 위치 - 화면 밖으로 넘칠 때만 여기서 내리고, 다음 대사에서
+        /// 다시 이 값으로 되돌린다.</summary>
+        Vector3 dialogueBaseLocalPosition;
         const float HighlightDuration = 0.3f;
         const float SelectionTweenDuration = 0.18f;
         /// <summary>커서를 따라다니는 반응이라 선택 연출보다 짧아야 손이 끌리는 느낌이 안 난다.</summary>
@@ -128,7 +137,11 @@ namespace Belief.Presentation.World
                 bodyBaseLocalPosition = body.transform.localPosition;
             }
             if (body != null && data.characterPhoto != null) body.sprite = data.characterPhoto;
-            if (dialogueRoot != null) dialogueRoot.SetActive(false);
+            if (dialogueRoot != null)
+            {
+                dialogueBaseLocalPosition = dialogueRoot.transform.localPosition;
+                dialogueRoot.SetActive(false);
+            }
             if (pin != null) pinBaseScale = pin.transform.localScale;
             // WorldPresenter가 Bind 직전에 루트 스케일을 정해 주므로 여기서 잡으면 그 값이 기준이 된다 -
             // 호버 확대는 이 기준에 곱했다가 되돌리는 방식이라 캐릭터별 크기 보정을 건드리지 않는다.
@@ -430,7 +443,10 @@ namespace Belief.Presentation.World
             StopAndUnregister(dialogueRoutine, dialoguePlayback);
             dialogueLabel.text = text;
             FitDialogueToCamera();
+            // 지난 대사에서 내렸던 만큼을 먼저 되돌린 뒤 이번 위치를 다시 잰다.
+            dialogueRoot.transform.localPosition = dialogueBaseLocalPosition;
             dialogueRoot.SetActive(true);
+            ClampDialogueToScreen();
             dialogueSkipRequested = false;
             dialogueRoutine = StartCoroutine(DialogueRoutine());
         }
@@ -449,6 +465,31 @@ namespace Belief.Presentation.World
             float parentScale = Mathf.Abs(transform.lossyScale.y);
             if (parentScale < 0.0001f) parentScale = 1f;
             dialogueRoot.transform.localScale = Vector3.one * (zoom / parentScale);
+        }
+
+        /// <summary>말풍선이 화면 위로 잘리지 않게 넘치는 만큼만 아래로 내린다.
+        ///
+        /// 지도 위쪽에 서 있는 NPC는 머리 위 말풍선이 화면 밖으로 나간다 - 대도시에서 17명 중
+        /// 2명(경비대장·하급 경비병)이 위쪽 20px가량 잘려 있었다. 카메라 줌이 큰 스테이지일수록
+        /// 말풍선을 그만큼 키워 보정하므로(FitDialogueToCamera) 더 쉽게 넘친다.
+        ///
+        /// 화면 안이면 아무것도 하지 않는다 - 평소 위치를 바꾸지 않기 위해서다.</summary>
+        void ClampDialogueToScreen()
+        {
+            var cam = Camera.main;
+            if (cam == null || dialogueBackground == null || !cam.orthographic) return;
+
+            float top = cam.WorldToScreenPoint(new Vector3(0f, dialogueBackground.bounds.max.y, 0f)).y;
+            float limit = Screen.height - DialogueScreenMargin;
+            if (top <= limit) return;
+
+            float worldPerPixel = cam.orthographicSize * 2f / Screen.height;
+            float parentScale = Mathf.Abs(transform.lossyScale.y);
+            if (parentScale < 0.0001f) parentScale = 1f;
+
+            var p = dialogueRoot.transform.localPosition;
+            p.y -= (top - limit) * worldPerPixel / parentScale;
+            dialogueRoot.transform.localPosition = p;
         }
 
         /// <summary>동시에 대사는 최대 1개만 표시한다는 규칙을 지키기 위해 WorldPresenter가 새 대사를
