@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Belief.Data
@@ -31,22 +32,40 @@ namespace Belief.Data
         /// <summary>성공 조건 집계 - clearMode에 따라 Any(하나 이상 충족) 또는 All(전부 충족)일 때만
         /// SuccessTarget을 반환한다. MissionSystem/ProgressionController가 이 메서드 하나만 호출하도록 해
         /// 집계 규칙이 두 곳에서 따로 구현되며 갈라지는 것을 막는다.</summary>
-        public int GetSuccessProgress(MissionEvaluationContext context)
+        public int GetSuccessProgress(MissionEvaluationContext context) => GetSuccessProgress(context, null);
+
+        /// <summary>
+        /// <paramref name="accept"/>는 "현재 만족한 조건을 완료 집계에 넣어도 되는가"를 되묻는 선택적
+        /// 필터다(null이면 지금까지와 완전히 동일하게 동작한다). MissionFreshnessEvaluator가 이 자리에
+        /// 들어와 "이전 미션에서 이미 만족 중이던 조건"을 걸러낸다.
+        ///
+        /// 필터를 미션 단위가 아니라 <b>조건 단위</b>로 거는 것이 중요하다 - clearMode=Any에서는
+        /// "조건 A는 시작부터 만족이라 무효, 조건 B는 이번 미션에서 새로 성립"이면 성공이어야 하는데,
+        /// 미션 단위로 묶으면 그 경우를 통째로 막아 버린다.
+        /// </summary>
+        public int GetSuccessProgress(MissionEvaluationContext context, Func<MissionConditionData, bool> accept)
         {
             if (successConditions == null || successConditions.Length == 0) return 0;
 
             if (clearMode == MissionClearMode.Any)
             {
                 foreach (var c in successConditions)
-                    if (c != null && c.GetCurrentProgress(context) >= c.TargetCount)
+                    if (Counts(c, context, accept))
                         return SuccessTarget;
                 return 0;
             }
 
             foreach (var c in successConditions)
-                if (c == null || c.GetCurrentProgress(context) < c.TargetCount)
+                if (!Counts(c, context, accept))
                     return 0;
             return SuccessTarget;
+        }
+
+        static bool Counts(MissionConditionData c, MissionEvaluationContext context, Func<MissionConditionData, bool> accept)
+        {
+            if (c == null) return false;
+            if (c.GetCurrentProgress(context) < c.TargetCount) return false;
+            return accept == null || accept(c);
         }
 
         public int SuccessTarget => 1;

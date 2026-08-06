@@ -200,8 +200,13 @@ namespace Belief.Core
             // 미션의 조건은 다시 계산하지 않는다 - 이후 NPC 이동/상태 변화로 그 조건이 다시 거짓이
             // 되어도 완료 기록은 영구히 유지된다("완료 미션 재평가 문제" 수정). 아직 현재 목표가 아닌
             // 미래 미션도 여기서 평가하지 않는다 - 조건이 우연히 먼저 참이 되어도 자동 완료되지 않는다.
+            // MissionSystem.EvaluateSuccessProgress를 거친다 - 조건 판정 자체는 그대로지만,
+            // "이전 미션에서 이미 만족 중이던 조건"은 이번 미션의 성과로 인정하지 않는 필터가
+            // 그 안에 들어 있다. HUD 진행도(MissionSystem.Evaluate)와 최종 확정이 같은 함수를 써야
+            // 둘이 갈라지지 않는다.
             MissionData newlyCompleted = null;
-            if (current != null && current.GetSuccessProgress(context) >= current.SuccessTarget)
+            if (current != null
+                && currentInstaller.Mission.EvaluateSuccessProgress(current, context) >= current.SuccessTarget)
             {
                 // HashSet.Add는 새로 추가됐을 때만 true를 반환한다 - 완료 판정이 한 번만 발생하도록 보장.
                 if (!string.IsNullOrEmpty(current.missionId) && Progress.CompletedMissionIds.Add(current.missionId))

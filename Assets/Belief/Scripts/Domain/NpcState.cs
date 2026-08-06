@@ -33,7 +33,30 @@ namespace Belief.Domain
     public class NpcState
     {
         public NpcData Data { get; }
-        public LocationData CurrentLocation { get; set; }
+
+        LocationData currentLocation;
+
+        /// <summary>쓰기 경로가 여러 곳(NpcMovementService, GameInstaller 초기 배치, 스냅샷 복원)이라
+        /// 스탬프를 호출처에서 찍게 하면 반드시 하나를 빠뜨린다 - setter 안에서 찍어 구조적으로 막는다.
+        /// 같은 값을 다시 넣는 것은 이동이 아니므로 스탬프를 올리지 않는다.</summary>
+        public LocationData CurrentLocation
+        {
+            get => currentLocation;
+            set
+            {
+                if (currentLocation == value) return;
+                currentLocation = value;
+                LocationChangeStamp = WorldChangeClock.Next();
+            }
+        }
+
+        /// <summary>이 NPC가 마지막으로 실제 이동한 시점의 WorldChangeClock 값. 0이면 초기 배치 이후
+        /// 한 번도 움직이지 않았다는 뜻이다.</summary>
+        public long LocationChangeStamp { get; private set; }
+
+        /// <summary>이 NPC가 어떤 카드에 대해서든 마지막으로 판단을 기록한 시점의 스탬프.
+        /// NpcAnyBeliefReachedCondition처럼 카드를 특정하지 않는 조건이 읽는다.</summary>
+        public long LatestBeliefStamp { get; private set; }
 
         /// <summary>NPC의 목표. NpcData.InitialGoal(Frozen AI Profile, 고정 데이터)에서 초기화된다 -
         /// 목표가 없는 NPC 유형은 항상 null. 쓰기는 SetGoal을 통해서만 이루어지며, 이를 호출하는 곳은
@@ -75,6 +98,10 @@ namespace Belief.Domain
         }
 
         readonly Dictionary<InformationCardData, BeliefState> beliefs = new Dictionary<InformationCardData, BeliefState>();
+
+        /// <summary>카드별로 마지막 판단이 기록된 시점의 스탬프. 값이 그대로여도 "다시 판단했다"는
+        /// 사실 자체가 새 진척이므로, Belief가 바뀌었는지와 무관하게 SetBelief마다 갱신한다.</summary>
+        readonly Dictionary<InformationCardData, long> beliefStamps = new Dictionary<InformationCardData, long>();
         readonly List<MemoryEntry> longMemory = new List<MemoryEntry>();
         readonly List<ReceivedInformationEntry> receivedInformation = new List<ReceivedInformationEntry>();
 
@@ -104,7 +131,18 @@ namespace Belief.Domain
         public BeliefState GetBelief(InformationCardData card) =>
             beliefs.TryGetValue(card, out var state) ? state : BeliefState.Unknown;
 
-        public void SetBelief(InformationCardData card, BeliefState state) => beliefs[card] = state;
+        public void SetBelief(InformationCardData card, BeliefState state)
+        {
+            beliefs[card] = state;
+
+            long stamp = WorldChangeClock.Next();
+            if (card != null) beliefStamps[card] = stamp;
+            LatestBeliefStamp = stamp;
+        }
+
+        /// <summary>이 카드에 대해 마지막으로 판단이 기록된 시점의 스탬프. 판단한 적이 없으면 0.</summary>
+        public long GetBeliefStamp(InformationCardData card) =>
+            card != null && beliefStamps.TryGetValue(card, out var stamp) ? stamp : 0L;
 
         /// <summary>
         /// 현재 Plausible/Trusted로 믿는 카드 개수 - 정보가 실제로 이 NPC를 움직이는 지렛대가 되도록
@@ -143,9 +181,17 @@ namespace Belief.Domain
             public readonly List<MemoryEntry> LongMemory;
             public readonly List<ReceivedInformationEntry> ReceivedInformation;
 
+            /// <summary>스탬프도 함께 되돌려야 한다 - 복원 후 상태는 미션 시작 시점과 같으므로,
+            /// 실패한 시도가 남긴 높은 스탬프가 그대로 남으면 그 시도의 변화가 새 시도에서
+            /// "미션 시작 이후의 새 진척"으로 잘못 인정된다.</summary>
+            public readonly long LocationChangeStamp;
+            public readonly long LatestBeliefStamp;
+            public readonly Dictionary<InformationCardData, long> BeliefStamps;
+
             public NpcStateSnapshot(LocationData location, string goal, string behaviorModifier, NpcActionData action,
                 Dictionary<InformationCardData, BeliefState> beliefs, List<MemoryEntry> longMemory,
-                List<ReceivedInformationEntry> receivedInformation)
+                List<ReceivedInformationEntry> receivedInformation,
+                long locationChangeStamp, long latestBeliefStamp, Dictionary<InformationCardData, long> beliefStamps)
             {
                 Location = location;
                 Goal = goal;
@@ -154,11 +200,15 @@ namespace Belief.Domain
                 Beliefs = new Dictionary<InformationCardData, BeliefState>(beliefs);
                 LongMemory = new List<MemoryEntry>(longMemory);
                 ReceivedInformation = new List<ReceivedInformationEntry>(receivedInformation);
+                LocationChangeStamp = locationChangeStamp;
+                LatestBeliefStamp = latestBeliefStamp;
+                BeliefStamps = new Dictionary<InformationCardData, long>(beliefStamps);
             }
         }
 
         public NpcStateSnapshot CaptureSnapshot() =>
-            new NpcStateSnapshot(CurrentLocation, CurrentGoal, CurrentBehaviorModifier, CurrentAction, beliefs, longMemory, receivedInformation);
+            new NpcStateSnapshot(CurrentLocation, CurrentGoal, CurrentBehaviorModifier, CurrentAction,
+                beliefs, longMemory, receivedInformation, LocationChangeStamp, LatestBeliefStamp, beliefStamps);
 
         /// <summary>스냅샷 시점의 가변 상태로 되돌린다. CurrentLocation만 되돌리고 LocationState.PresentNpcs는
         /// 건드리지 않는다 - 여러 NPC를 한꺼번에 복원할 때 호출자(TurnSystem)가 전체 NPC의 위치가 확정된
@@ -182,6 +232,13 @@ namespace Belief.Domain
 
             receivedInformation.Clear();
             receivedInformation.AddRange(snapshot.ReceivedInformation);
+
+            // 스탬프는 위 CurrentLocation/SetBelief가 새로 찍은 값을 덮어써서 스냅샷 시점으로 되돌린다 -
+            // 복원 자체는 "세계의 새 변화"가 아니므로 반드시 마지막에 수행한다.
+            LocationChangeStamp = snapshot.LocationChangeStamp;
+            LatestBeliefStamp = snapshot.LatestBeliefStamp;
+            beliefStamps.Clear();
+            foreach (var kv in snapshot.BeliefStamps) beliefStamps[kv.Key] = kv.Value;
         }
     }
 }

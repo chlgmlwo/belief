@@ -126,6 +126,7 @@ namespace Belief.Systems
         {
             cards.GrantInitialSupply();
             CaptureMissionAttemptSnapshot();
+            mission.BeginAttempt(BuildMissionContext()); // 반드시 첫 Evaluate보다 먼저.
             mission.Evaluate(BuildMissionContext());
             eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
         }
@@ -189,6 +190,11 @@ namespace Belief.Systems
             // 실패한 시도를 몇 번 되돌리든 항상 이 지점으로 복원되도록 스냅샷을 다시 찍는다.
             CaptureMissionAttemptSnapshot();
 
+            // 이 호출은 ProgressionController.ConfirmMissionComplete가 Mission.LoadMission(다음 미션)을
+            // 이미 끝낸 뒤에 도달하므로, 여기서 만드는 기준점은 정확히 "다음 미션이 활성화된 직후,
+            // 그 미션의 첫 Mission Check보다 앞선" 시점이다.
+            mission.BeginAttempt(BuildMissionContext());
+
             eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
         }
 
@@ -210,6 +216,10 @@ namespace Belief.Systems
             resetRequestedThisTurn = true;
 
             RestoreMissionAttemptSnapshot();
+
+            // 복원이 끝난 뒤에 기준점을 다시 만든다 - 복원으로 상태와 스탬프가 전부 시작 시점으로
+            // 되돌아갔으므로, 실패한 이전 시도가 만든 변화는 새 시도에서 "새 진척"으로 인정되지 않는다.
+            mission.BeginAttempt(BuildMissionContext());
 
             eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
         }
