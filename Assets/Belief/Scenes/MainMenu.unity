@@ -127,6 +127,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1715329691}
     m_Modifications:
+    - target: {fileID: 411943459701149005, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3345198510685304957, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4287420748
+      objectReference: {fileID: 0}
+    - target: {fileID: 3345198510685304957, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626892111031845729, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626892111031845729, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626892111031845729, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626892111031845729, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626892111031845729, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626892111031845729, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6422932759236992834, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -211,7 +247,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenuCanvas
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6353896416870394782, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
+    - {fileID: 8752952607187115188, guid: 3fb9f647bd89a5e40a6c26a439ea20d8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -16,15 +16,19 @@ namespace Belief.Presentation.MainMenu
     /// Hierarchy/Scene 뷰에서 바로 보이고 드래그로 조절할 수 있어야 하기 때문이다. 게임 방법 팝업은
     /// HowToPlayPopup을 그대로 재사용해 게임 중 [?] 버튼과 동일한 코드/데이터를 공유한다(이 컴포넌트는
     /// 여전히 절차적으로 자기 UI를 짓는다 - 이번 전환 범위 밖).
+    ///
+    /// <b>Hover 연출은 여기서 붙이지 않는다.</b> 서류철 톤에 맞춰 각 버튼이 프리팹 안에
+    /// <see cref="Belief.Presentation.HUD.HoverUnderlineFeedback"/>과 밑줄 스프라이트를 직접 들고 있다 -
+    /// 게임 내 다른 화면(브리핑·HUD)과 같은 연출을 같은 컴포넌트로 공유하기 위해서다.
+    ///
+    /// <b>종료 버튼은 없다.</b> 웹(WebGL) 빌드에서는 Application.Quit()이 아무 동작도 하지 않아
+    /// 눌러도 반응이 없는 버튼이 되기 때문이다 - 데스크톱 빌드를 다시 낼 때 되살리면 된다.
     /// </summary>
     public class MainMenuPresenter : MonoBehaviour
     {
         [SerializeField] TMP_FontAsset koreanFont;
         [SerializeField] public Belief.Data.PlayHudSkin skin;
         [SerializeField] MainMenuView view;
-
-        static readonly Color PanelColor = new Color(0.09f, 0.12f, 0.10f, 0.95f);
-        static readonly Color AccentColor = new Color(0.30f, 0.85f, 0.55f);
 
         const float FadeDuration = 0.25f;
 
@@ -50,26 +54,9 @@ namespace Belief.Presentation.MainMenu
 
             view.StartButton.onClick.AddListener(OnStartClicked);
             view.HowToPlayButton.onClick.AddListener(() => howToPlayPopup?.Show());
-            view.QuitButton.onClick.AddListener(OnQuitClicked);
-
-            WireHover(view.StartButton);
-            WireHover(view.HowToPlayButton);
-            WireHover(view.QuitButton);
 
             howToPlayPopup = view.gameObject.AddComponent<HowToPlayPopup>();
             howToPlayPopup.Build(view.transform, koreanFont);
-        }
-
-        /// <summary>Hover 시 살짝 밝아지는 최소한의 반응 - 과도한 연출 없이 존재감만 준다. 색상 값
-        /// 자체는 런타임에만 정해지는 상태가 아니라 static 상수지만, ButtonHoverFeedback.Init이 받는
-        /// Image 참조는 프리팹 인스턴스 고유의 컴포넌트라 Instantiate 이후에만 연결할 수 있다.</summary>
-        void WireHover(Button btn)
-        {
-            if (btn == null) return;
-            var img = btn.GetComponent<Image>();
-            if (img == null) return;
-            var hoverProxy = btn.gameObject.AddComponent<ButtonHoverFeedback>();
-            hoverProxy.Init(img, PanelColor, AccentColor * 0.35f + PanelColor * 0.65f);
         }
 
         void OnStartClicked()
@@ -117,16 +104,6 @@ namespace Belief.Presentation.MainMenu
         {
             yield return FadeCanvasGroup(rootCanvasGroup, 1f, 0f);
             SceneManager.LoadScene(sceneName);
-        }
-
-        void OnQuitClicked()
-        {
-#if UNITY_EDITOR
-            Debug.Log("[MainMenu] 종료 버튼 클릭 - Editor에서는 Application.Quit()이 동작하지 않아 Play Mode를 대신 종료합니다.");
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
         }
 
         IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to)

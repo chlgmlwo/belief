@@ -10,11 +10,9 @@ namespace Belief.Presentation.MainMenu
         [SerializeField] CanvasGroup rootCanvasGroup;
         [SerializeField] Button startButton;
         [SerializeField] Button howToPlayButton;
-        [SerializeField] Button quitButton;
 
         public CanvasGroup RootCanvasGroup => rootCanvasGroup;
         public Button StartButton => startButton;
         public Button HowToPlayButton => howToPlayButton;
-        public Button QuitButton => quitButton;
     }
 }
