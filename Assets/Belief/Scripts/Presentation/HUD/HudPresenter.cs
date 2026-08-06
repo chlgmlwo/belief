@@ -220,6 +220,9 @@ namespace Belief.Presentation.HUD
             // 손패도 함께 다시 그린다 - "사용 중" 잠금이 targeting.IsDelivering에서 계산되므로,
             // 전달이 시작·종료될 때 이 신호를 받지 못하면 잠긴 카드가 그대로 남는다.
             targeting.PhaseChanged += RefreshOwnedInformation;
+            // 전달이 시작·종료될 때만 값이 바뀌는 IsDelivering이 곧 "턴 진행중" 구간이다 -
+            // PhaseChanged는 다른 이유로도 오지만 SetTurnProcessing이 같은 값이면 아무것도 하지 않는다.
+            targeting.PhaseChanged += () => SetTurnProcessing(targeting.IsDelivering);
             targeting.InteractionRejected += msg => ShowTransientNotice(msg, ErrorColor);
 
             // NPC/장소 조사용 클릭 구독 - TargetingController가 같은 이벤트를 전달 대상 지정용으로
@@ -524,11 +527,98 @@ namespace Belief.Presentation.HUD
             StartCoroutine(PulseGraphic(text, AccentColor, baseColor, 0.3f));
         }
 
+        // ---------------------------------------------------------------- 턴 진행 표시
+
+        /// <summary>정보를 전달한 뒤 NPC 판단(LLM이면 응답 대기)이 끝날 때까지 하단 안내 띠에 띄워
+        /// 두는 상태 표시. 이 구간은 길면 몇 초씩 걸리는데 그동안 화면이 아무 말도 하지 않아
+        /// "눌리긴 한 건가" 싶었다.
+        ///
+        /// 일시 알림(ShowTransientNotice)과 같은 슬롯을 쓰되 스스로 사라지지 않는다 - 끝나는 시점을
+        /// 시간이 아니라 IsDelivering이 정한다.</summary>
+        bool processingShowing;
+        Coroutine processingRoutine;
+
+        const string TurnProcessingMessage = "턴 진행중";
+
+        void SetTurnProcessing(bool on)
+        {
+            if (processingShowing == on) return;
+            processingShowing = on;
+
+            if (processingRoutine != null) StopCoroutine(processingRoutine);
+            if (on)
+            {
+                // 진행 표시가 우선이다 - 돌고 있던 일시 알림은 자리를 비켜 준다.
+                if (feedbackRoutine != null) { StopCoroutine(feedbackRoutine); feedbackRoutine = null; }
+                processingRoutine = StartCoroutine(TurnProcessingRoutine());
+            }
+            else
+            {
+                processingRoutine = StartCoroutine(FadeOutProcessingRoutine());
+            }
+        }
+
+        IEnumerator TurnProcessingRoutine()
+        {
+            feedbackText.color = AccentColor;
+            feedbackGo.SetActive(true);
+            noticeShowing = true;
+            RefreshBarVisibility();
+
+            const float fade = 0.15f;
+            float t = 0f;
+            while (t < fade)
+            {
+                t += Time.unscaledDeltaTime;
+                feedbackCanvasGroup.alpha = Mathf.SmoothStep(0f, 1f, t / fade);
+                feedbackText.text = TurnProcessingMessage;
+                yield return null;
+            }
+            feedbackCanvasGroup.alpha = 1f;
+
+            // 점이 늘었다 줄며 "아직 돌고 있다"를 보여 준다 - 멈춰 있는 글자만으로는 굳은 것처럼 보인다.
+            int dots = 0;
+            float tick = 0f;
+            while (true)
+            {
+                tick += Time.unscaledDeltaTime;
+                if (tick >= 0.35f)
+                {
+                    tick = 0f;
+                    dots = (dots + 1) % 4;
+                    feedbackText.text = TurnProcessingMessage + new string('.', dots);
+                }
+                yield return null;
+            }
+        }
+
+        IEnumerator FadeOutProcessingRoutine()
+        {
+            const float fade = 0.25f;
+            float start = feedbackCanvasGroup.alpha;
+            float t = 0f;
+            while (t < fade)
+            {
+                t += Time.unscaledDeltaTime;
+                feedbackCanvasGroup.alpha = Mathf.Lerp(start, 0f, t / fade);
+                yield return null;
+            }
+            feedbackCanvasGroup.alpha = 0f;
+
+            feedbackGo.SetActive(false);
+            noticeShowing = false;
+            RefreshBarVisibility();
+            processingRoutine = null;
+        }
+
         /// <summary>하단 안내 띠의 "일시 알림" 슬롯에 짧게 띄운다 - 클릭이 거부된 이유, 손패가 저절로
         /// 늘어난 이유처럼 <b>규칙이 뒤에서 움직인 사실</b>을 보고하는 용도다. 3-85에서 "~하세요" 류의
         /// 지시 문구는 전부 걷어냈으니 여기에 다시 넣지 말 것.</summary>
         void ShowTransientNotice(string message, Color color)
         {
+            // 턴이 도는 동안에는 진행 표시가 이 슬롯을 쓰고 있다 - 덮어쓰면 "턴 진행중"이 사라진
+            // 채로 남아, 끝났는지 아닌지 알 수 없게 된다.
+            if (processingShowing) return;
             if (feedbackRoutine != null) StopCoroutine(feedbackRoutine);
             feedbackRoutine = StartCoroutine(TransientNoticeRoutine(message, color));
         }
