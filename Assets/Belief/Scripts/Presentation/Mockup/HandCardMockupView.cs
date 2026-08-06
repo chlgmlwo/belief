@@ -146,6 +146,67 @@ namespace Belief.Presentation.Mockup
             consuming = false;
         }
 
+        public const float SlideDuration = 0.24f;
+        public const float DrawDuration = 0.26f;
+        /// <summary>새로 뽑힌 카드가 밑에서 올라오는 거리. 소멸 낙하(300)보다 훨씬 짧게 잡아
+        /// "빠져나간다"와 "채워진다"가 다른 동작으로 읽히게 한다.</summary>
+        const float DrawRiseDistance = 90f;
+
+        /// <summary>옆 슬롯에서 미끄러져 들어오는 연출. 슬롯은 고정 좌표라 내용만 갈아끼우는데,
+        /// 새 내용을 <b>원래 있던 슬롯 자리에서 출발</b>시켜 제자리로 보내면 카드가 옆으로 옮겨온
+        /// 것처럼 읽힌다. xOffset은 직전에 그 카드가 있던 슬롯까지의 거리다.</summary>
+        public void PlaySlideFrom(float xOffset)
+        {
+            if (consuming || !isActiveAndEnabled) return;
+            if (moveRoutine != null) StopCoroutine(moveRoutine);
+            moveRoutine = StartCoroutine(SlideRoutine(xOffset));
+        }
+
+        IEnumerator SlideRoutine(float xOffset)
+        {
+            EnsureCanvasGroup();
+            canvasGroup.alpha = 1f;
+            Vector2 from = CollapsedPosition + new Vector2(xOffset, 0f);
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.unscaledDeltaTime / SlideDuration;
+                float e = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t));
+                cardRoot.anchoredPosition = Vector2.Lerp(from, CollapsedPosition, e);
+                yield return null;
+            }
+            cardRoot.anchoredPosition = CollapsedPosition;
+            moveRoutine = null;
+        }
+
+        /// <summary>새로 뽑힌 카드가 손패에 채워지는 연출 - 밑에서 살짝 올라오며 나타난다.</summary>
+        public void PlayDrawn()
+        {
+            if (consuming || !isActiveAndEnabled) return;
+            if (moveRoutine != null) StopCoroutine(moveRoutine);
+            moveRoutine = StartCoroutine(DrawRoutine());
+        }
+
+        IEnumerator DrawRoutine()
+        {
+            EnsureCanvasGroup();
+            Vector2 from = CollapsedPosition + new Vector2(0f, -DrawRiseDistance);
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.unscaledDeltaTime / DrawDuration;
+                float e = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t));
+                cardRoot.anchoredPosition = Vector2.Lerp(from, CollapsedPosition, e);
+                cardRoot.localScale = Vector3.one * Mathf.Lerp(0.92f, 1f, e);
+                canvasGroup.alpha = e;
+                yield return null;
+            }
+            cardRoot.anchoredPosition = CollapsedPosition;
+            cardRoot.localScale = Vector3.one;
+            canvasGroup.alpha = 1f;
+            moveRoutine = null;
+        }
+
         /// <summary>손패가 4장보다 적을 때 남는 빈 슬롯을 감춘다 - 감추지 않으면 직전 카드의
         /// 내용이 그대로 남아 "쓴 카드가 아직 있다"처럼 보인다.</summary>
         public void SetEmpty(bool empty)

@@ -48,6 +48,12 @@ namespace Belief.Presentation.Mockup
             HandCardMockupView desiredExpanded = null;
 
             CollectLiveProxies();
+
+            // 갈아끼우기 전에 각 슬롯이 무엇을 보여주고 있었는지 찍어 둔다 - 새 내용이 "옆 슬롯에서
+            // 온 것"인지 "새로 뽑힌 것"인지는 이 이전 상태와 비교해야만 알 수 있다.
+            for (int i = 0; i < slots.Length; i++)
+                previousSlotCards[i] = slots[i].BoundCard;
+
             for (int i = 0; i < slots.Length; i++)
             {
                 var proxy = i < liveProxies.Count ? liveProxies[i] : null;
@@ -57,6 +63,8 @@ namespace Belief.Presentation.Mockup
                 if (proxy != null && slots[i].ComputeDesiredExpanded(selectedCard))
                     desiredExpanded = slots[i].MockupView;
             }
+
+            PlayEntryAnimations();
 
             if (desiredExpanded != null) handController.SetSelectedCard(desiredExpanded);
             else handController.CollapseSelectedVisual();
@@ -101,6 +109,38 @@ namespace Belief.Presentation.Mockup
             lastOwned.Clear();
             lastOwned.AddRange(owned);
             return started;
+        }
+
+        readonly InformationCardData[] previousSlotCards = new InformationCardData[8];
+
+        /// <summary>이번 갱신에서 내용이 바뀐 슬롯에 연출을 건다.
+        /// - 직전에 <b>오른쪽 슬롯</b>에 있던 카드가 왔다 → 그 자리에서 출발시켜 옆으로 미끄러지게
+        /// - 직전에 어느 슬롯에도 없던 카드가 왔다 → 새로 뽑힌 것이므로 밑에서 올라오게
+        /// 첫 배치(직전 내용이 통째로 비어 있는 상태)에서는 전부 "새로 뽑힘"으로 잡히는데, 그게
+        /// 손패가 처음 채워지는 모습으로도 맞다.</summary>
+        void PlayEntryAnimations()
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                var now = slots[i].BoundCard;
+                if (now == null || ReferenceEquals(now, previousSlotCards[i])) continue;
+
+                int cameFrom = -1;
+                for (int j = 0; j < slots.Length; j++)
+                    if (ReferenceEquals(previousSlotCards[j], now)) { cameFrom = j; break; }
+
+                if (cameFrom > i)
+                {
+                    float dx = slots[cameFrom].MockupView.CollapsedPosition.x
+                               - slots[i].MockupView.CollapsedPosition.x;
+                    slots[i].MockupView.PlaySlideFrom(dx);
+                }
+                else if (cameFrom < 0)
+                {
+                    slots[i].MockupView.PlayDrawn();
+                }
+                // cameFrom < i(왼쪽에서 옴)는 지금 손패 규칙상 생기지 않는다 - 생겨도 그냥 제자리에 둔다.
+            }
         }
 
         static bool Contains(IReadOnlyList<InformationCardData> list, InformationCardData card)
