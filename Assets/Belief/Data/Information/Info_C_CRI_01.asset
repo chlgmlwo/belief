@@ -18,9 +18,9 @@ MonoBehaviour:
     \uB298\uC5C8\uB2E4\uB294 \uC18C\uBB38\uC774 \uB3C8\uB2E4."
   importance: 0.5
   tags:
-  - CRIME
-  - THEFT
-  - MARKET
+  - "\uBC94\uC8C4"
+  - "\uC808\uB3C4"
+  - "\uC2DC\uC7A5"
   categoryId: CRIME
   informationType: 1
   baseCredibility: 0.45

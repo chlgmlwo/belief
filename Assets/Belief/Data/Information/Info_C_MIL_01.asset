@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC911\uC774\uB77C\uB294 \uC18C\uC2DD\uC774 \uC804\uD574\uC9C4\uB2E4."
   importance: 0.5
   tags:
-  - MILITARY
-  - TROOP_MOVEMENT
-  - BORDER
+  - "\uAD70\uC0AC"
+  - "\uBCD1\uB825\uC774\uB3D9"
+  - "\uAD6D\uACBD"
   categoryId: MILITARY
   informationType: 2
   baseCredibility: 0.55

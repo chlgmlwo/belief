@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC624\uAC00\uACE0 \uC788\uB2E4\uB294 \uC18C\uBB38\uC774 \uB3C8\uB2E4."
   importance: 0.5
   tags:
-  - NOBILITY
-  - MARRIAGE
-  - ALLIANCE
+  - "\uADC0\uC871"
+  - "\uD63C\uC778"
+  - "\uB3D9\uB9F9"
   categoryId: NOBILITY
   informationType: 1
   baseCredibility: 0.35

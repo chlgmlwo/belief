@@ -18,9 +18,9 @@ MonoBehaviour:
     \uAC83\uC774\uB77C\uB294 \uC774\uC57C\uAE30\uAC00 \uB3C8\uB2E4."
   importance: 0.5
   tags:
-  - MILITARY
-  - CONSCRIPTION
-  - MOBILIZATION
+  - "\uAD70\uC0AC"
+  - "\uC9D5\uC9D1"
+  - "\uB3D9\uC6D0"
   categoryId: MILITARY
   informationType: 1
   baseCredibility: 0.65

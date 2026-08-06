@@ -18,9 +18,9 @@ MonoBehaviour:
     \uBC1C\uC5B8\uC744 \uD588\uB2E4\uB294 \uC81C\uBCF4\uAC00 \uC788\uB2E4."
   importance: 0.5
   tags:
-  - RELIGION
-  - DOCTRINE
-  - CLERGY
+  - "\uC885\uAD50"
+  - "\uAD50\uB9AC"
+  - "\uC131\uC9C1\uC790"
   categoryId: RELIGION
   informationType: 2
   baseCredibility: 0.3

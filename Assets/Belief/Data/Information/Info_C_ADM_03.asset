@@ -18,9 +18,9 @@ MonoBehaviour:
     \uAC83\uC774\uB77C\uB294 \uC774\uC57C\uAE30\uAC00 \uD37C\uC9C4\uB2E4."
   importance: 0.5
   tags:
-  - ADMIN
-  - PERMIT_SYSTEM
-  - POLICY
+  - "\uD589\uC815"
+  - "\uD5C8\uAC00\uC81C"
+  - "\uC815\uCC45"
   categoryId: ADMIN
   informationType: 1
   baseCredibility: 0.6

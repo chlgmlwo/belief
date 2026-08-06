@@ -18,9 +18,9 @@ MonoBehaviour:
     \uD558\uACE0 \uC788\uB2E4\uB294 \uC81C\uBCF4\uAC00 \uB4E4\uC5B4\uC654\uB2E4."
   importance: 0.5
   tags:
-  - SECURITY
-  - SURVEILLANCE
-  - THREAT
+  - "\uCE58\uC548"
+  - "\uAC10\uC2DC"
+  - "\uC704\uD611"
   categoryId: SECURITY
   informationType: 2
   baseCredibility: 0.3

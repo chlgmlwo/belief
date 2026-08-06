@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC815\uBCF4\uAC00 \uC788\uB2E4."
   importance: 0.5
   tags:
-  - MILITARY
-  - WEAPON_TRADE
-  - ECONOMY_LINK
+  - "\uAD70\uC0AC"
+  - "\uBB34\uAE30\uAC70\uB798"
+  - "\uACBD\uC81C\uC5F0\uACC4"
   categoryId: MILITARY
   informationType: 2
   baseCredibility: 0.55

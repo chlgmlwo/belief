@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC2E0\uB9DD\uC744 \uC5BB\uACE0 \uC788\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uB4E4\uB9B0\uB2E4."
   importance: 0.5
   tags:
-  - PUBLIC
-  - REPUTATION
-  - TRUST
+  - "\uBBFC\uC2EC"
+  - "\uD3C9\uD310"
+  - "\uC2E0\uB8B0"
   categoryId: PUBLIC
   informationType: 1
   baseCredibility: 0.4

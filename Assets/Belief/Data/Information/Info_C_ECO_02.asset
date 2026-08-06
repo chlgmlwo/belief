@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC9C0\uACE0 \uC788\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uB4E4\uB9B0\uB2E4."
   importance: 0.5
   tags:
-  - ECONOMY
-  - DEBT
-  - MERCHANT
+  - "\uACBD\uC81C"
+  - "\uBD80\uCC44"
+  - "\uC0C1\uC778"
   categoryId: ECONOMY
   informationType: 5
   baseCredibility: 0.35

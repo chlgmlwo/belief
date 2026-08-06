@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC18C\uC2DD\uC774 \uD37C\uC9C4\uB2E4."
   importance: 0.5
   tags:
-  - ECONOMY
-  - PRICE_HIKE
-  - GRAIN
+  - "\uACBD\uC81C"
+  - "\uBB3C\uAC00\uC0C1\uC2B9"
+  - "\uACE1\uBB3C"
   categoryId: ECONOMY
   informationType: 5
   baseCredibility: 0.6

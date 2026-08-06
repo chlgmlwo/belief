@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC9D1\uD68C\uAC00 \uC5F4\uB838\uB2E4\uB294 \uC18C\uBB38\uC774 \uB3C8\uB2E4."
   importance: 0.5
   tags:
-  - RELIGION
-  - HERESY
-  - GATHERING
+  - "\uC885\uAD50"
+  - "\uC774\uB2E8"
+  - "\uC9D1\uD68C"
   categoryId: RELIGION
   informationType: 1
   baseCredibility: 0.45

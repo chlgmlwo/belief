@@ -18,9 +18,9 @@ MonoBehaviour:
     \uCC98\uD588\uB2E4\uB294 \uC81C\uBCF4\uAC00 \uC788\uB2E4."
   importance: 0.5
   tags:
-  - DISASTER
-  - COLLAPSE
-  - HAZARD
+  - "\uC7AC\uD574"
+  - "\uBD95\uAD34"
+  - "\uC704\uD5D8"
   categoryId: DISASTER
   informationType: 3
   baseCredibility: 0.6

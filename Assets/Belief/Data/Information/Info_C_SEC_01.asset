@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC778\uC6D0\uC774 \uC904\uC5C8\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uB3C8\uB2E4."
   importance: 0.5
   tags:
-  - SECURITY
-  - PATROL
-  - NIGHT
+  - "\uCE58\uC548"
+  - "\uC21C\uCC30"
+  - "\uC57C\uAC04"
   categoryId: SECURITY
   informationType: 1
   baseCredibility: 0.65

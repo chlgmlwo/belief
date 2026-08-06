@@ -18,9 +18,9 @@ MonoBehaviour:
     \uCEE4\uC9C0\uACE0 \uC788\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uD37C\uC9C4\uB2E4."
   importance: 0.5
   tags:
-  - DISASTER
-  - FIRE_RISK
-  - MARKET
+  - "\uC7AC\uD574"
+  - "\uD654\uC7AC\uC704\uD5D8"
+  - "\uC2DC\uC7A5"
   categoryId: DISASTER
   informationType: 1
   baseCredibility: 0.45

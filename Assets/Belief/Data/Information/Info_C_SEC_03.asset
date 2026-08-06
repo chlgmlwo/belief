@@ -18,9 +18,9 @@ MonoBehaviour:
     \uD5C8\uC220\uD574\uC84C\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uD37C\uC9C4\uB2E4."
   importance: 0.5
   tags:
-  - SECURITY
-  - CHECKPOINT
-  - OUTSKIRTS
+  - "\uCE58\uC548"
+  - "\uAC80\uBB38"
+  - "\uC678\uACFD"
   categoryId: SECURITY
   informationType: 1
   baseCredibility: 0.45

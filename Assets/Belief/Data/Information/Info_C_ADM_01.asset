@@ -19,9 +19,9 @@ MonoBehaviour:
     \uB3C8\uB2E4."
   importance: 0.5
   tags:
-  - ADMIN
-  - DELAY
-  - STAFFING
+  - "\uD589\uC815"
+  - "\uC9C0\uC5F0"
+  - "\uC778\uB825"
   categoryId: ADMIN
   informationType: 1
   baseCredibility: 0.7

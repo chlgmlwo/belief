@@ -18,9 +18,9 @@ MonoBehaviour:
     \uB04A\uAE38 \uC218 \uC788\uB2E4\uB294 \uC18C\uBB38\uC774 \uB3C8\uB2E4."
   importance: 0.5
   tags:
-  - ECONOMY
-  - TRADE_ROUTE
-  - DISRUPTION
+  - "\uACBD\uC81C"
+  - "\uAD50\uC5ED\uB85C"
+  - "\uAD50\uB780"
   categoryId: ECONOMY
   informationType: 5
   baseCredibility: 0.45

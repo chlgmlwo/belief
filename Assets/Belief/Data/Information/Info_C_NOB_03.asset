@@ -18,9 +18,9 @@ MonoBehaviour:
     \uAE09\uC99D\uD588\uB2E4\uB294 \uC774\uC57C\uAE30\uAC00 \uD37C\uC9C4\uB2E4."
   importance: 0.5
   tags:
-  - NOBILITY
-  - LUXURY
-  - SPENDING
+  - "\uADC0\uC871"
+  - "\uC0AC\uCE58"
+  - "\uC9C0\uCD9C"
   categoryId: NOBILITY
   informationType: 5
   baseCredibility: 0.55

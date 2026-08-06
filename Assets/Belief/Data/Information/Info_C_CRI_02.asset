@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC788\uB2E4\uB294 \uC81C\uBCF4\uAC00 \uB4E4\uC5B4\uC654\uB2E4."
   importance: 0.5
   tags:
-  - CRIME
-  - SMUGGLING
-  - INFORMANT
+  - "\uBC94\uC8C4"
+  - "\uBC00\uC218"
+  - "\uBC00\uACE0\uC790"
   categoryId: CRIME
   informationType: 7
   baseCredibility: 0.3

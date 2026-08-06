@@ -18,9 +18,9 @@ MonoBehaviour:
     \uB300\uD55C \uBD88\uB9CC\uC774 \uCEE4\uC9C0\uACE0 \uC788\uB2E4."
   importance: 0.5
   tags:
-  - PUBLIC
-  - CURFEW
-  - DISCONTENT
+  - "\uBBFC\uC2EC"
+  - "\uD1B5\uAE08"
+  - "\uBD88\uB9CC"
   categoryId: PUBLIC
   informationType: 3
   baseCredibility: 0.65

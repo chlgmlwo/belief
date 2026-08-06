@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC81C\uBCF4\uAC00 \uB4E4\uC5B4\uC654\uB2E4."
   importance: 0.5
   tags:
-  - ADMIN
-  - BRIBERY
-  - CORRUPTION
+  - "\uD589\uC815"
+  - "\uB1CC\uBB3C"
+  - "\uBD80\uD328"
   categoryId: ADMIN
   informationType: 7
   baseCredibility: 0.35

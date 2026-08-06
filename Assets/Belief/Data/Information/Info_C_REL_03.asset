@@ -18,9 +18,9 @@ MonoBehaviour:
     \uBC1B\uC744 \uAC83\uC774\uB77C\uB294 \uC774\uC57C\uAE30\uAC00 \uD37C\uC9C4\uB2E4."
   importance: 0.5
   tags:
-  - RELIGION
-  - DONATION
-  - INFLUENCE
+  - "\uC885\uAD50"
+  - "\uD5CC\uAE08"
+  - "\uC601\uD5A5\uB825"
   categoryId: RELIGION
   informationType: 1
   baseCredibility: 0.3

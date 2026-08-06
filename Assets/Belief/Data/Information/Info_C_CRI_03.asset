@@ -19,9 +19,9 @@ MonoBehaviour:
     \uD37C\uC9C4\uB2E4."
   importance: 0.5
   tags:
-  - CRIME
-  - GANG
-  - OUTSKIRTS
+  - "\uBC94\uC8C4"
+  - "\uC870\uC9C1"
+  - "\uC678\uACFD"
   categoryId: CRIME
   informationType: 1
   baseCredibility: 0.35

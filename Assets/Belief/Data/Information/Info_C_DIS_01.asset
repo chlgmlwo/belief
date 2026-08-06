@@ -18,9 +18,9 @@ MonoBehaviour:
     \uC9D5\uD6C4\uAC00 \uB098\uD0C0\uB0AC\uB2E4\uB294 \uC18C\uBB38\uC774 \uB3C8\uB2E4."
   importance: 0.5
   tags:
-  - DISASTER
-  - EPIDEMIC
-  - OUTSKIRTS
+  - "\uC7AC\uD574"
+  - "\uC5ED\uBCD1"
+  - "\uC678\uACFD"
   categoryId: DISASTER
   informationType: 1
   baseCredibility: 0.35
