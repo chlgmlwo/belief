@@ -33,9 +33,10 @@ namespace Belief.EditorTools.Diagnostics
         /// <summary>같은 미션을 이만큼 실패하면 진행이 막힌 것으로 보고 중단한다.</summary>
         const int MaxRetriesPerMission = 3;
 
-        /// <summary>폭주 방지용 상한 - 게임 규칙이 아니라 도구의 관측 창이다.</summary>
+        /// <summary>폭주 방지용 상한 - 게임 규칙이 아니라 도구의 관측 창이다.
+        /// 씬이 IntegratedLlm이면 판단마다 실제 API 왕복이 있어 한 수가 몇 초씩 걸린다.</summary>
         const int MaxMoves = 400;
-        const double MaxMinutes = 20.0;
+        const double MaxMinutes = 45.0;
 
         /// <summary>결과 리포트가 뜬 뒤 화면 저장과 버튼 클릭까지의 대기(초).
         /// <b>프레임 수로 세면 안 된다</b> - EditorApplication.update는 게임 렌더 프레임보다 훨씬 자주
@@ -100,7 +101,7 @@ namespace Belief.EditorTools.Diagnostics
             EditorApplication.playModeStateChanged += OnPlayModeChanged;
         }
 
-        [MenuItem("BELIEF/Diagnostics/전체 플레이 자동 진행 (LLM 호출 0회)", priority = 130)]
+        [MenuItem("BELIEF/Diagnostics/전체 플레이 자동 진행", priority = 130)]
         static void Run()
         {
             if (Application.isPlaying)
@@ -112,7 +113,7 @@ namespace Belief.EditorTools.Diagnostics
 
             bool go = EditorUtility.DisplayDialog("전체 플레이 자동 진행",
                 "Zone1 → Zone2 → Zone3 → 대도시를 자동으로 한 번 플레이합니다.\n\n"
-                + "• 씬의 thinkerMode(RuleOnly)를 그대로 씁니다 - LLM 호출 0회, 요금 없음\n"
+                + "• 씬에 저장된 thinkerMode를 그대로 씁니다 - IntegratedLlm이면 실제 API 요금이 발생합니다\n"
                 + "• 씬 · 미션 · 카드 데이터를 수정하지 않습니다\n"
                 + "• 결과 리포트가 뜰 때마다 화면을 저장합니다\n"
                 + $"• 같은 미션 {MaxRetriesPerMission}회 실패 또는 {MaxMinutes}분 경과 시 중단합니다\n\n"
@@ -157,6 +158,8 @@ namespace Belief.EditorTools.Diagnostics
             if (!EditorPrefs.GetBool(ActiveKey, false)) return;
             EditorPrefs.SetBool(ActiveKey, false);
             Report($"=== 종료: {reason} (진행 {MoveCount}수, 스크린샷 {Shots}장) ===");
+            Report($"    LLM 호출 {IntegratedLlmPilotSession.CallsUsed}회 / 거부 {IntegratedLlmPilotSession.CallsDenied}회"
+                   + $" / 모드 {IntegratedLlmPilotSession.RunMode}");
             if (Application.isPlaying) EditorApplication.isPlaying = false;
         }
 
@@ -299,7 +302,9 @@ namespace Belief.EditorTools.Diagnostics
             {
                 LastMissionId = mission.missionId;
                 Report($"[미션] {SceneManager.GetActiveScene().name} / {mission.missionId}"
-                       + $" \"{mission.displayTitle}\" (제한 {turns.MaxTurns}일)");
+                       + $" \"{mission.displayTitle}\" (제한 {turns.MaxTurns}일)"
+                       + $"  판단={installer.CurrentThinkerMode}"
+                       + $" 호출={IntegratedLlmPilotSession.CallsUsed} 거부={IntegratedLlmPilotSession.CallsDenied}");
             }
 
             var wantNpcs = new List<NpcData>();
