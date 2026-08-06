@@ -29,7 +29,16 @@ namespace Belief.Core
         /// 허용되지 않으면 호출자는 RuleOnly로 강등하고 <paramref name="denyReason"/>을 경고로 남긴다 -
         /// 예외를 던지지 않는 것은 기존 ThinkerFactory 폴백 정책과 같은 방향이다.
         /// </summary>
-        public static bool IsAllowed(string stageId, out string denyReason)
+        public static bool IsAllowed(string stageId, out string denyReason) =>
+            IsAllowed(stageId, PilotRunMode.SingleZone, out denyReason);
+
+        /// <summary>
+        /// <paramref name="mode"/>가 FullPlaythrough면 스테이지 제한만 풀린다 -
+        /// <b>출시 빌드 차단과 StageData 필수 조건은 어느 모드에서도 그대로다</b>.
+        /// 전 구역 연속 플레이는 "1구역만"이라는 제약의 목적(요금이 새는 범위를 좁힌다)을
+        /// 스테이지가 아니라 구역당 호출 예산으로 대신 지킨다.
+        /// </summary>
+        public static bool IsAllowed(string stageId, PilotRunMode mode, out string denyReason)
         {
             if (!IsPilotBuild)
             {
@@ -43,7 +52,7 @@ namespace Belief.Core
                 return false;
             }
 
-            if (stageId != PilotStageId)
+            if (mode != PilotRunMode.FullPlaythrough && stageId != PilotStageId)
             {
                 denyReason = $"IntegratedLlm 파일럿은 {PilotStageId}에서만 허용됩니다 (요청: {stageId}).";
                 return false;

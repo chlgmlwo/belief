@@ -121,7 +121,7 @@ namespace Belief.Core
                 "통합 판단 "
                 + (activeIntegratedConfig != null
                     ? $"{activeIntegratedConfig.modelId} @ {activeIntegratedConfig.endpoint}" : "(설정 없음)")
-                + $" [파일럿 {IntegratedLlmPilotSession.CallsUsed}/{IntegratedLlmPilotSession.MaxCalls}]",
+                + $" [파일럿 {IntegratedLlmPilotSession.CallsUsed}/{IntegratedLlmPilotSession.CurrentMaxCalls}]",
             ThinkerMode.Llm when llmProviderConfig != null =>
                 $"{llmProviderConfig.modelId} @ {llmProviderConfig.endpoint}"
                 + (llmProviderConfig.useProxy ? " (중계 서버)" : " (직접 호출)"),
@@ -199,14 +199,14 @@ namespace Belief.Core
                 // "20회"는 파일럿 도구의 정책이 아니라 이 경로 전체의 안전장치이기 때문이다.
                 if (pilotBudget == null)
                 {
-                    Debug.LogWarning($"[GameInstaller] 씬 값으로 IntegratedLlm이 켜져 있습니다 - 상한 {IntegratedLlmPilotSession.MaxCalls}회를 적용합니다. "
+                    Debug.LogWarning($"[GameInstaller] 씬 값으로 IntegratedLlm이 켜져 있습니다 - 상한 {IntegratedLlmPilotSession.CurrentMaxCalls}회를 적용합니다. "
                                    + "권장 방식은 씬을 RuleOnly로 두고 BELIEF/Diagnostics의 파일럿 도구로 여는 것입니다.");
                     IntegratedLlmPilotSession.BeginSession("scene-" + name);
                     pilotBudget = new IntegratedLlmPilotCallBudget(IntegratedLlmPilotSession.ActiveSessionId);
                 }
 
                 string stageId = stageData != null ? stageData.stageId : null;
-                if (!IntegratedLlmPilotPolicy.IsAllowed(stageId, out string denyReason))
+                if (!IntegratedLlmPilotPolicy.IsAllowed(stageId, IntegratedLlmPilotSession.RunMode, out string denyReason))
                 {
                     Debug.LogWarning($"[GameInstaller] IntegratedLlm이 허용되지 않아 RuleOnly로 동작합니다 - {denyReason}");
                     effectiveMode = ThinkerMode.RuleOnly;
@@ -279,7 +279,7 @@ namespace Belief.Core
                         return objective != null ? objective.missionId : "";
                     });
                 Debug.LogWarning("[GameInstaller] IntegratedLlm 파일럿이 활성화되었습니다 - 통합 판단 결과가 실제 월드에 적용되며 토큰이 소모됩니다.\n"
-                               + $"  호출 상한 : {IntegratedLlmPilotSession.MaxCalls}회 (초과 요청은 Transport를 부르지 않고 RuleBased 전체 폴백)\n"
+                               + $"  호출 상한 : {IntegratedLlmPilotSession.CurrentMaxCalls}회 (초과 요청은 Transport를 부르지 않고 RuleBased 전체 폴백)\n"
                                + $"  프롬프트 원문 기록 : {(pilotLogPrompts ? "켜짐" : "꺼짐")}\n"
                                + $"  {IntegratedLlmPilotSession.Describe()}");
             }
@@ -293,7 +293,7 @@ namespace Belief.Core
             // 이유는 LlmMajorThinker가 자기 fallback을 private으로 갖고 있어 꺼낼 수 없기 때문인데,
             // RuleBasedMajorThinker는 필드가 하나도 없는 완전 무상태라 인스턴스가 둘이어도 동작이
             // 똑같다(RuleOnly 모드에서는 thinker 자체가 RuleBased라 어느 쪽으로 가든 결과가 같다).
-            var movement = new NpcMovementSystem(actionResolution, thinker, new RuleBasedMajorThinker(), reservations);
+            var movement = new NpcMovementSystem(actionResolution, thinker, new RuleBasedMajorThinker(), reservations, locationStates);
 
             TurnSystem turnSystemRef = null;
             var delivery = new InfoDeliverySystem(locationStates, thinking, EventBus, () => turnSystemRef.CurrentTurn, locationMechanics);
@@ -343,7 +343,13 @@ namespace Belief.Core
 
             // 이 구역이 내려가면 파일럿도 끝난다 - 다음 씬(Zone2 등)에서 남은 예산이 되살아나
             // 허용되지 않은 스테이지의 판단이 Transport를 부르는 일이 없도록 여기서 닫는다.
-            if (JudgmentApplication != null) IntegratedLlmPilotSession.End("SceneUnloaded");
+            //
+            // 전 구역 연속 플레이는 예외다. 그 모드에서는 <b>다음 구역으로 이어지는 것이 목적</b>이라
+            // 여기서 닫으면 Zone2부터 전부 규칙 기반이 된다. 대신 예산이 구역마다 새로 채워지고,
+            // Play가 끝나면 러너가 세션과 토큰을 확실히 닫는다.
+            if (JudgmentApplication != null
+                && IntegratedLlmPilotSession.RunMode != PilotRunMode.FullPlaythrough)
+                IntegratedLlmPilotSession.End("SceneUnloaded");
         }
 
         void BuildDomainState(LocationData[] locations, NpcData[] npcs, NpcPlacementEntry[] placements)

@@ -23,11 +23,33 @@ namespace Belief.Core
     /// 에디터가 아닌 빌드에서는 모든 진입점이 아무 일도 하지 않는다 - 파일럿을 켤 수단 자체가
     /// 플레이어 빌드에 존재하지 않는다.
     /// </summary>
+    /// <summary>파일럿이 무엇을 관측하려는 실행인가. 안전벽의 강도가 이 값 하나로 갈린다.</summary>
+    public enum PilotRunMode
+    {
+        /// <summary>기본값. Zone1에서만, 20회, 4턴, 토큰은 Awake 1회로 소멸한다.</summary>
+        SingleZone,
+
+        /// <summary>Zone1~대도시를 씬 전환까지 이어서 플레이한다. 구역이 바뀔 때마다 새
+        /// GameInstaller가 같은 토큰을 다시 소비해야 하므로 <b>토큰이 소멸하지 않는다</b> -
+        /// 대신 Play가 끝나면(Disarm) 반드시 사라진다. 예산은 <b>구역당</b> 다시 채워진다.</summary>
+        FullPlaythrough,
+    }
+
     public static class IntegratedLlmPilotSession
     {
-        /// <summary>한 파일럿 세션에서 발사할 수 있는 최대 LLM 호출 수.
+        /// <summary>단일 구역 파일럿의 최대 LLM 호출 수.
         /// 21번째 요청은 Transport를 부르지 않고 <see cref="CallLimitExceededReason"/>로 거부된다.</summary>
         public const int MaxCalls = 20;
+
+        /// <summary>전 구역 연속 플레이에서 <b>구역 하나당</b> 허용하는 최대 호출 수.
+        /// 구역이 바뀌면 다시 이 값만큼 채워지므로, 한 구역이 폭주해도 다음 구역을 굶기지 않는다.</summary>
+        public const int FullPlaythroughMaxCallsPerZone = 150;
+
+        /// <summary>지금 실행에 적용되는 실제 상한.</summary>
+        public static int CurrentMaxCalls =>
+            runMode == PilotRunMode.FullPlaythrough ? FullPlaythroughMaxCallsPerZone : MaxCalls;
+
+        public static PilotRunMode RunMode => runMode;
 
         /// <summary>상한 초과 시 FallbackReason에 그대로 실리는 값.</summary>
         public const string CallLimitExceededReason = "PilotCallLimitExceeded";
@@ -44,8 +66,15 @@ namespace Belief.Core
         const string ArmedTokenKey = "Belief.IntegratedLlmPilot.ArmedSessionId";
         const string ArmedPromptLoggingKey = "Belief.IntegratedLlmPilot.ArmedPromptLogging";
         const string ArmedProviderConfigKey = "Belief.IntegratedLlmPilot.ArmedProviderConfigPath";
+        const string ArmedRunModeKey = "Belief.IntegratedLlmPilot.ArmedRunMode";
 
         // ── 활성 세션(Play 중에만 의미가 있다) ──────────────────────────────────
+        static PilotRunMode runMode;
+        static int zonesEntered;
+
+        /// <summary>이 실행에서 파일럿이 켜진 구역 수 - 연속 플레이에서 몇 구역을 지났는지.</summary>
+        public static int ZonesEntered => zonesEntered;
+
         static string activeSessionId;
         static int callsUsed;
         static int callsDenied;
@@ -66,7 +95,7 @@ namespace Belief.Core
         /// <summary>세션이 끝난 이유. 아직 진행 중이면 null.</summary>
         public static string EndReason => endReason;
 
-        public static int CallsRemaining => IsActive ? Mathf.Max(0, MaxCalls - callsUsed) : 0;
+        public static int CallsRemaining => IsActive ? Mathf.Max(0, CurrentMaxCalls - callsUsed) : 0;
 
         // ── 무장(Arm) - 에디터 도구만 호출한다 ──────────────────────────────────
 
@@ -74,13 +103,15 @@ namespace Belief.Core
         /// <param name="logPrompts">프롬프트 원문 기록 - 기본은 꺼짐.</param>
         /// <param name="providerConfigPath">씬의 GameInstaller에 LlmProviderConfig가 비어 있을 때
         /// 대신 쓸 자산 경로. 씬을 수정하지 않고 파일럿을 켜기 위한 통로다 - 비워 두면 씬 값만 쓴다.</param>
-        public static void Arm(string sessionId, bool logPrompts = false, string providerConfigPath = null)
+        public static void Arm(string sessionId, bool logPrompts = false, string providerConfigPath = null,
+            PilotRunMode mode = PilotRunMode.SingleZone)
         {
 #if UNITY_EDITOR
             if (string.IsNullOrEmpty(sessionId)) return;
             UnityEditor.SessionState.SetString(ArmedTokenKey, sessionId);
             UnityEditor.SessionState.SetBool(ArmedPromptLoggingKey, logPrompts);
             UnityEditor.SessionState.SetString(ArmedProviderConfigKey, providerConfigPath ?? "");
+            UnityEditor.SessionState.SetInt(ArmedRunModeKey, (int)mode);
 #endif
         }
 
@@ -103,6 +134,7 @@ namespace Belief.Core
             UnityEditor.SessionState.EraseString(ArmedTokenKey);
             UnityEditor.SessionState.EraseBool(ArmedPromptLoggingKey);
             UnityEditor.SessionState.EraseString(ArmedProviderConfigKey);
+            UnityEditor.SessionState.EraseInt(ArmedRunModeKey);
 #endif
         }
 
@@ -123,18 +155,23 @@ namespace Belief.Core
             if (string.IsNullOrEmpty(token)) return false;
 
             logPrompts = UnityEditor.SessionState.GetBool(ArmedPromptLoggingKey, false);
+            runMode = (PilotRunMode)UnityEditor.SessionState.GetInt(ArmedRunModeKey, (int)PilotRunMode.SingleZone);
 
             string configPath = UnityEditor.SessionState.GetString(ArmedProviderConfigKey, "");
             if (!string.IsNullOrEmpty(configPath))
                 providerConfig = UnityEditor.AssetDatabase.LoadAssetAtPath<Belief.Data.LlmProviderConfig>(configPath);
 
-            Disarm();   // 일회성 - 읽는 즉시 소멸
+            // 단일 구역 파일럿은 여기서 토큰을 버린다 - 두 번째 Awake가 절대 파일럿을 못 켠다.
+            // 전 구역 연속 플레이는 반대로 <b>다음 구역의 Awake가 다시 소비해야</b> 이어지므로
+            // 토큰을 남긴다. 남겨도 Play가 끝나면 러너가 Disarm하므로 편집 모드로 새지 않는다.
+            if (runMode != PilotRunMode.FullPlaythrough) Disarm();
 
             activeSessionId = token;
-            callsUsed = 0;
+            callsUsed = 0;      // 예산은 구역 단위로 다시 채워진다
             callsDenied = 0;
             endReason = null;
             coverage = new IntegratedLlmPilotCoverage();
+            zonesEntered++;
             sessionId = token;
             return true;
 #else
@@ -170,6 +207,8 @@ namespace Belief.Core
             callsDenied = 0;
             endReason = null;
             coverage = null;
+            runMode = PilotRunMode.SingleZone;   // 기본값 = 가장 강한 안전벽
+            zonesEntered = 0;
         }
 
         /// <summary>호출 1회 소비 판정. <see cref="IntegratedLlmPilotCallBudget"/>만 사용한다.</summary>
@@ -184,7 +223,7 @@ namespace Belief.Core
                 return false;
             }
 
-            if (callsUsed >= MaxCalls)
+            if (callsUsed >= CurrentMaxCalls)
             {
                 denyReason = CallLimitExceededReason;
                 callsDenied++;
@@ -213,7 +252,7 @@ namespace Belief.Core
 
         public static string Describe() =>
             IsActive
-                ? $"세션 {activeSessionId} - 호출 {callsUsed}/{MaxCalls}, 거부 {callsDenied}"
+                ? $"세션 {activeSessionId} [{runMode}] - 호출 {callsUsed}/{CurrentMaxCalls}, 거부 {callsDenied}, 구역 {zonesEntered}번째"
                 : $"세션 없음 (무장 {(IsArmed ? "됨" : "안 됨")}, 마지막 종료 사유 {endReason ?? "-"}, 호출 {callsUsed}, 거부 {callsDenied})";
     }
 

@@ -494,7 +494,8 @@ namespace Belief.EditorTools
             EditorGUILayout.LabelField("Movement Candidates", r.MovementCandidateIds.Count > 0 ? string.Join(", ", r.MovementCandidateIds) : "(없음)");
             EditorGUILayout.LabelField("Preferred Locations", r.PreferredLocationIds.Count > 0 ? string.Join(", ", r.PreferredLocationIds) : "(없음)");
             EditorGUILayout.LabelField("Avoided Locations", r.AvoidedLocationIds.Count > 0 ? string.Join(", ", r.AvoidedLocationIds) : "(없음)");
-            EditorGUILayout.LabelField("Conviction / Doubt Ratio", $"{F3(r.MoveConvictionRatio)} / {F3(r.MoveDoubtRatio)}");
+            EditorGUILayout.LabelField("확신 / 미확인 / 의심 비율",
+                $"{F3(r.MoveConvictionRatio)} / {F3(r.MoveUnverifiedRatio)} / {F3(r.MoveDoubtRatio)}");
 
             if (r.MoveCandidateScores.Count == 0)
             {
@@ -504,20 +505,21 @@ namespace Belief.EditorTools
             }
             else
             {
-                EditorGUILayout.LabelField("Goal Match / Preference / Belief Commitment / Doubt Override / Final", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Goal Match / Preference / Belief(확신+미확인+의심) / Doubt Override / Final", EditorStyles.boldLabel);
                 foreach (var c in r.MoveCandidateScores)
                 {
                     string sel = c.IsSelected ? " ◀ 선택됨" : "";
                     EditorGUILayout.LabelField($"  {IdName(c.LocationId, c.LocationDisplayName)}{sel}",
-                        $"{F3(c.GoalTerm)} / {F3(c.PreferenceTerm)} / {F3(c.ConvictionTerm)} / {F3(c.DoubtOverrideTerm)} / {F3(c.FinalScore)}");
+                        $"{F3(c.GoalTerm)} / {F3(c.PreferenceTerm)} / {F3(c.BeliefTerm)} / {F3(c.DoubtOverrideTerm)} / {F3(c.FinalScore)}");
                 }
             }
 
             foreach (var ex in r.ExcludedMoveCandidates)
                 EditorGUILayout.LabelField("  제외: " + ex.LocationId, ex.Reason);
 
-            EditorGUILayout.LabelField("Best Score / Tie", $"{F3(r.MoveBestScore)} / {Bool(r.MoveHadTie)}");
-            EditorGUILayout.LabelField("Stay 여부", $"{Bool(r.MoveIsStay)}  (최고 점수가 0 이하이면 Stay)");
+            EditorGUILayout.LabelField("Best Score / Stay Score", $"{F3(r.MoveBestScore)} / {F3(r.MoveStayScore)}");
+            EditorGUILayout.LabelField("Tie 여부", Bool(r.MoveHadTie));
+            EditorGUILayout.LabelField("Stay 여부", $"{Bool(r.MoveIsStay)}  (최고 점수가 Stay Score 이하이면 Stay)");
             EditorGUILayout.LabelField("Selected Destination", string.IsNullOrEmpty(r.SelectedDestinationId) ? "(없음 - Stay)" : r.SelectedDestinationId);
             EditorGUILayout.LabelField("movement.rules", r.MovementRulesStatus);
             EditorGUI.indentLevel--;

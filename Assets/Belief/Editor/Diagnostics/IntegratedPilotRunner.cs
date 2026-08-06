@@ -175,6 +175,66 @@ namespace Belief.EditorTools.Diagnostics
             EditorApplication.isPlaying = true;
         }
 
+        /// <summary>
+        /// Zone1부터 대도시까지 씬 전환을 넘어 이어서 플레이한다. 단일 구역 파일럿과 다른 점은
+        /// 셋뿐이다 - 스테이지 제한 해제, 예산이 <b>구역당</b> 다시 채워짐, 4턴 자동 중단 없음.
+        /// 출시 빌드 차단·씬 무변경·중복/Stale 차단·전체 폴백은 그대로다.
+        /// </summary>
+        [MenuItem("BELIEF/Diagnostics/Integrated Pilot - 전 구역 연속 플레이 (실제 API)", priority = 114)]
+        static void RunFullPlaythrough()
+        {
+            if (UnityEngine.Application.isPlaying)
+            {
+                EditorUtility.DisplayDialog("Integrated Pilot", "Play Mode를 먼저 끄세요.", "확인");
+                return;
+            }
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            EditorSceneManager.OpenScene(PilotScenePath, OpenSceneMode.Single);
+
+            if (!Preflight(out string blocker, out string plan, out string providerConfigPath))
+            {
+                EditorUtility.DisplayDialog("Integrated Pilot - 실행할 수 없습니다",
+                    blocker + "\n\n씬은 수정하지 않았습니다.", "확인");
+                return;
+            }
+
+            int perZone = IntegratedLlmPilotSession.FullPlaythroughMaxCallsPerZone;
+            double worstCost = perZone * 4
+                * (AvgInputTokens / 1_000_000.0 * InputPricePerMillion
+                 + AvgOutputTokens / 1_000_000.0 * OutputPricePerMillion);
+
+            bool go = EditorUtility.DisplayDialog(
+                "Integrated Pilot - 전 구역 연속 플레이 (실제 API)",
+                "Zone1 → Zone2 → Zone3 → 대도시를 통합 판단(IntegratedLlm)으로 이어서 플레이합니다.\n"
+                + "결과는 실제 월드에 적용되고 요금이 발생합니다.\n\n"
+                + $"• 호출 상한 : 구역당 {perZone}회 (구역이 바뀔 때마다 다시 채워짐)\n"
+                + $"• 최악 비용 : 약 ${worstCost:F3} (4구역 전부 상한까지 쓴 경우)\n"
+                + "• 턴 자동 중단 : 없음 (끝까지 진행)\n"
+                + "• 프롬프트 원문 기록 : 꺼짐\n"
+                + "• 씬 · StageData · 카드 · 미션 데이터 : 수정하지 않음\n\n"
+                + plan + "\n"
+                + "중단하려면 Play를 끄거나 'Integrated Pilot - 즉시 중단'을 쓰세요.",
+                "실행", "취소");
+
+            if (!go)
+            {
+                IntegratedLlmPilotSession.Disarm();
+                Debug.Log("[IntegratedPilot] 취소했습니다 - 무장하지 않았고 API 호출 0회입니다.");
+                return;
+            }
+
+            sawConsoleError = false;
+            firstConsoleError = null;
+
+            string sessionId = "full-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss");
+            IntegratedLlmPilotSession.Arm(sessionId, logPrompts: false,
+                providerConfigPath: providerConfigPath, mode: PilotRunMode.FullPlaythrough);
+            Debug.LogWarning($"[IntegratedPilot] 전 구역 연속 플레이로 무장했습니다 ({sessionId}). 구역당 {perZone}회.");
+
+            EditorApplication.isPlaying = true;
+        }
+
         /// <summary>무장하지 않고 사전 점검과 권장 표본 계획만 본다 - API 호출 0회, 씬 무변경.
         /// 실제 실행 전에 조건이 맞는지 확인할 때 쓴다.</summary>
         [MenuItem("BELIEF/Diagnostics/Integrated Pilot - 사전 점검만 (호출 0회)", priority = 111)]
@@ -375,6 +435,10 @@ namespace Belief.EditorTools.Diagnostics
 
             if (!IntegratedLlmPilotSession.IsActive) return;
 
+            // 전 구역 연속 플레이는 끝까지 도는 것이 목적이라 턴 상한을 적용하지 않는다 -
+            // 그 모드의 방어선은 구역당 호출 예산이다.
+            if (IntegratedLlmPilotSession.RunMode == PilotRunMode.FullPlaythrough) return;
+
             if (monitored == null) monitored = UnityEngine.Object.FindFirstObjectByType<GameInstaller>();
             if (monitored == null || monitored.Turns == null) return;
 
@@ -456,14 +520,26 @@ namespace Belief.EditorTools.Diagnostics
             if (type != LogType.Error && type != LogType.Exception && type != LogType.Assert) return;
             if (!IntegratedLlmPilotSession.IsActive) return;
 
+            // 2026-08-06 실측: Unity 패키지(MCP relay)의 연결 오류가 파일럿을 조기 종료시켰다.
+            // 중단 기준의 의도는 "게임이 깨졌는가"이므로, 이 프로젝트 코드에서 나온 오류만 중단으로
+            // 본다. 나머지는 기록만 남긴다 - 남의 오류로 실행이 죽으면 관측 자체가 불가능해진다.
+            bool fromGameCode = stackTrace != null && stackTrace.Contains("Assets/Belief");
+
             if (!sawConsoleError)
             {
                 sawConsoleError = true;
                 firstConsoleError = condition;
             }
 
+            if (!fromGameCode)
+            {
+                Debug.LogWarning("[IntegratedPilot] 프로젝트 밖(패키지/툴링)에서 Console Error가 났습니다 - "
+                               + "파일럿은 계속 진행합니다.\n  " + condition);
+                return;
+            }
+
             IntegratedLlmPilotSession.End("ConsoleError");
-            Debug.LogWarning("[IntegratedPilot] Console Error가 발생해 파일럿을 중단했습니다 - "
+            Debug.LogWarning("[IntegratedPilot] 게임 코드에서 Console Error가 발생해 파일럿을 중단했습니다 - "
                            + "이후 판단은 RuleBased 전체 폴백으로 처리됩니다.\n  " + condition);
         }
 
@@ -483,7 +559,8 @@ namespace Belief.EditorTools.Diagnostics
 
             var sb = new StringBuilder();
             sb.AppendLine("[IntegratedPilot] 파일럿 종료");
-            sb.AppendLine($"  LLM 호출 : {used}/{IntegratedLlmPilotSession.MaxCalls}회");
+            sb.AppendLine($"  LLM 호출 : {used}/{IntegratedLlmPilotSession.CurrentMaxCalls}회"
+                        + $"  (모드 {IntegratedLlmPilotSession.RunMode}, 진입 구역 {IntegratedLlmPilotSession.ZonesEntered})");
             sb.AppendLine($"  거부된 요청 : {IntegratedLlmPilotSession.CallsDenied}회 (전부 RuleBased 전체 폴백)");
             sb.AppendLine($"  예상 비용 : 약 ${cost:F5} (실측 평균 환산 - 정확한 값은 Decision Trace의 토큰 수를 보세요)");
 

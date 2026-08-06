@@ -116,8 +116,10 @@ namespace Belief.Debugging
         public List<MoveCandidateScoreEntry> MoveCandidateScores = new List<MoveCandidateScoreEntry>();
         public List<ExcludedCandidateEntry> ExcludedMoveCandidates = new List<ExcludedCandidateEntry>();
         public float MoveConvictionRatio;
+        public float MoveUnverifiedRatio;
         public float MoveDoubtRatio;
         public float MoveBestScore;
+        public float MoveStayScore; // 현재 위치의 매력도 - MoveBestScore가 이 값을 초과해야 이동한다
         public bool MoveHadTie;
         public string SelectedDestinationId;
         public bool MoveIsStay;
@@ -233,7 +235,7 @@ namespace Belief.Debugging
         public string LocationId;
         public string LocationDisplayName;
         public float GoalTerm;
-        public float ConvictionTerm;
+        public float BeliefTerm; // conviction/unverified/doubt 세 항의 합(모든 후보에 균등)
         public float PreferenceTerm; // Preferred(+)/Avoided(-)/Neutral(0)
         public float DoubtOverrideTerm; // 기피 후보에만 적용되는 항
         public float FinalScore;

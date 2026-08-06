@@ -117,6 +117,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bbd7eddf854b7ea49961419069a30f82, type: 2}
   - {fileID: 11400000, guid: f89dbfbdbe6867b449119cc4075222a2, type: 2}
   - {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
   preferredLocations:
   - {fileID: 11400000, guid: bbd7eddf854b7ea49961419069a30f82, type: 2}
   avoidedLocations:

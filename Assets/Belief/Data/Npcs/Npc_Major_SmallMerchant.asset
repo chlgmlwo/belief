@@ -113,7 +113,9 @@ MonoBehaviour:
   movementCandidates:
   - {fileID: 11400000, guid: 19033b22e5426dc4089787dee0e242ed, type: 2}
   - {fileID: 11400000, guid: 40858fb8ee9999b4eb99d6bbbed06936, type: 2}
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
   preferredLocations:
   - {fileID: 11400000, guid: 19033b22e5426dc4089787dee0e242ed, type: 2}
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
   avoidedLocations:
   - {fileID: 11400000, guid: 34e7ab9f748b1c4458b0d3972829ae02, type: 2}

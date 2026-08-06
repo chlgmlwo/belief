@@ -117,8 +117,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
   - {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
   - {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
   preferredLocations:
   - {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
   - {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
+  - {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
   avoidedLocations:
   - {fileID: 11400000, guid: 34e7ab9f748b1c4458b0d3972829ae02, type: 2}

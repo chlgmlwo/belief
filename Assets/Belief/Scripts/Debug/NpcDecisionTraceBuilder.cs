@@ -246,7 +246,7 @@ namespace Belief.Debugging
         public NpcDecisionTraceBuilder WithMoveScoring(
             LocationData currentLocation, IReadOnlyList<LocationData> candidates,
             LocationData[] preferred, LocationData[] avoided,
-            float convictionRatio, float doubtRatio,
+            float convictionRatio, float unverifiedRatio, float doubtRatio, float stayScore,
             List<MoveCandidateScoreEntry> scoredEntries, LocationData selected, bool isStay, bool hadTie)
         {
             record.MoveCurrentLocationId = currentLocation != null ? currentLocation.locationId : null;
@@ -258,7 +258,9 @@ namespace Belief.Debugging
             if (avoided != null) foreach (var a in avoided) if (a != null) record.AvoidedLocationIds.Add(a.locationId);
 
             record.MoveConvictionRatio = convictionRatio;
+            record.MoveUnverifiedRatio = unverifiedRatio;
             record.MoveDoubtRatio = doubtRatio;
+            record.MoveStayScore = stayScore;
             record.MoveCandidateScores = scoredEntries;
             record.MoveBestScore = scoredEntries.Count > 0 ? scoredEntries.Max(e => e.FinalScore) : 0f;
             record.MoveHadTie = hadTie;

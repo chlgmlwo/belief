@@ -51,15 +51,40 @@ namespace Belief.Systems
         /// null이면(IntegratedLlm 모드가 아니면) 아래 흐름은 지금까지와 완전히 동일하다.</summary>
         readonly DestinationReservation reservations;
 
+        /// <summary>이번 스테이지에 실제로 등록된 장소. movementCandidates는 NPC 에셋에 붙어 있어
+        /// 그 NPC가 등장하는 모든 스테이지가 같은 목록을 공유하므로, 이번 스테이지에 없는 장소가
+        /// 후보에 섞여 있는 것은 정상이다. 그런 후보를 미리 걷어내야 NPC가 "갈 수 없는 곳"을 최고점으로
+        /// 골라 그 턴을 통째로 버리는 일이 없다. null이면 필터링하지 않는다(기존 동작).</summary>
+        readonly IReadOnlyDictionary<LocationData, LocationState> registeredLocations;
+
         int currentTurn;
 
         public NpcMovementSystem(ActionResolutionSystem actionResolution, IMajorNpcThinker thinker,
-            RuleBasedMajorThinker ruleBased, DestinationReservation reservations = null)
+            RuleBasedMajorThinker ruleBased, DestinationReservation reservations = null,
+            IReadOnlyDictionary<LocationData, LocationState> registeredLocations = null)
         {
             this.actionResolution = actionResolution;
             this.thinker = thinker;
             this.ruleBased = ruleBased;
             this.reservations = reservations;
+            this.registeredLocations = registeredLocations;
+        }
+
+        /// <summary>이번 스테이지에 등록된 후보만 남긴다. 전부 유효하면 원본 배열을 그대로 돌려주므로
+        /// 정상 상황에서는 할당이 한 번도 일어나지 않는다.</summary>
+        IReadOnlyList<LocationData> ValidCandidates(LocationData[] candidates)
+        {
+            if (registeredLocations == null || candidates == null) return candidates;
+
+            int valid = 0;
+            foreach (var c in candidates)
+                if (c != null && registeredLocations.ContainsKey(c)) valid++;
+            if (valid == candidates.Length) return candidates;
+
+            var filtered = new List<LocationData>(valid);
+            foreach (var c in candidates)
+                if (c != null && registeredLocations.ContainsKey(c)) filtered.Add(c);
+            return filtered;
         }
 
         /// <summary>발사 단계에서 만들어 적용 단계까지 들고 가는 한 NPC분의 진행 중 판단.</summary>
@@ -186,7 +211,8 @@ namespace Belief.Systems
                 foreach (var other in ordered)
                     if (other != npc && other.CurrentLocation == beforeLocation) presentNpcs.Add(other);
 
-                var context = new NpcMoveContext(npc, beforeLocation, major.movementCandidates, this.currentTurn, presentNpcs);
+                var context = new NpcMoveContext(npc, beforeLocation, ValidCandidates(major.movementCandidates),
+                    this.currentTurn, presentNpcs);
 
                 // 여기서 await하지 않는다 - Task만 받아 두고 다음 NPC로 넘어간다. RuleBased는
                 // Task.FromResult라 이 자리에서 이미 완료되고, LLM은 백그라운드로 진행된다.
