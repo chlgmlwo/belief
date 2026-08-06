@@ -27,4 +27,4 @@ MonoBehaviour:
   npcDensity: 1
   sensitiveInformationType: 5
   accessType: 4
-  credibilityModifier: 0
+  credibilityModifier: 1

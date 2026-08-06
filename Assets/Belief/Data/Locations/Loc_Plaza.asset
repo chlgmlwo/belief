@@ -23,8 +23,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 251b99d1b087f3247bd9fe8501d0891e, type: 2}
   - {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
   - {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
-  spreadSpeed: 0
-  npcDensity: 0
-  sensitiveInformationType: 0
+  spreadSpeed: 3
+  npcDensity: 3
+  sensitiveInformationType: 1
   accessType: 0
-  credibilityModifier: 0
+  credibilityModifier: 1
