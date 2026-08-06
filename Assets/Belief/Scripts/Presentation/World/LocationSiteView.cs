@@ -38,8 +38,28 @@ namespace Belief.Presentation.World
         // "Input System Package (New)"로 설정된 이 프로젝트에서는 호출되지 않는다.
         // EventSystem + Physics2DRaycaster(WorldPresenter가 보장)를 통해 클릭을 받는다.
         public void OnPointerClick(PointerEventData eventData) => Clicked?.Invoke(BoundData);
-        public void OnPointerEnter(PointerEventData eventData) => HoverEnter?.Invoke(BoundData);
-        public void OnPointerExit(PointerEventData eventData) => HoverExit?.Invoke(BoundData);
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            SetHovered(true);
+            HoverEnter?.Invoke(BoundData);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            SetHovered(false);
+            HoverExit?.Invoke(BoundData);
+        }
+
+        /// <summary>커서 밑에 있는 채로 비활성화되면 OnPointerExit가 오지 않아 확대된 채로 굳는다 -
+        /// 다시 켜질 때 원래 크기로 보이도록 정리한다.</summary>
+        void OnDisable()
+        {
+            if (!hovered) return;
+            hovered = false;
+            if (hoverRoutine != null) { StopCoroutine(hoverRoutine); hoverRoutine = null; }
+            transform.localScale = baseScale;
+        }
 
         // NormalColor는 실제 사진 자산이 들어오기 전 placeholder 단색 시절 값이었다 - 이제 진짜
         // 사진이 있으므로 흰색(원본 색 그대로)으로 되돌린다. Alert/Locked/Highlight/Selection은
@@ -52,6 +72,16 @@ namespace Belief.Presentation.World
 
         const float HighlightDuration = 0.3f;
         const float SelectionTweenDuration = 0.18f;
+
+        /// <summary>커서를 따라다니는 반응이라 선택 연출보다 짧아야 손이 끌리는 느낌이 안 난다.</summary>
+        const float HoverTweenDuration = 0.14f;
+        const float HoverScaleMultiplier = 1.08f;
+
+        bool hovered;
+        Coroutine hoverRoutine;
+        /// <summary>WorldPresenter가 Bind 직전에 정해 주는 카드 기본 크기 - 호버 확대는 여기에
+        /// 곱했다가 되돌린다.</summary>
+        Vector3 baseScale = Vector3.one;
 
         // 폰트 크기는 장소마다 달라지면 안 되고 전부 동일해야 한다(사용자 지시) - 그래서 "이 장소의
         // 이름"이 아니라 "게임 전체에서 가장 긴 장소 이름 하나"를 기준으로 "이 정도 크기면 가장 긴
@@ -92,6 +122,7 @@ namespace Belief.Presentation.World
             BoundData = data;
             if (label != null) label.text = data.displayName;
             transform.position = new Vector3(position.x, position.y, transform.position.z);
+            baseScale = transform.localScale;
             SetSiteState(LocationSiteState.Normal);
 
             // 사진이 없으면 사진 자리를 아예 그리지 않는다. 예전에는 여기서 조용히 넘어갔는데,
@@ -105,6 +136,8 @@ namespace Belief.Presentation.World
                 background.enabled = hasPhoto;
                 if (hasPhoto) background.sprite = data.locationPhoto;
             }
+
+            FitColliderToPhoto();
 
             if (frame != null && skin != null) frame.sprite = skin.locationImageFrame;
             if (pin != null && skin != null) pin.sprite = skin.pin;
@@ -268,6 +301,62 @@ namespace Belief.Presentation.World
         {
             currentState = state;
             if (highlightRoutine == null && selectionRoutine == null && !selected) ApplyBaseColor();
+        }
+
+        /// <summary>프리팹의 BoxCollider2D는 placeholder 시절의 1x1 고정인데, 실제 장소 사진은
+        /// 세로로 길다(여관 0.90x1.45). 그래서 판정면이 카드 위아래 1/3을 덮지 못하고 좌우로는
+        /// 오히려 삐져나가 있었다 - 클릭은 대충 가운데를 누르니 티가 안 났지만, 호버는 "카드 위에
+        /// 올렸는데 반응이 없다"가 그대로 드러난다.
+        ///
+        /// 사진이 없는 장소(Stage_04 저택가)는 압정과 이름표만 남는 표식이라, 사진에 맞추면 판정면이
+        /// 사라진다 - 그 경우엔 프리팹의 1x1을 그대로 둔다.</summary>
+        void FitColliderToPhoto()
+        {
+            var box = GetComponent<BoxCollider2D>();
+            if (box == null || background == null || !background.enabled || background.sprite == null) return;
+
+            var scale = background.transform.localScale;
+            var size = background.sprite.bounds.size;
+            box.size = new Vector2(size.x * scale.x, size.y * scale.y);
+            box.offset = (Vector2)background.transform.localPosition
+                         + new Vector2(background.sprite.bounds.center.x * scale.x, background.sprite.bounds.center.y * scale.y);
+        }
+
+        /// <summary>커서가 이 장소 카드 위에 올라왔는지 - 카드 전체를 부드럽게 확대한다.
+        /// 색은 건드리지 않는다(선택/경보/잠금 틴트가 이미 background.color를 쓰고 있어, 여기서
+        /// 같이 쓰면 서로 덮어써 선택 표시가 풀린다).</summary>
+        void SetHovered(bool value)
+        {
+            if (hovered == value) return;
+            hovered = value;
+
+            if (hoverRoutine != null) StopCoroutine(hoverRoutine);
+            if (!isActiveAndEnabled)
+            {
+                transform.localScale = value ? baseScale * HoverScaleMultiplier : baseScale;
+                return;
+            }
+            hoverRoutine = StartCoroutine(HoverScaleRoutine());
+        }
+
+        /// <summary>PlaybackDirector에 등록하지 않는다 - 등록하면 "재생 중"으로 잡혀 입력이 잠기고,
+        /// 커서가 지도 위를 지나갈 때마다 손패 클릭이 씹힌다.</summary>
+        IEnumerator HoverScaleRoutine()
+        {
+            // 2D라 z는 그대로 둔다.
+            float mul = hovered ? HoverScaleMultiplier : 1f;
+            Vector3 from = transform.localScale;
+            var to = new Vector3(baseScale.x * mul, baseScale.y * mul, baseScale.z);
+
+            float t = 0f;
+            while (t < HoverTweenDuration)
+            {
+                t += Time.deltaTime;
+                transform.localScale = Vector3.Lerp(from, to, Mathf.SmoothStep(0f, 1f, t / HoverTweenDuration));
+                yield return null;
+            }
+            transform.localScale = to;
+            hoverRoutine = null;
         }
 
         /// <summary>정보 확산의 일회성 플래시(Highlight)와 달리, 지금 전달 대상으로 선택되어 있는 동안
