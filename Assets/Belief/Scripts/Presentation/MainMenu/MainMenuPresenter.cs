@@ -55,8 +55,47 @@ namespace Belief.Presentation.MainMenu
             view.StartButton.onClick.AddListener(OnStartClicked);
             view.HowToPlayButton.onClick.AddListener(() => howToPlayPopup?.Show());
 
+            // [이어하기]는 오토세이브가 있을 때만 존재한다 - 없는데 눌리는 버튼을 두지 않는다.
+            if (view.ContinueButton != null)
+            {
+                bool hasSave = Belief.Core.AutoSaveService.HasSave;
+                view.ContinueButton.gameObject.SetActive(hasSave);
+                if (hasSave) view.ContinueButton.onClick.AddListener(OnContinueClicked);
+                LayoutActionButtons(hasSave);
+            }
+
             howToPlayPopup = view.gameObject.AddComponent<HowToPlayPopup>();
             howToPlayPopup.Build(view.transform, skin);
+        }
+
+        // 메모지 카드(283x261) 안에서 글자가 놓일 수 있는 세로 범위는 대략 -124 ~ +100이다
+        // (위쪽은 테이프가 덮고 있다). 아래 값은 그 안에서 버튼을 균등하게 나눈 결과다.
+        const float TwoButtonTopY = 22f;
+        const float TwoButtonBottomY = -52f;
+        const float ThreeButtonSpacing = 74f;
+
+        /// <summary>[이어하기]가 생기면 버튼이 둘에서 셋으로 늘어난다 - 기존 두 자리에 하나를 더
+        /// 얹으면 카드 밖으로 나가므로, 개수에 맞춰 카드 중앙 기준으로 다시 나눠 배치한다.
+        /// 저장본이 없을 때는 원래 두 자리 좌표를 그대로 쓴다.</summary>
+        void LayoutActionButtons(bool hasContinue)
+        {
+            if (!hasContinue)
+            {
+                SetY(view.StartButton, TwoButtonTopY);
+                SetY(view.HowToPlayButton, TwoButtonBottomY);
+                return;
+            }
+
+            SetY(view.ContinueButton, ThreeButtonSpacing);
+            SetY(view.StartButton, 0f);
+            SetY(view.HowToPlayButton, -ThreeButtonSpacing);
+        }
+
+        static void SetY(Button button, float y)
+        {
+            if (button == null) return;
+            var rt = (RectTransform)button.transform;
+            rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, y);
         }
 
         void OnStartClicked()
@@ -65,6 +104,36 @@ namespace Belief.Presentation.MainMenu
 
             string sceneName = ResolveFirstSceneName();
             if (string.IsNullOrEmpty(sceneName)) return; // 원인은 ResolveFirstSceneName이 이미 Error로 남겼다.
+
+            // [게임 시작]은 언제나 처음부터다 - 남아 있던 오토세이브와 진행 상태를 먼저 비운다.
+            // 비우지 않으면 완료 기록이 그대로 남아 첫 구역이 시작하자마자 완료로 판정된다.
+            Belief.Core.ProgressionController.Instance?.BeginNewGame();
+
+            transitioning = true;
+            StartCoroutine(StartGameRoutine(sceneName));
+        }
+
+        /// <summary>[이어하기] - 오토세이브를 진행 상태로 되살린 뒤 그 구역 씬을 로드한다. 저장본이
+        /// 가리키는 씬이 빌드에 없으면(스테이지 구성이 바뀐 경우) 저장본을 버리고 버튼을 감춘다 -
+        /// 눌러도 아무 일도 안 일어나는 상태로 두지 않는다.</summary>
+        void OnContinueClicked()
+        {
+            if (transitioning) return;
+
+            var pc = Belief.Core.ProgressionController.Instance;
+            if (pc == null || !pc.TryResumeFromAutoSave(out string sceneName))
+            {
+                view.ContinueButton.gameObject.SetActive(false);
+                return;
+            }
+
+            if (!Application.CanStreamedLevelBeLoaded(sceneName))
+            {
+                Debug.LogError($"[MainMenu] 오토세이브가 가리키는 씬 '{sceneName}'을 로드할 수 없어 저장본을 폐기합니다.");
+                Belief.Core.AutoSaveService.Clear();
+                view.ContinueButton.gameObject.SetActive(false);
+                return;
+            }
 
             transitioning = true;
             StartCoroutine(StartGameRoutine(sceneName));

@@ -94,7 +94,12 @@ namespace Belief.Core
             if (Data == null)
                 Debug.LogError("ProgressionController: Resources/ProgressionData.asset을 찾을 수 없습니다.");
 
-            turnEndedHandler = e => ReevaluateCurrentStage(e.InstantFailTriggered, turnJustEnded: true);
+            turnEndedHandler = e =>
+            {
+                ReevaluateCurrentStage(e.InstantFailTriggered, turnJustEnded: true);
+                // 턴 종료 저장 지점. 재평가 뒤에 저장해야 이번 턴에 확정된 미션 완료가 함께 남는다.
+                AutoSaveNow();
+            };
             SceneManager.sceneLoaded += OnSceneLoaded;
             // 씬 로드 이벤트를 놓쳤을 경우를 대비한 안전망 - 이미 로드된 씬이 있다면 즉시 한 번 시도한다.
             OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -130,6 +135,11 @@ namespace Belief.Core
                 currentInstaller.Turns.ResetForNewMission(firstObjective.turnLimit);
 
             currentInstaller.EventBus.Subscribe(turnEndedHandler);
+
+            // 스테이지 전환 저장 지점 - 구역이 바뀌면 반드시 이 콜백을 거치므로, ConfirmZoneComplete
+            // 쪽에 따로 저장을 넣지 않아도 새 구역이 저장된다. 이어하기로 들어온 경우엔 방금 복원한
+            // 것과 같은 내용을 한 번 더 쓰는 것뿐이라 해가 없다.
+            AutoSaveNow();
 
             // 이 콜백(SceneManager.sceneLoaded, 그리고 이를 대신 호출하는 Awake 안전망)은 새 씬의
             // 모든 Start()보다 먼저 실행된다 - 여기서 곧바로 재평가하면, 씬 시작부터 이미 만족된 목표가
@@ -287,6 +297,58 @@ namespace Belief.Core
             currentInstaller.Turns.ResetForNewMission(newMaxTurns);
             PlaybackDirector.Instance?.SkipAll();
             ObjectivesChanged?.Invoke();
+
+            // 미션 경계 저장 지점 - 오토세이브의 복원 단위가 곧 미션이라 여기가 가장 중요한 지점이다.
+            AutoSaveNow();
+        }
+
+        // ------------------------------------------------------------ 오토세이브
+
+        /// <summary>지금 진행 상태를 오토세이브에 덮어쓴다. 저장 단위는 "어느 구역의 몇 번째 미션까지
+        /// 깼는가"이고, 진행 중이던 미션의 턴/손패/세계 상태는 저장하지 않는다 - 재진입하면 그 구역의
+        /// 현재 미션을 처음부터 다시 시작한다.
+        ///
+        /// 구역이 확정되지 않은 씬(메인 메뉴 등 currentStage==null)에서는 아무것도 하지 않는다 -
+        /// 그러지 않으면 메뉴로 나갔다는 이유만으로 저장본이 엉뚱한 씬을 가리키게 된다.</summary>
+        void AutoSaveNow()
+        {
+            if (currentStage == null || string.IsNullOrEmpty(currentStage.sceneName)) return;
+            AutoSaveService.Save(Progress, currentStage.sceneName);
+        }
+
+        /// <summary>[게임 시작] - 진행을 처음부터 다시 시작한다. 남아 있던 오토세이브도 지운다.
+        /// 씬 로드는 호출부(MainMenuPresenter)가 한다.</summary>
+        public void BeginNewGame()
+        {
+            Progress.CompletedStageIds.Clear();
+            Progress.CompletedMissionIds.Clear();
+            Progress.CurrentStageIndex = -1;
+            Progress.MetropolisUnlocked = false;
+            AutoSaveService.Clear();
+        }
+
+        /// <summary>[이어하기] - 오토세이브를 Progress에 되살리고 로드할 씬 이름을 돌려준다.
+        /// 반드시 씬을 로드하기 <b>전에</b> 호출해야 한다 - OnSceneLoaded 시점에 CompletedMissionIds가
+        /// 이미 채워져 있어야 <see cref="CurrentObjective"/>가 이어서 할 미션을 제대로 고른다.</summary>
+        public bool TryResumeFromAutoSave(out string sceneName)
+        {
+            sceneName = null;
+            if (!AutoSaveService.TryLoad(out var dto)) return false;
+
+            Progress.CompletedStageIds.Clear();
+            if (dto.completedStageIds != null)
+                foreach (var id in dto.completedStageIds) Progress.CompletedStageIds.Add(id);
+
+            Progress.CompletedMissionIds.Clear();
+            if (dto.completedMissionIds != null)
+                foreach (var id in dto.completedMissionIds) Progress.CompletedMissionIds.Add(id);
+
+            Progress.MetropolisUnlocked = dto.metropolisUnlocked;
+            // CurrentStageIndex는 여기서 채우지 않는다 - 씬이 로드되면 OnSceneLoaded가 실제 씬 이름을
+            // 보고 정한다. 저장본의 인덱스를 믿었다가 스테이지 순서가 바뀌면 어긋난다.
+
+            sceneName = dto.stageSceneName;
+            return true;
         }
 
         /// <summary>HUD의 "ZONE COMPLETE" 팝업에서 [다음 구역] 버튼을 눌렀을 때 호출된다 - 이 시점에야

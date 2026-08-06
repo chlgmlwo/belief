@@ -11,8 +11,13 @@ namespace Belief.Presentation.MainMenu
         [SerializeField] Button startButton;
         [SerializeField] Button howToPlayButton;
 
+        /// <summary>오토세이브가 있을 때만 켜지는 [이어하기]. 저장본이 없으면 Presenter가 꺼 버리므로
+        /// 나머지 두 버튼의 자리는 그대로 유지된다.</summary>
+        [SerializeField] Button continueButton;
+
         public CanvasGroup RootCanvasGroup => rootCanvasGroup;
         public Button StartButton => startButton;
         public Button HowToPlayButton => howToPlayButton;
+        public Button ContinueButton => continueButton;
     }
 }
