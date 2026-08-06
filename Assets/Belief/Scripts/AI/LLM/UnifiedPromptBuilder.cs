@@ -58,11 +58,19 @@ namespace Belief.AI.LLM
             var info = ctx.Card.information;
             sb.AppendLine($"제목: {(info != null ? info.title : "알 수 없음")}");
             sb.AppendLine($"내용: {(info != null ? info.description : "알 수 없음")}");
+            // 주장 자체의 그럴듯함(0~1). 출처 신뢰도와는 별개의 축이라 반드시 따로 제시한다 -
+            // 재확산으로 넘어와도 카드 객체가 그대로 전달되므로 이 값에 감쇠가 붙지 않는다(원본 = 유효값).
+            sb.AppendLine(info != null
+                ? $"내용 신뢰도: {info.baseCredibility:0.00}  (0~1, 높을수록 주장 자체가 그럴듯함)"
+                : "내용 신뢰도: 알 수 없음");
 
             sb.AppendLine();
             sb.AppendLine("[정보 출처]");
             sb.AppendLine($"선언된 출처: {(ctx.Card.source != null ? ctx.Card.source.displayName : "알 수 없음")}");
             sb.AppendLine($"출처 Id: {(ctx.Card.source != null ? ctx.Card.source.sourceId : "알 수 없음")}");
+            sb.AppendLine(ctx.Card.source != null
+                ? $"출처 신뢰도: {ctx.Card.source.baseTrustModifier:0.00}  (0~1, 높을수록 출처가 믿을 만함)"
+                : "출처 신뢰도: 알 수 없음");
 
             sb.AppendLine();
             sb.AppendLine("[관련 기억]");
@@ -178,7 +186,9 @@ namespace Belief.AI.LLM
             if (ctx.Where != null)
             {
                 sb.AppendLine($"- {ctx.Where.Data.locationId}: {ctx.Where.Data.displayName}");
-                AppendLocationDetail(sb, ctx.Where.Data, ctx.Where, ctx.Npc, "    ");
+                // 신뢰도 보정은 "지금 이 주장을 듣고 있는 자리"에만 붙인다 - 이동 후보에까지 붙이면
+                // 아직 가지도 않은 장소의 보정을 이번 판단 근거로 쓰게 된다.
+                AppendLocationDetail(sb, ctx.Where.Data, ctx.Where, ctx.Npc, "    ", includeCredibility: true);
             }
             else sb.AppendLine("- 알 수 없음");
 
@@ -202,12 +212,15 @@ namespace Belief.AI.LLM
             }
         }
 
-        static void AppendLocationDetail(StringBuilder sb, LocationData data, LocationState state, NpcState self, string indent)
+        static void AppendLocationDetail(StringBuilder sb, LocationData data, LocationState state, NpcState self, string indent,
+            bool includeCredibility = false)
         {
             if (!string.IsNullOrWhiteSpace(data.description))
                 sb.AppendLine($"{indent}설명: {data.description.Trim().Replace("\n", " ")}");
             sb.AppendLine($"{indent}민감 정보 유형: {data.sensitiveInformationType} / 정보 확산 속도: {data.spreadSpeed} / 인구 밀집도: {data.npcDensity}");
             sb.AppendLine($"{indent}출입: {data.accessType}");
+            if (includeCredibility)
+                sb.AppendLine($"{indent}장소 신뢰도 보정: {data.credibilityModifier} ({CredibilityModifierMeaning(data.credibilityModifier)})");
 
             if (state != null)
             {
@@ -219,6 +232,18 @@ namespace Belief.AI.LLM
             }
         }
 
+        /// <summary>LocationCredibilityModifier의 실제 값(Unspecified/Low/Neutral/High/VeryHigh)을
+        /// 사람이 읽는 한 줄 의미로 옮긴다. 여기 없는 값을 지어내지 않는다 - enum이 늘어나면
+        /// default가 "별도 정보 없음"으로 안전하게 떨어진다.</summary>
+        static string CredibilityModifierMeaning(LocationCredibilityModifier value) => value switch
+        {
+            LocationCredibilityModifier.Low => "이 장소에서는 정보가 덜 신뢰받기 쉬움",
+            LocationCredibilityModifier.Neutral => "장소로 인한 추가 보정 없음",
+            LocationCredibilityModifier.High => "이 장소에서는 정보가 더 신뢰받기 쉬움",
+            LocationCredibilityModifier.VeryHigh => "이 장소에서는 정보가 훨씬 더 신뢰받기 쉬움",
+            _ => "별도 장소 신뢰도 정보 없음"
+        };
+
         static void AppendPrinciples(StringBuilder sb)
         {
             sb.AppendLine();
@@ -228,6 +253,9 @@ namespace Belief.AI.LLM
             sb.AppendLine("지금 이 자리에 있는 인물과의 관계가 충분히 강하다면 평소와 다른 선택을 해도 됩니다.");
             sb.AppendLine("다만 그렇게 했다면 위에 실제로 제시된 성향 태그나 관계 npcId를 근거로 반환해야 합니다.");
             sb.AppendLine("위에 제시되지 않은 인물, 관계, 기억, 과거 사건을 지어내지 마세요. 지어내면 응답 전체가 무효입니다.");
+            sb.AppendLine("정보의 내용 신뢰도와 출처 신뢰도는 서로 독립적인 단서이며, NPC의 성향·관계·기억·현재 장소와");
+            sb.AppendLine("함께 종합적으로 판단하세요. 이 수치들은 판단 근거 중 하나일 뿐이며, 정해진 공식으로 계산하거나");
+            sb.AppendLine("특정 값을 기준으로 믿음 단계를 기계적으로 정하지 마세요.");
 
             sb.AppendLine();
             sb.AppendLine("action과 destinationId는 하나의 계획으로 함께 판단하세요.");
