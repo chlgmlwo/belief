@@ -618,6 +618,8 @@ MonoBehaviour:
   fakeTransportMode: 0
   llmProviderConfig: {fileID: 11400000, guid: 23d836c569e74ed42af508397e7bca6c, type: 2}
   llmTimeoutMs: 15000
+  shadowMode: 0
+  shadowPromptLogging: 0
 --- !u!4 &834267442
 Transform:
   m_ObjectHideFlags: 0
