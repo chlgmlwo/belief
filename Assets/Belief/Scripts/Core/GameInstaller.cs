@@ -75,6 +75,10 @@ namespace Belief.Core
         readonly Dictionary<LocationData, LocationState> locationStates = new Dictionary<LocationData, LocationState>();
         readonly Dictionary<NpcData, NpcState> npcStates = new Dictionary<NpcData, NpcState>();
 
+        /// <summary>이 스테이지가 쓰는 카드의 유일한 출처 - 오토세이브가 cardId를 카드로 되돌릴 때
+        /// 참조한다(WorldSaveMapper).</summary>
+        public InformationCardPoolData InformationPool => informationPool;
+
         public IReadOnlyDictionary<LocationData, LocationState> Locations => locationStates;
         public IReadOnlyDictionary<NpcData, NpcState> Npcs => npcStates;
 

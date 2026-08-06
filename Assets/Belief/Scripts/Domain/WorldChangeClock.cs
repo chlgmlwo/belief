@@ -29,5 +29,13 @@ namespace Belief.Domain
         /// 재생을 반복해도 같은 플레이가 같은 스탬프 순서를 갖는다.</summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         public static void ResetForNewSession() => current = 0;
+
+        /// <summary>오토세이브 복원 전용. 되살린 상태들이 들고 있는 스탬프보다 시계가 뒤에 있으면
+        /// 이후 발급되는 스탬프가 과거 값과 겹쳐, "미션 시작 이후의 새 변화"인지 판정이 어긋난다.
+        /// 되감지는 않는다 - 이미 더 진행된 시계는 그대로 둔다.</summary>
+        public static void RestoreAtLeast(long stamp)
+        {
+            if (stamp > current) current = stamp;
+        }
     }
 }

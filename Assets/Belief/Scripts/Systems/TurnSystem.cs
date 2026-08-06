@@ -224,6 +224,11 @@ namespace Belief.Systems
             eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
         }
 
+        /// <summary>오토세이브로 세계 상태를 되살린 직후 호출한다 - 그 상태가 이번 미션 시도의
+        /// 시작점이 되어야 [재시작]이 복원 이전의 초기 배치로 되돌아가지 않는다. StartGame이 이미
+        /// 찍어 둔 스냅샷을 지금 상태로 갈아끼우는 것이 전부다.</summary>
+        public void RecaptureMissionAttemptSnapshot() => CaptureMissionAttemptSnapshot();
+
         void CaptureMissionAttemptSnapshot()
         {
             cardSnapshot = cards.CaptureSnapshot();

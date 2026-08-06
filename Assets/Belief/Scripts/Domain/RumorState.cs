@@ -38,6 +38,19 @@ namespace Belief.Domain
             LastChangedStamp = WorldChangeClock.Next();
         }
 
+        /// <summary>오토세이브에서 되살릴 때만 쓰는 생성 경로. IsActive/LastChangedStamp는 평소
+        /// 클래스 안에서만 정해지는데(비공개 setter), 저장본에서 읽은 값을 그대로 넣어야 복원 후
+        /// 상태가 저장 시점과 같아진다 - Clone()이 하는 일과 같지만 바깥에서 부를 수 있는 문이다.
+        /// 새 소문을 만드는 데는 쓰지 말 것(그건 생성자가 스탬프를 새로 찍어야 한다).</summary>
+        public static RumorState Restore(InformationData information, InformationCardData sourceCard,
+            LocationData location, NpcData propagatedBy, int activatedTurn, bool isActive, long lastChangedStamp)
+        {
+            var s = new RumorState(information, sourceCard, location, propagatedBy, activatedTurn);
+            s.IsActive = isActive;
+            s.LastChangedStamp = lastChangedStamp;
+            return s;
+        }
+
         /// <summary>스냅샷 보관·복원용 사본. RumorState는 class라 리스트만 새로 만들면 원본과 같은
         /// 인스턴스를 공유해서, 이후 Refresh가 스냅샷 내용까지 함께 바꿔 버린다.</summary>
         public RumorState Clone()

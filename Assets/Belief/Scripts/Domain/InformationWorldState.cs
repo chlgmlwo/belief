@@ -45,6 +45,19 @@ namespace Belief.Domain
             LastChangedStamp = WorldChangeClock.Next();
         }
 
+        /// <summary>오토세이브에서 되살릴 때만 쓰는 생성 경로 - <see cref="RumorState.Restore"/>와 같은 이유다.
+        /// IsActive/LastChangedStamp가 비공개 setter라 저장본의 값을 바깥에서 넣을 방법이 없어서 둔다.
+        /// 새 기록을 만드는 데는 쓰지 말 것.</summary>
+        public static InformationWorldState Restore(InformationData information, string categoryId,
+            LocationData location, NpcData actor, InformationResultType resultType, int activatedTurn,
+            bool isActive, long lastChangedStamp)
+        {
+            var s = new InformationWorldState(information, categoryId, location, actor, resultType, activatedTurn);
+            s.IsActive = isActive;
+            s.LastChangedStamp = lastChangedStamp;
+            return s;
+        }
+
         /// <summary>스냅샷 보관·복원용 사본. class라 리스트만 새로 만들면 원본과 같은 인스턴스를
         /// 공유해서, 이후 Refresh가 스냅샷 내용까지 함께 바꿔 버린다.</summary>
         public InformationWorldState Clone()

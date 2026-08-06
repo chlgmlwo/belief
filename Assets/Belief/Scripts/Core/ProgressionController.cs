@@ -136,9 +136,20 @@ namespace Belief.Core
 
             currentInstaller.EventBus.Subscribe(turnEndedHandler);
 
+            // 이어하기 복원은 반드시 저장보다 먼저다 - 순서가 바뀌면 갓 로드된 초기 세계가
+            // 저장본을 덮어써서, 되살리려던 상태가 그 자리에서 사라진다.
+            if (pendingWorld != null)
+            {
+                var applied = WorldSaveMapper.Apply(currentInstaller, pendingWorld);
+                pendingWorld = null;
+                // 복원한 자리가 이번 미션 시도의 시작점이 되어야 한다 - 다시 캡처하지 않으면
+                // [재시작]이 복원 이전의 초기 배치로 되돌아간다.
+                currentInstaller.Turns.RecaptureMissionAttemptSnapshot();
+                Debug.Log($"[AutoSave] 세계 상태 복원 - NPC {applied.npcs}명 / 장소 {applied.locations}곳");
+            }
+
             // 스테이지 전환 저장 지점 - 구역이 바뀌면 반드시 이 콜백을 거치므로, ConfirmZoneComplete
-            // 쪽에 따로 저장을 넣지 않아도 새 구역이 저장된다. 이어하기로 들어온 경우엔 방금 복원한
-            // 것과 같은 내용을 한 번 더 쓰는 것뿐이라 해가 없다.
+            // 쪽에 따로 저장을 넣지 않아도 새 구역이 저장된다.
             AutoSaveNow();
 
             // 이 콜백(SceneManager.sceneLoaded, 그리고 이를 대신 호출하는 Awake 안전망)은 새 씬의
@@ -313,8 +324,12 @@ namespace Belief.Core
         void AutoSaveNow()
         {
             if (currentStage == null || string.IsNullOrEmpty(currentStage.sceneName)) return;
-            AutoSaveService.Save(Progress, currentStage.sceneName);
+            AutoSaveService.Save(Progress, currentStage.sceneName, WorldSaveMapper.Capture(currentInstaller));
         }
+
+        /// <summary>이어하기로 들어올 때 씬 로드 전에 채워 두는 세계 상태 - 씬이 뜬 뒤
+        /// OnSceneLoaded가 한 번 적용하고 비운다. 새 게임이나 정상 진행에서는 항상 null이다.</summary>
+        WorldSaveDto pendingWorld;
 
         /// <summary>[게임 시작] - 진행을 처음부터 다시 시작한다. 남아 있던 오토세이브도 지운다.
         /// 씬 로드는 호출부(MainMenuPresenter)가 한다.</summary>
@@ -344,6 +359,8 @@ namespace Belief.Core
                 foreach (var id in dto.completedMissionIds) Progress.CompletedMissionIds.Add(id);
 
             Progress.MetropolisUnlocked = dto.metropolisUnlocked;
+            // 세계 상태는 씬이 아직 없어서 지금 적용할 수 없다 - 들고 있다가 OnSceneLoaded에서 쓴다.
+            pendingWorld = dto.world;
             // CurrentStageIndex는 여기서 채우지 않는다 - 씬이 로드되면 OnSceneLoaded가 실제 씬 이름을
             // 보고 정한다. 저장본의 인덱스를 믿었다가 스테이지 순서가 바뀌면 어긋난다.
 

@@ -17,6 +17,11 @@ namespace Belief.Core
         public bool metropolisUnlocked;
         public string[] completedStageIds;
         public string[] completedMissionIds;
+
+        /// <summary>저장 시점의 세계 상태(NPC 위치·믿음, 장소 소문·조사 기록). 없으면 그 구역을
+        /// 초기 상태로 시작한다 - 옛 저장본과의 호환이 아니라, 세계를 담을 수 없었던 경우의 폴백이다.</summary>
+        public WorldSaveDto world;
+
         /// <summary>표시/디버깅용. 복원 판단에는 쓰지 않는다.</summary>
         public string savedAtUtc;
     }
@@ -31,12 +36,13 @@ namespace Belief.Core
     /// </summary>
     public static class AutoSaveService
     {
-        public const int Version = 1;
+        /// <summary>2 - 세계 상태(world)가 추가되었다. 진행만 담던 v1 저장본은 불러오지 않는다.</summary>
+        public const int Version = 2;
         const string Key = "belief.autosave.v1";
 
         public static bool HasSave => PlayerPrefs.HasKey(Key);
 
-        public static void Save(GameProgressState progress, string stageSceneName)
+        public static void Save(GameProgressState progress, string stageSceneName, WorldSaveDto world)
         {
             if (progress == null || string.IsNullOrEmpty(stageSceneName)) return;
 
@@ -47,6 +53,7 @@ namespace Belief.Core
                 metropolisUnlocked = progress.MetropolisUnlocked,
                 completedStageIds = ToArray(progress.CompletedStageIds),
                 completedMissionIds = ToArray(progress.CompletedMissionIds),
+                world = world,
                 savedAtUtc = DateTime.UtcNow.ToString("o"),
             };
 
