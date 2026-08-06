@@ -57,6 +57,7 @@ MonoBehaviour:
     position: {x: -5.6902666, y: -1.5838714}
   - location: {fileID: 11400000, guid: 9f27dbef602f7834f9e01da0e5382ce1, type: 2}
     position: {x: 3.0565405, y: 2.7516491}
+  worldViewScale: 1.5
   npcLayout:
   - npc: {fileID: 11400000, guid: 65e54763f0fe3d64e9fd7d32cc2360f7, type: 2}
     position: {x: 0.42642063, y: -1.0479314}
