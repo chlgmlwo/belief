@@ -56,7 +56,7 @@ namespace Belief.Presentation.MainMenu
             view.HowToPlayButton.onClick.AddListener(() => howToPlayPopup?.Show());
 
             howToPlayPopup = view.gameObject.AddComponent<HowToPlayPopup>();
-            howToPlayPopup.Build(view.transform, koreanFont);
+            howToPlayPopup.Build(view.transform, skin);
         }
 
         void OnStartClicked()

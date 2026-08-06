@@ -1398,7 +1398,7 @@ namespace Belief.Presentation.HUD
             SetHudPanelState(HudPanelState.Default);
 
             howToPlayPopup = view.gameObject.AddComponent<HowToPlayPopup>();
-            howToPlayPopup.Build(canvasRoot, koreanFont);
+            howToPlayPopup.Build(canvasRoot, skin);
         }
 
         void EnsureEventSystem()

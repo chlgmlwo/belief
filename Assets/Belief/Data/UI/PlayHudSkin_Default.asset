@@ -59,6 +59,11 @@ MonoBehaviour:
   launchButtonHoverUnderline: {fileID: 21300000, guid: 76b747d019b9766459c57f97d9b6ac0c, type: 3}
   lockedStageIcon: {fileID: 21300000, guid: fdb409d047d8efc49960f264828c1e3b, type: 3}
   currentStageIcon: {fileID: 21300000, guid: 7a75a1c9ea87f064ca508665274c619f, type: 3}
+  helpPages:
+  - {fileID: 21300000, guid: 0772356b1bdac574385955c70d1e812f, type: 3}
+  - {fileID: 21300000, guid: 27a20b07dd6382648a17546649b1b660, type: 3}
+  - {fileID: 21300000, guid: cce7aeefe619e214eac4dc6c9670fab0, type: 3}
+  - {fileID: 21300000, guid: 2d9dd8b7b167bd5479d95f49a1e107cb, type: 3}
   resultBackground: {fileID: 21300000, guid: 398295e20f8d5994282e815acab361ce, type: 3}
   successPanel: {fileID: 21300000, guid: 7e22f503b96a1364681222adfac958a6, type: 3}
   failurePanel: {fileID: 21300000, guid: bbac2bbfdbc9074488abc408df47ef9e, type: 3}

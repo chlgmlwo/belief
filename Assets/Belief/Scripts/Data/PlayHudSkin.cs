@@ -69,6 +69,12 @@ namespace Belief.Data
         public Sprite lockedStageIcon;
         public Sprite currentStageIcon;
 
+        /// <summary>도움말 팝업의 페이지 이미지들. 한 장이 사이드바 탭·본문·닫기까지 포함한 완성
+        /// 화면이라, 팝업은 이 배열에서 한 장을 골라 띄우고 클릭 영역만 위에 얹는다 - 페이지마다
+        /// 어느 탭이 선택됐는지도 이미지에 이미 그려져 있다. 순서가 곧 탭 순서다.</summary>
+        [Header("How To Play")]
+        public Sprite[] helpPages;
+
         [Header("Result")]
         public Sprite resultBackground;
         public Sprite successPanel;
