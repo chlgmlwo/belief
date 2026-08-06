@@ -1134,6 +1134,26 @@ namespace Belief.Presentation.HUD
             if (logGeneralText != null) logGeneralText.text = sb.ToString();
         }
 
+        /// <summary>로그 패널을 빈 상태로 되돌린다.
+        ///
+        /// 이 패널의 글자들은 <b>이벤트가 올 때만</b> 채워진다(OnNpcSpoke / OnLogCardJudged / 일반 로그).
+        /// 그래서 스테이지를 막 시작한 시점처럼 아직 아무 일도 없었을 때는, 프리팹에 시안용으로
+        /// 적혀 있던 예시 문구("주요 NPC의 대사는 이곳에", "[NPC 명] 수치 변동 사항" 등)가 그대로
+        /// 남아 실제 기록처럼 보였다. 시작할 때 한 번 비워 준다.
+        ///
+        /// 눈금 양 끝 라벨("불신"/"신뢰")은 데이터가 아니라 고정 UI라 그대로 두고, 아직 가리킬 값이
+        /// 없는 표식(화살표)만 감춘다.</summary>
+        void ClearLogPanel()
+        {
+            recentDialogueLines.Clear();
+            if (logTopDialogueText != null) logTopDialogueText.text = "";
+            if (logBottomDialogueText != null) logBottomDialogueText.text = "";
+            if (logGeneralText != null) logGeneralText.text = "";
+            if (logStatHeaderText != null) logStatHeaderText.text = "";
+            if (logTrustArrowHead != null) logTrustArrowHead.gameObject.SetActive(false);
+            lastLoggedNpcState = null;
+        }
+
         /// <summary>NpcSpokeEvent를 EventLogSystem과 별도로 한 번 더 구독 - 최근 대사 2줄을 상단(최신)/
         /// 하단(이전) 카드에 채운다. 새 저장소가 아니라 같은 이벤트를 두 번째로 구독하는 것뿐이다.
         ///
@@ -1163,6 +1183,9 @@ namespace Belief.Presentation.HUD
         void OnLogCardJudged(CardJudgedEvent e)
         {
             if (logStatHeaderText != null) logStatHeaderText.text = $"[{e.Npc.displayName}] 수치 변동 사항";
+            // 시작할 때 감춰 둔 표식을 첫 판단에서 되살린다(ClearLogPanel 참고).
+            if (logTrustArrowHead != null && !logTrustArrowHead.gameObject.activeSelf)
+                logTrustArrowHead.gameObject.SetActive(true);
             MoveTrustMarker(e.ResultBelief);
         }
 
@@ -1548,6 +1571,7 @@ namespace Belief.Presentation.HUD
             deliverButton.onClick.AddListener(OnDeliverClicked);
             if (profileTabButton != null) profileTabButton.onClick.AddListener(OnProfileTabClicked);
             if (logTabButton != null) logTabButton.onClick.AddListener(OnLogTabClicked);
+            ClearLogPanel();
             SetHudPanelState(HudPanelState.Default);
 
             howToPlayPopup = view.gameObject.AddComponent<HowToPlayPopup>();
