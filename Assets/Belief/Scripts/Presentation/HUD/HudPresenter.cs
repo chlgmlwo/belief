@@ -313,7 +313,11 @@ namespace Belief.Presentation.HUD
         MissionData CurrentOrLastObjective(ProgressionController pc) =>
             pc?.CurrentObjective() ?? lastKnownObjective;
 
-        void GoToMainMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        void GoToMainMenu()
+        {
+            if (ScreenFader.Instance != null) ScreenFader.Instance.LoadScene("MainMenu");
+            else UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        }
 
         /// <summary>리포트에 들어가는 값은 전부 지금 진행 중인 미션/구역 데이터에서 그대로 읽는다 -
         /// 화면 전용 문구를 따로 만들지 않는다. 실패 설명만은 미션 목표문을 그대로 쓰면 "달성했다"로

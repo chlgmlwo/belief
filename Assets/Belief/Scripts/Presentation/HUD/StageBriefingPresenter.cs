@@ -33,7 +33,10 @@ namespace Belief.Presentation.HUD
         {
             EnsureEventSystem();
             BuildUI();
-            StartCoroutine(FadeIn());
+            // 예전엔 alpha 0에서 0.3초 동안 나타났는데, 그 0.3초 동안 브리핑이 반투명이라 아래
+            // 인게임 화면이 그대로 비쳤다(스포일러). 지금은 ScreenFader가 씬 로드 순간부터 화면을
+            // 검게 덮고 있으므로, 브리핑은 처음부터 불투명하게 떠 있다가 그 커튼이 걷히며 드러난다.
+            canvasGroup.alpha = 1f;
         }
 
         void BuildUI()
@@ -128,15 +131,8 @@ namespace Belief.Presentation.HUD
         void GoToMainMenu()
         {
             if (!CloseInput()) return;
-            SceneManager.LoadScene("MainMenu");
-        }
-
-        IEnumerator FadeIn()
-        {
-            canvasGroup.alpha = 0f;
-            float t = 0f;
-            while (t < 0.3f) { t += Time.deltaTime; canvasGroup.alpha = Mathf.SmoothStep(0f, 1f, t / 0.3f); yield return null; }
-            canvasGroup.alpha = 1f;
+            if (ScreenFader.Instance != null) ScreenFader.Instance.LoadScene("MainMenu");
+            else SceneManager.LoadScene("MainMenu");
         }
 
         IEnumerator FadeOutAndDisable()

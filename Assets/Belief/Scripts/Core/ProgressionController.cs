@@ -380,7 +380,11 @@ namespace Belief.Core
             DetachFromCurrentInstaller();
 
             if (nextIndex == Data.stages.Length - 1) Progress.MetropolisUnlocked = true;
-            SceneManager.LoadScene(Data.stages[nextIndex].sceneName);
+
+            // 구역 전환은 화면이 뚝 끊기지 않도록 항상 페이더를 거친다(없으면 예전처럼 즉시 로드).
+            string nextScene = Data.stages[nextIndex].sceneName;
+            if (ScreenFader.Instance != null) ScreenFader.Instance.LoadScene(nextScene);
+            else SceneManager.LoadScene(nextScene);
         }
 
         /// <summary>HUD의 "MISSION FAILED" 팝업에서 [재시작] 버튼을 눌렀을 때 호출된다 - 목표 완료

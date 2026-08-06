@@ -172,7 +172,10 @@ namespace Belief.Presentation.MainMenu
         IEnumerator StartGameRoutine(string sceneName)
         {
             yield return FadeCanvasGroup(rootCanvasGroup, 1f, 0f);
-            SceneManager.LoadScene(sceneName);
+            // 메뉴가 사라진 뒤 페이더가 이어받아 검게 덮고 씬을 로드한다 - 어느 경로로 들어가든
+            // 게임 화면은 항상 검은 화면에서 밝아지며 시작한다.
+            if (ScreenFader.Instance != null) ScreenFader.Instance.LoadScene(sceneName);
+            else SceneManager.LoadScene(sceneName);
         }
 
         IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to)
