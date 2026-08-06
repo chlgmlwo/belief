@@ -13,7 +13,7 @@ namespace Belief.Presentation.World
     /// 이동/대사는 최소 연출(Coroutine 보간)만 제공하며 게임 상태는 건드리지 않는다 -
     /// 상태는 이미 확정된 뒤 이벤트로 재생만 한다.
     /// </summary>
-    public class NpcActorView : MonoBehaviour, IPointerClickHandler
+    public class NpcActorView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] SpriteRenderer body;
         [SerializeField] TextMesh label;
@@ -34,6 +34,9 @@ namespace Belief.Presentation.World
         const float DialogueReferenceOrthoSize = 5f;
         const float HighlightDuration = 0.3f;
         const float SelectionTweenDuration = 0.18f;
+        /// <summary>커서를 따라다니는 반응이라 선택 연출보다 짧아야 손이 끌리는 느낌이 안 난다.</summary>
+        const float HoverTweenDuration = 0.14f;
+        const float HoverScaleMultiplier = 1.1f;
         // ⚠️ 실측 결과 36장 전부가 사실상 거의 같은 자세의 미세한 노이즈성 변형이었다(행 1과 행 2를
         // 나란히 비교해도 자세 차이가 거의 없음) - "여러 걷기 사이클을 이어붙인 시트"가 아니라 그냥
         // 비슷한 자세를 반복 생성한 배치였다. 그래서 스프라이트 교체만으로는 결코 매끄러운 보행처럼
@@ -49,8 +52,12 @@ namespace Belief.Presentation.World
         const float WalkBobPeriod = 0.28f;
         static readonly Color HighlightColor = new Color(0.95f, 0.85f, 0.30f);
         static readonly Color SelectionColor = new Color(0.95f, 0.75f, 0.25f);
+        // 선택(SelectionColor)보다 확실히 옅다 - 호버는 "지금 이걸 가리키고 있다"는 안내일 뿐이라
+        // 이미 대상으로 확정된 NPC보다 강해 보이면 안 된다.
+        static readonly Color HoverColor = new Color(1f, 0.93f, 0.72f);
         static readonly Vector3 PinSelectedScaleMul = new Vector3(1.35f, 1.35f, 1f);
         Vector3 pinBaseScale = Vector3.one;
+        Vector3 rootBaseScale = Vector3.one;
 
         public NpcData BoundData { get; private set; }
         public event Action<NpcData> Clicked;
@@ -59,6 +66,25 @@ namespace Belief.Presentation.World
         // "Input System Package (New)"로 설정된 이 프로젝트에서는 호출되지 않는다.
         // EventSystem + Physics2DRaycaster(WorldPresenter가 보장)를 통해 클릭을 받는다.
         public void OnPointerClick(PointerEventData eventData) => Clicked?.Invoke(BoundData);
+        public void OnPointerEnter(PointerEventData eventData) => SetHovered(true);
+        public void OnPointerExit(PointerEventData eventData) => SetHovered(false);
+
+        /// <summary>NPC가 커서 밑에 있는 채로 비활성화되면 OnPointerExit가 오지 않아 확대된 상태로
+        /// 굳는다 - 다시 켜질 때 원래 크기로 보이도록 여기서 정리한다. 비활성화는 코루틴도 함께
+        /// 끊어버리므로, 등록해 둔 playback을 여기서 풀지 않으면 PlaybackDirector가 영영 "재생 중"으로
+        /// 남아 입력이 잠긴다.</summary>
+        void OnDisable()
+        {
+            if (statePlayback != null)
+            {
+                PlaybackDirector.Instance?.Unregister(statePlayback);
+                statePlayback = null;
+            }
+            stateRoutine = null;
+            hovered = false;
+            transform.localScale = rootBaseScale;
+            if (body != null) body.color = RestingColor();
+        }
 
         Coroutine moveRoutine;
         IPlayback movePlayback;
@@ -78,10 +104,11 @@ namespace Belief.Presentation.World
         IPlayback highlightPlayback;
         bool highlightSkipRequested;
 
-        Coroutine selectionRoutine;
-        IPlayback selectionPlayback;
-        bool selectionSkipRequested;
+        Coroutine stateRoutine;
+        IPlayback statePlayback;
+        bool stateSkipRequested;
         bool selected;
+        bool hovered;
 
         Color baseColor;
 
@@ -103,6 +130,10 @@ namespace Belief.Presentation.World
             if (body != null && data.characterPhoto != null) body.sprite = data.characterPhoto;
             if (dialogueRoot != null) dialogueRoot.SetActive(false);
             if (pin != null) pinBaseScale = pin.transform.localScale;
+            // WorldPresenter가 Bind 직전에 루트 스케일을 정해 주므로 여기서 잡으면 그 값이 기준이 된다 -
+            // 호버 확대는 이 기준에 곱했다가 되돌리는 방식이라 캐릭터별 크기 보정을 건드리지 않는다.
+            rootBaseScale = transform.localScale;
+            FitColliderToBody();
 
             StartIdleBob();
 
@@ -112,6 +143,20 @@ namespace Belief.Presentation.World
             if (nameTag != null && data.displayName != null)
                 nameTag.sprite = data.displayName.Length <= 3 ? skin.locationTag3 : skin.locationTag5;
             if (dialogueBackground != null && skin.npcDialogueBubble != null) dialogueBackground.sprite = skin.npcDialogueBubble;
+        }
+
+        /// <summary>프리팹의 BoxCollider2D는 placeholder 시절의 1x1 고정이었는데, 실제 캐릭터 사진은
+        /// 1.05~1.40으로 제각각이라 판정면이 인물보다 최대 40% 작았다(세관원 기준 사진 면적의 51%).
+        /// 클릭은 대충 가운데를 누르니 티가 안 났지만, 호버는 "가장자리에 올렸는데 반응이 없다"가
+        /// 그대로 드러나므로 실제 스프라이트 크기에 맞춘다.</summary>
+        void FitColliderToBody()
+        {
+            var box = GetComponent<BoxCollider2D>();
+            if (box == null || body == null || body.sprite == null) return;
+            // body의 로컬 스케일까지 곱해야 실제 화면상 크기가 된다(걷기 프레임 보정 전 기준 스케일).
+            var size = body.sprite.bounds.size;
+            box.size = new Vector2(size.x * bodyBaseLocalScale.x, size.y * bodyBaseLocalScale.y);
+            box.offset = bodyBaseLocalPosition;
         }
 
         /// <summary>정지 상태에서도 완전히 멈춰 있지 않도록 몸을 위아래로 살짝 들썩이는 숨쉬기 연출 -
@@ -172,7 +217,9 @@ namespace Belief.Presentation.World
                 yield return null;
             }
 
-            if (body != null) body.color = baseColor;
+            // baseColor(흰색)가 아니라 지금 상태의 색으로 돌아가야 한다 - 선택되었거나 커서가 올라가
+            // 있는 NPC에 플래시가 지나가면 그 강조가 통째로 풀려버렸다.
+            if (body != null) body.color = RestingColor();
             PlaybackDirector.Instance?.Unregister(highlightPlayback);
             highlightPlayback = null;
             highlightRoutine = null;
@@ -184,37 +231,75 @@ namespace Belief.Presentation.World
         {
             if (selected == value) return;
             selected = value;
-
-            StopAndUnregister(selectionRoutine, selectionPlayback);
-            selectionSkipRequested = false;
-            selectionRoutine = StartCoroutine(SelectionTweenRoutine(value));
+            StartStateTween(SelectionTweenDuration, gated: true);
         }
 
-        IEnumerator SelectionTweenRoutine(bool toSelected)
+        /// <summary>커서가 이 NPC 위에 올라왔는지 - 확대와 색 강조를 동시에 건다.</summary>
+        void SetHovered(bool value)
         {
-            selectionPlayback = new DelegatePlayback(() => selectionSkipRequested = true);
-            PlaybackDirector.Instance?.Register(selectionPlayback);
+            if (hovered == value) return;
+            hovered = value;
+            // 호버 트윈은 PlaybackDirector에 등록하지 않는다. 등록하면 재생 중으로 잡혀 입력이 잠기고,
+            // 커서가 NPC를 스칠 때마다 손패 클릭이 씹힌다 - 카드 클릭 누락을 고친 것과 같은 함정이다.
+            StartStateTween(HoverTweenDuration, gated: false);
+        }
+
+        /// <summary>지금 상태에서 body가 있어야 할 색. 선택이 호버를 이긴다 - 이미 전달 대상으로
+        /// 확정된 NPC를 가리켰다고 해서 그 표시가 옅어지면 안 된다.</summary>
+        Color RestingColor() => selected ? SelectionColor : hovered ? HoverColor : baseColor;
+
+        /// <summary>선택과 호버가 각자 코루틴을 돌리면 둘 다 매 프레임 body.color에 써서 마지막에
+        /// 실행된 쪽만 남는다(선택된 NPC를 가리켰다 떼면 선택 색이 풀리는 식). 그래서 상태가 어느
+        /// 쪽으로 바뀌든 항상 이 하나의 트윈만 돌리고, 목표는 그때그때 RestingColor()로 다시 계산한다.</summary>
+        void StartStateTween(float duration, bool gated)
+        {
+            StopAndUnregister(stateRoutine, statePlayback);
+            statePlayback = null;
+            stateSkipRequested = false;
+            stateRoutine = StartCoroutine(StateTweenRoutine(duration, gated));
+        }
+
+        IEnumerator StateTweenRoutine(float duration, bool gated)
+        {
+            if (gated)
+            {
+                statePlayback = new DelegatePlayback(() => stateSkipRequested = true);
+                PlaybackDirector.Instance?.Register(statePlayback);
+            }
 
             Color from = body != null ? body.color : Color.white;
-            Color to = toSelected ? SelectionColor : baseColor;
+            Color to = RestingColor();
             Vector3 pinFrom = pin != null ? pin.transform.localScale : Vector3.one;
-            Vector3 pinTo = toSelected ? Vector3.Scale(pinBaseScale, PinSelectedScaleMul) : pinBaseScale;
+            Vector3 pinTo = selected ? Vector3.Scale(pinBaseScale, PinSelectedScaleMul) : pinBaseScale;
+            // 확대는 루트에 건다 - body의 localScale은 걷기 프레임 크기 보정이 매 프레임 덮어쓰므로
+            // 거기에 얹으면 이동 중에 호버 확대가 사라진다. 루트를 키우면 프레임/이름표까지 함께
+            // 커져서 "NPC 하나가 통째로 다가오는" 모양이 된다.
+            // 2D라 z는 건드리지 않는다 - Vector3 통째로 곱하면 z까지 1.1이 되어 정렬/보간에 쓸데없는
+            // 값이 섞인다.
+            Vector3 scaleFrom = transform.localScale;
+            float mul = hovered ? HoverScaleMultiplier : 1f;
+            Vector3 scaleTo = new Vector3(rootBaseScale.x * mul, rootBaseScale.y * mul, rootBaseScale.z);
 
             float t = 0f;
-            while (t < SelectionTweenDuration && !selectionSkipRequested)
+            while (t < duration && !stateSkipRequested)
             {
                 t += Time.deltaTime;
-                float e = Mathf.SmoothStep(0f, 1f, t / SelectionTweenDuration);
+                float e = Mathf.SmoothStep(0f, 1f, t / duration);
                 if (body != null) body.color = Color.Lerp(from, to, e);
                 if (pin != null) pin.transform.localScale = Vector3.Lerp(pinFrom, pinTo, e);
+                transform.localScale = Vector3.Lerp(scaleFrom, scaleTo, e);
                 yield return null;
             }
             if (body != null) body.color = to;
             if (pin != null) pin.transform.localScale = pinTo;
+            transform.localScale = scaleTo;
 
-            PlaybackDirector.Instance?.Unregister(selectionPlayback);
-            selectionPlayback = null;
-            selectionRoutine = null;
+            if (statePlayback != null)
+            {
+                PlaybackDirector.Instance?.Unregister(statePlayback);
+                statePlayback = null;
+            }
+            stateRoutine = null;
         }
 
         public void SetWorldPosition(Vector2 position)
