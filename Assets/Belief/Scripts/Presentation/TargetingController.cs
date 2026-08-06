@@ -126,19 +126,40 @@ namespace Belief.Presentation
             SetPhase(TargetingPhase.AwaitingConfirm);
         }
 
+        /// <summary>전달이 실제로 진행 중인지 - LLM 판단을 기다리는 동안 참이다. Phase만으로는
+        /// 이 구간을 알 수 없다(대기 중에도 AwaitingConfirm 그대로라 두 번째 확정 클릭이 통과했다).
+        /// HUD가 이 값을 읽어 손패를 "사용 중"으로 잠그고, 끝나면 스스로 되돌린다.</summary>
+        public bool IsDelivering { get; private set; }
+
         /// <summary>정보원에게 전달해 전달을 확정한다 - 대상 선택 후 반드시 거치는 유일한 확정 동작.
         /// 비동기(LLM 판단이 Timeout까지 대기할 수 있음) - Button.onClick은 async void를 그대로
-        /// 받을 수 있다. 처리(및 그 사이의 LLM 대기)가 끝날 때까지 Reset()을 미뤄 같은 대상에 대한
-        /// 중복 확정 클릭을 자연히 막는다.</summary>
+        /// 받을 수 있다.
+        ///
+        /// <b>진행 중 재진입을 막는 것은 Phase가 아니라 <see cref="IsDelivering"/>다.</b> await 동안에도
+        /// Phase는 AwaitingConfirm으로 남아 있어서, 그 사이에 확정 버튼을 다시 누르면 같은 카드가
+        /// 두 번 전달됐다. 또 무슨 이유로 끝나든(정상/예외) finally에서 상태를 되돌리고 PhaseChanged를
+        /// 쏘아, HUD가 잠가 둔 손패를 반드시 다시 열도록 한다.</summary>
         public async void DeliverByInformant()
         {
+            if (IsDelivering) return;
             if (Phase != TargetingPhase.AwaitingConfirm) return;
             if (DeliverAllowed != null && !DeliverAllowed())
             {
                 InteractionRejected?.Invoke(RestrictedMessage);
                 return;
             }
-            await Execute();
+
+            IsDelivering = true;
+            PhaseChanged?.Invoke();
+            try
+            {
+                await Execute();
+            }
+            finally
+            {
+                IsDelivering = false;
+                PhaseChanged?.Invoke();
+            }
         }
 
         async Task Execute()

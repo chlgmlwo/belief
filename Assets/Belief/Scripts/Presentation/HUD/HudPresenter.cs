@@ -217,6 +217,9 @@ namespace Belief.Presentation.HUD
             bus.Subscribe<NpcSpokeEvent>(OnLogNpcSpoke);
             bus.Subscribe<CardJudgedEvent>(OnLogCardJudged);
             targeting.PhaseChanged += RefreshBottomPanel;
+            // 손패도 함께 다시 그린다 - "사용 중" 잠금이 targeting.IsDelivering에서 계산되므로,
+            // 전달이 시작·종료될 때 이 신호를 받지 못하면 잠긴 카드가 그대로 남는다.
+            targeting.PhaseChanged += RefreshOwnedInformation;
             targeting.InteractionRejected += msg => ShowTransientNotice(msg, ErrorColor);
 
             // NPC/장소 조사용 클릭 구독 - TargetingController가 같은 이벤트를 전달 대상 지정용으로
@@ -1123,6 +1126,8 @@ namespace Belief.Presentation.HUD
                 }
             }
 
+            bool deliveringNow = targeting != null && targeting.IsDelivering;
+
             int siblingIndex = 0;
             foreach (var card in owned)
             {
@@ -1142,8 +1147,18 @@ namespace Belief.Presentation.HUD
 
                 // 접힘/펼침(section 8): 선택된 카드 한 장만 펼쳐지고 나머지는 항상 접혀 있는다.
                 // "같은 카드를 다시 눌러 접기"는 OnCardClicked에서 SelectCard 호출 전에 처리하므로
-                // 여기서는 selected == true일 때만 강제로 펼치고, 접힘 유지가 필요한 카드는 건드리지 않는다.
-                if (isSelected)
+                // 여기서는 selected == true일 때만 강제로 펼친다.
+                //
+                // 손패 잠금(Using)은 이 새로고침이 targeting.IsDelivering을 보고 매번 다시 계산한다 -
+                // 예전에는 확정 버튼이 누르는 순간 Using을 직접 박아 넣었는데, 그 뒤 전달이 실제로는
+                // 시작되지 않으면(Phase 불일치·튜토리얼 필터로 조기 return) 아무도 되돌려주지 않아
+                // 그 카드가 영구히 클릭 불가로 죽었다. 상태를 여기서만 만들면 그 구멍이 생기지 않는다.
+                if (isSelected && deliveringNow)
+                {
+                    if (tile.HandState != CardHandState.Using)
+                        tile.SetHandState(CardHandState.Using);
+                }
+                else if (isSelected)
                 {
                     // SetAsLastSibling()을 쓰면 HorizontalLayoutGroup 배치 순서까지 맨 끝으로
                     // 밀려나 카드가 실제로 자리를 옮기는 버그가 있었다(1·2번 카드를 선택하면 마지막
@@ -1152,8 +1167,10 @@ namespace Belief.Presentation.HUD
                     if (tile.HandState != CardHandState.Expanded)
                         tile.SetHandState(CardHandState.Expanded);
                 }
-                else if (tile.HandState == CardHandState.Expanded)
+                else if (tile.HandState != CardHandState.Collapsed)
                 {
+                    // Expanded뿐 아니라 Using/Removed 잔재까지 되돌린다 - 어느 상태로 남아 있든
+                    // 선택되지 않은 카드는 항상 다시 누를 수 있어야 한다.
                     tile.SetHandState(CardHandState.Collapsed);
                 }
             }
@@ -1161,9 +1178,18 @@ namespace Belief.Presentation.HUD
 
         bool IsInputLocked => PlaybackDirector.Instance != null && PlaybackDirector.Instance.IsPlaying;
 
+        /// <summary>카드 선택은 <b>연출 중에도 받는다</b>. 예전에는 IsInputLocked(PlaybackDirector가
+        /// 무언가 재생 중)면 조용히 버렸는데, 카드 등장 연출(0.2초)·하이라이트·HUD 페이드·NPC 대사까지
+        /// 전부 여기에 걸려서 플레이어가 누른 클릭이 아무 반응 없이 사라졌다("씹힘"). 카드 선택은
+        /// 손패의 표시 상태만 바꾸는 동작이라 연출과 충돌하지 않고, 게임을 진행시키는 확정 동작
+        /// (OnDeliverClicked)은 그대로 잠가 둔다. 팝업이 떠 있는 동안은 오버레이가 레이캐스트를
+        /// 직접 막으므로 여기서 또 막을 필요도 없다.
+        ///
+        /// 다만 전달이 이미 진행 중일 때는 선택을 바꾸지 않는다 - 그 사이에 다른 카드를 고르면
+        /// 방금 보낸 카드와 화면에 펼쳐진 카드가 어긋난다.</summary>
         void OnCardClicked(InformationCardData card)
         {
-            if (IsInputLocked) return;
+            if (targeting != null && targeting.IsDelivering) return;
             if (targeting.CardSelectionAllowed != null && !targeting.CardSelectionAllowed(card))
             {
                 ShowTransientNotice("지금 단계에서는 다른 행동을 할 수 없습니다.", ErrorColor);
@@ -1208,7 +1234,11 @@ namespace Belief.Presentation.HUD
             // 전달 확정 버튼 활성 조건(section 10): 카드 선택 + 유효한 대상 + 이번 턴 미사용.
             // Phase==AwaitingConfirm은 이미 "카드 선택 + 카드 타입에 맞는 유효 대상 선택 완료"를
             // 내포하므로(TargetingController), 여기서는 턴 소진 여부만 추가로 확인한다.
-            bool canDeliver = targeting.Phase == TargetingPhase.AwaitingConfirm && !installer.Turns.TurnsExhausted;
+            // 전달이 진행 중인 동안에도 Phase는 AwaitingConfirm 그대로라, IsDelivering을 함께 봐야
+            // 버튼이 눌린 채로 남지 않는다(재진입 자체는 TargetingController가 막지만 표시도 맞춘다).
+            bool canDeliver = targeting.Phase == TargetingPhase.AwaitingConfirm
+                              && !targeting.IsDelivering
+                              && !installer.Turns.TurnsExhausted;
 
             switch (targeting.Phase)
             {
@@ -1278,11 +1308,10 @@ namespace Belief.Presentation.HUD
         {
             if (IsInputLocked) return;
 
-            // 사용 중 카드 타일을 Using 상태로 표시해 중복 클릭을 시각적으로도 막는다.
-            var card = installer.Turns.SelectedCard;
-            if (card != null && ownedTiles.TryGetValue(card, out var tile))
-                tile.SetHandState(CardHandState.Using);
-
+            // 손패를 "사용 중"으로 잠그는 일은 여기서 하지 않는다 - 전달이 실제로 시작됐는지는
+            // TargetingController만 알고(Phase 불일치나 튜토리얼 필터로 조기 return할 수 있다),
+            // 그 결과는 IsDelivering으로 드러난다. RefreshOwnedCards가 그 값을 보고 매번 다시
+            // 계산하므로, 시작되지 않은 전달 때문에 카드가 잠긴 채 남는 일이 없다.
             targeting.DeliverByInformant();
         }
 
