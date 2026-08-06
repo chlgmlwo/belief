@@ -439,6 +439,13 @@ namespace Belief.EditorTools.Diagnostics
             // 그 모드의 방어선은 구역당 호출 예산이다.
             if (IntegratedLlmPilotSession.RunMode == PilotRunMode.FullPlaythrough) return;
 
+            // Release도 같은 이유로 면제한다. 씬 thinkerMode가 IntegratedLlm이 된 뒤로는
+            // 에디터에서 그냥 Play를 눌러도 RunMode가 Release가 되는데, 여기서 4턴 만에 Play를
+            // 꺼버리면 전체 플레이 검증이 아예 불가능하다(5턴째에 매번 종료됐다).
+            // Release의 비용 방어선은 이 감시기가 아니라 중계 서버다 - GameInstaller도 Release일 때
+            // "호출 상한: 없음 (중계 서버에서 통제)"라고 보고한다. 감시기가 그 설계와 어긋나 있었다.
+            if (IntegratedLlmPilotSession.RunMode == PilotRunMode.Release) return;
+
             if (monitored == null) monitored = UnityEngine.Object.FindFirstObjectByType<GameInstaller>();
             if (monitored == null || monitored.Turns == null) return;
 
