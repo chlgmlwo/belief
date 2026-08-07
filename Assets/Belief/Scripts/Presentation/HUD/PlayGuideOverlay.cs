@@ -117,50 +117,50 @@ namespace Belief.Presentation.HUD
             steps.Add(new Step
             {
                 Targets = () => Ui("MissionArea/GoalCard01", "MissionArea/GoalCard02"),
-                Text = "이번 스테이지에서 처리해야 할 미션 목록입니다. 하나를 마치면 다음 미션으로 넘어갑니다. 현재 진행 중인 목표는 여기서 확인할 수 있습니다.",
+                Text = "이번 스테이지에서 처리해야 할 미션 목록입니다. 하나를 마치면 다음 미션으로 넘어갑니다. 현재 진행 중인 미션은 여기서 확인할 수 있습니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("MissionArea/MissionSummaryCard"),
-                Text = "현재 미션의 성공 조건입니다. 두 조건 중 하나만 성립시키면 임무는 완료됩니다. 어느 쪽을 노릴지는 당신의 판단에 달렸습니다.",
+                Text = "현재 미션의 성공 조건입니다. 두 조건 중 하나만 성립시키면 임무는 완료됩니다. 어떤 방법으로 조건을 만들지는 자유입니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("HandArea/HandCard1", "HandArea/HandCard2", "HandArea/HandCard3", "HandArea/HandCard4"),
-                Text = "정보 운용 방식은 두 가지입니다. SPREAD는 특정 장소에 정보를 퍼뜨리고, DELIVER는 지정한 인물에게 직접 전달합니다.",
+                Text = "정보를 흘리는 방법은 두 가지입니다. SPREAD는 장소에 퍼뜨리고, DELIVER는 특정 인물에게 직접 전달합니다. 상황에 맞는 방식을 선택하십시오.",
             });
 
             steps.Add(new Step
             {
                 Targets = WorldTargets,
-                Text = "카드를 선택하면 그 정보를 사용할 수 있는 대상만 반응합니다. 반응이 없다면, 그 카드로는 그곳에 개입할 수 없습니다.",
+                Text = "카드를 고르면 그 정보를 사용할 수 있는 대상만 선택할 수 있습니다. 대상이 표시되지 않는다면 그 카드로는 그곳에 개입할 수 없습니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("ProceedButton"),
-                Text = "대상까지 정하면 저희가 실행합니다. 누가 정보를 흘렸는지는 남지 않습니다. 당신은 결과만 확인하면 됩니다.",
+                Text = "대상까지 정하면 저희가 실행합니다. 정보가 전달되면 사람들은 자신의 성향과 상황에 따라 판단하고 행동합니다. 그 결과를 지켜보십시오.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("RightPeekArea/SharedTabRoot/LogTabRoot/ClickArea",
                                    "RightPeekArea/SharedTabRoot/ProfileTabRoot/ClickArea"),
-                Text = "Log에서는 그날 벌어진 일을, Profile에서는 각 인물이 정보를 어떻게 받아들이고 있는지 확인할 수 있습니다. 다음 지시를 내릴 때 참고하십시오.",
+                Text = "Log에서는 그날 벌어진 일을 확인할 수 있습니다. Profile에서는 인물의 성향과 현재 믿음을 볼 수 있습니다. 다음 정보를 고를 때 참고하십시오.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("HeaderArea/TurnCard"),
-                Text = "정보를 한 번 운용할 때마다 하루가 지나갑니다. 각 미션에는 제한 기간이 있으니, 남은 시간을 확인하며 움직이십시오.",
+                Text = "정보를 한 번 운용할 때마다 하루가 지나갑니다. 각 미션에는 제한 기간이 있습니다. 남은 기간 안에 목표를 만들어내십시오.",
             });
 
             steps.Add(new Step
             {
                 Targets = null,
-                Text = "정보를 믿게 만드는 것만이 방법은 아닙니다. 의심하게 하고, 조사하게 만들고, 자리를 뜨게 만드는 것 역시 방법입니다. 중요한 건 원하는 방향으로 사람을 움직이는 겁니다.",
+                Text = "정보를 믿게 만드는 것만이 방법은 아닙니다. 의심하게 하고, 조사하게 하고, 움직이게 만드는 것 역시 방법입니다. 원하는 방향으로 사람을 움직이십시오.",
             });
         }
 
