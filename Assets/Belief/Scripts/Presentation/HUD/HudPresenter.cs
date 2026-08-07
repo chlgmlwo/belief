@@ -182,6 +182,7 @@ namespace Belief.Presentation.HUD
         /// <summary>진행 버튼(NEXT/RETRY)의 문구는 아트에 인쇄돼 있어 라벨이 없다 - 보조 버튼만 라벨을 쓴다.</summary>
         TMP_Text resultSecondaryButtonLabel;
         Button resultPrimaryButton, resultSecondaryButton;
+        ResultTabHoverFeedback resultPrimaryTabHover;
 
         GameObject feedbackGo;
         CanvasGroup feedbackCanvasGroup;
@@ -379,6 +380,9 @@ namespace Belief.Presentation.HUD
             // 나란히 보이면 서로 모순처럼 읽힌다. RefreshMission은 이 시점에 다시 호출되지 않으므로
             // 여기서 직접 지운다(재시작·다음 미션은 RefreshMission을 다시 타 정상 값으로 돌아온다).
             if (missionTurnsText != null) missionTurnsText.text = "";
+
+            // 진행 버튼의 호버 빛은 성공(NEXT)/실패(RETRY)에 따라 탭 크기가 달라진다.
+            if (resultPrimaryTabHover != null) resultPrimaryTabHover.SetResult(won);
 
             resultPrimaryButton.interactable = true;
             resultPrimaryButton.onClick.RemoveAllListeners();
@@ -1650,6 +1654,8 @@ namespace Belief.Presentation.HUD
             resultSecondaryButtonLabel = view.ResultSecondaryButtonLabel;
             resultPrimaryButton = view.ResultPrimaryButton;
             resultSecondaryButton = view.ResultSecondaryButton;
+            resultPrimaryTabHover = resultPrimaryButton != null
+                ? resultPrimaryButton.GetComponent<ResultTabHoverFeedback>() : null;
 
             feedbackBannerRect = view.FeedbackBannerRect;
             if (feedbackBannerRect != null)
