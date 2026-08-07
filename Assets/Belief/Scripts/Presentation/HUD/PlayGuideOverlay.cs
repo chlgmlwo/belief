@@ -111,56 +111,56 @@ namespace Belief.Presentation.HUD
             steps.Add(new Step
             {
                 Targets = null,
-                Text = "정보원입니다. 이 도시에서 당신이 쥔 무기는 소문 하나뿐입니다.\n무엇을 어디에 흘릴지, 그것만 짚어 드리죠.",
+                Text = "정보원입니다. 현장에서 모인 정보와 소문은 저희가 움직입니다. 어디에, 누구에게 정보를 흘릴지만 정해 주십시오.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("MissionArea/GoalCard01", "MissionArea/GoalCard02"),
-                Text = "위 카드가 <b>지금 맡은 일</b>이고, 아래 카드는 <b>그다음에 올 일</b>입니다. 지금 신경 쓸 것은 위 하나뿐입니다.",
+                Text = "이번 스테이지에서 처리해야 할 미션 목록입니다. 하나를 마치면 다음 미션으로 넘어갑니다. 현재 진행 중인 목표는 여기서 확인할 수 있습니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("MissionArea/MissionSummaryCard"),
-                Text = "이 일을 끝내는 조건입니다. 두 줄 사이의 <b>또는</b>이 핵심입니다 — <b>둘 중 하나만</b> 채우면 끝납니다.",
+                Text = "현재 미션의 성공 조건입니다. 두 조건 중 하나만 성립시키면 임무는 완료됩니다. 어느 쪽을 노릴지는 당신의 판단에 달렸습니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("HandArea/HandCard1", "HandArea/HandCard2", "HandArea/HandCard3", "HandArea/HandCard4"),
-                Text = "손에 쥔 건 소문 조각입니다. <b>SPREAD</b>는 장소에 퍼뜨리는 것이고, <b>DELIVER</b>는 한 사람에게 직접 건네는 것입니다.",
+                Text = "정보 운용 방식은 두 가지입니다. SPREAD는 특정 장소에 정보를 퍼뜨리고, DELIVER는 지정한 인물에게 직접 전달합니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = WorldTargets,
-                Text = "카드를 고르면 낼 수 있는 곳만 커서에 반응합니다. <b>반응이 없다면 그건 이 카드의 자리가 아닙니다.</b>",
+                Text = "카드를 선택하면 그 정보를 사용할 수 있는 대상만 반응합니다. 반응이 없다면, 그 카드로는 그곳에 개입할 수 없습니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("ProceedButton"),
-                Text = "대상을 정했으면 여기서 확정합니다. 정보는 언제나 저를 거쳐 나갑니다 — 당신의 이름은 어디에도 남지 않습니다.",
+                Text = "대상까지 정하면 저희가 실행합니다. 누가 정보를 흘렸는지는 남지 않습니다. 당신은 결과만 확인하면 됩니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("RightPeekArea/SharedTabRoot/LogTabRoot/ClickArea",
                                    "RightPeekArea/SharedTabRoot/ProfileTabRoot/ClickArea"),
-                Text = "낸 다음이 진짜입니다. <b>Log</b>는 무슨 일이 벌어졌는지, <b>Profile</b>은 그 사람의 믿음이 어디까지 왔는지 보여줍니다.\n믿음은 <b>신뢰함</b>에서 <b>부정함</b>까지 다섯 단계로 움직입니다.",
+                Text = "Log에서는 그날 벌어진 일을, Profile에서는 각 인물이 정보를 어떻게 받아들이고 있는지 확인할 수 있습니다. 다음 지시를 내릴 때 참고하십시오.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("HeaderArea/TurnCard"),
-                Text = "한 번 낼 때마다 하루가 갑니다. 기한을 넘기면 그걸로 끝이니, 아껴 쓰십시오.",
+                Text = "정보를 한 번 운용할 때마다 하루가 지나갑니다. 각 미션에는 제한 기간이 있으니, 남은 시간을 확인하며 움직이십시오.",
             });
 
             steps.Add(new Step
             {
                 Targets = null,
-                Text = "믿게 만드는 것만이 수단은 아닙니다. 의심하게 만드는 것도, 자리를 뜨게 만드는 것도 전부 답이 됩니다.\n그럼, 시작하시죠.",
+                Text = "정보를 믿게 만드는 것만이 방법은 아닙니다. 의심하게 하고, 조사하게 만들고, 자리를 뜨게 만드는 것 역시 방법입니다. 중요한 건 원하는 방향으로 사람을 움직이는 겁니다.",
             });
         }
 
