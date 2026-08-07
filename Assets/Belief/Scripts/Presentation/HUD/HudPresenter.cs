@@ -781,6 +781,16 @@ namespace Belief.Presentation.HUD
         void OnProfileTabClicked() => SetHudPanelState(panelState == HudPanelState.Profile ? HudPanelState.Default : HudPanelState.Profile);
         void OnLogTabClicked() => SetHudPanelState(panelState == HudPanelState.Log ? HudPanelState.Default : HudPanelState.Log);
 
+        /// <summary>펼쳐 둔 조사 파일을 도로 집어넣는다. 문서를 실제로 미는 쪽(슬라이드 연출)과
+        /// 열림 상태를 기억하는 쪽(탭 강조·힌트 바 폭)이 서로 다른 스크립트라 <b>둘 다 건드려야
+        /// 한다</b> - 한쪽만 닫으면 문서는 들어갔는데 탭은 켜진 채로 남는다.</summary>
+        void CloseRightDocument()
+        {
+            if (panelState == HudPanelState.Default) return;
+            if (rightDocumentPanel != null) rightDocumentPanel.CloseIfOpen();
+            SetHudPanelState(HudPanelState.Default);
+        }
+
         void RefreshTabBadges()
         {
             if (logTabBadgeGo != null) logTabBadgeGo.SetActive(logUnseen);
@@ -1757,6 +1767,8 @@ namespace Belief.Presentation.HUD
         void OnDeliverClicked()
         {
             if (IsInputLocked) return;
+
+            CloseRightDocument();
 
             // 손패를 "사용 중"으로 잠그는 일은 여기서 하지 않는다 - 전달이 실제로 시작됐는지는
             // TargetingController만 알고(Phase 불일치나 튜토리얼 필터로 조기 return할 수 있다),

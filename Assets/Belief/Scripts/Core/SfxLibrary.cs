@@ -31,6 +31,9 @@ namespace Belief.Core
         ResultFailure,
         /// <summary>리포트를 넘길 때.</summary>
         PageTurn,
+        /// <summary>Log/Profile 문서를 도로 집어넣을 때. 새 값은 반드시 끝에 붙인다 -
+        /// 중간에 끼우면 이미 저장된 라이브러리의 항목들이 통째로 다른 소리를 가리킨다.</summary>
+        DocumentClose,
     }
 
     /// <summary>어느 소리를 쓸지만 담는 자료. <see cref="SfxPlayer"/>가 Resources에서 이름으로 읽으므로

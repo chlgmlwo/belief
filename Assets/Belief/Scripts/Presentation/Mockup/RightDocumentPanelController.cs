@@ -97,6 +97,18 @@ namespace Belief.Presentation.Mockup
             HandleTabClicked(true);
         }
 
+        /// <summary>펼쳐져 있던 문서를 도로 집어넣는다 - 진행 완료처럼 화면이 다음 단계로 넘어가는
+        /// 순간에 문서가 펼쳐진 채로 남아 있으면 지도를 가린 채 턴이 흘러간다.</summary>
+        public void CloseIfOpen()
+        {
+            if (CurrentState == RightPanelState.Closed) return;
+            var panel = CurrentState == RightPanelState.Profile ? profilePanelRoot : logPanelRoot;
+            var content = CurrentState == RightPanelState.Profile ? profileContent : logContent;
+            Belief.Core.SfxPlayer.Play(Belief.Core.Sfx.DocumentClose);
+            Restart(AnimateClose(panel, content));
+            CurrentState = RightPanelState.Closed;
+        }
+
         void HandleTabClicked(bool wantProfile)
         {
             var target = wantProfile ? profilePanelRoot : logPanelRoot;
@@ -109,9 +121,7 @@ namespace Belief.Presentation.Mockup
             if (CurrentState == targetState)
             {
                 // 같은 탭 재클릭 - 문서와 SharedTabRoot를 함께 Open -> Closed로 슬라이드(활성 상태 유지).
-                Belief.Core.SfxPlayer.Play(Belief.Core.Sfx.Click);
-                Restart(AnimateClose(target, targetContent));
-                CurrentState = RightPanelState.Closed;
+                CloseIfOpen();
                 return;
             }
 
