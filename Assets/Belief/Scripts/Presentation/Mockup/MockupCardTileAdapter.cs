@@ -25,8 +25,6 @@ namespace Belief.Presentation.Mockup
         Button proxyButton;
 
         InformationCardData lastBoundCard;
-        CardHandState lastRawHandState = CardHandState.Collapsed;
-        bool userCollapsedWhileSelected;
 
         public HandCardMockupView MockupView => mockupView;
 
@@ -86,13 +84,7 @@ namespace Belief.Presentation.Mockup
             }
 
             var card = currentProxy != null ? currentProxy.BoundCard : null;
-            if (!ReferenceEquals(card, lastBoundCard))
-            {
-                // 슬롯에 새 카드가 들어왔다(소비/재배치) - 이전 카드의 "접어둔" 기록은 더 이상 의미 없다.
-                userCollapsedWhileSelected = false;
-                lastBoundCard = card;
-                lastRawHandState = currentProxy != null ? currentProxy.HandState : CardHandState.Collapsed;
-            }
+            if (!ReferenceEquals(card, lastBoundCard)) lastBoundCard = card;
 
             if (card != null) BindTexts(card);
         }
@@ -144,32 +136,19 @@ namespace Belief.Presentation.Mockup
             if (has && slot.label != null) slot.label.text = tags[index];
         }
 
-        /// <summary>이번 프레임 이 슬롯이 "펼쳐져 보여야" 하는지 계산한다. backendSelected는 실제
-        /// 선택 카드 여부, userCollapsedWhileSelected는 같은 카드를 다시 눌러 접어둔 상태를 뜻한다 -
-        /// 이 값은 카드가 바뀌거나(위 AssignProxy) 다른 카드가 선택될 때만 초기화된다.</summary>
+        /// <summary>이번 프레임 이 슬롯이 "펼쳐져 보여야" 하는지 계산한다 - 지금 선택된 카드인지가
+        /// 전부다.
+        ///
+        /// 예전엔 여기에 "사용자가 같은 카드를 다시 눌러 접어 뒀다"는 기록을 따로 들고 있었다.
+        /// 그때는 카드를 접어도 선택 카드가 그대로 남아서, 접힘 여부를 이쪽에서 기억하는 수밖에
+        /// 없었기 때문이다. 그런데 그 기록은 <b>다른</b> 카드가 선택될 때만 지워져서, 같은 카드를
+        /// 다시 눌러도 계속 접힌 것으로 판정돼 카드가 영영 올라오지 않았다.
+        /// 이제 접기가 실제 선택 해제(<see cref="Belief.Systems.TurnSystem.DeselectCard"/>)이므로
+        /// 기억할 것이 없다.</summary>
         public bool ComputeDesiredExpanded(InformationCardData selectedCard)
         {
             if (currentProxy == null || lastBoundCard == null) return false;
-
-            bool backendSelected = ReferenceEquals(lastBoundCard, selectedCard);
-            var rawState = currentProxy.HandState;
-
-            if (backendSelected)
-            {
-                // 여전히 선택된 채로 Expanded -> Collapsed로 바뀌는 전이는 "같은 카드 재클릭으로
-                // 접기"(OnCardClicked의 시각 전용 분기) 외에는 발생하지 않는다.
-                if (lastRawHandState == CardHandState.Expanded && rawState == CardHandState.Collapsed)
-                    userCollapsedWhileSelected = true;
-            }
-            else
-            {
-                // 더 이상 선택된 카드가 아니면 접어둔 기록도 의미가 없다 - 나중에 다시 선택되면
-                // (재선택은 항상 새로운 선택 동작이므로) 펼쳐진 채로 시작해야 한다.
-                userCollapsedWhileSelected = false;
-            }
-
-            lastRawHandState = rawState;
-            return backendSelected && !userCollapsedWhileSelected;
+            return ReferenceEquals(lastBoundCard, selectedCard);
         }
     }
 }

@@ -463,10 +463,17 @@ namespace Belief.Presentation.HUD
             hint.color = MutedInk;
             Inset(hint.rectTransform, 30f, 16f, 30f, 0f);
 
-            var skip = NewText("Skip", bubbleRect, "건너뛰기", 20, TextAlignmentOptions.BottomRight);
+            var skip = NewText("Skip", bubbleRect, "건너뛰기", 20, TextAlignmentOptions.MidlineRight);
             skip.color = LinkColor;
             skip.raycastTarget = true;
-            Inset(skip.rectTransform, 30f, 16f, 30f, 0f);
+            // 글자 크기만큼만 잡는다. 다른 글자들처럼 말풍선 전체에 늘려 놓으면, 이 글자만
+            // raycastTarget이 켜져 있고 버튼까지 달려 있어서 <b>말풍선 아무 데나 눌러도 가이드가
+            // 통째로 건너뛰어졌다</b>(글자가 안 그려진 빈 영역도 버튼이다).
+            var skipRect = skip.rectTransform;
+            skipRect.anchorMin = skipRect.anchorMax = new Vector2(1f, 0f);
+            skipRect.pivot = new Vector2(1f, 0f);
+            skipRect.sizeDelta = new Vector2(120f, 36f);
+            skipRect.anchoredPosition = new Vector2(-30f, 10f);
             skipGo = skip.gameObject;
             var skipButton = skipGo.AddComponent<Button>();
             skipButton.transition = Selectable.Transition.None;

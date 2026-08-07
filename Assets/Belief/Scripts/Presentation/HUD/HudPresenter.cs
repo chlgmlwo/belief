@@ -1641,12 +1641,13 @@ namespace Belief.Presentation.HUD
                 return;
             }
 
-            // 같은(이미 펼쳐진) 카드를 다시 누르면 접기만 한다 - TurnSystem.SelectCard는 null을
-            // 받지 않아 "선택 해제" 자체를 지원하지 않으므로(기존 턴 시스템 API를 확장하지 않기 위해),
-            // 시각적 접힘만 되돌리고 실제 선택 카드/전달 대상 상태는 건드리지 않는다.
+            // 같은(이미 펼쳐진) 카드를 다시 누르면 도로 집어넣는다. 예전엔 여기서 타일만 접고
+            // 실제 선택은 그대로 뒀는데, 그러면 지도의 대상 강조가 남고 그 카드는 다시 눌러도
+            // 올라오지 않았다(이미 선택된 카드라 아무 일도 일어나지 않는다). 접는 것도 선택 해제로
+            // 처리하면 화면 갱신이 알아서 타일을 내린다.
             if (card == installer.Turns.SelectedCard && ownedTiles.TryGetValue(card, out var tile) && tile.HandState == CardHandState.Expanded)
             {
-                tile.SetHandState(CardHandState.Collapsed);
+                installer.Turns.DeselectCard();
                 return;
             }
 

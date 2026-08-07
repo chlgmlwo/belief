@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Belief.Core;
 using Belief.Data;
+using Belief.Presentation;
 using Belief.Presentation.HUD;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -28,10 +29,15 @@ namespace Belief.EditorTools.Diagnostics
     public static class FullPlaythroughDriver
     {
         const string ActiveKey = "Belief.FullPlaythroughDriver.Active";
-        const string StartScene = "Assets/Belief/Scenes/Zone1.unity";
 
-        /// <summary>같은 미션을 이만큼 실패하면 진행이 막힌 것으로 보고 중단한다.</summary>
-        const int MaxRetriesPerMission = 3;
+        /// <summary>메인 메뉴에서 [게임 시작]을 누른 것과 같은 자리에서 출발한다. 예전엔 Zone1을 바로
+        /// 열었는데, 그러면 <b>실제 플레이어가 반드시 지나는 길을 건너뛴다</b> - 진행 상태 초기화와
+        /// 페이더를 통한 씬 로드가 그 길에만 있어서, 거기서만 나는 문제를 이 도구가 못 잡았다.</summary>
+        const string StartScene = "Assets/Belief/Scenes/MainMenu.unity";
+
+        /// <summary>같은 미션을 이만큼 실패하면 진행이 막힌 것으로 보고 중단한다. 카드 뽑기 운에
+        /// 따라 첫 미션에서 서너 번 연속 실패하는 일이 드물지 않아, 그 정도로는 멈추지 않게 둔다.</summary>
+        const int MaxRetriesPerMission = 8;
 
         /// <summary>폭주 방지용 상한 - 게임 규칙이 아니라 도구의 관측 창이다.
         /// 씬이 IntegratedLlm이면 판단마다 실제 API 왕복이 있어 한 수가 몇 초씩 걸린다.</summary>
@@ -92,6 +98,7 @@ namespace Belief.EditorTools.Diagnostics
         static Task<bool> pending;
         static double resultShownAt = -1;
         static bool capturedThisResult, clickedThisResult;
+        static bool startedFromMenu;
 
         /// <summary>플레이 도중 터진 예외·오류. 콘솔은 이 도구 자신의 진행 기록으로 금세 덮여
         /// 나중에 뒤져도 남아 있지 않으므로, 도는 동안 붙잡아 로그에 함께 남긴다.
@@ -165,6 +172,7 @@ namespace Belief.EditorTools.Diagnostics
 
             pending = null;
             resultShownAt = -1; capturedThisResult = false; clickedThisResult = false;
+            startedFromMenu = false;
             caughtErrors.Clear();
             MoveCount = 0; CardIndex = 0; TargetIndex = 0; Shots = 0;
             LastMissionId = "";
@@ -227,11 +235,16 @@ namespace Belief.EditorTools.Diagnostics
             var installer = UnityEngine.Object.FindFirstObjectByType<GameInstaller>();
             var view = UnityEngine.Object.FindFirstObjectByType<HudView>();
 
-            // 최종 승리 후 메인 메뉴로 돌아오면 완주한 것이다.
             if (installer == null)
             {
-                if (SceneManager.GetActiveScene().name == "MainMenu")
-                    Stop("완주 - 메인 메뉴 복귀");
+                if (SceneManager.GetActiveScene().name != "MainMenu") return;
+
+                // 아직 한 수도 두지 않았다면 시작 지점이다 - [게임 시작] 버튼과 같은 일을 한다.
+                // 끝난 뒤라면 최종 승리 후 돌아온 것이므로 완주다.
+                if (MoveCount > 0) { Stop("완주 - 메인 메뉴 복귀"); return; }
+                if (startedFromMenu) return;   // 페이더가 씬을 바꾸는 동안 여러 번 들어온다
+                startedFromMenu = true;
+                StartNewGameFromMenu();
                 return;
             }
             if (installer.Turns == null || view == null) return;
@@ -250,6 +263,24 @@ namespace Belief.EditorTools.Diagnostics
             if (installer.Turns.IsGameOver) return;
 
             PlayOneMove(installer);
+        }
+
+        /// <summary>메인 메뉴의 [게임 시작]과 같은 순서로 첫 구역에 들어간다 - 진행 상태를 비우고
+        /// 페이더를 통해 씬을 로드한다. 버튼을 직접 누르지 않고 같은 호출을 하는 이유는, 이 도구가
+        /// 화면 좌표를 클릭할 수단이 없기 때문이다.</summary>
+        static void StartNewGameFromMenu()
+        {
+            var pc = ProgressionController.Instance;
+            if (pc == null) { Stop("ProgressionController가 없습니다"); return; }
+
+            pc.BeginNewGame();
+            string first = pc.Data != null && pc.Data.stages != null && pc.Data.stages.Length > 0
+                ? pc.Data.stages[0].sceneName : null;
+            if (string.IsNullOrEmpty(first)) { Stop("첫 구역 씬 이름을 찾을 수 없습니다"); return; }
+
+            Report($"[시작] 메인 메뉴 → 새 게임 → {first}");
+            if (ScreenFader.Instance != null) ScreenFader.Instance.LoadScene(first);
+            else SceneManager.LoadScene(first);
         }
 
         /// <summary>리포트 화면을 저장한 뒤 아트의 진행 버튼(NEXT/RETRY)을 실제로 누른다.</summary>

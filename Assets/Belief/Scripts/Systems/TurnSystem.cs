@@ -142,6 +142,19 @@ namespace Belief.Systems
             eventBus.Publish(new CardSelectedEvent(card));
         }
 
+        /// <summary>고른 카드를 도로 내려놓는다 - 손패에서 꺼낸 카드를 다시 눌러 집어넣는 동작.
+        ///
+        /// <b>이건 화면만의 일이 아니다.</b> 예전엔 손패 쪽에서 카드를 시각적으로 내리기만 하고
+        /// SelectedCard는 그대로 뒀는데, 그 결과 (1) 지도에 골라 둔 대상의 강조색이 커서를 올리지도
+        /// 않았는데 계속 남았고 (2) 같은 카드를 다시 눌러도 이미 "선택된 카드"라 아무 일도 일어나지
+        /// 않아 카드가 영영 안 올라왔다. 선택 해제도 선택과 같은 신호로 알려야 두 곳이 함께 풀린다.</summary>
+        public void DeselectCard()
+        {
+            if (IsGameOver || SelectedCard == null) return;
+            SelectedCard = null;
+            eventBus.Publish(new CardSelectedEvent(null));
+        }
+
         /// <summary>정보원을 통해 전달한다 - 대상(장소/사람)만 지정하면 그 자리에서 즉시 실행된다.
         /// 비동기(LLM 판단이 Timeout까지 대기할 수 있음) - Unity 메인 스레드를 막지 않는다.</summary>
         public async Task<bool> PlayCardOnLocationAsync(LocationData location)

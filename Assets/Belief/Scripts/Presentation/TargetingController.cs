@@ -61,7 +61,9 @@ namespace Belief.Presentation
         void OnCardSelected(CardSelectedEvent e)
         {
             ClearPendingSelection();
-            SetPhase(TargetingPhase.AwaitingTarget);
+            // Card가 비었으면 카드를 도로 집어넣은 것이다 - 고를 대상이 없으니 대기 단계로 돌아가면
+            // 안 된다(우하단 진행 완료가 열린 채로 남는다). 지도의 대상 강조는 위에서 이미 풀렸다.
+            SetPhase(e.Card != null ? TargetingPhase.AwaitingTarget : TargetingPhase.Idle);
         }
 
         /// <summary>WorldPresenter.LocationClicked에서 호출된다. public인 이유: 다른 입력 소스
