@@ -343,6 +343,8 @@ namespace Belief.Presentation.HUD
         void ShowFinalVictory()
         {
             var pc = ProgressionController.Instance;
+            // 엔딩은 플레이가 끝난 화면이므로 타이틀 곡으로 돌아간다(브리핑과 같은 곡이다).
+            BgmController.Request(BgmTrack.TitleAndBriefing);
             ShowResultScreen(true, CurrentOrLastObjective(pc), null, "메인 화면", GoToMainMenu);
 
             if (resultTitleText != null) resultTitleText.text = EndingTitle;

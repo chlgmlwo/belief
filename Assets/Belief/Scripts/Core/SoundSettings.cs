@@ -8,9 +8,8 @@ namespace Belief.Core
     /// <summary>배경음/효과음 크기를 담아 두는 유일한 자리. 값은 PlayerPrefs에 저장돼 다음 실행에도
     /// 남는다(WebGL에서는 IndexedDB에 들어간다).
     ///
-    /// ⚠️ <b>현재 이 프로젝트에는 소리가 하나도 없다</b> - 오디오 파일도 AudioSource도 0개다(실측).
-    /// 그래서 지금 이 값을 바꿔도 들리는 변화는 없고, 하는 일은 "설정을 기억하는 것"과 "나중에
-    /// 소리가 들어올 때 볼 곳을 한 군데로 정해 두는 것"뿐이다. 소리를 붙일 때는 각 AudioSource에
+    /// 배경음은 <see cref="BgmController"/>가 이 값을 직접 읽고 <see cref="Changed"/>를 구독해
+    /// 즉시 따라온다. 효과음은 아직 붙지 않았다 - 붙일 때는 각 AudioSource에
     /// <see cref="SoundChannelVolume"/>을 달아 두면 이 값이 자동으로 반영된다.</summary>
     public static class SoundSettings
     {
