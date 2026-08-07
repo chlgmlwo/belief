@@ -271,11 +271,12 @@ namespace Belief.Presentation.HUD
                 pc.ObjectivesChanged += RefreshMission;
                 pc.ObjectiveCompletedPendingConfirm += OnObjectiveCompletedPending;
                 pc.StageCompletedPendingConfirm += OnStageCompletedPending;
-
-                // 구역 안내 패널은 더 이상 표시하지 않는다(사용자 지시) - 다만 이 팝업이 끝나는 시점에
-                // 걸려 있던 튜토리얼 시작(MaybeStartTutorial)은 그대로 유지해야 하므로 직접 호출한다.
-                MaybeStartTutorial();
             }
+
+            // 플레이 가이드는 진행 상황과 무관하다 - 예전엔 이 호출이 위 if 안에 있어서, 메인 화면을
+            // 거치지 않고 구역 씬을 바로 실행하면(ProgressionController가 아직 없어서) 가이드가 아예
+            // 시작되지 않았다.
+            MaybeStartTutorial();
 
             RefreshAll();
             RefreshNpcProfile();

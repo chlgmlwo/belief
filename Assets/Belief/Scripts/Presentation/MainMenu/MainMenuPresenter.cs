@@ -109,6 +109,12 @@ namespace Belief.Presentation.MainMenu
             // 비우지 않으면 완료 기록이 그대로 남아 첫 구역이 시작하자마자 완료로 판정된다.
             Belief.Core.ProgressionController.Instance?.BeginNewGame();
 
+            // 플레이 가이드도 "처음부터"에 포함된다 - 한 번 본 표시가 기기에 남아 있어서, 새로 시작한
+            // 사람에게도 가이드가 영영 뜨지 않던 문제가 있었다(이어하기는 그대로 두어 진행 중이던
+            // 판에서는 다시 뜨지 않는다).
+            PlayerPrefs.DeleteKey(Belief.Presentation.HUD.PlayGuideOverlay.CompletedPrefKey);
+            PlayerPrefs.Save();
+
             transitioning = true;
             StartCoroutine(StartGameRoutine(sceneName));
         }
