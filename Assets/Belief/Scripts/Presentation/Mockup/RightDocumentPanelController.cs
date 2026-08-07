@@ -61,7 +61,8 @@ namespace Belief.Presentation.Mockup
             Wire(profileTabButton, HandleProfileTabClicked);
             Wire(logTabButton, HandleLogTabClicked);
 
-            // 문서를 펼치는 소리가 따로 나므로 공용 클릭음은 끈다.
+            // 공용 클릭음을 끄고 소리는 아래에서 직접 낸다 - 펼치는 press에만 문서 소리를 주고
+            // 나머지 press에는 클릭음을 줘야 하는데, 자동으로 걸리는 클릭음은 둘을 구분하지 못한다.
             Belief.Core.SfxPlayer.Mute(profileTabButton);
             Belief.Core.SfxPlayer.Mute(logTabButton);
         }
@@ -108,14 +109,17 @@ namespace Belief.Presentation.Mockup
             if (CurrentState == targetState)
             {
                 // 같은 탭 재클릭 - 문서와 SharedTabRoot를 함께 Open -> Closed로 슬라이드(활성 상태 유지).
+                Belief.Core.SfxPlayer.Play(Belief.Core.Sfx.Click);
                 Restart(AnimateClose(target, targetContent));
                 CurrentState = RightPanelState.Closed;
                 return;
             }
 
-            // 닫혀 있던 문서를 펼치는 순간에만 소리를 낸다 - Profile↔Log 전환은 종이가 이미 펼쳐진
-            // 채로 내용만 바뀌는 것이라 여닫는 소리가 어울리지 않는다.
-            if (CurrentState == RightPanelState.Closed) Belief.Core.SfxPlayer.Play(Belief.Core.Sfx.DocumentOpen);
+            // 닫혀 있던 문서를 펼치는 순간에만 종이 소리를 낸다 - Profile↔Log 전환은 종이가 이미
+            // 펼쳐진 채로 내용만 바뀌는 것이라 여닫는 소리가 어울리지 않는다. 그쪽은 클릭음으로 받는다.
+            Belief.Core.SfxPlayer.Play(CurrentState == RightPanelState.Closed
+                ? Belief.Core.Sfx.DocumentOpen
+                : Belief.Core.Sfx.Click);
 
             if (CurrentState == RightPanelState.Closed)
             {
