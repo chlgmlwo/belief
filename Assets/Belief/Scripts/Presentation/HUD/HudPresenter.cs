@@ -344,6 +344,13 @@ namespace Belief.Presentation.HUD
 
             if (resultTitleText != null) resultTitleText.text = EndingTitle;
             if (resultDescText != null) resultDescText.text = EndingMessage;
+
+            // 다음 작전을 전제로 한 서식은 전부 걷어낸다 - 아트에 인쇄된 "사용한 기간" 쪽지·DAY 메모·
+            // 빈 꼬리표는 그것들을 지운 엔딩 전용 패널로 갈아 끼우고, 그 위에 올라가던 일수 숫자는
+            // 받칠 메모가 사라졌으므로 함께 비운다(안 비우면 숫자만 허공에 뜬다).
+            if (resultPanelImg != null && skin != null && skin.endingPanel != null)
+                resultPanelImg.sprite = skin.endingPanel;
+            if (resultTurnsText != null) resultTurnsText.text = "";
         }
 
         const string EndingTitle = "작전 종료";

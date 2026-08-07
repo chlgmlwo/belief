@@ -67,5 +67,6 @@ MonoBehaviour:
   resultBackground: {fileID: 21300000, guid: 398295e20f8d5994282e815acab361ce, type: 3}
   successPanel: {fileID: 21300000, guid: 7e22f503b96a1364681222adfac958a6, type: 3}
   failurePanel: {fileID: 21300000, guid: bbac2bbfdbc9074488abc408df47ef9e, type: 3}
+  endingPanel: {fileID: 21300000, guid: 0b4a34bafcbc5dc49acac006b07095e9, type: 3}
   successPhotoFrame: {fileID: 21300000, guid: 40743e0354c0d79478f15ae6c9ebcc5d, type: 3}
   failurePhotoFrame: {fileID: 21300000, guid: e0aedfa50b82d0843b309d7f66c5b301, type: 3}
