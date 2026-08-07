@@ -33,8 +33,9 @@ namespace Belief.Presentation.HUD
         static readonly Color MutedInk = new Color(0.42f, 0.39f, 0.37f, 1f);
         static readonly Color LinkColor = new Color(0.706f, 0.259f, 0.259f, 1f);
 
-        /// <summary>구멍을 대상보다 조금 넉넉하게 낸다 - 딱 맞게 내면 테두리가 잘려 보인다.</summary>
-        const float SpotlightPadding = 18f;
+        /// <summary>구멍을 대상보다 넉넉하게 낸다. 딱 맞게 내면 테두리가 잘려 보이고, 클릭 판정이
+        /// 그려진 그림보다 작은 자리(탭이 그렇다)는 정작 설명할 그림이 덮개에 가려진다.</summary>
+        const float SpotlightPadding = 34f;
         const float FadeDuration = 0.22f;
 
         const float InformantSize = 250f;
@@ -110,13 +111,19 @@ namespace Belief.Presentation.HUD
             steps.Add(new Step
             {
                 Targets = null,
-                Text = "정보원입니다. 당신은 아무도 베지 않습니다. 사람들이 <b>무엇을 믿게 될지</b>만 고르면 됩니다.",
+                Text = "정보원입니다. 이 도시에서 당신이 쥔 무기는 소문 하나뿐입니다.\n무엇을 어디에 흘릴지, 그것만 짚어 드리죠.",
             });
 
             steps.Add(new Step
             {
-                Targets = () => Ui("MissionArea/GoalCard01", "MissionArea/MissionSummaryCard"),
-                Text = "이번에 할 일입니다. 아래 두 줄은 <b>둘 중 하나만</b> 이루면 끝납니다. 어느 쪽으로 갈지는 당신이 정합니다.",
+                Targets = () => Ui("MissionArea/GoalCard01", "MissionArea/GoalCard02"),
+                Text = "위 카드가 <b>지금 맡은 일</b>이고, 아래 카드는 <b>그다음에 올 일</b>입니다. 지금 신경 쓸 것은 위 하나뿐입니다.",
+            });
+
+            steps.Add(new Step
+            {
+                Targets = () => Ui("MissionArea/MissionSummaryCard"),
+                Text = "이 일을 끝내는 조건입니다. 두 줄 사이의 <b>또는</b>이 핵심입니다 — <b>둘 중 하나만</b> 채우면 끝납니다.",
             });
 
             steps.Add(new Step
@@ -187,12 +194,16 @@ namespace Belief.Presentation.HUD
             return hudRoot;
         }
 
-        /// <summary>지도 설명용 - 장소 카드 전부를 감싸는 사각형이 곧 "지도"다.</summary>
+        /// <summary>지도 설명용 - 장소 카드와 그 위의 사람들을 전부 감싸는 사각형이 곧 "지도"다.
+        /// 사람을 빼면 지도 아래쪽에 서 있는 NPC가 덮개에 걸려, 정작 "대상을 고른다"는 설명에서
+        /// 고를 대상이 안 보인다.</summary>
         List<Transform> WorldTargets()
         {
             var found = new List<Transform>();
             if (world == null) return found;
             foreach (var v in world.LocationViews.Values)
+                if (v != null && v.gameObject.activeInHierarchy) found.Add(v.transform);
+            foreach (var v in world.NpcViews.Values)
                 if (v != null && v.gameObject.activeInHierarchy) found.Add(v.transform);
             return found;
         }
