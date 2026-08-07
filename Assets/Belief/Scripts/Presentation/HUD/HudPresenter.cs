@@ -240,7 +240,16 @@ namespace Belief.Presentation.HUD
             // 미션 자체가 교체됐다는 직접 신호 - ObjectivesChanged/TurnStartedEvent 경로와 별개로
             // MissionSystem.LoadMission이 발행하는 즉시 미션 패널을 완전히 재구성한다.
             bus.Subscribe<MissionChangedEvent>(_ => RefreshMission());
-            bus.Subscribe<GameOverEvent>(e => StartCoroutine(WaitForPlaybackThen(() => { if (e.Won) ShowFinalVictory(); else ShowMissionFailedPopup(); })));
+            bus.Subscribe<GameOverEvent>(e => StartCoroutine(WaitForPlaybackThen(() =>
+            {
+                if (!e.Won) { ShowMissionFailedPopup(); return; }
+                // 승리 신호가 곧 엔딩은 아니다 - 뒤에 남은 구역이 있으면 이건 엔딩일 리가 없다.
+                // 그런데도 엔딩을 띄우면 [메인 화면]밖에 없는 화면에 갇혀 진행이 끊긴다
+                // (웹 빌드에서 1~3구역이 전부 그랬다). 확인하고 띄운다.
+                if (IsFinalStage()) { ShowFinalVictory(); return; }
+                Debug.LogError("[HUD] 마지막 구역이 아닌데 최종 승리 신호가 왔다 - 엔딩을 띄우지 않는다. "
+                    + $"구역 {ProgressionController.Instance?.Progress.CurrentStageIndex}");
+            })));
             installer.Log.OnLogAdded += AppendLog;
             bus.Subscribe<NpcSpokeEvent>(OnLogNpcSpoke);
             bus.Subscribe<CardJudgedEvent>(OnLogCardJudged);
@@ -360,6 +369,15 @@ namespace Belief.Presentation.HUD
             if (resultMissionNoText != null) resultMissionNoText.text = "";
             if (resultStageLabelText != null) resultStageLabelText.text = "";
             if (resultStageTagText != null) resultStageTagText.text = "";
+        }
+
+        /// <summary>지금 구역이 마지막 구역인지. 진행 정보를 못 읽는 씬(단독 실행 등)에서는 예전처럼
+        /// 승리 신호를 그대로 엔딩으로 받아들인다 - 그런 씬엔 "다음 구역"이라는 개념이 없다.</summary>
+        bool IsFinalStage()
+        {
+            var pc = ProgressionController.Instance;
+            if (pc == null || pc.Data == null || pc.Data.stages == null || pc.Data.stages.Length == 0) return true;
+            return pc.Progress.CurrentStageIndex >= pc.Data.stages.Length - 1;
         }
 
         const string EndingTitle = "작전 종료";

@@ -135,6 +135,8 @@ namespace Belief.Core
                 currentInstaller.Turns.ResetForNewMission(firstObjective.turnLimit);
 
             currentInstaller.EventBus.Subscribe(turnEndedHandler);
+            // 이 구역의 판정은 여기서부터 내가 맡는다 - TurnSystem은 스스로 결과를 선언하지 않는다.
+            currentInstaller.Turns.SetExternallyJudged(true);
 
             // 이어하기 복원은 반드시 저장보다 먼저다 - 순서가 바뀌면 갓 로드된 초기 세계가
             // 저장본을 덮어써서, 되살리려던 상태가 그 자리에서 사라진다.
@@ -171,7 +173,11 @@ namespace Belief.Core
 
         void DetachFromCurrentInstaller()
         {
-            if (currentInstaller != null) currentInstaller.EventBus.Unsubscribe(turnEndedHandler);
+            if (currentInstaller != null)
+            {
+                currentInstaller.EventBus.Unsubscribe(turnEndedHandler);
+                if (currentInstaller.Turns != null) currentInstaller.Turns.SetExternallyJudged(false);
+            }
             currentInstaller = null;
         }
 

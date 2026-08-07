@@ -54,6 +54,18 @@ namespace Belief.Systems
         /// 막아 주는 것도 그때까지는 없다.</summary>
         public bool IsGameOver => TurnsExhausted || mission.State.IsComplete || resultDeclared;
 
+        /// <summary>바깥(ProgressionController)이 이 구역의 결과 판정을 맡고 있는지. 붙어 있는 동안
+        /// 이 클래스는 <b>절대 스스로 결과를 선언하지 않는다</b>.
+        ///
+        /// 이게 없어서 큰 사고가 났다: 무슨 이유로든 바깥 판정이 그 턴을 처리하지 못하면, 아래
+        /// 레거시 폴백이 대신 나서서 미션 하나 완료를 <b>게임 전체 승리</b>로 선언했다. 화면에는
+        /// 엔딩이 뜨고 다음 구역으로 갈 길이 사라진다(웹 빌드에서 1~3구역 전부 그렇게 됐다).
+        /// 폴백은 StageData가 없는 레거시/테스트 씬을 위한 것이지, 정식 구역의 예비 판정자가 아니다.</summary>
+        public bool ExternallyJudged { get; private set; }
+
+        /// <summary>ProgressionController가 이 구역에 붙고 떨어질 때만 부른다.</summary>
+        public void SetExternallyJudged(bool value) => ExternallyJudged = value;
+
         /// <summary>구역 전체를 통틀어 누적되는 턴 수(UI 표시 전용) - CurrentTurn/MaxTurns와 달리
         /// ResetForNewMission이 호출돼도 리셋되지 않는다. 턴 진행/판정 로직에는 전혀 관여하지 않는다.</summary>
         public int StageTurn { get; private set; } = 1;
@@ -328,6 +340,15 @@ namespace Belief.Systems
             {
                 cards.RefillIfNeeded();
                 eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
+            }
+            else if (ExternallyJudged)
+            {
+                // 여기 오면 안 된다 - 결과가 확정된 것으로 보이는데 판정 주체가 아무것도 하지
+                // 않았다는 뜻이다. 예전엔 이 자리에서 폴백이 "게임 전체 승리"를 선언해 엔딩이
+                // 떠 버렸다. 아무것도 선언하지 않고 원인만 남긴다 - 잘못된 엔딩보다 낫다.
+                UnityEngine.Debug.LogError("[TurnSystem] 결과가 확정된 것으로 보이는데 ProgressionController가 "
+                    + $"판정하지 않았다. 미션완료={mission.State.IsComplete} 턴소진={TurnsExhausted} "
+                    + $"(턴 {CurrentTurn}/{MaxTurns}). 폴백 판정은 정식 구역에서 쓰지 않는다.");
             }
             else if (!gameOverAnnounced)
             {
