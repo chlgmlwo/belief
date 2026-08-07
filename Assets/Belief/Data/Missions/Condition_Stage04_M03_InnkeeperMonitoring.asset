@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M03_InnkeeperMonitoring
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationWorldStateCondition
   TargetCount: 1
-  displayLabel: "여관 주인이 소문을 주시함"
+  displayLabel: "\uC5EC\uAD00 \uC8FC\uC778\uC774 \uC18C\uBB38\uC744 \uC8FC\uC2DC"
   targetLocation: {fileID: 11400000, guid: 5530915de1ecf5f49b625592187877e1, type: 2}
   requiredActor: {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}
   requiredResultType: 1
-  requiredCategoryId:
+  requiredCategoryId: 

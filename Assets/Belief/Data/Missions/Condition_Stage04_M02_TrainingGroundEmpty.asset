@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M02_TrainingGroundEmpty
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcsLeaveLocationCondition
   TargetCount: 1
-  displayLabel: "\uD6C8\uB828\uC7A5\uC5D0 \uAE30\uC0AC\uB2E8\uC774 \uB0A8\uC9C0 \uC54A\uC74C"
+  displayLabel: "\uAE30\uC0AC\uB2E8\uC7A5\uC774 \uD6C8\uB828\uC7A5\uC744 \uB5A0\uB0A8"
   watchedLocation: {fileID: 11400000, guid: aae10202969e7d546a41f9a4da180735, type: 2}
   watchedNpcs:
   - {fileID: 11400000, guid: 6d76d44d879c888408a1d9d7bc8fd8ce, type: 2}

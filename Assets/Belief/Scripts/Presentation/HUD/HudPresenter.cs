@@ -80,6 +80,7 @@ namespace Belief.Presentation.HUD
         Transform missionConditionsRoot;
         readonly List<GameObject> missionConditionRows = new List<GameObject>();
         TMP_Text missionTurnsText;
+        TMP_Text missionConditionsText;
         TMP_Text nextMissionText;
         GameObject nextMissionCardRoot;
         TMP_Text nextMissionCardTitleText;
@@ -798,6 +799,7 @@ namespace Belief.Presentation.HUD
                 missionTitleText.text = "";
                 missionDescText.text = "";
                 missionTurnsText.text = "";
+                if (missionConditionsText != null) missionConditionsText.text = "";
                 nextMissionText.text = "";
                 if (nextMissionCardRoot != null) nextMissionCardRoot.SetActive(false);
                 if (nextMissionConnectorGo != null) nextMissionConnectorGo.SetActive(false);
@@ -818,6 +820,7 @@ namespace Belief.Presentation.HUD
             if (nextMissionConnectorGo != null) nextMissionConnectorGo.SetActive(hasUpcoming);
 
             var context = new MissionEvaluationContext(installer.Locations, installer.Npcs, installer.Turns.DeliveredInformationCards);
+            var conditionsBody = new StringBuilder();
             if (objective.successConditions != null)
             {
                 foreach (var condition in objective.successConditions)
@@ -836,9 +839,30 @@ namespace Belief.Presentation.HUD
                             "displayLabel이 비어 있어 애셋 이름이 그대로 표시된다. 플레이어가 읽을 한글 문구를 채워야 한다.", condition);
 #endif
                     }
+                    // 조건 둘 중 <b>하나만</b> 채우면 되는 미션(clearMode=Any)이 대부분인데, 그냥
+                    // 나란히 적으면 둘 다 해야 하는 것으로 읽힌다 - 둘째 줄부터 "또는"을 붙여 선택지임을
+                    // 드러낸다. 이 한 단어가 없어서 미션이 어렵게 읽힌다는 지적이 있었다.
+                    // 조건 둘 중 <b>하나만</b> 채우면 되는 미션(clearMode=Any)이 대부분인데, 그냥
+                    // 나란히 적으면 둘 다 해야 하는 것으로 읽힌다. "또는"을 조건 사이 독립된 줄로
+                    // 빼면 선택 관계가 한눈에 들어오고, 조건 문구에 붙였을 때처럼 줄을 넘겨
+                    // 밀어내지도 않는다(붙이면 세 줄이 칸 폭 270을 넘겼다 - 실측).
+                    if (objective.clearMode == MissionClearMode.Any && conditionsBody.Length > 0)
+                        conditionsBody.AppendLine("<color=#8A857E>  또는</color>");
+
+                    conditionsBody.Append("•  ");
+                    // 달성한 조건은 취소선 + 흐린 색. 체크 표시(✓)를 쓰지 않는 이유는 이 프로젝트
+                    // 폰트에 그 글리프가 없어서다(화살표·삼각형과 같은 사정).
+                    if (met) conditionsBody.Append("<color=#8A857E><s>").Append(label).AppendLine("</s></color>");
+                    else conditionsBody.AppendLine(label);
+
                     AddMissionConditionRow(objective.displayTitle, label, met, missionConditionRows.Count);
                 }
             }
+
+            // MISSION 종이 본문 - 예전에는 여기에 Zone1 시안 문구("경비대장을 북문에서 벗어나게
+            // 해야한다" 등)가 박힌 채 어떤 코드도 갱신하지 않아, 어느 구역 어느 미션에서든 같은 두
+            // 줄이 떠 있었다. 이제 실제 미션의 달성 조건을 그대로 적는다.
+            if (missionConditionsText != null) missionConditionsText.text = conditionsBody.ToString().TrimEnd();
 
             // 표기만 일수로 바꾼다 - inclusive 계산(마지막 날에 1일)은 그대로다.
             // 제한 기간 초과로 결과 리포트가 뜰 때 이 값을 지우는 것은 ShowResultScreen이 담당한다
@@ -888,6 +912,13 @@ namespace Belief.Presentation.HUD
         /// anchoredPosition을 직접 내려 쌓는다.</summary>
         void AddMissionConditionRow(string missionTitle, string label, bool met, int slotIndex)
         {
+            // 이 조건 카드 더미는 GoalCard01/02 두 장으로 대체됐다 - 프리팹 참조가 비어 있고
+            // MissionConditionsRoot도 네 씬 모두 꺼져 있다(실측). 그런데도 여기까지 들어와
+            // Instantiate(null)로 예외를 던지고 있었고, 그 바람에 RefreshMission이 이 줄에서 끊겨
+            // 뒤쪽(남은 기간·다음 미션 문구)이 아예 실행되지 않았다. 조건 문구는 이제 MISSION
+            // 종이에 직접 적으므로 참조가 없으면 조용히 넘어간다.
+            if (missionConditionRowPrefab == null || missionConditionsRoot == null) return;
+
             var row = Instantiate(missionConditionRowPrefab, missionConditionsRoot);
 
             Sprite cardSprite = skin != null
@@ -1650,6 +1681,7 @@ namespace Belief.Presentation.HUD
             missionDescText = view.MissionDescText;
             missionConditionsRoot = view.MissionConditionsRoot;
             missionTurnsText = view.MissionTurnsText;
+            missionConditionsText = view.MissionConditionsText;
             nextMissionText = view.NextMissionText;
             nextMissionCardRoot = view.NextMissionCardRoot;
             nextMissionCardTitleText = view.NextMissionCardTitleText;

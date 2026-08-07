@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Condition_NeverComplete
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcsLeaveLocationCondition
   TargetCount: 1
-  displayLabel: "\uAD6C\uC5ED \uBAA9\uD45C\uB97C \uC9C4\uD589 \uC911"
+  displayLabel: "\uAD6C\uC5ED \uBAA9\uD45C \uC9C4\uD589 \uC911"
   watchedLocation: {fileID: 0}
   watchedNpcs: []

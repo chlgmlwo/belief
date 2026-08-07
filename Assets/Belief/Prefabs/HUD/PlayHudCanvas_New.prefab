@@ -2062,9 +2062,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2022  \uACBD\uBE44\uB300\uC7A5\uC744 \uBD81\uBB38\uC5D0\uC11C \uBC97\uC5B4\uB098\uAC8C
-    \uD574\uC57C\uD55C\uB2E4.\n\u2022  \uC0C1\uC778\uC744 \uBD81\uBB38\uC73C\uB85C
-    \uC774\uB3D9\uC2DC\uCF1C\uC57C\uD55C\uB2E4."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
   m_sharedMaterial: {fileID: -6520637364355772205, guid: e5edbb8fdd8bc4a47a8427d6e1f0c3a3, type: 2}
@@ -4139,6 +4137,7 @@ MonoBehaviour:
   nextMissionCardTitleText: {fileID: 2817586941716634679}
   nextMissionCardDescText: {fileID: 126335812086560585}
   nextMissionConnectorGo: {fileID: 847071039451570668}
+  missionConditionsText: {fileID: 6284889517955921371}
   profileTabButton: {fileID: 2176937625018651563}
   logTabButton: {fileID: 4085171376589497338}
   profileTabIndicator: {fileID: 0}

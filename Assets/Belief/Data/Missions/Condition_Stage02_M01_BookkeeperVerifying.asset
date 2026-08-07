@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage02_M01_BookkeeperVerifying
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.InformationWorldStateCondition
   TargetCount: 1
-  displayLabel: "\uC7A5\uBD80\uAD00\uB9AC\uC778\uC774 \uD658\uC804\uC18C\uC758 \uC18C\uBB38\uC744
-    \uC9C1\uC811 \uC870\uC0AC\uD568"
+  displayLabel: "\uC7A5\uBD80\uAD00\uB9AC\uC778\uC774 \uD658\uC804\uC18C \uC18C\uBB38\uC744
+    \uC870\uC0AC"
   targetLocation: {fileID: 11400000, guid: 40858fb8ee9999b4eb99d6bbbed06936, type: 2}
   requiredActor: {fileID: 11400000, guid: 4febb1b6d554c674c94eef84b79c170f, type: 2}
   requiredResultType: 0

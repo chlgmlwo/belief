@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M01_TwoDistrictsRumor
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.AllOfConditions
   TargetCount: 1
-  displayLabel: "\uADC0\uC871\uAC00\uC640 \uC0C1\uC5C5\uC9C0\uAD6C \uC591\uCABD\uC5D0\uC11C
-    \uB3D9\uC2DC\uC5D0 \uC18C\uBB38\uC774 \uB4E4\uB9BC"
+  displayLabel: "\uC751\uC811\uC2E4\uACFC \uC2DC\uC7A5\uC5D0 \uB3D9\uC2DC\uC5D0 \uC18C\uBB38\uC774
+    \uD37C\uC9D0"
   subConditions:
   - {fileID: 11400000, guid: 94bb5dbd1449e4d46a4ab7c6084753d1, type: 2}
   - {fileID: 11400000, guid: 396f85f8c1ab45447b12af9b3efad43c, type: 2}

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage03_M02_KeyFigureLeavesReception
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcsLeaveLocationCondition
   TargetCount: 1
-  displayLabel: "영주부인 또는 시녀장이 응접실을 떠남"
+  displayLabel: "\uC601\uC8FC\uBD80\uC778\uC774\uB098 \uC2DC\uB140\uC7A5\uC774 \uC751\uC811\uC2E4\uC744
+    \uB5A0\uB0A8"
   watchedLocation: {fileID: 11400000, guid: bbdc3dc8b850aa140af9a825e5cfdcbf, type: 2}
   watchedNpcs:
   - {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}

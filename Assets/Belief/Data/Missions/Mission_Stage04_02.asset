@@ -15,7 +15,7 @@ MonoBehaviour:
   missionId: MISSION_STAGE04_02
   displayTitle: "\uAD70 \uAC1C\uC785\uC744 \uCC28\uB2E8\uD558\uB77C"
   objectiveText: "\uAE30\uC0AC\uB2E8\uC774 \uC601\uC8FC\uB97C \uC9C0\uD0A4\uC9C0
-    \uBABB\uD558\uAC8C \uB9CC\uB4E4\uC5B4\uB77C."
+    \uBABB\uD558\uAC8C \uB9CC\uB4E0\uB2E4."
   turnLimit: 4
   clearMode: 0
   successConditions:

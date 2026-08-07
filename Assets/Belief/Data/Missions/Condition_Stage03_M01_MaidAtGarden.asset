@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Condition_Stage03_M01_MaidAtGarden
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAtLocationCondition
   TargetCount: 1
-  displayLabel: "\uD558\uB140\uAC00 \uC815\uC6D0\uC73C\uB85C \uC774\uB3D9\uD568"
+  displayLabel: "\uD558\uB140\uAC00 \uC815\uC6D0\uC73C\uB85C \uC774\uB3D9"
   targetNpc: {fileID: 11400000, guid: 6477404e365cb9f47b6edca2591b5846, type: 2}
   targetLocation: {fileID: 11400000, guid: f89dbfbdbe6867b449119cc4075222a2, type: 2}

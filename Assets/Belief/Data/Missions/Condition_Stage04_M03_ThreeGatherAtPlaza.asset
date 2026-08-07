@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M03_ThreeGatherAtPlaza
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcsGatherAtLocationCondition
   TargetCount: 3
-  displayLabel: "\uC5EC\uAD00\uC8FC\uC778\xB7\uC18C\uC0C1\uC778\xB7\uD558\uB140\uAC00
-    \uAD11\uC7A5\uC5D0 \uBAA8\uB450 \uBAA8\uC784"
+  displayLabel: "\uC5EC\uAD00 \uC8FC\uC778\xB7\uC18C\uC0C1\uC778\xB7\uD558\uB140\uAC00
+    \uAD11\uC7A5\uC5D0 \uBAA8\uC784"
   watchedLocation: {fileID: 11400000, guid: 7946e2d0d9aa347439dafacb692c0b88, type: 2}
   watchedNpcs:
   - {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}

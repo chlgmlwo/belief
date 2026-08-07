@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M03_InnkeeperDenied
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcBeliefReachedCondition
   TargetCount: 1
-  displayLabel: "\uC5EC\uAD00 \uC8FC\uC778\uC758 \uBBFF\uC74C\uC774 \uC644\uC804\uD788
-    \uBB34\uB108\uC9D0(\uBD80\uC815\uD568 \uB3C4\uB2EC)"
+  displayLabel: "\uC5EC\uAD00 \uC8FC\uC778\uC774 \uC18C\uBB38\uC744 \uC644\uC804\uD788
+    \uBD80\uC815\uD568"
   targetNpc: {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}
   referenceCard: {fileID: 11400000, guid: 4f45c2fcc626128489c1eb629a148114, type: 2}
   thresholdState: 5

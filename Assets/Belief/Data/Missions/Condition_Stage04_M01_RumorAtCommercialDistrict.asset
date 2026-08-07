@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M01_RumorAtCommercialDistrict
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.LocationRumorActiveCondition
   TargetCount: 1
-  displayLabel: "\uC2DC\uC7A5\uC5D0 \uC18C\uBB38\uC774 \uD37C\uC838 \uC788\uC74C"
+  displayLabel: "\uC2DC\uC7A5\uC5D0 \uC18C\uBB38\uC774 \uD37C\uC9D0"
   targetLocation: {fileID: 11400000, guid: dca044554a3207f4fb1a617e67fa6eaf, type: 2}
   requiredInformation: {fileID: 0}
   requiredCategoryId: 

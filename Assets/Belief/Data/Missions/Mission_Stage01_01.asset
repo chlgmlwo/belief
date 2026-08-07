@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.MissionData
   missionId: MISSION_STAGE01_01
   displayTitle: "\uBA85\uB839\uC758 \uADFC\uAC70 \uD754\uB4E4\uAE30"
-  objectiveText: "\uACBD\uBE44 \uAC15\uD654 \uBA85\uB839\uC758 \uC815\uB2F9\uC131\uC744
-    \uD754\uB4E4\uC5B4, \uACBD\uBE44\uB300\uC7A5\uC774 \uBA85\uB839\uC744 \uBB34\uC870\uAC74
-    \uC2E0\uB8B0\uD558\uC9C0 \uC54A\uB3C4\uB85D \uB9CC\uB4E0\uB2E4."
+  objectiveText: "\uACBD\uBE44 \uAC15\uD654 \uBA85\uB839\uC744 \uC758\uC2EC\uBC1B\uAC8C
+    \uB9CC\uB4E0\uB2E4."
   turnLimit: 4
   clearMode: 0
   successConditions:

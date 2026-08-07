@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage01_M01_ButlerInvestigating
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAnyBeliefReachedCondition
   TargetCount: 1
-  displayLabel: "집사가 명령의 근거를 의심함"
+  displayLabel: "\uC9D1\uC0AC\uC758 \uBBFF\uC74C\uC774 '\uD655\uC778 \uD544\uC694\uD568'
+    \uC774\uD558"
   targetNpc: {fileID: 11400000, guid: 4677f620c23745329d98e141b738510f, type: 2}
   thresholdState: 1
   atOrBelow: 1

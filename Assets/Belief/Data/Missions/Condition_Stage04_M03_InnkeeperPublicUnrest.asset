@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M03_InnkeeperPublicUnrest
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.AnyOfConditions
   TargetCount: 1
-  displayLabel: "여관 주인이 민심의 동요를
-    감지하거나 부정함"
+  displayLabel: "\uC5EC\uAD00 \uC8FC\uC778\uC774 \uC18C\uBB38\uC744 \uC0B4\uD53C\uAC70\uB098
+    \uBD80\uC815\uD568"
   subConditions:
   - {fileID: 11400000, guid: 52a3eab9bfc541d8a3c2ff5b9e185da9, type: 2}
   - {fileID: 11400000, guid: f8c281528b614440b32c1a50834382d2, type: 2}

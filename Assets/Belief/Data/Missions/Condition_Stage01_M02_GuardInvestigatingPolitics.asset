@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage01_M02_GuardInvestigatingPolitics
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAnyBeliefReachedCondition
   TargetCount: 1
-  displayLabel: "경비대장이 명령 계통을 의심함"
+  displayLabel: "\uACBD\uBE44\uB300\uC7A5\uC758 \uBBFF\uC74C\uC774 '\uD655\uC778
+    \uD544\uC694\uD568' \uC774\uD558"
   targetNpc: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
   thresholdState: 1
   atOrBelow: 1

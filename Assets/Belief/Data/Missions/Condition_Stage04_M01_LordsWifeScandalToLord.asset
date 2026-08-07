@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M01_LordsWifeScandalToLord
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcBeliefReachedCondition
   TargetCount: 1
-  displayLabel: "\uC601\uC8FC\uAC00 '\uC774\uB2E8 \uC758\uC2EC \uC9D1\uD68C' \uC18C\uBB38\uC744
+  displayLabel: "\uC601\uC8FC\uAC00 '\uC774\uB2E8 \uC758\uC2EC \uC9D1\uD68C'\uB97C
     \uC758\uC2EC\uD568"
   targetNpc: {fileID: 11400000, guid: b61f1196e7ee84945894e1c731022573, type: 2}
   referenceCard: {fileID: 11400000, guid: cabf2e3cafa848149b1bdf4b80b63ec2, type: 2}

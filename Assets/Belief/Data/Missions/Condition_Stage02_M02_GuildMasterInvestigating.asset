@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage02_M02_GuildMasterInvestigating
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAnyBeliefReachedCondition
   TargetCount: 1
-  displayLabel: "길드장이 여론 악화를 직접 인지함"
+  displayLabel: "\uAE38\uB4DC\uC7A5\uC758 \uBBFF\uC74C\uC774 '\uD655\uC778 \uD544\uC694\uD568'
+    \uC774\uD558"
   targetNpc: {fileID: 11400000, guid: 7affddfbafc05c445bdc0fc15115a23c, type: 2}
   thresholdState: 1
   atOrBelow: 1

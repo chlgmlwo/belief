@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage03_M01_RivalInvestigating
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAnyBeliefReachedCondition
   TargetCount: 1
-  displayLabel: "귀족부인이 영주부인을 의심함"
+  displayLabel: "\uADC0\uC871\uBD80\uC778\uC758 \uBBFF\uC74C\uC774 '\uD655\uC778
+    \uD544\uC694\uD568' \uC774\uD558"
   targetNpc: {fileID: 11400000, guid: 65e54763f0fe3d64e9fd7d32cc2360f7, type: 2}
   thresholdState: 1
   atOrBelow: 1

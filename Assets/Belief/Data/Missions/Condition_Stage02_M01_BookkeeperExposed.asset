@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage02_M01_BookkeeperExposed
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.AnyOfConditions
   TargetCount: 1
-  displayLabel: "\uC7A5\uBD80\uAD00\uB9AC\uC778\uC774 \uD658\uC804\uC18C\uC5D0\uC11C
-    \uC18C\uBB38\uC744 \uC8FC\uC2DC\uD558\uAC70\uB098 \uC9C1\uC811 \uC870\uC0AC\uD568"
+  displayLabel: "\uC7A5\uBD80\uAD00\uB9AC\uC778\uC774 \uD658\uC804\uC18C \uC18C\uBB38\uC744
+    \uC0B4\uD54C"
   subConditions:
   - {fileID: 11400000, guid: 7e4300f78c7d6834fb56123ea7a1b03d, type: 2}
   - {fileID: 11400000, guid: ed2a9d61c36d67445ab7bfa96967d808, type: 2}

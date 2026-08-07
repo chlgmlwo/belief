@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Condition_Stage04_M01_TarnishedRumorReachesLord
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.AnyOfConditions
   TargetCount: 1
-  displayLabel: "\uBB34\uB108\uC9C4 \uCE21\uADFC(\uC9D1\uC0AC/\uAE38\uB4DC\uC7A5/\uC601\uC8FC\uBD80\uC778)\uC758
-    \uC18C\uBB38\uC774 \uC601\uC8FC\uC5D0\uAC8C \uC804\uB2EC\uB428"
+  displayLabel: "\uC601\uC8FC\uAC00 \uCE21\uADFC\uC5D0 \uB300\uD55C \uC18C\uBB38\uC744
+    \uC758\uC2EC\uD568"
   subConditions:
   - {fileID: 11400000, guid: 166e3b8ec94f2044dac934f6e5bbbde7, type: 2}
   - {fileID: 11400000, guid: 970d8cf1f39687648a81473907d3da28, type: 2}

@@ -34,6 +34,10 @@ namespace Belief.Presentation.HUD
         [SerializeField] TMP_Text nextMissionCardDescText;
         [SerializeField] GameObject nextMissionConnectorGo;
 
+        /// <summary>MISSION 종이(MissionSummaryCard)의 본문 - 지금 미션의 달성 조건을 적는다.
+        /// 예전에는 여기에 시안용 예시 문구가 그대로 박혀 있었고 어떤 코드도 갱신하지 않았다.</summary>
+        [SerializeField] TMP_Text missionConditionsText;
+
         [Header("Right Panel Tabs (section 7 - 기본/프로필/로그 상태 전환)")]
         [SerializeField] Button profileTabButton;
         [SerializeField] Button logTabButton;
@@ -166,6 +170,7 @@ namespace Belief.Presentation.HUD
         public TMP_Text NextMissionCardTitleText => nextMissionCardTitleText;
         public TMP_Text NextMissionCardDescText => nextMissionCardDescText;
         public GameObject NextMissionConnectorGo => nextMissionConnectorGo;
+        public TMP_Text MissionConditionsText => missionConditionsText;
 
         public Button ProfileTabButton => profileTabButton;
         public Button LogTabButton => logTabButton;

@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Condition_Stage02_M01_CustomsAtWarehouse
   m_EditorClassIdentifier: Assembly-CSharp::Belief.Data.NpcAtLocationCondition
   TargetCount: 1
-  displayLabel: "\uC138\uAD00\uC6D0\uC774 \uCC3D\uACE0 \uAC70\uB9AC\uB85C \uC774\uB3D9\uD574
-    \uC870\uC0AC\uD568"
+  displayLabel: "\uC138\uAD00\uC6D0\uC774 \uCC3D\uACE0 \uAC70\uB9AC\uB85C \uC774\uB3D9"
   targetNpc: {fileID: 11400000, guid: edd7b0ba482ba8147ac42357d8abedce, type: 2}
   targetLocation: {fileID: 11400000, guid: c64bc51fba05aeb43ba46e4d412a79f9, type: 2}
