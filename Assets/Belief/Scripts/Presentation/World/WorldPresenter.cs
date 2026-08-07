@@ -142,8 +142,9 @@ namespace Belief.Presentation.World
             installer.EventBus.Subscribe<NpcRelocatedEvent>(OnNpcRelocated);
             installer.EventBus.Subscribe<LocationStateChangedEvent>(OnLocationStateChanged);
             installer.EventBus.Subscribe<NpcSpokeEvent>(OnNpcSpoke);
-            installer.EventBus.Subscribe<InfoSpreadEvent>(OnInfoSpread);
-            installer.EventBus.Subscribe<InfoDeliveredEvent>(OnInfoDelivered);
+            // InfoSpreadEvent / InfoDeliveredEvent도 구독했었지만 하는 일이 장소·NPC를 한 번
+            // 번쩍이게 하는 것뿐이었고, 확산은 매 턴 여러 번 일어나 화면이 계속 깜빡였다.
+            // 무슨 일이 일어났는지는 로그 패널과 NPC 대사가 이미 말해 준다(사용자 지시로 제거).
         }
 
         /// <summary>정보 전달 지점(StageData.contactPoint)을 일반 장소와 같은 사진 카드로 놓되,
@@ -387,18 +388,6 @@ namespace Belief.Presentation.World
 
             currentSpeaker = view;
             view.ShowDialogue(text);
-        }
-
-        void OnInfoSpread(InfoSpreadEvent e)
-        {
-            if (locationViews.TryGetValue(e.Location, out var view))
-                view.Highlight();
-        }
-
-        void OnInfoDelivered(InfoDeliveredEvent e)
-        {
-            if (npcViews.TryGetValue(e.Target, out var view))
-                view.Highlight();
         }
 
         /// <summary>TargetingController가 전달 대상으로 선택/해제한 장소를 알려줄 때 호출한다 -

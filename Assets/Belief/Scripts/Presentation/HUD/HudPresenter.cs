@@ -208,7 +208,9 @@ namespace Belief.Presentation.HUD
             BuildUI();
 
             var bus = installer.EventBus;
-            bus.Subscribe<TurnStartedEvent>(_ => { RefreshAll(); PulseOnce(missionTurnText); PulseOnce(stageTurnText); });
+            // 예전엔 여기서 턴 숫자를 강조색(민트)으로 한 번 번쩍이게 했다 - 턴마다 미션 글자가
+            // 초록으로 깜빡여 거슬린다는 지적으로 제거. 숫자는 어차피 값이 바뀌어 눈에 띈다.
+            bus.Subscribe<TurnStartedEvent>(_ => RefreshAll());
             bus.Subscribe<CardSelectedEvent>(_ => RefreshAll());
             // 예전엔 여기서 "결과를 확인하세요." 알림을 띄웠지만 3-85에서 삭제 - 무엇을 확인하라는
             // 건지도 모호했고, 카드를 낸 직후에는 NPC 대사/로그가 이미 결과를 말해 준다.
@@ -513,25 +515,6 @@ namespace Belief.Presentation.HUD
             if (PlaybackDirector.Instance == null) gameObject.AddComponent<PlaybackDirector>();
         }
 
-        /// <summary>깜빡임이 끝난 뒤 되돌릴 "원래 색" - 대상별로 최초 1회만 기록한다.
-        /// 예전엔 `PulseGraphic(text, AccentColor, Color.white, …)`처럼 복귀 색을 **흰색으로
-        /// 하드코딩**해서, 한 번 깜빡인 텍스트는 원래 색이 무엇이었든 영구히 흰색이 돼버렸다.
-        /// GOAL1 카드 제목(missionTitleText)은 RefreshMission()마다 깜빡이므로 미션이 바뀌는
-        /// 순간 검은 글씨가 흰 글씨로 변해 밝은 카드 위에서 안 보이게 됐다(2026-08-05 사용자 보고).
-        /// 깜빡임 도중 다시 호출돼도 이미 기록된 원래 색을 그대로 쓰므로 강조색이 굳지 않는다.</summary>
-        readonly Dictionary<Graphic, Color> pulseBaseColors = new Dictionary<Graphic, Color>();
-
-        void PulseOnce(TMP_Text text)
-        {
-            if (text == null) return;
-            if (!pulseBaseColors.TryGetValue(text, out var baseColor))
-            {
-                baseColor = text.color;
-                pulseBaseColors[text] = baseColor;
-            }
-            StartCoroutine(PulseGraphic(text, AccentColor, baseColor, 0.3f));
-        }
-
         // ---------------------------------------------------------------- 턴 진행 표시
 
         /// <summary>정보를 전달한 뒤 NPC 판단(LLM이면 응답 대기)이 끝날 때까지 하단 안내 띠에 띄워
@@ -652,25 +635,6 @@ namespace Belief.Presentation.HUD
             noticeShowing = false;
             RefreshBarVisibility();
             feedbackRoutine = null;
-        }
-
-        IEnumerator PulseGraphic(Graphic graphic, Color flashColor, Color normalColor, float duration)
-        {
-            bool skip = false;
-            var playback = new DelegatePlayback(() => skip = true);
-            PlaybackDirector.Instance?.Register(playback);
-
-            graphic.color = flashColor;
-            float t = 0f;
-            while (t < duration && !skip)
-            {
-                t += Time.deltaTime;
-                graphic.color = Color.Lerp(flashColor, normalColor, t / duration);
-                yield return null;
-            }
-            graphic.color = normalColor;
-
-            PlaybackDirector.Instance?.Unregister(playback);
         }
 
         // ------------------------------------------------------------ 우측 패널 상태 (section 3/7)
@@ -824,7 +788,6 @@ namespace Belief.Presentation.HUD
                     ? "다음 미션: ???"
                     : $"다음 미션: {objective.nextMissionTitle}";
 
-            PulseOnce(missionTitleText);
         }
 
         /// <summary>GOAL2 카드(다음 미션 미리보기) 전용 조회 - StageAsset.missions 배열에서 현재 미션
