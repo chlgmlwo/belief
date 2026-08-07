@@ -11,19 +11,6 @@ namespace Belief.Presentation.HUD
     /// Bind로 채워 넣는다. StageBriefingPresenter가 Instantiate 직후 호출한다.</summary>
     public class StageBriefingView : MonoBehaviour
     {
-        /// <summary>각 슬롯은 지도 위 고정된 위치/크기에 미리 배치되어 있다(가이드 배치 기준 실측) -
-        /// 슬롯0(현재 스테이지)은 크게, 슬롯1~3(잠김)은 작게, 전부 프리팹에 이미 구워져 있으므로
-        /// BindMap은 스프라이트/이름/활성 여부만 바꾼다.</summary>
-        [System.Serializable]
-        public class MarkerSlot
-        {
-            public GameObject root;
-            public Image icon;
-            public TMP_Text nameText;
-        }
-
-        static readonly Color MutedText = new Color(0.72f, 0.78f, 0.74f);
-
         [SerializeField] CanvasGroup canvasGroup;
         [SerializeField] Button launchButton;
         [SerializeField] Button backButton;
@@ -47,7 +34,23 @@ namespace Belief.Presentation.HUD
 
         [Header("Map")]
         [SerializeField] TMP_Text mapStageLabelText;
-        [SerializeField] MarkerSlot[] markerSlots;
+
+        /// <summary>지금 있는 구역을 가리키는 붉은 핀. 구역을 깰 때마다 <b>지우는 게 아니라 다음
+        /// 지점으로 옮긴다</b> - 예전에는 이 핀이 1구역 자리에 못 박혀 있고 대신 검은 마크가 뒤에서부터
+        /// 하나씩 사라져서, 지도가 진행 방향과 반대로 줄어드는 것처럼 보였다.</summary>
+        [SerializeField] RectTransform currentStageMarker;
+
+        /// <summary>핀 위의 "STAGE N" 글자 - 핀의 자식이 아니라 형제라, 핀을 옮길 때 같은 만큼 함께
+        /// 옮겨 준다.</summary>
+        [SerializeField] RectTransform mapStageLabelRect;
+
+        /// <summary>아직 가지 않은 구역의 검은 마크 - <b>경로 순서대로</b> 2·3·4구역에 대응한다
+        /// (하이어라키 이름 순서가 아니다: 실제 경로는 현재핀 → Marker2 → Marker1 → Marker3).</summary>
+        [SerializeField] RectTransform[] lockedMarkers;
+
+        /// <summary>구간별 점선 묶음 - 묶음 L은 L구역에서 L+1구역으로 가는 길이다. 이미 지나온
+        /// 구간은 통째로 끈다.</summary>
+        [SerializeField] GameObject[] dashLegs;
 
         public CanvasGroup CanvasGroup => canvasGroup;
         public Button LaunchButton => launchButton;
@@ -156,33 +159,86 @@ namespace Belief.Presentation.HUD
             }
         }
 
-        /// <summary>슬롯 0은 항상 현재 스테이지, 이후 슬롯은 잠긴 다음 스테이지들 - 원래 코드의
-        /// "currentIndex부터 끝까지" 루프와 동일한 순서. remainingStageCount를 넘는 슬롯은 비활성화한다
-        /// (전체 스테이지가 4개 고정이라 슬롯도 4개 고정 배치 - 5번째 스테이지가 생기면 슬롯을 추가해야 함).</summary>
-        public void BindMap(string currentStageName, int remainingStageCount, Sprite currentIcon, Sprite lockedIcon)
+        /// <summary>붉은 핀의 <b>출발 자리</b>(=1구역). 핀은 옮겨 다니므로 한 번 옮기고 나면 이 값을
+        /// 다시 잴 수 없다 - 처음 그릴 때 한 번만 기록해 둔다. 브리핑 화면은 구역마다 새로 만들어지는
+        /// 인스턴스라 여기 담기는 값은 항상 프리팹의 원래 자리다.</summary>
+        Vector2 firstStageCenter;
+        bool firstStageCaptured;
+
+        /// <summary>지도 위 진행 상태를 그린다.
+        ///
+        /// 경로는 1구역(붉은 핀의 출발 자리) → 2 → 3 → 4구역 순이고, <paramref name="currentIndex"/>가
+        /// 지금 어디까지 왔는지다. 규칙은 세 줄뿐이다:
+        /// <list type="bullet">
+        /// <item>붉은 핀은 현재 구역 자리로 <b>옮긴다</b>(지우지 않는다).</item>
+        /// <item>검은 마크는 <b>아직 안 간 구역</b>에만 남긴다 - 핀이 선 자리와 이미 지나온 자리는 지운다.</item>
+        /// <item>점선은 <b>앞으로 갈 구간</b>만 남긴다 - 지나온 길은 더 볼 일이 없다.</item>
+        /// </list></summary>
+        public void BindMap(int currentIndex, Sprite currentIcon, Sprite lockedIcon)
         {
-            if (markerSlots == null) return;
-            for (int i = 0; i < markerSlots.Length; i++)
+            if (currentStageMarker == null) return;
+
+            if (!firstStageCaptured)
             {
-                var slot = markerSlots[i];
-                if (slot?.root == null) continue;
+                firstStageCenter = CenterOf(currentStageMarker);
+                firstStageCaptured = true;
+            }
 
-                bool active = i < remainingStageCount;
-                slot.root.SetActive(active);
-                if (!active) continue;
+            var currentIcon2 = currentStageMarker.GetComponent<Image>();
+            if (currentIcon2 != null && currentIcon != null)
+            {
+                currentIcon2.sprite = currentIcon;
+                currentIcon2.preserveAspect = true;
+            }
 
-                bool isCurrent = i == 0;
-                if (slot.icon != null)
+            // 붉은 핀 옮기기 - 목적지 자리의 검은 마크와 중심을 맞춘다(핀과 마크는 크기가 달라
+            // anchoredPosition을 그대로 베끼면 어긋난다).
+            Vector2 destination = firstStageCenter;
+            int lockedIndexUnderPin = currentIndex - 1; // 핀이 선 자리의 검은 마크(1구역이면 없음)
+            if (lockedIndexUnderPin >= 0 && lockedMarkers != null && lockedIndexUnderPin < lockedMarkers.Length
+                && lockedMarkers[lockedIndexUnderPin] != null)
+                destination = CenterOf(lockedMarkers[lockedIndexUnderPin]);
+
+            MoveCenterTo(currentStageMarker, destination, mapStageLabelRect);
+
+            // 검은 마크: 배열 인덱스 j는 (j+2)구역이다. 아직 안 간 구역만 남긴다.
+            if (lockedMarkers != null)
+            {
+                for (int j = 0; j < lockedMarkers.Length; j++)
                 {
-                    slot.icon.sprite = isCurrent ? currentIcon : lockedIcon;
-                    slot.icon.preserveAspect = true;
-                }
-                if (slot.nameText != null)
-                {
-                    slot.nameText.text = isCurrent ? currentStageName : "???";
-                    slot.nameText.color = isCurrent ? Color.white : MutedText;
+                    if (lockedMarkers[j] == null) continue;
+                    lockedMarkers[j].gameObject.SetActive(j + 1 > currentIndex);
+
+                    var img = lockedMarkers[j].GetComponent<Image>();
+                    if (img != null && lockedIcon != null)
+                    {
+                        img.sprite = lockedIcon;
+                        img.preserveAspect = true;
+                    }
                 }
             }
+
+            // 점선: 묶음 L은 L구역 → L+1구역. 지나온 구간(L < currentIndex)은 끈다.
+            if (dashLegs != null)
+                for (int L = 0; L < dashLegs.Length; L++)
+                    if (dashLegs[L] != null)
+                        dashLegs[L].SetActive(L >= currentIndex);
+        }
+
+        static Vector2 CenterOf(RectTransform rt)
+        {
+            var size = rt.rect.size;
+            return rt.anchoredPosition + new Vector2(size.x * (0.5f - rt.pivot.x), size.y * (0.5f - rt.pivot.y));
+        }
+
+        /// <summary>중심이 <paramref name="center"/>에 오도록 옮기고, 따라다녀야 하는 형제(글자)도
+        /// 같은 변위만큼 함께 옮긴다.</summary>
+        static void MoveCenterTo(RectTransform rt, Vector2 center, RectTransform follower)
+        {
+            Vector2 delta = center - CenterOf(rt);
+            if (delta == Vector2.zero) return;
+            rt.anchoredPosition += delta;
+            if (follower != null) follower.anchoredPosition += delta;
         }
     }
 }

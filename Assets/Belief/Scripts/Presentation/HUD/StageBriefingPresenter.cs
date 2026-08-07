@@ -94,16 +94,13 @@ namespace Belief.Presentation.HUD
             return titles;
         }
 
-        /// <summary>실제 지리적 좌표 데이터가 없으므로(StageData/ProgressionData에 지도 좌표 필드가 없음)
-        /// 세로 스택으로 근사한다. 현재 스테이지는 currentStageIcon, 이후 스테이지는 lockedStageIcon으로,
-        /// 이미 지난 스테이지는 표시하지 않는다(가이드 원본도 현재+이후만 보여준다).</summary>
+        /// <summary>지도의 네 지점은 프리팹에 그려진 자리 그대로다(구역별 좌표 데이터는 없다) -
+        /// 여기서 정하는 것은 "지금 몇 번째 구역인가" 하나뿐이고, 붉은 핀을 옮기고 지나온 점선을
+        /// 지우는 일은 <see cref="StageBriefingView.BindMap"/>이 한다.</summary>
         void BindMap(StageBriefingView view, ProgressionController pc, int currentIndex)
         {
             if (pc == null || pc.Data == null || pc.Data.stages == null) return;
-            var stages = pc.Data.stages;
-            string currentName = currentIndex < stages.Length ? stages[currentIndex].displayName : "";
-            int remaining = stages.Length - currentIndex;
-            view.BindMap(currentName, remaining, skin?.currentStageIcon, skin?.lockedStageIcon);
+            view.BindMap(Mathf.Max(0, currentIndex), skin?.currentStageIcon, skin?.lockedStageIcon);
         }
 
         /// <summary>"작전 실행"/"메인 화면"은 눌린 뒤에도 0.25초 페이드가 도는 동안 화면이 그대로
