@@ -92,6 +92,18 @@ namespace Belief.Presentation.World
             }
         }
 
+        /// <summary>장소 카드에만 쓰는 배율 - NPC는 <see cref="ViewScale"/> 그대로 둔다.
+        /// 장소와 NPC를 같이 키우면 NPC끼리 겹치기 때문에 축을 갈라 놓았다(대도시는 17명).</summary>
+        float LocationScale
+        {
+            get
+            {
+                var stage = installer != null ? installer.StageAsset : null;
+                float extra = stage != null && stage.locationViewScale > 0f ? stage.locationViewScale : 1f;
+                return ViewScale * extra;
+            }
+        }
+
         Vector2 ResolveLocationPosition(LocationData location)
         {
             var layout = installer.StageAsset != null ? installer.StageAsset.locationLayout : null;
@@ -110,7 +122,7 @@ namespace Belief.Presentation.World
             foreach (var kvp in installer.Locations)
             {
                 var view = Instantiate(locationSitePrefab, locationRoot);
-                view.transform.localScale = Vector3.one * ViewScale;
+                view.transform.localScale = Vector3.one * LocationScale;
                 view.Bind(kvp.Key, ResolveLocationPosition(kvp.Key), skin);
                 view.Clicked += d => LocationClicked?.Invoke(d);
                 view.HoverEnter += d => LocationHoverEnter?.Invoke(d);
@@ -342,9 +354,10 @@ namespace Belief.Presentation.World
         {
             float side = index % 2 == 0 ? 1f : -1f;
             int slot = index / 2;
-            // 카드/NPC를 키운 스테이지에서는 옆에 붙는 간격도 같은 비율로 벌어져야 한다 -
-            // 안 그러면 카드만 커지고 NPC가 카드 안으로 파고든다(ViewScale=1이면 기존과 동일).
-            float scale = ViewScale;
+            // 카드를 키운 스테이지에서는 옆에 붙는 간격도 같은 비율로 벌어져야 한다 - 안 그러면
+            // 카드만 커지고 NPC가 카드 안으로 파고든다. NPC 크기가 아니라 <b>카드 크기</b>를 따라야
+            // 하므로 장소 전용 배율까지 반영한다(둘 다 1이면 기존과 동일).
+            float scale = LocationScale;
             float x = side * (NpcFlankBaseOffset + slot * NpcFlankStep) * scale;
 
             Vector2 basePos = locationViews.TryGetValue(location, out var view)

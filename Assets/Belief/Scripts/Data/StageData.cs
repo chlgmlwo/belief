@@ -43,6 +43,15 @@ namespace Belief.Data
         [Tooltip("장소 카드/NPC를 화면에서 키우는 배율(1 = 기본). 배치 좌표는 그대로 두고 크기만 바뀌므로 너무 키우면 이웃과 겹친다.")]
         public float worldViewScale = 1f;
 
+        /// <summary>장소 카드<b>만</b> 추가로 키우는 배율(1 = 추가 확대 없음). worldViewScale 위에 곱해진다.
+        ///
+        /// 장소와 NPC를 같은 값으로 함께 키우면 NPC끼리 겹친다 - 대도시는 인원이 17명이라 특히 그렇다.
+        /// 그래서 "장소만 키우고 NPC 크기는 그대로" 두는 축을 따로 뒀다. NPC가 카드 옆에 붙는 간격은
+        /// NPC 크기가 아니라 <b>카드 크기</b>를 따라가야 하므로 이 배율까지 반영한다 - 안 그러면
+        /// 커진 카드가 NPC를 덮는다.</summary>
+        [Tooltip("장소 카드만 추가로 키우는 배율(1 = 없음). NPC 크기는 그대로 두고 장소만 키울 때 쓴다.")]
+        public float locationViewScale = 1f;
+
         /// <summary>NPC 시작 위치 수동 배치 - 지정된 NPC는 소속 장소를 따라가는 자동 슬롯 계산
         /// (WorldPresenter.ComputeNpcSlot) 대신 이 좌표에서 시작한다. 이후 게임 중 NPC가 다른
         /// 장소로 이동하면(NpcRelocatedEvent) 그 시점부터는 기존처럼 자동 슬롯 계산을 그대로

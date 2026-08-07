@@ -38,6 +38,18 @@ namespace Belief.Presentation.World
         /// 그려진다) - 그래서 "앞으로 당기기"가 아니라 "가장자리에 들어가지 않게 막기"로 푼다.</summary>
         const float DialogueScreenMargin = 24f;
 
+        /// <summary>화면 테두리(HudCanvas/Background/ScreenFrame) 아트에서 위쪽 불투명 띠가 차지하는
+        /// 비율. 이 띠 아래로 내려와야 대사가 보인다.
+        ///
+        /// 아트 `화면 프레임 UI.png`를 실측한 값이다 - 높이 1103px 중 위에서 170px이 불투명하고,
+        /// 가로로 훑어도 166~170px로 거의 일정했다. 아트를 갈아 끼우면 이 값도 다시 재야 한다.</summary>
+        const float FrameTopBandRatio = 170f / 1103f;
+
+        /// <summary>테두리를 찾지 못했을 때 쓰는 대체 여백(기준 해상도 1080 기준 픽셀).</summary>
+        const float FrameTopFallback = 150f;
+
+        static RectTransform screenFrameRect;
+
         /// <summary>프리팹이 정한 머리 위 위치 - 화면 밖으로 넘칠 때만 여기서 내리고, 다음 대사에서
         /// 다시 이 값으로 되돌린다.</summary>
         Vector3 dialogueBaseLocalPosition;
@@ -482,20 +494,25 @@ namespace Belief.Presentation.World
             dialogueRoot.transform.localScale = Vector3.one * (zoom / parentScale);
         }
 
-        /// <summary>말풍선이 화면 위로 잘리지 않게 넘치는 만큼만 아래로 내린다.
+        /// <summary>말풍선이 화면 위 테두리에 가리지 않게 넘치는 만큼만 아래로 내린다.
         ///
         /// 지도 위쪽에 서 있는 NPC는 머리 위 말풍선이 화면 밖으로 나간다 - 대도시에서 17명 중
         /// 2명(경비대장·하급 경비병)이 위쪽 20px가량 잘려 있었다. 카메라 줌이 큰 스테이지일수록
         /// 말풍선을 그만큼 키워 보정하므로(FitDialogueToCamera) 더 쉽게 넘친다.
         ///
-        /// 화면 안이면 아무것도 하지 않는다 - 평소 위치를 바꾸지 않기 위해서다.</summary>
+        /// <b>화면 끝이 아니라 테두리 아트의 안쪽 끝을 기준으로 잰다.</b> 예전엔 화면 끝에서 24px만
+        /// 띄웠는데, 그 위쪽 150px가량은 HUD 테두리가 덮고 있어서 "화면 안"인데도 대사가 안 보였다
+        /// (대도시에서 상단 NPC 대사가 통째로 가려짐). 테두리는 Overlay 캔버스라 말풍선을 그 위로
+        /// 올리는 방법은 없다 - 월드 오브젝트는 정렬 순서와 무관하게 항상 Overlay 아래에 그려진다.
+        ///
+        /// 안 가리면 아무것도 하지 않는다 - 평소 위치를 바꾸지 않기 위해서다.</summary>
         void ClampDialogueToScreen()
         {
             var cam = Camera.main;
             if (cam == null || dialogueBackground == null || !cam.orthographic) return;
 
             float top = cam.WorldToScreenPoint(new Vector3(0f, dialogueBackground.bounds.max.y, 0f)).y;
-            float limit = Screen.height - DialogueScreenMargin;
+            float limit = Screen.height - FrameTopInsetPixels() - DialogueScreenMargin;
             if (top <= limit) return;
 
             float worldPerPixel = cam.orthographicSize * 2f / Screen.height;
@@ -505,6 +522,29 @@ namespace Belief.Presentation.World
             var p = dialogueRoot.transform.localPosition;
             p.y -= (top - limit) * worldPerPixel / parentScale;
             dialogueRoot.transform.localPosition = p;
+        }
+
+        /// <summary>화면 위쪽에서 HUD 테두리가 덮고 있는 두께(실제 화면 픽셀).
+        ///
+        /// 테두리 사각형의 위 끝은 화면 위로 조금 삐져나가 있고(아트가 캔버스보다 크다), 그 안에서
+        /// 다시 일정 비율만큼이 불투명한 띠다. 그래서 "테두리 위 끝 - 띠 두께"를 화면 좌표로 환산해
+        /// 실제로 가려지는 높이만 낸다 - 해상도나 캔버스 배율이 달라져도 따라간다.</summary>
+        static float FrameTopInsetPixels()
+        {
+            if (screenFrameRect == null)
+            {
+                var found = GameObject.Find("ScreenFrame");
+                screenFrameRect = found != null ? found.GetComponent<RectTransform>() : null;
+            }
+            if (screenFrameRect == null)
+                return FrameTopFallback * (Screen.height / 1080f);
+
+            var corners = new Vector3[4];
+            screenFrameRect.GetWorldCorners(corners);   // Overlay 캔버스는 월드 좌표 = 화면 좌표
+            float frameTop = corners[1].y;              // 좌상단
+            float frameHeight = corners[1].y - corners[0].y;
+            float bandBottom = frameTop - frameHeight * FrameTopBandRatio;
+            return Mathf.Max(0f, Screen.height - bandBottom);
         }
 
         /// <summary>동시에 대사는 최대 1개만 표시한다는 규칙을 지키기 위해 WorldPresenter가 새 대사를
