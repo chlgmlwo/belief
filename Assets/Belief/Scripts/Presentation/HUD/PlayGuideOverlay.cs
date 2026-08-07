@@ -411,6 +411,8 @@ namespace Belief.Presentation.HUD
             var blockerButton = blocker.gameObject.AddComponent<Button>();
             blockerButton.transition = Selectable.Transition.None;
             blockerButton.onClick.AddListener(Next);
+            // 런타임에 만든 버튼이라 씬 훑기에 잡히지 않는다 - 클릭음을 직접 건다.
+            Belief.Core.SfxPlayer.Hook(blockerButton);
 
             dimTop = NewImage("DimTop", canvasRect, DimColor).rectTransform;
             dimBottom = NewImage("DimBottom", canvasRect, DimColor).rectTransform;
@@ -469,6 +471,7 @@ namespace Belief.Presentation.HUD
             var skipButton = skipGo.AddComponent<Button>();
             skipButton.transition = Selectable.Transition.None;
             skipButton.onClick.AddListener(Skip);
+            Belief.Core.SfxPlayer.Hook(skipButton);
 
             go.SetActive(false);
         }
