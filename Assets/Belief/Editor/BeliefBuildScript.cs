@@ -88,7 +88,15 @@ namespace Belief.EditorTools
             };
 
             Debug.Log($"[BeliefBuild] 빌드 시작 - 씬 {scenes.Length}개 → {output}");
-            BuildReport report = BuildPipeline.BuildPlayer(options);
+            BuildReport report;
+            try
+            {
+                report = BuildPipeline.BuildPlayer(options);
+            }
+            finally
+            {
+                RestoreEditorOnlySettings();
+            }
             BuildSummary summary = report.summary;
 
             if (summary.result == BuildResult.Succeeded)
@@ -126,6 +134,12 @@ namespace Belief.EditorTools
             PlayerSettings.WebGL.debugSymbolMode = WebGLDebugSymbolMode.Off;
 
             // 브라우저 탭을 벗어나도 백그라운드에서 계속 돌게 두면 배터리만 먹는다.
+            //
+            // ⚠️ 이 값은 플랫폼별이 아니라 프로젝트 전역이라, 꺼 둔 채로 두면 <b>에디터에도</b> 그대로
+            // 걸린다 - Unity 창이 비활성이면 프레임이 아예 돌지 않아 LLM 응답을 기다리는 코루틴이
+            // 영원히 끝나지 않는다(타임아웃도 프레임을 타므로 함께 멈춘다). 빌드에는 꺼진 값이
+            // 들어가야 하므로 여기서 끄되, 빌드가 끝나면 RestoreEditorOnlySettings가 되돌린다.
+            runInBackgroundBeforeBuild = PlayerSettings.runInBackground;
             PlayerSettings.runInBackground = false;
 
             // 리플렉션으로만 참조되는 타입이 없어 Minimal 이상으로 올려도 되지만, 스트리핑 사고는
@@ -134,6 +148,19 @@ namespace Belief.EditorTools
 
             PlayerSettings.SetIl2CppCodeGeneration(nbt, Il2CppCodeGeneration.OptimizeSize);
         }
+
+        /// <summary>빌드 산출물에는 이미 구워진 뒤라 되돌려도 결과가 달라지지 않는 설정들 -
+        /// 에디터 작업에 방해가 되는 값만 원래대로 돌려놓는다. "설정만 적용" 메뉴에서는 부르지
+        /// 않는다(그쪽은 빌드 직전 상태를 눈으로 확인하려는 용도라 그대로 두는 게 맞다).</summary>
+        static void RestoreEditorOnlySettings()
+        {
+            if (PlayerSettings.runInBackground == runInBackgroundBeforeBuild) return;
+            PlayerSettings.runInBackground = runInBackgroundBeforeBuild;
+            AssetDatabase.SaveAssets();
+            Debug.Log($"[BeliefBuild] runInBackground를 {runInBackgroundBeforeBuild}로 되돌렸다(에디터 전용).");
+        }
+
+        static bool runInBackgroundBeforeBuild = true;
 
         static string ProjectRoot() => Directory.GetParent(Application.dataPath).FullName;
     }
