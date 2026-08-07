@@ -76,6 +76,19 @@ namespace Belief.Presentation.World
         void OnDisable()
         {
             pointerInside = false;
+
+            // 선택 강조가 켜진 채로 꺼지면 색을 되돌릴 코루틴이 함께 죽어 카드가 물든 채로 굳는다 -
+            // 다시 켜져도 selected가 false라 되돌리는 트윈이 아예 안 돌아 영영 남는다. 여기서 끊는다.
+            if (selectionRoutine != null)
+            {
+                StopCoroutine(selectionRoutine);
+                if (selectionPlayback != null) PlaybackDirector.Instance?.Unregister(selectionPlayback);
+                selectionRoutine = null;
+                selectionPlayback = null;
+            }
+            selected = false;
+            ApplyBaseColor();
+
             if (!hovered) return;
             hovered = false;
             if (hoverRoutine != null) { StopCoroutine(hoverRoutine); hoverRoutine = null; }
@@ -83,8 +96,10 @@ namespace Belief.Presentation.World
         }
 
         // NormalColor는 실제 사진 자산이 들어오기 전 placeholder 단색 시절 값이었다 - 이제 진짜
-        // 사진이 있으므로 흰색(원본 색 그대로)으로 되돌린다. Alert/Locked/Highlight/Selection은
-        // 상태 강조용 의도된 틴트라 그대로 유지한다.
+        // 사진이 있으므로 흰색(원본 색 그대로)으로 되돌린다.
+        //
+        // Alert/Locked 틴트는 BaseColorForState에서 쓰지 않는다(이유는 그쪽 주석 참고). 값은
+        // 남겨 둔다 - 경계 상태를 다시 표시하기로 하면 색을 새로 고르는 대신 이 값이 기준이 된다.
         static readonly Color NormalColor = Color.white;
         static readonly Color AlertColor = new Color(0.80f, 0.62f, 0.38f);
         static readonly Color LockedColor = new Color(0.70f, 0.40f, 0.36f);
@@ -455,11 +470,19 @@ namespace Belief.Presentation.World
             background.color = BaseColorForState();
         }
 
-        Color BaseColorForState() => currentState switch
-        {
-            LocationSiteState.Alert => AlertColor,
-            LocationSiteState.Locked => LockedColor,
-            _ => NormalColor
-        };
+        /// <summary>지금은 어떤 상태에서도 사진을 원래 색으로 둔다.
+        ///
+        /// 예전엔 Alert를 주황, Locked를 붉은색으로 카드 전체에 칠했다. 그런데 <b>카드 전체를
+        /// 물들이는 건 호버·선택 강조와 똑같은 표현</b>이라, 경비 초소가 경계 상태로 바뀌면
+        /// "커서를 올리지도 않았는데 하이라이팅이 켜진 채 안 꺼진다"로 읽혔다(사용자 리포트 2회).
+        ///
+        /// 실제로 안 꺼지는 게 맞다 - 상태를 Normal로 되돌리는 효과가 하나도 없어서, 한 번 경계로
+        /// 바뀐 장소는 그 판이 끝날 때까지 물들어 있었다. 게다가 그 색이 무슨 뜻인지 알려 주는 곳도
+        /// 없었다.
+        ///
+        /// 상태 자체는 그대로 살아 있다 - 믿음 계산(SituationEvaluator)과 미션 조건
+        /// (LocationStateCondition)이 계속 읽는다. 없앤 것은 표시뿐이다. 경계 상태를 다시 보여 주려면
+        /// 카드 색이 아니라 별도 표식(예: 이름표 옆 작은 아이콘)으로 해야 강조와 헷갈리지 않는다.</summary>
+        Color BaseColorForState() => NormalColor;
     }
 }
