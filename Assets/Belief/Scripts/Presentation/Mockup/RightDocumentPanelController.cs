@@ -83,6 +83,15 @@ namespace Belief.Presentation.Mockup
         void HandleProfileTabClicked() => HandleTabClicked(true);
         void HandleLogTabClicked() => HandleTabClicked(false);
 
+        /// <summary>탭을 누르지 않고도 Profile 문서를 연다 - 지도에서 NPC에 커서를 올리면 조사 파일이
+        /// 저절로 열려야 하기 때문이다. 이미 열려 있으면 아무것도 하지 않는다(같은 탭 재클릭은
+        /// <see cref="HandleTabClicked"/>에서 "닫기"로 처리되므로 그대로 부르면 도로 닫힌다).</summary>
+        public void OpenProfile()
+        {
+            if (CurrentState == RightPanelState.Profile) return;
+            HandleTabClicked(true);
+        }
+
         void HandleTabClicked(bool wantProfile)
         {
             var target = wantProfile ? profilePanelRoot : logPanelRoot;

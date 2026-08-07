@@ -99,6 +99,9 @@ namespace Belief.Presentation.HUD
         // 그 순간 꺼진다. 열려 있는 동안 들어온 내용은 이미 눈앞에 보이므로 점을 켜지 않는다.
         GameObject profileTabBadgeGo;
         GameObject logTabBadgeGo;
+        /// <summary>문서를 실제로 밀어 넣고 빼는 쪽 - 탭 버튼과 별개로 코드에서도 열어야 해서 잡아 둔다
+        /// (NPC 호버로 조사 파일 자동 열기). 이 프레젠터의 panelState와 짝을 맞춰 함께 움직인다.</summary>
+        Mockup.RightDocumentPanelController rightDocumentPanel;
         bool logUnseen;
         bool profileUnseen;
         // 프로필은 로그처럼 "줄이 늘었다"로 판단할 수 없다 - 같은 NPC라도 믿음 단계나 관계가 바뀌면
@@ -254,6 +257,7 @@ namespace Belief.Presentation.HUD
             if (worldPresenter != null)
             {
                 worldPresenter.NpcClicked += OnNpcClickedForProfile;
+                worldPresenter.NpcHoverEnter += OnNpcHoveredForProfile;
                 worldPresenter.LocationHoverEnter += OnLocationHoverEnter;
                 worldPresenter.LocationHoverExit += OnLocationHoverExit;
                 // 지도 위 접선 지점의 "전달" 태그가 예전 하단 전달 버튼을 대신한다.
@@ -725,11 +729,15 @@ namespace Belief.Presentation.HUD
         }
 
         /// <summary>프로필을 다시 그릴 때마다 "지난번에 본 것과 달라졌는지"를 판정한다. 열려 있으면
-        /// 보고 있는 중이니 그대로 본 것으로 치고, 닫혀 있으면 점을 켠다.</summary>
-        void TrackProfileBadge()
+        /// 보고 있는 중이니 그대로 본 것으로 치고, 닫혀 있으면 점을 켠다.
+        ///
+        /// 단, 다른 인물을 고른 것뿐이면 점을 켜지 않는다(playerInitiated) - 자기가 방금 바꿔 놓고
+        /// "새 내용이 있다"는 알림을 받는 꼴이라 알림의 뜻이 흐려진다. 점은 믿음 단계가 저절로
+        /// 바뀌었을 때처럼 <b>가만히 있었는데 달라진 경우</b>만 뜬다.</summary>
+        void TrackProfileBadge(bool playerInitiated)
         {
             string signature = CurrentProfileSignature();
-            if (panelState == HudPanelState.Profile)
+            if (playerInitiated || panelState == HudPanelState.Profile)
             {
                 seenProfileSignature = signature;
                 profileUnseen = false;
@@ -950,17 +958,44 @@ namespace Belief.Presentation.HUD
 
         /// <summary>WorldPresenter.NpcClicked 구독 - TargetingController의 전달 대상 지정과 무관하게
         /// 항상 클릭한 NPC의 조사 파일을 연다(카드 선택 여부와 상관없이 동작).</summary>
-        void OnNpcClickedForProfile(NpcData npcData)
+        void OnNpcClickedForProfile(NpcData npcData) => ShowNpcProfile(npcData, openPanel: false);
+
+        /// <summary>커서를 올리기만 해도 조사 파일이 열린다 - 장소 정보 패널이 호버로 뜨는 것과 같은
+        /// 어법이다.
+        ///
+        /// <b>커서가 벗어나도 닫지 않는다.</b> 이 문서는 화면 왼쪽에 붙어 있고 NPC는 지도 위에 있어,
+        /// 읽으려면 커서가 NPC를 벗어날 수밖에 없다 - 벗어날 때 닫으면 열리는 걸 보기만 하고 읽을 수는
+        /// 없는 패널이 된다. 닫는 건 Profile 탭을 다시 누르는 것으로 한다.</summary>
+        void OnNpcHoveredForProfile(NpcData npcData) => ShowNpcProfile(npcData, openPanel: true);
+
+        void ShowNpcProfile(NpcData npcData, bool openPanel)
         {
             if (!installer.Npcs.TryGetValue(npcData, out var state)) return;
-            selectedNpcState = state;
-            RefreshNpcProfile();
+            if (selectedNpcState != state)
+            {
+                selectedNpcState = state;
+                // 플레이어가 스스로 고른 인물이라 "안 본 새 내용"이 아니다 - 여기서 본 것으로 친다.
+                RefreshNpcProfile(playerInitiated: true);
+            }
+
+            if (openPanel) OpenProfilePanel();
         }
 
-        void RefreshNpcProfile()
+        /// <summary>Profile 문서를 연다. 다만 Log를 펼쳐 둔 상태에서는 건드리지 않는다 - 로그를 읽는
+        /// 중에 커서가 지도 위 NPC를 스쳤다는 이유로 문서가 바뀌면 읽던 것을 뺏기는 셈이다.</summary>
+        void OpenProfilePanel()
+        {
+            if (panelState != HudPanelState.Default) return;
+            if (rightDocumentPanel != null) rightDocumentPanel.OpenProfile();
+            SetHudPanelState(HudPanelState.Profile);
+        }
+
+        /// <param name="playerInitiated">플레이어가 직접 다른 인물을 고른 결과인지 - 그렇다면 탭에
+        /// 빨간 점을 띄우지 않는다. 점은 "가만히 있었는데 내용이 바뀌었다"를 뜻해야 한다.</param>
+        void RefreshNpcProfile(bool playerInitiated = false)
         {
             RefreshNpcProfileContent();
-            TrackProfileBadge();
+            TrackProfileBadge(playerInitiated);
         }
 
         void RefreshNpcProfileContent()
@@ -1694,6 +1729,9 @@ namespace Belief.Presentation.HUD
             logTabIndicator = view.LogTabIndicator;
             profileTabBadgeGo = view.ProfileTabBadge;
             logTabBadgeGo = view.LogTabBadge;
+            // 탭 버튼과 같은 캔버스 안에 있다 - HudView에 필드를 하나 더 만들어 씬마다 배선하는 것보다
+            // 여기서 찾는 편이 안전하다(배선을 빠뜨리면 조용히 안 열린다).
+            rightDocumentPanel = view.GetComponentInChildren<Mockup.RightDocumentPanelController>(true);
 
             logPanelGo = view.LogPanelGo;
             logTopDialogueText = view.LogTopDialogueText;

@@ -55,6 +55,8 @@ namespace Belief.Presentation.World
         public event Action<LocationData> LocationHoverEnter;
         public event Action<LocationData> LocationHoverExit;
         public event Action<NpcData> NpcClicked;
+        /// <summary>커서가 NPC 위에 들어왔을 때 - 조사 파일을 여는 신호다(장소 정보 패널과 같은 어법).</summary>
+        public event Action<NpcData> NpcHoverEnter;
         /// <summary>접선 지점 카드를 눌렀을 때 - 장소 선택이 아니라 "정보 전달 확정"이다.</summary>
         public event Action ContactPointClicked;
 
@@ -127,6 +129,7 @@ namespace Belief.Presentation.World
                 view.transform.localScale *= ViewScale;
                 view.Bind(kvp.Key, skin);
                 view.Clicked += d => NpcClicked?.Invoke(d);
+                view.HoverEnter += d => NpcHoverEnter?.Invoke(d);
                 npcViews[kvp.Key] = view;
             }
 
