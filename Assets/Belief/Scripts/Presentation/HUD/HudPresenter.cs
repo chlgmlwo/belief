@@ -232,10 +232,10 @@ namespace Belief.Presentation.HUD
             // 예전엔 여기서 턴 숫자를 강조색(민트)으로 한 번 번쩍이게 했다 - 턴마다 미션 글자가
             // 초록으로 깜빡여 거슬린다는 지적으로 제거. 숫자는 어차피 값이 바뀌어 눈에 띈다.
             bus.Subscribe<TurnStartedEvent>(_ => RefreshAll());
-            bus.Subscribe<CardSelectedEvent>(_ => RefreshAll());
+            bus.Subscribe<CardSelectedEvent>(_ => { SfxPlayer.Play(Sfx.CardSelect); RefreshAll(); });
             // 예전엔 여기서 "결과를 확인하세요." 알림을 띄웠지만 3-85에서 삭제 - 무엇을 확인하라는
             // 건지도 모호했고, 카드를 낸 직후에는 NPC 대사/로그가 이미 결과를 말해 준다.
-            bus.Subscribe<CardPlayedEvent>(_ => RefreshAll());
+            bus.Subscribe<CardPlayedEvent>(_ => { SfxPlayer.Play(Sfx.CardPlay); RefreshAll(); });
             bus.Subscribe<InformationAcquiredEvent>(OnInformationAcquired);
             // 미션 자체가 교체됐다는 직접 신호 - ObjectivesChanged/TurnStartedEvent 경로와 별개로
             // MissionSystem.LoadMission이 발행하는 즉시 미션 패널을 완전히 재구성한다.
@@ -384,6 +384,7 @@ namespace Belief.Presentation.HUD
         {
             resultScreenGo.SetActive(true);
             resultCanvasGroup.alpha = 0f;
+            SfxPlayer.Play(won ? Sfx.ResultSuccess : Sfx.ResultFailure);
 
             // 리포트가 뜨면 일시정지 입구를 닫는다 - 열려 있었다면 함께 닫히며 시간도 되돌아온다.
             if (pauseMenu != null) pauseMenu.SetAvailable(false);
@@ -471,6 +472,7 @@ namespace Belief.Presentation.HUD
         {
             resultPrimaryButton.interactable = false;
             if (resultSecondaryButton != null) resultSecondaryButton.interactable = false;
+            SfxPlayer.Play(Sfx.PageTurn);
             yield return FadeCanvasGroupRoutine(resultCanvasGroup, 1f, 0f, PopupFadeDuration);
             resultScreenGo.SetActive(false);
             // 리포트가 닫혔으니 플레이용 입력 자리를 원래대로 되돌린다 - 감춘 주체가 여기라
@@ -1195,6 +1197,7 @@ namespace Belief.Presentation.HUD
         /// 그 장소 사진 오른쪽에 띄운다(사용자 지시로 클릭 대신 호버 트리거).</summary>
         void OnLocationHoverEnter(LocationData location)
         {
+            SfxPlayer.Play(Sfx.LocationHover);
             selectedLocationData = location;
             RefreshLocationNote();
             PositionLocationNote(location);
@@ -1414,6 +1417,7 @@ namespace Belief.Presentation.HUD
         /// 그 사이 색 구간, 그리고 아래 글자 줄로 나눠 보여 준다(ShowBeliefChange).</summary>
         void OnLogCardJudged(CardJudgedEvent e)
         {
+            SfxPlayer.Play(Sfx.BeliefChange);
             if (logStatHeaderText != null) logStatHeaderText.text = $"[{e.Npc.displayName}] 수치 변동 사항";
             ShowBeliefChange(e.PreviousBelief, e.ResultBelief);
         }

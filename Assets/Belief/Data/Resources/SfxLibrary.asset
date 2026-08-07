@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc1d5c6574d20245abbd04d50119fba, type: 3}
+  m_Name: SfxLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Core.SfxLibrary
+  entries:
+  - kind: 1
+    clip: {fileID: 8300000, guid: e526b59227d2e774090450e4206e6876, type: 3}
+    volume: 4
+    startTime: 0.1
+    maxLength: 0.35000002
+  - kind: 2
+    clip: {fileID: 8300000, guid: 3ce96dbb31071954bbfafadc1fdf7370, type: 3}
+    volume: 1.8458835
+    startTime: 0.25
+    maxLength: 0.65000004
+  - kind: 3
+    clip: {fileID: 8300000, guid: af269ed66d0385a4da2c7009035317cf, type: 3}
+    volume: 1.4518105
+    startTime: 0
+    maxLength: 0.3359864
+  - kind: 4
+    clip: {fileID: 8300000, guid: 577152b76cd93ae42ad2691f85979395, type: 3}
+    volume: 4
+    startTime: 0
+    maxLength: 1.2277551
+  - kind: 5
+    clip: {fileID: 8300000, guid: 3920ae39733704c4eb152f053d619164, type: 3}
+    volume: 2.8199847
+    startTime: 0.62
+    maxLength: 1.5
+  - kind: 6
+    clip: {fileID: 8300000, guid: 393e93dc78698804d84e4ccd2caf0422, type: 3}
+    volume: 4
+    startTime: 0
+    maxLength: 1.2277551
+  - kind: 7
+    clip: {fileID: 8300000, guid: 5830ccb509cc9874590ac418dad7a91c, type: 3}
+    volume: 0.6577603
+    startTime: 7.02
+    maxLength: 1.5
+  - kind: 8
+    clip: {fileID: 8300000, guid: 1b06d50de467dc54db06de934d4f5ceb, type: 3}
+    volume: 1.2677711
+    startTime: 0.15
+    maxLength: 0.45000002
+  - kind: 9
+    clip: {fileID: 8300000, guid: 1cc672978fc9e704b94747b4f9b25c68, type: 3}
+    volume: 0.64181
+    startTime: 0
+    maxLength: 0.35000002
+  - kind: 10
+    clip: {fileID: 8300000, guid: 2aac1f38eb7d9c940a0a2f03d516dd61, type: 3}
+    volume: 0.4
+    startTime: 0.45000002
+    maxLength: 0.5
+  - kind: 11
+    clip: {fileID: 8300000, guid: acaba1c617851c847af1e4885eeda902, type: 3}
+    volume: 1.0579666
+    startTime: 0.32
+    maxLength: 1.5
+  - kind: 12
+    clip: {fileID: 8300000, guid: 4cacdec88db87a646bd82c4a77b0ba63, type: 3}
+    volume: 1.0563371
+    startTime: 1.87
+    maxLength: 1.5

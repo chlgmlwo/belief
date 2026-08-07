@@ -275,6 +275,7 @@ namespace Belief.Presentation.World
 
         void OnNpcRelocated(NpcRelocatedEvent e)
         {
+            Belief.Core.SfxPlayer.Play(Belief.Core.Sfx.NpcWalk);
             // 이동한 NPC뿐 아니라 출발지/도착지에 남은 다른 NPC들도 슬롯이 바뀌므로 함께 갱신한다.
             if (e.From != null) RefreshNpcSlots(e.From);
             RefreshNpcSlots(e.To);

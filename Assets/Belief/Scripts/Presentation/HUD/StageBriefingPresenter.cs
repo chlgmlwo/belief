@@ -126,6 +126,7 @@ namespace Belief.Presentation.HUD
         void Dismiss()
         {
             if (!CloseInput()) return;
+            SfxPlayer.Play(Sfx.OperationStart);
             // 브리핑까지가 타이틀 곡이고, 여기서부터 구역 곡으로 넘어간다.
             BgmController.Request(BgmController.StageTrackForCurrentScene());
             StartCoroutine(FadeOutAndDisable());

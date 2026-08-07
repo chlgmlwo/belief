@@ -103,6 +103,7 @@ namespace Belief.Presentation.HUD
         {
             if (open || !available) return;
             open = true;
+            SfxPlayer.Play(Sfx.PauseToggle);
             Time.timeScale = 0f;
             if (panelRoot != null) panelRoot.SetActive(true);
             ShowPage(true);
@@ -117,6 +118,7 @@ namespace Belief.Presentation.HUD
         {
             if (!open) return;
             open = false;
+            SfxPlayer.Play(Sfx.PauseToggle);
             Time.timeScale = 1f;
             if (pauseButtonGo != null) pauseButtonGo.SetActive(available);
             if (panelGroup != null) panelGroup.blocksRaycasts = false;

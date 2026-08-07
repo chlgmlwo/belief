@@ -109,6 +109,10 @@ namespace Belief.Presentation.Mockup
                 return;
             }
 
+            // 닫혀 있던 문서를 펼치는 순간에만 소리를 낸다 - Profile↔Log 전환은 종이가 이미 펼쳐진
+            // 채로 내용만 바뀌는 것이라 여닫는 소리가 어울리지 않는다.
+            if (CurrentState == RightPanelState.Closed) Belief.Core.SfxPlayer.Play(Belief.Core.Sfx.DocumentOpen);
+
             if (CurrentState == RightPanelState.Closed)
             {
                 if (other.gameObject.activeSelf)
