@@ -257,7 +257,6 @@ namespace Belief.Presentation.HUD
             if (worldPresenter != null)
             {
                 worldPresenter.NpcClicked += OnNpcClickedForProfile;
-                worldPresenter.NpcHoverEnter += OnNpcHoveredForProfile;
                 worldPresenter.LocationHoverEnter += OnLocationHoverEnter;
                 worldPresenter.LocationHoverExit += OnLocationHoverExit;
                 // 지도 위 접선 지점의 "전달" 태그가 예전 하단 전달 버튼을 대신한다.
@@ -958,17 +957,13 @@ namespace Belief.Presentation.HUD
 
         /// <summary>WorldPresenter.NpcClicked 구독 - TargetingController의 전달 대상 지정과 무관하게
         /// 항상 클릭한 NPC의 조사 파일을 연다(카드 선택 여부와 상관없이 동작).</summary>
-        void OnNpcClickedForProfile(NpcData npcData) => ShowNpcProfile(npcData, openPanel: false);
-
-        /// <summary>커서를 올리기만 해도 조사 파일이 열린다 - 장소 정보 패널이 호버로 뜨는 것과 같은
-        /// 어법이다.
+        /// <summary>NPC를 누르면 그 인물의 조사 파일이 열린다 - 예전에는 내용만 조용히 갈아 끼우고
+        /// 패널은 Profile 탭을 따로 눌러야 열렸다. 클릭했는데 화면에 아무 일도 일어나지 않아 눌린
+        /// 줄도 모르던 자리다.
         ///
-        /// <b>커서가 벗어나도 닫지 않는다.</b> 이 문서는 화면 왼쪽에 붙어 있고 NPC는 지도 위에 있어,
-        /// 읽으려면 커서가 NPC를 벗어날 수밖에 없다 - 벗어날 때 닫으면 열리는 걸 보기만 하고 읽을 수는
-        /// 없는 패널이 된다. 닫는 건 Profile 탭을 다시 누르는 것으로 한다.</summary>
-        void OnNpcHoveredForProfile(NpcData npcData) => ShowNpcProfile(npcData, openPanel: true);
-
-        void ShowNpcProfile(NpcData npcData, bool openPanel)
+        /// <b>닫는 건 Profile 탭 재클릭이다.</b> 이 문서는 화면 왼쪽에 붙어 있어서, 다른 곳을 누를 때
+        /// 자동으로 닫아 버리면 읽는 도중에 사라진다.</summary>
+        void OnNpcClickedForProfile(NpcData npcData)
         {
             if (!installer.Npcs.TryGetValue(npcData, out var state)) return;
             if (selectedNpcState != state)
@@ -978,11 +973,11 @@ namespace Belief.Presentation.HUD
                 RefreshNpcProfile(playerInitiated: true);
             }
 
-            if (openPanel) OpenProfilePanel();
+            OpenProfilePanel();
         }
 
         /// <summary>Profile 문서를 연다. 다만 Log를 펼쳐 둔 상태에서는 건드리지 않는다 - 로그를 읽는
-        /// 중에 커서가 지도 위 NPC를 스쳤다는 이유로 문서가 바뀌면 읽던 것을 뺏기는 셈이다.</summary>
+        /// 중에 지도에서 사람을 눌렀다는 이유로 문서가 바뀌면 읽던 것을 뺏기는 셈이다.</summary>
         void OpenProfilePanel()
         {
             if (panelState != HudPanelState.Default) return;

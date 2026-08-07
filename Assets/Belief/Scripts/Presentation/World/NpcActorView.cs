@@ -71,21 +71,12 @@ namespace Belief.Presentation.World
         public NpcData BoundData { get; private set; }
         public event Action<NpcData> Clicked;
 
-        /// <summary>조사 파일(NPC 프로필)을 여는 신호 - 장소 카드의 <see cref="LocationSiteView.HoverEnter"/>와
-        /// 같은 어법이다. 대상이 될 수 없는 NPC 위에서도 발생한다(확대 반응만 막을 뿐 조사는 막지 않는다).</summary>
-        public event Action<NpcData> HoverEnter;
-
         // OnMouseDown은 legacy Input Manager 기반이라 Active Input Handling이
         // "Input System Package (New)"로 설정된 이 프로젝트에서는 호출되지 않는다.
         // EventSystem + Physics2DRaycaster(WorldPresenter가 보장)를 통해 클릭을 받는다.
         public void OnPointerClick(PointerEventData eventData) => Clicked?.Invoke(BoundData);
         // 대상이 될 수 없을 때는 호버 반응을 하지 않는다 - 클릭으로 여는 조사 파일은 그대로 열린다.
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            pointerInside = true;
-            if (targetable) SetHovered(true);
-            HoverEnter?.Invoke(BoundData);
-        }
+        public void OnPointerEnter(PointerEventData eventData) { pointerInside = true; if (targetable) SetHovered(true); }
 
         public void OnPointerExit(PointerEventData eventData) { pointerInside = false; SetHovered(false); }
 
