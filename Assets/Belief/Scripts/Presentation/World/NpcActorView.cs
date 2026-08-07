@@ -75,8 +75,21 @@ namespace Belief.Presentation.World
         // "Input System Package (New)"로 설정된 이 프로젝트에서는 호출되지 않는다.
         // EventSystem + Physics2DRaycaster(WorldPresenter가 보장)를 통해 클릭을 받는다.
         public void OnPointerClick(PointerEventData eventData) => Clicked?.Invoke(BoundData);
-        public void OnPointerEnter(PointerEventData eventData) => SetHovered(true);
-        public void OnPointerExit(PointerEventData eventData) => SetHovered(false);
+        // 대상이 될 수 없을 때는 호버 반응을 하지 않는다 - 클릭으로 여는 조사 파일은 그대로 열린다.
+        public void OnPointerEnter(PointerEventData eventData) { pointerInside = true; if (targetable) SetHovered(true); }
+        public void OnPointerExit(PointerEventData eventData) { pointerInside = false; SetHovered(false); }
+
+        /// <summary>지금 고른 카드로 이 사람을 대상으로 삼을 수 있는지 - WorldPresenter가 카드 선택이
+        /// 바뀔 때마다 정해 준다(<see cref="LocationSiteView.SetTargetable"/>와 같은 규칙).</summary>
+        public void SetTargetable(bool value)
+        {
+            if (targetable == value) return;
+            targetable = value;
+            SetHovered(targetable && pointerInside);
+        }
+
+        bool targetable = true;
+        bool pointerInside;
 
         /// <summary>NPC가 커서 밑에 있는 채로 비활성화되면 OnPointerExit가 오지 않아 확대된 상태로
         /// 굳는다 - 다시 켜질 때 원래 크기로 보이도록 여기서 정리한다. 비활성화는 코루틴도 함께
@@ -90,6 +103,7 @@ namespace Belief.Presentation.World
                 statePlayback = null;
             }
             stateRoutine = null;
+            pointerInside = false;
             hovered = false;
             transform.localScale = rootBaseScale;
             if (body != null) body.color = RestingColor();

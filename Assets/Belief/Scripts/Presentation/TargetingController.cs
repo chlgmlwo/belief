@@ -82,11 +82,10 @@ namespace Belief.Presentation
             var card = installer.Turns.SelectedCard;
             if (card == null) return;
 
-            if (card.cardType != InfoCardType.Spread)
-            {
-                InteractionRejected?.Invoke("이 카드는 장소가 아니라 사람을 대상으로 전달해야 합니다.");
-                return;
-            }
+            // 사람 대상 카드를 든 채로 장소를 눌렀을 뿐이다 - 예전엔 "이 카드는 사람을 대상으로
+            // 전달해야 합니다"를 띄웠지만, 이제 그런 장소는 커서를 올려도 확대되지 않아
+            // (WorldPresenter.RefreshTargetable) 대상이 아니라는 게 누르기 전에 이미 보인다.
+            if (card.cardType != InfoCardType.Spread) return;
 
             // Location Mechanics V1(§7) - accessType이 제한된 장소는 "장소 전체" 직접 지정이 불가하다.
             // 여기서 먼저 걸러 확정 단계까지 가지 않게 한다 - 최종 강제는 TurnSystem.PlayCardOnLocationAsync가 담당.
@@ -114,11 +113,9 @@ namespace Belief.Presentation
             var card = installer.Turns.SelectedCard;
             if (card == null) return;
 
-            if (card.cardType != InfoCardType.Deliver)
-            {
-                InteractionRejected?.Invoke("이 카드는 사람이 아니라 장소를 대상으로 사용해야 합니다.");
-                return;
-            }
+            // 위 OnLocationClicked와 같은 이유로 경고를 없앴다 - 대상이 될 수 없는 사람은 커서를
+            // 올려도 반응하지 않으므로 눌러 보고 나서 문구로 알 필요가 없다.
+            if (card.cardType != InfoCardType.Deliver) return;
 
             if (!installer.Npcs.TryGetValue(npcData, out var npcState)) return;
 

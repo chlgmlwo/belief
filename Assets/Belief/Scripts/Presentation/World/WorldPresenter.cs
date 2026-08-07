@@ -142,6 +142,14 @@ namespace Belief.Presentation.World
             installer.EventBus.Subscribe<NpcRelocatedEvent>(OnNpcRelocated);
             installer.EventBus.Subscribe<LocationStateChangedEvent>(OnLocationStateChanged);
             installer.EventBus.Subscribe<NpcSpokeEvent>(OnNpcSpoke);
+
+            // 고른 카드가 바뀔 때마다 지도 위에서 "고를 수 있는 것"을 다시 정한다. 카드를 낸 뒤와
+            // 턴이 넘어갈 때는 SelectedCard가 비워지므로 그 시점들도 함께 듣는다.
+            installer.EventBus.Subscribe<CardSelectedEvent>(_ => RefreshTargetable());
+            installer.EventBus.Subscribe<CardPlayedEvent>(_ => RefreshTargetable());
+            installer.EventBus.Subscribe<TurnEndedEvent>(_ => RefreshTargetable());
+            installer.EventBus.Subscribe<TurnStartedEvent>(_ => RefreshTargetable());
+            RefreshTargetable();
             // InfoSpreadEvent / InfoDeliveredEvent도 구독했었지만 하는 일이 장소·NPC를 한 번
             // 번쩍이게 하는 것뿐이었고, 확산은 매 턴 여러 번 일어나 화면이 계속 깜빡였다.
             // 무슨 일이 일어났는지는 로그 패널과 NPC 대사가 이미 말해 준다(사용자 지시로 제거).
@@ -401,6 +409,27 @@ namespace Belief.Presentation.World
         public void SetNpcSelected(NpcData npc, bool selected)
         {
             if (npcViews.TryGetValue(npc, out var view)) view.SetSelected(selected);
+        }
+
+        /// <summary>지금 고른 카드로 <b>고를 수 있는 것</b>만 커서에 반응하게 한다 - 확산 카드는 장소,
+        /// 전달 카드는 사람. 카드를 안 골랐으면 둘 다 평소대로 반응한다.
+        ///
+        /// 예전에는 아무 데나 눌러 본 뒤 "이 카드는 사람을 대상으로 해야 합니다" 같은 경고를 읽고
+        /// 다시 누르게 했다. 커서를 올려 보는 순간 아무 반응이 없으면 그 자체가 답이므로 경고 문구를
+        /// 없앴다(TargetingController에서 함께 제거).
+        ///
+        /// 확대 반응만 막는 것이고 <b>조사는 그대로 된다</b> - 장소 정보 패널은 계속 뜨고, NPC 조사
+        /// 파일도 계속 열린다. 카드를 든 채로 상대를 살펴보는 일까지 막으면 판단할 방법이 없어진다.</summary>
+        void RefreshTargetable()
+        {
+            var card = installer.Turns.SelectedCard;
+            bool locationsTargetable = card == null || card.cardType == InfoCardType.Spread;
+            bool npcsTargetable = card == null || card.cardType == InfoCardType.Deliver;
+
+            foreach (var view in locationViews.Values) view.SetTargetable(locationsTargetable);
+            foreach (var view in npcViews.Values) view.SetTargetable(npcsTargetable);
+            // 접선 지점(CreateContactPoint)은 locationViews에 없다 - 대상이 아니라 전달 확정 버튼이라
+            // 어떤 카드를 들고 있든 항상 반응해야 한다.
         }
     }
 }

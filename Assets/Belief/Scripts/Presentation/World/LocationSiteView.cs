@@ -41,20 +41,41 @@ namespace Belief.Presentation.World
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            SetHovered(true);
+            // 대상이 될 수 없을 때는 확대 반응을 하지 않는다 - 다만 장소 정보 패널은 그대로 뜬다.
+            // 확대는 "여기에 낼 수 있다"는 뜻이고 정보 패널은 그냥 조사이므로 서로 다른 이야기다.
+            pointerInside = true;
+            if (targetable) SetHovered(true);
             HoverEnter?.Invoke(BoundData);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            pointerInside = false;
             SetHovered(false);
             HoverExit?.Invoke(BoundData);
         }
+
+        /// <summary>지금 고른 카드로 이 장소를 대상으로 삼을 수 있는지 - WorldPresenter가 카드 선택이
+        /// 바뀔 때마다 정해 준다. 사람 대상 카드를 든 채로 장소에 커서를 올려도 카드가 반응하지 않아,
+        /// "여긴 아니다"라는 경고 문구를 따로 띄울 필요가 없어진다.
+        ///
+        /// 커서를 올려 둔 채로 손패에서 카드를 바꾸는 일이 흔하므로, 막힐 때 확대를 되돌리는 것뿐
+        /// 아니라 풀릴 때 그 자리에서 확대를 켜 주기까지 한다(안 그러면 한 번 나갔다 들어와야 반응한다).</summary>
+        public void SetTargetable(bool value)
+        {
+            if (targetable == value) return;
+            targetable = value;
+            SetHovered(targetable && pointerInside);
+        }
+
+        bool targetable = true;
+        bool pointerInside;
 
         /// <summary>커서 밑에 있는 채로 비활성화되면 OnPointerExit가 오지 않아 확대된 채로 굳는다 -
         /// 다시 켜질 때 원래 크기로 보이도록 정리한다.</summary>
         void OnDisable()
         {
+            pointerInside = false;
             if (!hovered) return;
             hovered = false;
             if (hoverRoutine != null) { StopCoroutine(hoverRoutine); hoverRoutine = null; }
