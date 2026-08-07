@@ -54,6 +54,8 @@ namespace Belief.Core
 
             // 소리 크기의 주인을 하나로 둔다 - SoundChannelVolume을 함께 붙이면 그쪽과 페이드가
             // 번갈아 source.volume을 덮어써서, 곡이 바뀔 때마다 설정값이 튄다.
+            EnsureListener();
+
             SoundSettings.Changed += ApplyVolume;
             SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -80,7 +82,35 @@ namespace Belief.Core
 
         /// <summary>씬이 바뀌면 일단 타이틀 곡이다 - 구역 씬도 브리핑이 먼저 뜨기 때문이다.
         /// 플레이 곡으로 넘어가는 것은 브리핑을 닫는 쪽에서 알려 준다.</summary>
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode) => Play(BgmTrack.TitleAndBriefing);
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            EnsureListener();
+            Play(BgmTrack.TitleAndBriefing);
+        }
+
+        AudioListener ownListener;
+
+        /// <summary>이 프로젝트의 씬에는 <b>AudioListener가 하나도 없다</b>(소리가 없던 시절에 카메라
+        /// 프리팹에서 빠진 채로 굳었다). 리스너가 없으면 아무리 재생해도 들리지 않으므로 여기서
+        /// 하나를 책임진다 - 영속 오브젝트라 모든 씬에서 유효하다.
+        ///
+        /// 나중에 어느 씬의 카메라에 리스너가 다시 붙으면 둘이 되어 Unity가 경고를 뱉으므로,
+        /// 씬이 바뀔 때마다 "남의 리스너가 있으면 내 것을 끈다"로 정리한다.</summary>
+        void EnsureListener()
+        {
+            bool othersExist = false;
+            foreach (var l in FindObjectsByType<AudioListener>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+                if (l != ownListener) { othersExist = true; break; }
+
+            if (othersExist)
+            {
+                if (ownListener != null) ownListener.enabled = false;
+                return;
+            }
+
+            if (ownListener == null) ownListener = gameObject.AddComponent<AudioListener>();
+            ownListener.enabled = true;
+        }
 
         /// <summary>지금 씬에서 "플레이 중"에 흘러야 할 곡. 구역 이름으로 정한다.</summary>
         public static BgmTrack StageTrackForCurrentScene()
@@ -115,6 +145,25 @@ namespace Belief.Core
                     fade = Mathf.Lerp(from, 0f, t / FadeOutDuration);
                     ApplyVolume();
                     yield return null;
+                }
+            }
+
+            // 프리로드를 꺼 두었으므로 클립이 아직 메모리에 없다 - 이 상태로 Play를 부르면 아무 소리도
+            // 나지 않는다(오류도 안 난다). 올라올 때까지 기다렸다 튼다.
+            if (clip.loadState != AudioDataLoadState.Loaded)
+            {
+                clip.LoadAudioData();
+                float waited = 0f;
+                while (clip.loadState == AudioDataLoadState.Loading && waited < 10f)
+                {
+                    waited += Time.unscaledDeltaTime;
+                    yield return null;
+                }
+                if (clip.loadState != AudioDataLoadState.Loaded)
+                {
+                    Debug.LogWarning($"[BGM] '{clip.name}' 로드 실패({clip.loadState}) - 재생을 건너뛴다.");
+                    switching = null;
+                    yield break;
                 }
             }
 
