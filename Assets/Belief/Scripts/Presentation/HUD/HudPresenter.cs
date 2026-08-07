@@ -440,6 +440,10 @@ namespace Belief.Presentation.HUD
             // 리포트가 닫혔으니 플레이용 입력 자리를 원래대로 되돌린다 - 감춘 주체가 여기라
             // 되살리는 것도 여기서 해야 한다(재시작/다음 미션 어느 쪽이든 하단 패널이 다시 산다).
             RefreshBottomPanel();
+            // 일시정지 입구도 같은 이유로 되살린다. ShowResultScreen에서 닫아 놓고 여기서 열지
+            // 않아, 미션을 깨고 다음 미션으로 넘어가면 버튼이 사라진 채로 남았다(ESC도 함께 막혔다 -
+            // SetAvailable(false)는 버튼을 숨기는 동시에 열기 자체를 잠근다).
+            if (pauseMenu != null) pauseMenu.SetAvailable(true);
             onConfirm?.Invoke();
         }
 
@@ -567,7 +571,15 @@ namespace Belief.Presentation.HUD
             // 이벤트가 아니라 매 프레임 확인한다 - 요청의 시작/끝은 Transport 코루틴 안에서 일어나고,
             // 거기서 UI로 신호를 쏘게 하면 표시 계층이 통신 계층에 끼어들게 된다.
             bool waiting = targeting != null && targeting.IsDelivering && Belief.AI.LLM.LlmRequestMonitor.IsWaiting;
-            SetTurnProcessing(waiting);
+
+            // 대기 중이어도 <b>연출이 돌고 있으면 비켜 준다.</b> 판단은 NPC 한 명씩 차례로 이뤄지는데
+            // (InfoDeliverySystem의 foreach), 앞선 NPC의 대사 말풍선은 다음 NPC의 요청이 나가는 동안에도
+            // 계속 떠 있다. 그래서 대기 여부만 보면 "정보 전파중"과 혼잣말이 나란히 뜬다.
+            // PlaybackDirector에는 대사와 이동이 모두 등록되므로 이 하나로 둘 다 걸러진다.
+            var director = PlaybackDirector.Instance;
+            bool playing = director != null && director.IsPlaying;
+
+            SetTurnProcessing(waiting && !playing);
         }
 
         void SetTurnProcessing(bool on)
