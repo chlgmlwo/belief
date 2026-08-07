@@ -331,11 +331,23 @@ namespace Belief.Presentation.HUD
                 "메인 화면", GoToMainMenu);
         }
 
+        /// <summary>마지막 구역(대도시)까지 끝냈을 때의 엔딩 - 성공 리포트를 그대로 쓰되 남는 행동이
+        /// [메인 화면] 하나뿐이다. 이 시점엔 갈 곳이 없어 NEXT가 있으면 안 되므로, 아트에 인쇄된 탭은
+        /// 글자 없는 탭으로 덮는다(ShowResultScreen이 onPrimary가 없는 것을 보고 처리한다).
+        ///
+        /// 제목·설명은 미션 데이터 대신 마무리 문구로 덮어쓴다 - 마지막 미션의 목표문을 그대로 두면
+        /// "아직 할 일이 남았다"로 읽힌다.</summary>
         void ShowFinalVictory()
         {
             var pc = ProgressionController.Instance;
-            ShowResultScreen(true, CurrentOrLastObjective(pc), GoToMainMenu, null, null);
+            ShowResultScreen(true, CurrentOrLastObjective(pc), null, "메인 화면", GoToMainMenu);
+
+            if (resultTitleText != null) resultTitleText.text = EndingTitle;
+            if (resultDescText != null) resultDescText.text = EndingMessage;
         }
+
+        const string EndingTitle = "작전 종료";
+        const string EndingMessage = "데모 버전을 플레이해 주셔서 감사합니다.";
 
         /// <summary>구역의 모든 목표가 끝난 뒤(최종 승리 등)에는 CurrentObjective()가 null이 되므로,
         /// 마지막으로 화면에 떠 있던 미션을 대신 쓴다.</summary>
@@ -402,12 +414,20 @@ namespace Belief.Presentation.HUD
             // 여기서 직접 지운다(재시작·다음 미션은 RefreshMission을 다시 타 정상 값으로 돌아온다).
             if (missionTurnsText != null) missionTurnsText.text = "";
 
-            // 진행 버튼의 호버 빛은 성공(NEXT)/실패(RETRY)에 따라 탭 크기가 달라진다.
-            if (resultPrimaryTabHover != null) resultPrimaryTabHover.SetResult(won);
+            // onPrimary가 없으면 "다음"이 없는 화면이다(엔딩) - 아트에 인쇄된 NEXT를 글자 없는 탭으로
+            // 덮고 호버까지 막아, 남는 행동이 아래의 [메인 화면] 하나가 되게 한다.
+            bool hasPrimary = onPrimary != null;
+            if (resultPrimaryTabHover != null)
+            {
+                resultPrimaryTabHover.enabled = true;   // 껐다 켜야 Rest 상태부터 다시 시작한다
+                if (hasPrimary) resultPrimaryTabHover.SetResult(won);
+                else { resultPrimaryTabHover.ShowBlankTab(); resultPrimaryTabHover.enabled = false; }
+            }
 
-            resultPrimaryButton.interactable = true;
+            resultPrimaryButton.interactable = hasPrimary;
             resultPrimaryButton.onClick.RemoveAllListeners();
-            resultPrimaryButton.onClick.AddListener(() => StartCoroutine(ConfirmResultRoutine(onPrimary)));
+            if (hasPrimary)
+                resultPrimaryButton.onClick.AddListener(() => StartCoroutine(ConfirmResultRoutine(onPrimary)));
 
             bool hasSecondary = !string.IsNullOrEmpty(secondaryLabel) && onSecondary != null;
             resultSecondaryButtonGo.SetActive(hasSecondary);

@@ -35,6 +35,10 @@ namespace Belief.Presentation.HUD
         [SerializeField] Image tabArt;
         [SerializeField] Sprite successTab;
         [SerializeField] Sprite failureTab;
+        /// <summary>글자를 지운 탭 - 엔딩처럼 "다음"이 없는 화면에서 아트에 인쇄된 NEXT를 덮는 데 쓴다.
+        /// 오려낸 그림이 원래 탭 위에 정확히 겹쳐 있다는 성질을 그대로 이용하는 것이라, 배경 아트를
+        /// 따로 만들지 않아도 된다.</summary>
+        [SerializeField] Sprite blankTab;
         /// <summary>클릭 영역 중심에서 탭 중심까지의 어긋남 - 클릭 영역이 탭보다 넉넉해 정확히
         /// 겹치지 않는다. 오려낸 그림의 불투명 영역을 실측해 넣은 값이다.</summary>
         [SerializeField] Vector2 successPivotOffset;
@@ -76,6 +80,15 @@ namespace Belief.Presentation.HUD
             hovered = false;
             if (tween != null) { StopCoroutine(tween); tween = null; }
             Rest();
+        }
+
+        /// <summary>누를 수 없는 탭으로 만든다 - 자리와 방향은 성공 화면 그대로 두고 그림만 글자 없는
+        /// 것으로 바꾼다. 호버까지 막는 건 호출하는 쪽에서 이 컴포넌트를 꺼서 한다(꺼진 컴포넌트는
+        /// 포인터 이벤트를 받지 않는다).</summary>
+        public void ShowBlankTab()
+        {
+            SetResult(true);
+            if (tabArt != null && blankTab != null) tabArt.sprite = blankTab;
         }
 
         public void OnPointerEnter(PointerEventData eventData) => Play(true);
