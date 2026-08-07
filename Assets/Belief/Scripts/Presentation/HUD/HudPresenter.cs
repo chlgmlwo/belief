@@ -351,6 +351,10 @@ namespace Belief.Presentation.HUD
             if (resultPanelImg != null && skin != null && skin.endingPanel != null)
                 resultPanelImg.sprite = skin.endingPanel;
             if (resultTurnsText != null) resultTurnsText.text = "";
+            // 미션 번호·구역 이름도 같은 이유로 비운다 - 데모가 끝났다는 한 문장만 남는 화면이다.
+            if (resultMissionNoText != null) resultMissionNoText.text = "";
+            if (resultStageLabelText != null) resultStageLabelText.text = "";
+            if (resultStageTagText != null) resultStageTagText.text = "";
         }
 
         const string EndingTitle = "작전 종료";
