@@ -6628,8 +6628,8 @@ MonoBehaviour:
     hideOnSuccess: 0
     hideOnFailure: 0
   - target: {fileID: 1481389555200391733}
-    successPos: {x: 240, y: -223}
-    failurePos: {x: 623.5, y: 133}
+    successPos: {x: 220.29999, y: -255.59998}
+    failurePos: {x: 606.5, y: 100.399994}
     hideOnSuccess: 0
     hideOnFailure: 0
   - target: {fileID: 3058663104341096564}
@@ -14006,7 +14006,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 240, y: -285}
+  m_AnchoredPosition: {x: 220.29999, y: -255.59998}
   m_SizeDelta: {x: 180, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8447984973924702517
