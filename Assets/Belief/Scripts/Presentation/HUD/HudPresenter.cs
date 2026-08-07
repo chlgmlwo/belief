@@ -183,6 +183,9 @@ namespace Belief.Presentation.HUD
         TMP_Text resultSecondaryButtonLabel;
         Button resultPrimaryButton, resultSecondaryButton;
         ResultTabHoverFeedback resultPrimaryTabHover;
+        /// <summary>결과 리포트가 떠 있는 동안에는 일시정지로 빠져나갈 수 없어야 한다 - 여기서
+        /// 할 수 있는 행동은 NEXT/RETRY와 메인 화면뿐이다.</summary>
+        PauseMenuController pauseMenu;
 
         GameObject feedbackGo;
         CanvasGroup feedbackCanvasGroup;
@@ -338,6 +341,9 @@ namespace Belief.Presentation.HUD
         {
             resultScreenGo.SetActive(true);
             resultCanvasGroup.alpha = 0f;
+
+            // 리포트가 뜨면 일시정지 입구를 닫는다 - 열려 있었다면 함께 닫히며 시간도 되돌아온다.
+            if (pauseMenu != null) pauseMenu.SetAvailable(false);
 
             // 리포트가 뜨는 순간 플레이용 입력 자리를 감춘다 - 여기서 할 수 있는 행동은 RETRY와
             // 메인 화면뿐이다. RefreshBottomPanel은 이 시점에 다시 불리지 않으므로 직접 부른다.
@@ -1656,6 +1662,7 @@ namespace Belief.Presentation.HUD
             resultSecondaryButton = view.ResultSecondaryButton;
             resultPrimaryTabHover = resultPrimaryButton != null
                 ? resultPrimaryButton.GetComponent<ResultTabHoverFeedback>() : null;
+            pauseMenu = view != null ? view.GetComponentInParent<PauseMenuController>() : null;
 
             feedbackBannerRect = view.FeedbackBannerRect;
             if (feedbackBannerRect != null)
