@@ -137,6 +137,10 @@ namespace Belief.Systems
             var reservationType = DestinationReservationType.None;
             Exception applyException = null;
 
+            // 로그 패널이 "이전 → 이후"를 보여 주려면 덮어쓰기 전 값이 필요하다. 상태를 만들지 않고
+            // 읽기만 하므로 게이트를 다 통과한 이 지점에서 잡아도 안전하다.
+            var beliefBefore = ctx.Npc.GetBelief(ctx.Card);
+
             try
             {
                 // ③ Belief - 통합 판단 모드에서는 판단 결과가 곧 믿음이다. BeliefSystem은 점수를
@@ -196,7 +200,7 @@ namespace Belief.Systems
                 }
             }
 
-            try { eventBus.Publish(new CardJudgedEvent(ctx.Npc.Data, ctx.Card, j.Belief, currentTurn)); }
+            try { eventBus.Publish(new CardJudgedEvent(ctx.Npc.Data, ctx.Card, beliefBefore, j.Belief, currentTurn)); }
             catch (Exception ex)
             {
                 Debug.LogError($"[JudgmentApplication] CardJudgedEvent 발행 중 예외({key}) - 핵심 상태는 유지됩니다:\n{ex}");

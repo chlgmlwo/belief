@@ -101,8 +101,7 @@ MonoBehaviour:
     strength: 0.6
     relationshipTypeLabel: "\uC0C1\uAD00(\uCDA9\uC131 \uB300\uC0C1)"
     relationshipDescription: "\uAC89\uC73C\uB85C\uB294 \uC808\uB300\uC801 \uC874\uC911\uC774\uC9C0\uB9CC,
-      \uC2E4\uB9AC \uACC4\uC0B0\uC774 \uD754\uB4E4\uB9AC\uBA74 \uAC00\uC7A5 \uBA3C\uC800
-      \uC7AC\uACE0\uD558\uB294 \uAD00\uACC4\uB2E4."
+      \uC2E4\uB9AC\uAC00 \uD754\uB4E4\uB9AC\uBA74 \uAC00\uC7A5 \uBA3C\uC800 \uC7AC\uACE0\uD55C\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}

@@ -36,13 +36,19 @@ namespace Belief.Events
     {
         public readonly NpcData Npc;
         public readonly InformationCardData Card;
+        /// <summary>이 판단 <b>직전</b>의 믿음. 아직 이 카드를 판단한 적이 없으면 Unknown이다.
+        /// 로그 패널이 "이전 → 이후"와 증감 방향을 보여 주려면 결과만으로는 부족해서 함께 싣는다 -
+        /// 구독자가 직접 캐싱하면 이벤트를 놓치거나 순서가 어긋날 때 조용히 틀린 값을 보여 준다.</summary>
+        public readonly BeliefState PreviousBelief;
         public readonly BeliefState ResultBelief;
         public readonly int Turn;
 
-        public CardJudgedEvent(NpcData npc, InformationCardData card, BeliefState resultBelief, int turn)
+        public CardJudgedEvent(NpcData npc, InformationCardData card,
+            BeliefState previousBelief, BeliefState resultBelief, int turn)
         {
             Npc = npc;
             Card = card;
+            PreviousBelief = previousBelief;
             ResultBelief = resultBelief;
             Turn = turn;
         }

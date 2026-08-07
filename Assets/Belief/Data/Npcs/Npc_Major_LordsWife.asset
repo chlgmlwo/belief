@@ -85,22 +85,22 @@ MonoBehaviour:
     strength: 0.8
     relationshipTypeLabel: "\uCD5C\uCE21\uADFC(\uC815\uBCF4 \uCC3D\uAD6C)"
     relationshipDescription: "\uAC70\uC758 \uBAA8\uB4E0 \uC815\uBCF4\uB97C \uC2DC\uB140\uC7A5\uC744
-      \uD1B5\uD574\uC11C\uB9CC \uC811\uD558\uBA70, \uADF8 \uBCF4\uACE0\uB97C \uC804\uC801\uC73C\uB85C
-      \uC2E0\uB8B0\uD55C\uB2E4."
+      \uD1B5\uD574 \uC811\uD558\uACE0, \uADF8 \uBCF4\uACE0\uB97C \uC804\uC801\uC73C\uB85C
+      \uBBFF\uB294\uB2E4."
   - other: {fileID: 11400000, guid: 65e54763f0fe3d64e9fd7d32cc2360f7, type: 2}
     type: {fileID: 0}
     strength: -0.5
     relationshipTypeLabel: "\uACBD\uC7C1\uC790"
-    relationshipDescription: "\uACF5\uC2DD\uC801\uC73C\uB85C\uB294 \uC6B0\uD638\uC801\uC774\uC9C0\uB9CC,
-      \uADC0\uC871\uBD80\uC778\uC5D0\uAC8C\uC11C \uB098\uC628 \uC815\uBCF4\uB294
-      \uBCF8\uB2A5\uC801\uC73C\uB85C \uC758\uC2EC\uBD80\uD130 \uD55C\uB2E4."
+    relationshipDescription: "\uAC89\uC73C\uB85C\uB294 \uC6B0\uD638\uC801\uC774\uC9C0\uB9CC,
+      \uADF8\uC5D0\uAC8C\uC11C \uB098\uC628 \uC815\uBCF4\uB294 \uBCF8\uB2A5\uC801\uC73C\uB85C
+      \uC758\uC2EC\uD55C\uB2E4."
   - other: {fileID: 11400000, guid: 084757cbcf2e7ab4ca8e7e8ee0ca824d, type: 2}
     type: {fileID: 0}
     strength: 0.6
     relationshipTypeLabel: "\uACE0\uD574 \uC0C1\uB300"
-    relationshipDescription: "\uAD8C\uC704\uB97C \uC874\uC911\uD574 \uC0AC\uC801\uC778
-      \uACE0\uBBFC\uB3C4 \uB098\uB204\uC9C0\uB9CC, \uC885\uAD50\uC801 \uC758\uD639\uC5D0\uB294
-      \uADF9\uB3C4\uB85C \uBBFC\uAC10\uD558\uB2E4."
+    relationshipDescription: "\uAD8C\uC704\uB97C \uC874\uC911\uD574 \uACE0\uBBFC\uB3C4
+      \uB098\uB204\uC9C0\uB9CC, \uC885\uAD50\uC801 \uC758\uD639\uC5D0\uB294 \uADF9\uB3C4\uB85C
+      \uBBFC\uAC10\uD558\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}

@@ -155,7 +155,7 @@ namespace Belief.Systems
             if (thinkResult.Dialogue != null)
                 eventBus.Publish(new NpcSpokeEvent(npc.Data, thinkResult.Dialogue));
 
-            eventBus.Publish(new CardJudgedEvent(npc.Data, card, beliefResult.FinalBelief, currentTurn));
+            eventBus.Publish(new CardJudgedEvent(npc.Data, card, beliefBefore, beliefResult.FinalBelief, currentTurn));
 
             // ── Shadow Mode(관찰 전용) ────────────────────────────────────────────────
             // 실제 판단이 전부 끝나고 월드에 적용된 뒤에 발사한다. 컨텍스트에 담는 값은 이 메서드

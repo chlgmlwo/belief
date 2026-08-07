@@ -100,6 +100,7 @@ namespace Belief.Presentation.HUD
         RectTransform feedbackBannerRect;
         float bottomPanelFullMaxX;
         float feedbackBannerFullMaxX;
+        float feedbackBannerFullMinX;
         const float RightPanelLeftEdge = 0.68f;
         const float HintBarRightMargin = 0.02f;
 
@@ -108,9 +109,13 @@ namespace Belief.Presentation.HUD
         TMP_Text logGeneralText;
         TMP_Text logStatHeaderText;
         // 눈금 양 끝 라벨("불신"/"신뢰")은 시안대로 고정이라 코드가 건드리지 않는다 - 대신
-        // 표식(화살표 머리)을 눈금선 위에서 옮겨 현재 믿음 위치를 나타낸다(MoveTrustMarker).
+        // 표식(화살표 머리)을 눈금선 위에서 옮겨 현재 믿음 위치를 나타낸다(ShowBeliefChange).
         RectTransform logTrustArrowHead;
         RectTransform logTrustArrowLine;
+        TMP_Text logTrustLowLabel;
+        TMP_Text logTrustHighLabel;
+        RectTransform logTrustPrevMarker;
+        RectTransform logTrustDeltaSegment;
         TMP_Text logBottomDialogueText;
         NpcState lastLoggedNpcState;
 
@@ -688,9 +693,21 @@ namespace Belief.Presentation.HUD
             if (bottomPanelRect != null)
                 bottomPanelRect.anchorMax = new Vector2(Mathf.Min(targetMaxX, bottomPanelFullMaxX), bottomPanelRect.anchorMax.y);
 
-            float feedbackTargetMaxX = rightPanelOpen ? RightPanelLeftEdge - HintBarRightMargin : feedbackBannerFullMaxX;
+            // 안내 띠만은 좌우를 <b>대칭으로</b> 줄인다. 오른쪽만 당기면 띠의 중심이 화면 중심보다
+            // 왼쪽으로 밀려(0.177~0.66이면 중심 0.419) 글이 가운데에서 벗어나 보인다 - 아래 보유 정보
+            // 패널은 내용이 왼쪽 정렬이라 오른쪽만 줄이는 게 맞지만, 이 띠는 가운데 정렬 문장이다.
+            float bannerMaxX = rightPanelOpen
+                ? Mathf.Min(RightPanelLeftEdge - HintBarRightMargin, feedbackBannerFullMaxX)
+                : feedbackBannerFullMaxX;
+            // 0.5를 축으로 접은 값. 원래 폭보다 넓어지지 않도록 왼쪽 한계로 한 번 더 막는다.
+            float bannerMinX = rightPanelOpen
+                ? Mathf.Max(1f - bannerMaxX, feedbackBannerFullMinX)
+                : feedbackBannerFullMinX;
             if (feedbackBannerRect != null)
-                feedbackBannerRect.anchorMax = new Vector2(Mathf.Min(feedbackTargetMaxX, feedbackBannerFullMaxX), feedbackBannerRect.anchorMax.y);
+            {
+                feedbackBannerRect.anchorMin = new Vector2(bannerMinX, feedbackBannerRect.anchorMin.y);
+                feedbackBannerRect.anchorMax = new Vector2(bannerMaxX, feedbackBannerRect.anchorMax.y);
+            }
         }
 
         void OnProfileTabClicked() => SetHudPanelState(panelState == HudPanelState.Profile ? HudPanelState.Default : HudPanelState.Profile);
@@ -984,11 +1001,14 @@ namespace Belief.Presentation.HUD
             npcRelationshipRows.Clear();
         }
 
-        /// <summary>배경 아트(`프로필 파일 UI.png`)에 그려진 관계도 회색 칸 3개의 세로 위치 -
-        /// RelationshipsRoot(=첫 칸) 기준 상대 오프셋이다. 아트에서 칸 윗변이 각각 466/580/675px에
-        /// 그려져 있어(픽셀 실측) 간격이 균일하지 않다(114 / 95) - 그래서 LayoutGroup의 균일 간격으로는
-        /// 맞출 수 없고 이렇게 실측값을 직접 쓴다. 아트가 교체되면 이 값도 다시 재야 한다.</summary>
-        static readonly float[] RelationshipSlotOffsetsY = { 0f, -114f, -209f };
+        /// <summary>배경 아트에 그려진 관계도 회색 칸 3개의 세로 위치 - RelationshipsRoot(=첫 칸)
+        /// 기준 상대 오프셋이다. LayoutGroup의 균일 간격 대신 실측값을 직접 쓴다.
+        ///
+        /// 값은 실제로 화면에 깔리는 스프라이트(ProfileVisual = `프로필 파일 UI_Left.png`)를 픽셀
+        /// 스캔해 다시 잰 것이다 - 칸 윗변이 444 / 549 / 653px, 높이는 셋 다 73px. 예전 값
+        /// (114 / 95)은 지금 쓰지 않는 `프로필 파일 UI.png` 쪽 좌표라 둘째 칸이 14px 내려가 있었다.
+        /// 아트가 교체되면 이 값도 다시 재야 한다.</summary>
+        static readonly float[] RelationshipSlotOffsetsY = { 0f, -105f, -209f };
 
         /// <summary>NpcRelationshipRowView 프리팹을 Instantiate하고 3열(관계 대상/관계 유형/반응 차이)
         /// 값을 채운 뒤, 배경 아트의 해당 회색 칸 위에 정확히 얹는다. 폰트/색/열 위치는 전부 프리팹에
@@ -1141,8 +1161,9 @@ namespace Belief.Presentation.HUD
         /// 적혀 있던 예시 문구("주요 NPC의 대사는 이곳에", "[NPC 명] 수치 변동 사항" 등)가 그대로
         /// 남아 실제 기록처럼 보였다. 시작할 때 한 번 비워 준다.
         ///
-        /// 눈금 양 끝 라벨("불신"/"신뢰")은 데이터가 아니라 고정 UI라 그대로 두고, 아직 가리킬 값이
-        /// 없는 표식(화살표)만 감춘다.</summary>
+        /// 눈금은 양 끝 라벨("불신"/"신뢰")과 선까지 <b>통째로</b> 감춘다 - 표식만 숨기면 빈 눈금이
+        /// 덩그러니 남아 이미 무언가 기록된 것처럼 보였다(사용자 지시). 첫 판단이 오면
+        /// ShowBeliefChange가 다시 켠다.</summary>
         void ClearLogPanel()
         {
             recentDialogueLines.Clear();
@@ -1150,8 +1171,19 @@ namespace Belief.Presentation.HUD
             if (logBottomDialogueText != null) logBottomDialogueText.text = "";
             if (logGeneralText != null) logGeneralText.text = "";
             if (logStatHeaderText != null) logStatHeaderText.text = "";
-            if (logTrustArrowHead != null) logTrustArrowHead.gameObject.SetActive(false);
+            ShowTrustScale(false);
+            if (logTrustPrevMarker != null) logTrustPrevMarker.gameObject.SetActive(false);
+            if (logTrustDeltaSegment != null) logTrustDeltaSegment.gameObject.SetActive(false);
             lastLoggedNpcState = null;
+        }
+
+        /// <summary>눈금 전체(선 + 양 끝 라벨 + 표식)를 한 번에 여닫는다.</summary>
+        void ShowTrustScale(bool visible)
+        {
+            if (logTrustArrowLine != null) logTrustArrowLine.gameObject.SetActive(visible);
+            if (logTrustArrowHead != null) logTrustArrowHead.gameObject.SetActive(visible);
+            if (logTrustLowLabel != null) logTrustLowLabel.gameObject.SetActive(visible);
+            if (logTrustHighLabel != null) logTrustHighLabel.gameObject.SetActive(visible);
         }
 
         /// <summary>NpcSpokeEvent를 EventLogSystem과 별도로 한 번 더 구독 - 최근 대사 2줄을 상단(최신)/
@@ -1176,35 +1208,105 @@ namespace Belief.Presentation.HUD
         ///
         /// ⚠️ 예전엔 눈금 양 끝 라벨("불신"/"신뢰")을 이전 믿음/이후 믿음 텍스트로 **덮어썼다**.
         /// 그래서 화면에 "불신 ——→ 확인이 필요하다고 판단함"처럼 좌우 길이가 제각각인 문장이 나왔고,
-        /// 게다가 첫 판단이라 이전 값이 Unknown일 때도 "불신"으로 표시돼(BeliefKoreanLabel의 기본값)
-        /// 실제로는 판단 전인데 불신했다가 바뀐 것처럼 읽혔다. 시안(`UI/Guides/[배치가이드] ... 로그.jpg`)은
+        /// 게다가 첫 판단이라 이전 값이 Unknown일 때도 "불신"으로 표시돼 실제로는 판단 전인데
+        /// 불신했다가 바뀐 것처럼 읽혔다. 시안(`UI/Guides/[배치가이드] ... 로그.jpg`)은
         /// "불신 ——→ 신뢰"를 **고정 눈금**으로 두는 구조이므로, 양 끝 라벨은 프리팹 원문 그대로 두고
-        /// 화살표 머리(표식)만 눈금 위에서 움직여 현재 위치를 나타낸다(2026-08-05 수정).</summary>
+        /// 표식만 눈금 위에서 움직인다(2026-08-05). 이전/이후와 방향은 눈금 위 표식 두 개와
+        /// 그 사이 색 구간, 그리고 아래 글자 줄로 나눠 보여 준다(ShowBeliefChange).</summary>
         void OnLogCardJudged(CardJudgedEvent e)
         {
             if (logStatHeaderText != null) logStatHeaderText.text = $"[{e.Npc.displayName}] 수치 변동 사항";
-            // 시작할 때 감춰 둔 표식을 첫 판단에서 되살린다(ClearLogPanel 참고).
-            if (logTrustArrowHead != null && !logTrustArrowHead.gameObject.activeSelf)
-                logTrustArrowHead.gameObject.SetActive(true);
-            MoveTrustMarker(e.ResultBelief);
+            ShowBeliefChange(e.PreviousBelief, e.ResultBelief);
         }
 
-        /// <summary>믿음 단계를 불신(0)~신뢰(1) 위치로 환산해 눈금선 위 표식을 옮긴다.
-        /// 눈금선(logTrustArrowLine)의 실제 폭에서 계산하므로 아트가 바뀌어도 따라간다.</summary>
-        void MoveTrustMarker(BeliefState state)
+        // 방향 색 - 종이 배경(밝은 베이지) 위에서 읽히도록 전부 어두운 채도로 잡았다.
+        static readonly Color RiseColor = new Color32(0x1F, 0x6B, 0x4A, 0xFF); // 신뢰 쪽으로 이동
+        static readonly Color FallColor = new Color32(0xA8, 0x32, 0x2B, 0xFF); // 불신 쪽으로 이동
+        static readonly Color FlatColor = new Color32(0x6B, 0x63, 0x5C, 0xFF); // 그대로 / 첫 판단
+        static readonly Color PrevMarkColor = new Color32(0x9A, 0x92, 0x8A, 0xFF); // 이전 자리 표식
+
+        /// <summary>믿음 눈금 위에 <b>이전 → 이후</b>를 한 번에 보여 준다.
+        ///
+        /// 예전에는 표식 하나를 현재 위치로 옮기기만 했다. 그러면 "지금 어디"는 알아도 "어디에서
+        /// 왔는지"와 "올랐는지 내렸는지"를 알 수 없어, 수치 변동 칸인데 변동이 안 보였다. 눈금 <b>한
+        /// 줄</b> 위에 세 가지를 겹쳐 표시한다 - 이전 위치의 흐린 점, 이전↔이후를 잇는 색 구간,
+        /// 진행 방향으로 뒤집히는 촉. 색은 방향(상승/하락/유지)에 따라 셋 중 하나로 통일한다.
+        /// 단계 이름을 글자로 덧붙이는 줄도 만들어 봤지만 사용자 지시로 뺐다 - 눈금은 한 줄이다.
+        ///
+        /// ⚠️ 화살표·삼각형 기호(→ ▲ ▼ ◆ …)는 <b>쓸 수 없다</b>. 프로젝트의 폰트 13종(SUIT 전 굵기 /
+        /// KoreanUI / TravelingTypewriter / SeoulNamsan / LiberationSans 폴백)에 하나도 없어서 전부
+        /// 네모(□)로 나온다 - 실측 확인. 그래서 구간과 점은 Image로 그리고, 촉은 ASCII
+        /// '&gt;' / '&lt;' / '|'만 쓴다.</summary>
+        void ShowBeliefChange(BeliefState before, BeliefState after)
         {
-            if (logTrustArrowHead == null || logTrustArrowLine == null) return;
+            float toT = BeliefScalePosition(after);
+            if (toT < 0f) return; // 판단 전(Unknown)으로는 되돌아가지 않는다 - 표시를 그대로 둔다
 
-            float t = BeliefScalePosition(state);
-            if (t < 0f) return; // 판단 전(Unknown) - 표식을 옮기지 않는다
+            float fromT = BeliefScalePosition(before);
+            bool hasBefore = fromT >= 0f;
 
+            Color color = !hasBefore || Mathf.Approximately(fromT, toT) ? FlatColor
+                        : toT > fromT ? RiseColor : FallColor;
+
+            // ① 현재 위치 표식 - 기존 화살표 머리를 그대로 쓰되 방향 색을 입히고, 촉이 진행 방향을
+            //    향하게 뒤집는다. 왼쪽으로 내려갔는데 '>'가 오른쪽을 가리키면 온 길을 되짚는 것처럼
+            //    읽힌다. 움직임이 없으면 방향이 없으므로 눈금 위 눈금표시('|')로 둔다.
+            ShowTrustScale(true); // 시작 시 감춰 둔 눈금을 첫 판단에서 되살린다(ClearLogPanel 참고)
+            PlaceOnScale(logTrustArrowHead, toT);
+            if (logTrustArrowHead != null)
+            {
+                var headText = logTrustArrowHead.GetComponent<TMP_Text>();
+                if (headText != null)
+                {
+                    headText.color = color;
+                    headText.text = !hasBefore || Mathf.Approximately(fromT, toT) ? "|"
+                                  : toT > fromT ? ">" : "<";
+                }
+            }
+
+            // ② 이전 위치 표식 - 첫 판단이면 가리킬 자리가 없으므로 감춘다.
+            if (logTrustPrevMarker != null)
+            {
+                logTrustPrevMarker.gameObject.SetActive(hasBefore);
+                if (hasBefore)
+                {
+                    PlaceOnScale(logTrustPrevMarker, fromT);
+                    var img = logTrustPrevMarker.GetComponent<Image>();
+                    if (img != null) img.color = PrevMarkColor;
+                }
+            }
+
+            // ③ 이전↔이후 구간 - 움직인 거리를 눈금 위에 색으로 칠한다.
+            if (logTrustDeltaSegment != null && logTrustArrowLine != null)
+            {
+                bool moved = hasBefore && !Mathf.Approximately(fromT, toT);
+                logTrustDeltaSegment.gameObject.SetActive(moved);
+                if (moved)
+                {
+                    float lineLeft = logTrustArrowLine.anchoredPosition.x;
+                    float lineWidth = logTrustArrowLine.sizeDelta.x;
+                    float lo = Mathf.Min(fromT, toT), hi = Mathf.Max(fromT, toT);
+                    logTrustDeltaSegment.anchoredPosition = new Vector2(
+                        lineLeft + lineWidth * lo, logTrustDeltaSegment.anchoredPosition.y);
+                    logTrustDeltaSegment.sizeDelta = new Vector2(
+                        lineWidth * (hi - lo), logTrustDeltaSegment.sizeDelta.y);
+                    var img = logTrustDeltaSegment.GetComponent<Image>();
+                    if (img != null) img.color = color;
+                }
+            }
+
+        }
+
+        /// <summary>눈금선(logTrustArrowLine)의 실제 폭에서 계산하므로 아트가 바뀌어도 따라간다.
+        /// 표식은 자기 폭의 절반만큼 왼쪽으로 당겨 눈금 위 지점에 가운데가 오게 한다.</summary>
+        void PlaceOnScale(RectTransform marker, float t)
+        {
+            if (marker == null || logTrustArrowLine == null) return;
             float lineLeft = logTrustArrowLine.anchoredPosition.x;
             float lineWidth = logTrustArrowLine.sizeDelta.x;
-            float headWidth = logTrustArrowHead.sizeDelta.x;
-
             float centerX = lineLeft + lineWidth * t;
-            logTrustArrowHead.anchoredPosition = new Vector2(
-                centerX - headWidth * 0.5f, logTrustArrowHead.anchoredPosition.y);
+            marker.anchoredPosition = new Vector2(
+                centerX - marker.sizeDelta.x * 0.5f, marker.anchoredPosition.y);
         }
 
         /// <summary>불신(0) ~ 신뢰(1) 눈금 상의 위치. Unknown(판단 전)은 -1로 "표시 안 함".</summary>
@@ -1495,6 +1597,10 @@ namespace Belief.Presentation.HUD
             logStatHeaderText = view.LogStatHeaderText;
             logTrustArrowHead = view.LogTrustArrowHead;
             logTrustArrowLine = view.LogTrustArrowLine;
+            logTrustLowLabel = view.LogTrustLowLabel;
+            logTrustHighLabel = view.LogTrustHighLabel;
+            logTrustPrevMarker = view.LogTrustPrevMarker;
+            logTrustDeltaSegment = view.LogTrustDeltaSegment;
             logBottomDialogueText = view.LogBottomDialogueText;
 
             locationNoteGo = view.LocationNoteGo;
@@ -1560,7 +1666,11 @@ namespace Belief.Presentation.HUD
             resultSecondaryButton = view.ResultSecondaryButton;
 
             feedbackBannerRect = view.FeedbackBannerRect;
-            if (feedbackBannerRect != null) feedbackBannerFullMaxX = feedbackBannerRect.anchorMax.x;
+            if (feedbackBannerRect != null)
+            {
+                feedbackBannerFullMaxX = feedbackBannerRect.anchorMax.x;
+                feedbackBannerFullMinX = feedbackBannerRect.anchorMin.x;
+            }
 
             feedbackGo = view.FeedbackGo;
             feedbackCanvasGroup = view.FeedbackCanvasGroup;

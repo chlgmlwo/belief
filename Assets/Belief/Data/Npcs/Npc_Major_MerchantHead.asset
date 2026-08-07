@@ -90,7 +90,7 @@ MonoBehaviour:
   - other: {fileID: 11400000, guid: 79c7d86545fe275459543dbc0a41e0a9, type: 2}
     type: {fileID: 0}
     strength: 0.4
-    relationshipTypeLabel: "\uBB3C\uC790 \uB0A9\uD488 \uAC70\uB798 \uD30C\uD2B8\uB108"
+    relationshipTypeLabel: "\uB0A9\uD488 \uAC70\uB798\uCC98"
     relationshipDescription: "\uB0A9\uD488 \uCC28\uC9C8\uC5D0 \uAD00\uD55C \uC815\uBCF4\uC5D0\uB294
       \uBBFC\uAC10\uD558\uC9C0\uB9CC \uAC10\uC815\uC801 \uC720\uB300\uB294 \uC5C6\uB2E4."
   - other: {fileID: 11400000, guid: 74d7d04633834ef8a8870fb984c0b798, type: 2}
@@ -102,7 +102,7 @@ MonoBehaviour:
   - other: {fileID: 11400000, guid: 4677f620c23745329d98e141b738510f, type: 2}
     type: {fileID: 0}
     strength: 0.5
-    relationshipTypeLabel: "\uC7A0\uC7AC\uC801 \uC0C1\uC704 \uAC70\uB798\uC120"
+    relationshipTypeLabel: "\uC0C1\uC704 \uAC70\uB798\uC120"
     relationshipDescription: "\uC800\uD0DD\uACFC\uC758 \uAC70\uB798\uAC00 \uC190\uD574\uAC00
       \uC544\uB2C8\uB77C\uBA74 \uAD00\uACC4\uB97C \uC720\uC9C0\uD55C\uB2E4."
   availableActions:

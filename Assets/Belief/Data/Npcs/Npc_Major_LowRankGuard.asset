@@ -96,8 +96,8 @@ MonoBehaviour:
   - other: {fileID: 11400000, guid: 4677f620c23745329d98e141b738510f, type: 2}
     type: {fileID: 0}
     strength: 0.3
-    relationshipTypeLabel: "\uC6D0\uACA9 \uAD00\uB9AC(\uAC04\uC811)"
-    relationshipDescription: "\uB9C8\uC8FC\uCE60 \uC77C\uC740 \uAC70\uC758 \uC5C6\uC9C0\uB9CC,
+    relationshipTypeLabel: "\uC6D0\uACA9 \uAD00\uB9AC"
+    relationshipDescription: "\uB9C8\uC8FC\uCE60 \uC77C\uC740 \uC5C6\uC9C0\uB9CC,
       \uC774\uB984\uB9CC \uB4E4\uC5B4\uB3C4 \uC790\uC138\uB97C \uB2E4\uC7A1\uC744
       \uB9CC\uD07C \uC555\uB3C4\uB41C\uB2E4."
   availableActions:

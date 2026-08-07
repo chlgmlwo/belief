@@ -85,10 +85,9 @@ MonoBehaviour:
   - other: {fileID: 11400000, guid: 6d76d44d879c888408a1d9d7bc8fd8ce, type: 2}
     type: {fileID: 0}
     strength: 0.8
-    relationshipTypeLabel: "\uAC00\uC7A5 \uC2E0\uB8B0\uD558\uB294 \uBB34\uB825 \uAE30\uBC18"
-    relationshipDescription: "\uBCF4\uACE0\uB97C \uAC70\uC758 \uC758\uC2EC \uC5C6\uC774
-      \uBC1B\uC544\uB4E4\uC774\uBA70, \uADF8\uAC00 \uB3D9\uC694\uD558\uBA74 \uC2EC\uAC01\uD55C
-      \uC0C1\uD669\uC73C\uB85C \uD310\uB2E8\uD55C\uB2E4."
+    relationshipTypeLabel: "\uCD5C\uCE21\uADFC \uBB34\uB825"
+    relationshipDescription: "\uBCF4\uACE0\uB97C \uC758\uC2EC \uC5C6\uC774 \uBC1B\uC544\uB4E4\uC774\uACE0,
+      \uADF8\uAC00 \uB3D9\uC694\uD558\uBA74 \uC2EC\uAC01\uD558\uAC8C \uBCF8\uB2E4."
   - other: {fileID: 11400000, guid: e18f1eddf5631db4b9589aa45135122d, type: 2}
     type: {fileID: 0}
     strength: 0.65
@@ -101,8 +100,8 @@ MonoBehaviour:
     strength: 0.55
     relationshipTypeLabel: "\uC885\uAD50\uC801 \uC870\uC5B8\uC790"
     relationshipDescription: "\uC885\uAD50\uC801 \uAD8C\uC704\uB97C \uC874\uC911\uD574,
-      \uC2E0\uAD00\uC758 \uC6B0\uB824\uB294 \uC138\uC18D\uC801\uC778 \uBCF4\uACE0\uBCF4\uB2E4
-      \uBB34\uAC81\uAC8C \uBC1B\uC544\uB4E4\uC778\uB2E4."
+      \uC2E0\uAD00\uC758 \uC6B0\uB824\uB97C \uC138\uC18D \uBCF4\uACE0\uBCF4\uB2E4
+      \uBB34\uAC81\uAC8C \uBCF8\uB2E4."
   availableActions:
   - {fileID: 11400000, guid: 8755fd3a5f567bf4fa368f96240d748b, type: 2}
   - {fileID: 11400000, guid: 1920921aa9078704dab29fdfa7050eab, type: 2}

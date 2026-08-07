@@ -45,10 +45,17 @@ namespace Belief.Presentation.HUD
         [SerializeField] TMP_Text logTopDialogueText;
         [SerializeField] TMP_Text logGeneralText;
         [SerializeField] TMP_Text logStatHeaderText;
-        /// <summary>믿음 눈금(불신 ——→ 신뢰)의 선과 표식 - 양 끝 라벨은 시안대로 고정 텍스트라
-        /// 코드가 건드리지 않고, 표식만 눈금 위를 움직여 현재 믿음 위치를 나타낸다.</summary>
+        /// <summary>믿음 눈금(불신 ——→ 신뢰)의 선·양 끝 라벨·표식. 라벨 <b>문구</b>는 시안대로
+        /// 고정이라 코드가 바꾸지 않지만, 아직 판단이 하나도 없을 때는 눈금 전체를 감춘다 -
+        /// 빈 눈금만 떠 있으면 기록이 있는 것처럼 보인다.</summary>
         [SerializeField] RectTransform logTrustArrowLine;
         [SerializeField] RectTransform logTrustArrowHead;
+        [SerializeField] TMP_Text logTrustLowLabel;
+        [SerializeField] TMP_Text logTrustHighLabel;
+        /// <summary>변동 표시 - 이전 위치의 흐린 점과 이전↔이후를 잇는 색 구간. 눈금 위 표식
+        /// 하나만으로는 어디에서 왔는지·올랐는지 내렸는지를 알 수 없어 함께 둔다.</summary>
+        [SerializeField] RectTransform logTrustPrevMarker;
+        [SerializeField] RectTransform logTrustDeltaSegment;
         [SerializeField] TMP_Text logBottomDialogueText;
 
         [Header("Location Note")]
@@ -166,6 +173,10 @@ namespace Belief.Presentation.HUD
         public TMP_Text LogStatHeaderText => logStatHeaderText;
         public RectTransform LogTrustArrowLine => logTrustArrowLine;
         public RectTransform LogTrustArrowHead => logTrustArrowHead;
+        public TMP_Text LogTrustLowLabel => logTrustLowLabel;
+        public TMP_Text LogTrustHighLabel => logTrustHighLabel;
+        public RectTransform LogTrustPrevMarker => logTrustPrevMarker;
+        public RectTransform LogTrustDeltaSegment => logTrustDeltaSegment;
         public TMP_Text LogBottomDialogueText => logBottomDialogueText;
 
         public GameObject LocationNoteGo => locationNoteGo;

@@ -59,9 +59,9 @@ MonoBehaviour:
     type: {fileID: 0}
     strength: 0.6
     relationshipTypeLabel: "\uC0C1\uAD00\xB7\uBA85\uB839 \uBC1C\uC2E0\uC790"
-    relationshipDescription: "\uBA85\uB839\uC740 \uB530\uB974\uC9C0\uB9CC \uC9D1\uC0AC
-      \uAC1C\uC778\uC5D0 \uB300\uD55C \uC758\uD639\uC774 \uC0DD\uAE30\uBA74 \uBA85\uB839\uACFC
-      \uBA85\uB839\uC790\uB97C \uBD84\uB9AC\uD574 \uD310\uB2E8\uD55C\uB2E4."
+    relationshipDescription: "\uBA85\uB839\uC740 \uB530\uB974\uC9C0\uB9CC, \uC9D1\uC0AC\uC5D0\uAC8C
+      \uC758\uD639\uC774 \uC0DD\uAE30\uBA74 \uBA85\uB839\uACFC \uC0AC\uB78C\uC744
+      \uB098\uB220 \uBCF8\uB2E4."
   - other: {fileID: 11400000, guid: ea3287ffc1f349ae8a59b02b23150c98, type: 2}
     type: {fileID: 0}
     strength: 0.5
