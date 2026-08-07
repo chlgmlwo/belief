@@ -1100,22 +1100,45 @@ namespace Belief.Presentation.HUD
         /// entries 자체를 파싱하지 않는다(취약한 문자열 매칭 회피).</summary>
         readonly List<string> recentDialogueLines = new List<string>(2);
 
+        /// <summary>일반 사건 로그(가이드: "캐릭터의 이동, 믿음 수치 변화는 일반 텍스트로") - 대사 줄만
+        /// 제외하고 나머지는 installer.Log.Entries를 그대로 재사용한다. 대사 포맷("이름: \"...\"")은
+        /// EventLogSystem.OnNpcSpoke가 만드는 고정 포맷이라 이 필터만으로 안전하게 구분된다.
+        ///
+        /// 몇 줄을 담을지는 개수가 아니라 <b>칸 높이로</b> 정한다. 줄바꿈이 켜져 있어 기록 하나가
+        /// 두세 줄을 차지할 수 있어서 "최근 N개"로는 높이를 보장할 수 없었다 - 실제로 35자짜리
+        /// 기록 5개면 10줄(210px)이 되어 칸(140px)을 한참 넘겼다. 최신 것부터 거꾸로 담다가
+        /// 넘치기 직전에서 멈추므로, 오래된 기록이 먼저 밀려나고 방금 일어난 일은 항상 남는다.</summary>
         void AppendLog(string _)
         {
-            // 일반 사건 로그(가이드: "캐릭터의 이동, 믿음 수치 변화는 일반 텍스트로") - 대사 줄만 제외하고
-            // 나머지는 installer.Log.Entries를 그대로 재사용한다. 대사 포맷("이름: \"...\"")은
-            // EventLogSystem.OnNpcSpoke가 만드는 고정 포맷이라 이 필터만으로 안전하게 구분된다.
+            if (logGeneralText == null) return;
+
             var entries = installer.Log.Entries;
-            int start = Mathf.Max(0, entries.Count - MaxLogLines);
+            float maxHeight = logGeneralText.rectTransform.rect.height;
+            float width = logGeneralText.rectTransform.rect.width;
+
+            logLinesBuffer.Clear();
             var sb = new StringBuilder();
-            for (int i = start; i < entries.Count; i++)
+            for (int i = entries.Count - 1; i >= 0 && logLinesBuffer.Count < MaxLogLines; i--)
             {
                 var line = entries[i];
                 if (line.Contains(": \"")) continue; // 대사 줄은 상/하단 카드에서 따로 보여준다
-                sb.AppendLine(line);
+
+                logLinesBuffer.Insert(0, line);
+                sb.Length = 0;
+                for (int k = 0; k < logLinesBuffer.Count; k++) sb.AppendLine(logLinesBuffer[k]);
+                if (logGeneralText.GetPreferredValues(sb.ToString(), width, 0f).y > maxHeight)
+                {
+                    logLinesBuffer.RemoveAt(0); // 방금 넣은 줄이 넘치면 되돌리고 종료
+                    break;
+                }
             }
-            if (logGeneralText != null) logGeneralText.text = sb.ToString();
+
+            sb.Length = 0;
+            for (int k = 0; k < logLinesBuffer.Count; k++) sb.AppendLine(logLinesBuffer[k]);
+            logGeneralText.text = sb.ToString();
         }
+
+        readonly List<string> logLinesBuffer = new List<string>(MaxLogLines);
 
         /// <summary>로그 패널을 빈 상태로 되돌린다.
         ///
