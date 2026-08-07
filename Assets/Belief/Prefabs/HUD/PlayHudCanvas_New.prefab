@@ -5403,6 +5403,7 @@ GameObject:
   - component: {fileID: 8793062465754182359}
   - component: {fileID: 763027776091290284}
   - component: {fileID: 8697669773487853272}
+  - component: {fileID: 2817760959544225536}
   m_Layer: 0
   m_Name: SecondaryButton
   m_TagString: Untagged
@@ -5513,6 +5514,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2817760959544225536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883548440019418443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 908d1d91b4788fa4faafdf221cc4ac94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Belief.Presentation.HUD.ResultLinkHoverFeedback
+  underline: {fileID: 1257247400884335205}
 --- !u!1 &1892163569524023619
 GameObject:
   m_ObjectHideFlags: 0

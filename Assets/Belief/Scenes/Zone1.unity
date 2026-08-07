@@ -6887,6 +6887,10 @@ PrefabInstance:
       propertyPath: m_fontSizeMin
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 2817760959544225536, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
+      propertyPath: underline
+      value: 
+      objectReference: {fileID: 120797724}
     - target: {fileID: 3015110310041802440, guid: ba0b64c6964da594abf6dcbadbe4a1b7, type: 3}
       propertyPath: m_fontAsset
       value: 
