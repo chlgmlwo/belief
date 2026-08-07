@@ -25,8 +25,9 @@ namespace Belief.Presentation.HUD
         public const string CompletedPrefKey = "Belief_PlayGuideCompleted";
         public static bool IsCompleted => PlayerPrefs.GetInt(CompletedPrefKey, 0) == 1;
 
-        /// <summary>덮개 색 - 완전 불투명이라 설명하는 자리 말고는 아무것도 보이지 않는다.</summary>
-        static readonly Color DimColor = new Color(0.04f, 0.04f, 0.04f, 1f);
+        /// <summary>덮개 색 - 완전히 가리지 않고 비쳐 보일 만큼만 덮는다. 설명하는 자리에는 덮개가
+        /// 아예 없으므로, 이 정도 농도로도 밝기 차이가 충분히 난다.</summary>
+        static readonly Color DimColor = new Color(0.04f, 0.04f, 0.04f, 0.82f);
         static readonly Color PaperColor = new Color(0.929f, 0.918f, 0.886f, 1f);
         static readonly Color InkColor = new Color(0.180f, 0.161f, 0.149f, 1f);
         static readonly Color MutedInk = new Color(0.42f, 0.39f, 0.37f, 1f);
@@ -35,6 +36,12 @@ namespace Belief.Presentation.HUD
         /// <summary>구멍을 대상보다 조금 넉넉하게 낸다 - 딱 맞게 내면 테두리가 잘려 보인다.</summary>
         const float SpotlightPadding = 18f;
         const float FadeDuration = 0.22f;
+
+        const float InformantSize = 250f;
+        const float BubbleWidth = 980f;
+        const float BubbleHeight = 240f;
+        /// <summary>말풍선 왼쪽 끝 - 정보원 오른쪽에 바로 붙는다(정보원 x 70 + 폭).</summary>
+        const float BubbleLeft = 340f;
 
         /// <summary>한 걸음 = 설명 한 마디 + 그때 밝힐 자리.</summary>
         class Step
@@ -103,50 +110,50 @@ namespace Belief.Presentation.HUD
             steps.Add(new Step
             {
                 Targets = null,
-                Text = "정보원입니다. 이 도시에서 무엇을 어떻게 흘릴지, 잠깐만 짚고 가겠습니다.",
+                Text = "정보원입니다. 당신은 아무도 베지 않습니다. 사람들이 <b>무엇을 믿게 될지</b>만 고르면 됩니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("MissionArea/GoalCard01", "MissionArea/MissionSummaryCard"),
-                Text = "이번에 할 일입니다. 아래 두 줄은 <b>둘 중 하나만</b> 이루면 되는 조건입니다.",
+                Text = "이번에 할 일입니다. 아래 두 줄은 <b>둘 중 하나만</b> 이루면 끝납니다. 어느 쪽으로 갈지는 당신이 정합니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("HandArea/HandCard1", "HandArea/HandCard2", "HandArea/HandCard3", "HandArea/HandCard4"),
-                Text = "손에 쥔 소문 조각입니다. 카드마다 <b>SPREAD</b>(장소에 퍼뜨림)와 <b>DELIVER</b>(사람에게 전함)가 정해져 있습니다.",
+                Text = "손에 쥔 건 소문 조각입니다. <b>SPREAD</b>는 장소에 퍼뜨리는 것이고, <b>DELIVER</b>는 한 사람에게 직접 건네는 것입니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = WorldTargets,
-                Text = "카드를 고른 뒤 대상을 고릅니다. <b>낼 수 없는 대상은 커서를 올려도 반응하지 않습니다</b> — 반응하는 쪽이 곧 낼 수 있는 곳입니다.",
+                Text = "카드를 고르면 낼 수 있는 곳만 커서에 반응합니다. <b>반응이 없다면 그건 이 카드의 자리가 아닙니다.</b>",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("ProceedButton"),
-                Text = "대상을 정했으면 여기서 확정합니다. 정보는 언제나 저를 거쳐 전해집니다.",
+                Text = "대상을 정했으면 여기서 확정합니다. 정보는 언제나 저를 거쳐 나갑니다 — 당신의 이름은 어디에도 남지 않습니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("RightPeekArea/SharedTabRoot/LogTabRoot/ClickArea",
                                    "RightPeekArea/SharedTabRoot/ProfileTabRoot/ClickArea"),
-                Text = "낸 뒤에는 이쪽을 보십시오. <b>Log</b>는 무슨 일이 있었는지, <b>Profile</b>은 그 사람이 지금 무엇을 믿는지 보여줍니다.",
+                Text = "낸 다음이 진짜입니다. <b>Log</b>는 무슨 일이 벌어졌는지, <b>Profile</b>은 그 사람의 믿음이 어디까지 왔는지 보여줍니다.\n믿음은 <b>신뢰함</b>에서 <b>부정함</b>까지 다섯 단계로 움직입니다.",
             });
 
             steps.Add(new Step
             {
                 Targets = () => Ui("HeaderArea/TurnCard"),
-                Text = "하루가 지나갑니다. 정해진 기간 안에 끝내야 합니다.",
+                Text = "한 번 낼 때마다 하루가 갑니다. 기한을 넘기면 그걸로 끝이니, 아껴 쓰십시오.",
             });
 
             steps.Add(new Step
             {
                 Targets = null,
-                Text = "믿게 만드는 것만이 답은 아닙니다. 의심하게 만드는 것도, 자리를 뜨게 만드는 것도 전부 수단입니다. 그럼, 시작하시죠.",
+                Text = "믿게 만드는 것만이 수단은 아닙니다. 의심하게 만드는 것도, 자리를 뜨게 만드는 것도 전부 답이 됩니다.\n그럼, 시작하시죠.",
             });
         }
 
@@ -355,9 +362,12 @@ namespace Belief.Presentation.HUD
             informantRect.pivot = pivot;
             informantRect.anchoredPosition = new Vector2(70f, y);
 
+            // 말풍선을 정보원 키의 한가운데에 맞춘다 - 위/아래 어느 쪽으로 붙어도 꼬리가 몸통을
+            // 가리키게 된다.
+            float centerOffset = (InformantSize - BubbleHeight) * 0.5f;
             bubbleRect.anchorMin = bubbleRect.anchorMax = anchor;
             bubbleRect.pivot = pivot;
-            bubbleRect.anchoredPosition = new Vector2(470f, bottom ? y + 120f : y - 120f);
+            bubbleRect.anchoredPosition = new Vector2(BubbleLeft, bottom ? y + centerOffset : y - centerOffset);
 
             // 꼬리는 말풍선 왼쪽에서 정보원 쪽을 향한다.
             tailRect.anchoredPosition = new Vector2(-14f, 0f);
@@ -401,7 +411,7 @@ namespace Belief.Presentation.HUD
             informant.preserveAspect = true;
             informant.enabled = informantSprite != null;
             informantRect = informant.rectTransform;
-            informantRect.sizeDelta = new Vector2(380f, 380f);
+            informantRect.sizeDelta = new Vector2(InformantSize, InformantSize);
 
             var tail = NewImage("Tail", canvasRect, PaperColor);
             tailRect = tail.rectTransform;
@@ -410,7 +420,7 @@ namespace Belief.Presentation.HUD
 
             var bubble = NewImage("Bubble", canvasRect, PaperColor);
             bubbleRect = bubble.rectTransform;
-            bubbleRect.sizeDelta = new Vector2(980f, 240f);
+            bubbleRect.sizeDelta = new Vector2(BubbleWidth, BubbleHeight);
             tailRect.SetParent(bubbleRect, false);
             tailRect.anchorMin = tailRect.anchorMax = new Vector2(0f, 0.5f);
             tailRect.pivot = new Vector2(0.5f, 0.5f);
