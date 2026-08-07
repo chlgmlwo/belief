@@ -246,9 +246,9 @@ namespace Belief.Presentation.HUD
             // 손패도 함께 다시 그린다 - "사용 중" 잠금이 targeting.IsDelivering에서 계산되므로,
             // 전달이 시작·종료될 때 이 신호를 받지 못하면 잠긴 카드가 그대로 남는다.
             targeting.PhaseChanged += RefreshOwnedInformation;
-            // 전달이 시작·종료될 때만 값이 바뀌는 IsDelivering이 곧 "턴 진행중" 구간이다 -
-            // PhaseChanged는 다른 이유로도 오지만 SetTurnProcessing이 같은 값이면 아무것도 하지 않는다.
-            targeting.PhaseChanged += () => SetTurnProcessing(targeting.IsDelivering);
+            // "정보 전파중" 표시는 여기서 걸지 않는다 - IsDelivering은 판단이 끝난 뒤의 연출까지
+            // 포함하는 구간이라, 그 값에 맞추면 NPC가 말하고 움직이는 동안에도 표시가 남는다.
+            // 실제로 응답을 기다리는 동안만 켜지도록 Update에서 LlmRequestMonitor를 본다.
             targeting.InteractionRejected += msg => ShowTransientNotice(msg, ErrorColor);
 
             // NPC/장소 조사용 클릭 구독 - TargetingController가 같은 이벤트를 전달 대상 지정용으로
@@ -540,18 +540,35 @@ namespace Belief.Presentation.HUD
             if (PlaybackDirector.Instance == null) gameObject.AddComponent<PlaybackDirector>();
         }
 
-        // ---------------------------------------------------------------- 턴 진행 표시
+        // ---------------------------------------------------------------- 정보 전파 표시
 
-        /// <summary>정보를 전달한 뒤 NPC 판단(LLM이면 응답 대기)이 끝날 때까지 하단 안내 띠에 띄워
-        /// 두는 상태 표시. 이 구간은 길면 몇 초씩 걸리는데 그동안 화면이 아무 말도 하지 않아
-        /// "눌리긴 한 건가" 싶었다.
+        /// <summary>정보를 전달한 뒤 <b>NPC의 판단을 기다리는 동안에만</b> 하단 안내 띠에 띄워 두는
+        /// 상태 표시. 이 구간은 길면 몇 초씩 걸리는데 그동안 화면이 아무 말도 하지 않아 "눌리긴 한
+        /// 건가" 싶었다.
         ///
-        /// 일시 알림(ShowTransientNotice)과 같은 슬롯을 쓰되 스스로 사라지지 않는다 - 끝나는 시점을
-        /// 시간이 아니라 IsDelivering이 정한다.</summary>
+        /// <b>켜지는 조건이 "전달 중"이 아니라 "응답 대기 중"이다.</b> 예전에는
+        /// TargetingController.IsDelivering에 맞춰 켰는데, 그 구간에는 판단이 끝난 뒤의 NPC 대사·이동
+        /// 연출까지 들어 있어서 이미 세계가 반응하고 있는데도 "기다리는 중"이 함께 떠 있었다. 게다가
+        /// 확산은 NPC가 한 명씩 차례로 판단하므로(InfoDeliverySystem.ExposeCardAtLocationAsync의
+        /// foreach) 대기와 연출이 번갈아 나와, 어떤 때는 겹치고 어떤 때는 안 겹쳐 더 헷갈렸다.
+        /// 지금은 <see cref="Belief.AI.LLM.LlmRequestMonitor"/>가 세는 실제 대기 요청 수를 따른다.
+        ///
+        /// 규칙 판단(LLM 없이 도는 구역)에서는 기다릴 것이 없어 아예 뜨지 않는다 - 그 경우 턴은
+        /// 한 프레임에 끝나므로 보여 줄 대기 자체가 없다.
+        ///
+        /// 일시 알림(ShowTransientNotice)과 같은 슬롯을 쓰되 스스로 사라지지 않는다.</summary>
         bool processingShowing;
         Coroutine processingRoutine;
 
-        const string TurnProcessingMessage = "턴 진행중";
+        const string TurnProcessingMessage = "정보 전파중";
+
+        void Update()
+        {
+            // 이벤트가 아니라 매 프레임 확인한다 - 요청의 시작/끝은 Transport 코루틴 안에서 일어나고,
+            // 거기서 UI로 신호를 쏘게 하면 표시 계층이 통신 계층에 끼어들게 된다.
+            bool waiting = targeting != null && targeting.IsDelivering && Belief.AI.LLM.LlmRequestMonitor.IsWaiting;
+            SetTurnProcessing(waiting);
+        }
 
         void SetTurnProcessing(bool on)
         {
@@ -629,8 +646,8 @@ namespace Belief.Presentation.HUD
         /// 지시 문구는 전부 걷어냈으니 여기에 다시 넣지 말 것.</summary>
         void ShowTransientNotice(string message, Color color)
         {
-            // 턴이 도는 동안에는 진행 표시가 이 슬롯을 쓰고 있다 - 덮어쓰면 "턴 진행중"이 사라진
-            // 채로 남아, 끝났는지 아닌지 알 수 없게 된다.
+            // 응답을 기다리는 동안에는 "정보 전파중"이 이 슬롯을 쓰고 있다 - 덮어쓰면 그 표시가
+            // 사라진 채로 남아, 끝났는지 아닌지 알 수 없게 된다.
             if (processingShowing) return;
             if (feedbackRoutine != null) StopCoroutine(feedbackRoutine);
             feedbackRoutine = StartCoroutine(TransientNoticeRoutine(message, color));
@@ -1822,6 +1839,9 @@ namespace Belief.Presentation.HUD
             if (profileTabButton != null) profileTabButton.onClick.AddListener(OnProfileTabClicked);
             if (logTabButton != null) logTabButton.onClick.AddListener(OnLogTabClicked);
             ClearLogPanel();
+            // 이전 씬에서 응답을 기다리던 요청이 남아 있으면 표시가 켜진 채로 굳는다 - 새 구역을
+            // 시작하는 이 지점에서 기다리는 것은 없으므로 0으로 되돌린다.
+            Belief.AI.LLM.LlmRequestMonitor.Reset();
             SetHudPanelState(HudPanelState.Default);
 
             howToPlayPopup = view.gameObject.AddComponent<HowToPlayPopup>();

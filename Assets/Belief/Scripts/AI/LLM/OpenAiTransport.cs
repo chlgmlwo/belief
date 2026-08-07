@@ -107,56 +107,68 @@ namespace Belief.AI.LLM
 
         IEnumerator SendRoutine(string prompt, CancellationToken cancellationToken, TaskCompletionSource<string> tcs)
         {
-            // 중계 서버 모드에서는 키가 클라이언트에 없는 것이 정상이다 - 키는 서버가 갖고 있다.
-            if (!config.useProxy && string.IsNullOrEmpty(apiKey))
+            // 응답을 기다리는 동안만 세어 둔다 - 하단 띠의 "정보 전파중" 표시가 이 값을 읽는다.
+            // try/finally로 감싸는 이유는 아래에 yield break가 다섯 군데나 있고, 코루틴이 중간에
+            // 멈춰도(오브젝트 파괴 등) 감소가 반드시 실행돼야 하기 때문이다. 하나라도 새면 표시가
+            // 영영 켜진 채로 굳는다.
+            LlmRequestMonitor.Begin();
+            try
             {
-                tcs.SetException(new LlmTransportException("API 키가 설정되어 있지 않습니다 (환경 변수 또는 로컬 개발 설정을 확인하세요)."));
-                yield break;
-            }
-
-            string requestBody = BuildRequestBody(prompt);
-
-            using (var request = new UnityWebRequest(config.endpoint, "POST"))
-            {
-                byte[] bodyRaw = Encoding.UTF8.GetBytes(requestBody);
-                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
-                // 중계 서버 모드에서는 Authorization을 붙이지 않는다 - 키를 클라이언트가 들고 있지
-                // 않을뿐더러, 브라우저에서 이 헤더를 붙이면 preflight(OPTIONS) 요청이 추가로 발생한다.
-                if (!config.useProxy) request.SetRequestHeader("Authorization", "Bearer " + apiKey);
-                request.timeout = Mathf.Max(1, config.timeoutSeconds);
-
-                var operation = request.SendWebRequest();
-
-                while (!operation.isDone)
+                // 중계 서버 모드에서는 키가 클라이언트에 없는 것이 정상이다 - 키는 서버가 갖고 있다.
+                if (!config.useProxy && string.IsNullOrEmpty(apiKey))
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    tcs.SetException(new LlmTransportException("API 키가 설정되어 있지 않습니다 (환경 변수 또는 로컬 개발 설정을 확인하세요)."));
+                    yield break;
+                }
+
+                string requestBody = BuildRequestBody(prompt);
+
+                using (var request = new UnityWebRequest(config.endpoint, "POST"))
+                {
+                    byte[] bodyRaw = Encoding.UTF8.GetBytes(requestBody);
+                    request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                    request.downloadHandler = new DownloadHandlerBuffer();
+                    request.SetRequestHeader("Content-Type", "application/json");
+                    // 중계 서버 모드에서는 Authorization을 붙이지 않는다 - 키를 클라이언트가 들고 있지
+                    // 않을뿐더러, 브라우저에서 이 헤더를 붙이면 preflight(OPTIONS) 요청이 추가로 발생한다.
+                    if (!config.useProxy) request.SetRequestHeader("Authorization", "Bearer " + apiKey);
+                    request.timeout = Mathf.Max(1, config.timeoutSeconds);
+
+                    var operation = request.SendWebRequest();
+
+                    while (!operation.isDone)
                     {
-                        request.Abort();
-                        tcs.SetException(new LlmTransportException("요청이 취소되었습니다.", wasCanceled: true));
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            request.Abort();
+                            tcs.SetException(new LlmTransportException("요청이 취소되었습니다.", wasCanceled: true));
+                            yield break;
+                        }
+                        yield return null;
+                    }
+
+                    if (request.result == UnityWebRequest.Result.ConnectionError ||
+                        request.result == UnityWebRequest.Result.DataProcessingError)
+                    {
+                        tcs.SetException(new LlmTransportException(
+                            $"네트워크 오류: {request.error}", request.responseCode, request.downloadHandler?.text));
                         yield break;
                     }
-                    yield return null;
-                }
 
-                if (request.result == UnityWebRequest.Result.ConnectionError ||
-                    request.result == UnityWebRequest.Result.DataProcessingError)
-                {
-                    tcs.SetException(new LlmTransportException(
-                        $"네트워크 오류: {request.error}", request.responseCode, request.downloadHandler?.text));
-                    yield break;
-                }
+                    if (request.result == UnityWebRequest.Result.ProtocolError)
+                    {
+                        tcs.SetException(new LlmTransportException(
+                            $"HTTP 오류 {request.responseCode}: {request.error}", request.responseCode, request.downloadHandler?.text));
+                        yield break;
+                    }
 
-                if (request.result == UnityWebRequest.Result.ProtocolError)
-                {
-                    tcs.SetException(new LlmTransportException(
-                        $"HTTP 오류 {request.responseCode}: {request.error}", request.responseCode, request.downloadHandler?.text));
-                    yield break;
+                    string rawBody = request.downloadHandler.text;
+                    ParseAndComplete(rawBody, request.responseCode, tcs);
                 }
-
-                string rawBody = request.downloadHandler.text;
-                ParseAndComplete(rawBody, request.responseCode, tcs);
+            }
+            finally
+            {
+                LlmRequestMonitor.End();
             }
         }
 
