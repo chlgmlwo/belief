@@ -40,6 +40,11 @@ namespace Belief.Presentation.HUD
         [SerializeField] Image profileTabIndicator;
         [SerializeField] Image logTabIndicator;
 
+        /// <summary>탭 위에 얹히는 빨간 점 - 닫아 둔 동안 그 문서에 새로 쌓인 내용이 있다는 표시다.
+        /// 켜고 끄는 판단은 전부 HudPresenter가 한다(무엇이 "새 내용"인지는 데이터 쪽 사정이라).</summary>
+        [SerializeField] GameObject profileTabBadge;
+        [SerializeField] GameObject logTabBadge;
+
         [Header("Log Panel")]
         [SerializeField] GameObject logPanelGo;
         [SerializeField] TMP_Text logTopDialogueText;
@@ -166,6 +171,8 @@ namespace Belief.Presentation.HUD
         public Button LogTabButton => logTabButton;
         public Image ProfileTabIndicator => profileTabIndicator;
         public Image LogTabIndicator => logTabIndicator;
+        public GameObject ProfileTabBadge => profileTabBadge;
+        public GameObject LogTabBadge => logTabBadge;
 
         public GameObject LogPanelGo => logPanelGo;
         public TMP_Text LogTopDialogueText => logTopDialogueText;

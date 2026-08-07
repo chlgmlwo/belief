@@ -94,6 +94,17 @@ namespace Belief.Presentation.HUD
         static readonly Color TabActiveColor = Color.white;
         static readonly Color TabInactiveColor = new Color(0.55f, 0.52f, 0.48f, 0.75f);
 
+        // 탭 위 빨간 점 - "닫아 둔 동안 이 문서에 새 내용이 생겼다"만 뜻한다. 문서를 열어 보면
+        // 그 순간 꺼진다. 열려 있는 동안 들어온 내용은 이미 눈앞에 보이므로 점을 켜지 않는다.
+        GameObject profileTabBadgeGo;
+        GameObject logTabBadgeGo;
+        bool logUnseen;
+        bool profileUnseen;
+        // 프로필은 로그처럼 "줄이 늘었다"로 판단할 수 없다 - 같은 NPC라도 믿음 단계나 관계가 바뀌면
+        // 다시 볼 가치가 있고, 그냥 다시 그려졌을 뿐이면 아니다. 그래서 화면에 실제로 찍히는 값들을
+        // 한 줄로 이어 마지막으로 본 것과 비교한다.
+        string seenProfileSignature = "";
+
         // 월드 하단 힌트 바(BottomPanel/FeedbackBanner) - Profile/Log 패널이 열리면 우측 패널
         // 왼쪽 경계(NpcProfilePanel/LogPanel의 anchorMin.x) 전까지만 폭을 좁힌다(section 신규 지시).
         RectTransform bottomPanelRect;
@@ -660,6 +671,15 @@ namespace Belief.Presentation.HUD
             if (profileTabIndicator != null) profileTabIndicator.color = state == HudPanelState.Profile ? TabActiveColor : TabInactiveColor;
             if (logTabIndicator != null) logTabIndicator.color = state == HudPanelState.Log ? TabActiveColor : TabInactiveColor;
 
+            // 문서를 연 순간이 곧 "확인함"이다 - 여는 경로가 이 메서드 하나뿐이라 여기만 지우면 된다.
+            if (state == HudPanelState.Log) logUnseen = false;
+            if (state == HudPanelState.Profile)
+            {
+                profileUnseen = false;
+                seenProfileSignature = CurrentProfileSignature();
+            }
+            RefreshTabBadges();
+
             // Profile/Log 상태에서는 월드 하단 힌트 바가 우측 패널을 가리지 않도록 폭을 좁힌다 -
             // Default 상태에서는 원래 전체 폭으로 복원한다.
             bool rightPanelOpen = state != HudPanelState.Default;
@@ -686,6 +706,40 @@ namespace Belief.Presentation.HUD
 
         void OnProfileTabClicked() => SetHudPanelState(panelState == HudPanelState.Profile ? HudPanelState.Default : HudPanelState.Profile);
         void OnLogTabClicked() => SetHudPanelState(panelState == HudPanelState.Log ? HudPanelState.Default : HudPanelState.Log);
+
+        void RefreshTabBadges()
+        {
+            if (logTabBadgeGo != null) logTabBadgeGo.SetActive(logUnseen);
+            if (profileTabBadgeGo != null) profileTabBadgeGo.SetActive(profileUnseen);
+        }
+
+        /// <summary>프로필 패널에 지금 찍혀 있는 것 중 <b>바뀔 수 있는</b> 값만 이어 붙인다 - 태그·관계·
+        /// 배경 서사는 NPC마다 고정이라 이름 하나로 대표되고, 실제로 변하는 건 믿음 단계뿐이다.
+        /// 아직 아무도 고르지 않았으면 빈 문자열이라 시작 시점에는 점이 켜지지 않는다.</summary>
+        string CurrentProfileSignature()
+        {
+            if (selectedNpcState == null) return "";
+            CurrentBeliefTag(selectedNpcState, out string koreanLabel, out var belief);
+            return selectedNpcState.Data.displayName + "|" + BeliefTierNumber(belief) + "|" + koreanLabel;
+        }
+
+        /// <summary>프로필을 다시 그릴 때마다 "지난번에 본 것과 달라졌는지"를 판정한다. 열려 있으면
+        /// 보고 있는 중이니 그대로 본 것으로 치고, 닫혀 있으면 점을 켠다.</summary>
+        void TrackProfileBadge()
+        {
+            string signature = CurrentProfileSignature();
+            if (panelState == HudPanelState.Profile)
+            {
+                seenProfileSignature = signature;
+                profileUnseen = false;
+            }
+            else if (signature != seenProfileSignature)
+            {
+                profileUnseen = true;
+            }
+
+            RefreshTabBadges();
+        }
 
         void RefreshAll()
         {
@@ -873,6 +927,12 @@ namespace Belief.Presentation.HUD
         }
 
         void RefreshNpcProfile()
+        {
+            RefreshNpcProfileContent();
+            TrackProfileBadge();
+        }
+
+        void RefreshNpcProfileContent()
         {
             ClearNpcRelationshipRows();
             if (npcNoneStickerGo != null) npcNoneStickerGo.SetActive(selectedNpcState == null);
@@ -1146,6 +1206,14 @@ namespace Belief.Presentation.HUD
             sb.Length = 0;
             for (int k = 0; k < logLinesBuffer.Count; k++) sb.AppendLine(logLinesBuffer[k]);
             logGeneralText.text = sb.ToString();
+
+            // 대사 줄은 위에서 걸러 냈지만 그것도 로그 문서에 남는 새 기록이다(대사 카드 쪽에 찍힌다) -
+            // 그래서 걸러진 줄까지 포함해 "새 기록이 왔다"는 신호 자체로 점을 켠다.
+            if (panelState != HudPanelState.Log)
+            {
+                logUnseen = true;
+                RefreshTabBadges();
+            }
         }
 
         readonly List<string> logLinesBuffer = new List<string>(MaxLogLines);
@@ -1171,6 +1239,12 @@ namespace Belief.Presentation.HUD
             if (logTrustPrevMarker != null) logTrustPrevMarker.gameObject.SetActive(false);
             if (logTrustDeltaSegment != null) logTrustDeltaSegment.gameObject.SetActive(false);
             lastLoggedNpcState = null;
+
+            // 기록을 비웠으니 "안 본 새 기록"도 없다 - 안 지우면 미션을 새로 시작해도 점이 남는다.
+            logUnseen = false;
+            profileUnseen = false;
+            seenProfileSignature = CurrentProfileSignature();
+            RefreshTabBadges();
         }
 
         /// <summary>눈금 전체(선 + 양 끝 라벨 + 표식)를 한 번에 여닫는다.</summary>
@@ -1586,6 +1660,8 @@ namespace Belief.Presentation.HUD
             logTabButton = view.LogTabButton;
             profileTabIndicator = view.ProfileTabIndicator;
             logTabIndicator = view.LogTabIndicator;
+            profileTabBadgeGo = view.ProfileTabBadge;
+            logTabBadgeGo = view.LogTabBadge;
 
             logPanelGo = view.LogPanelGo;
             logTopDialogueText = view.LogTopDialogueText;
