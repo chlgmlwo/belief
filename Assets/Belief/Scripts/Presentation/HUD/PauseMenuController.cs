@@ -53,6 +53,9 @@ namespace Belief.Presentation.HUD
         {
             if (pauseButton != null) pauseButton.onClick.AddListener(Open);
             if (resumeButton != null) resumeButton.onClick.AddListener(Close);
+            // 여닫는 소리가 따로 나므로 공용 클릭음은 끈다 - 겹치면 두 번 누른 것처럼 들린다.
+            SfxPlayer.Mute(pauseButton);
+            SfxPlayer.Mute(resumeButton);
             if (soundButton != null) soundButton.onClick.AddListener(() => ShowPage(false));
             if (soundBackButton != null) soundBackButton.onClick.AddListener(() => ShowPage(true));
             if (mainMenuButton != null) mainMenuButton.onClick.AddListener(GoToMainMenu);

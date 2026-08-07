@@ -1197,7 +1197,7 @@ namespace Belief.Presentation.HUD
         /// 그 장소 사진 오른쪽에 띄운다(사용자 지시로 클릭 대신 호버 트리거).</summary>
         void OnLocationHoverEnter(LocationData location)
         {
-            SfxPlayer.Play(Sfx.LocationHover);
+            // 소리 없음 - 지도를 훑기만 해도 계속 울려서 뺐다(사용자 지시).
             selectedLocationData = location;
             RefreshLocationNote();
             PositionLocationNote(location);

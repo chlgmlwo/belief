@@ -74,6 +74,8 @@ namespace Belief.Presentation.HUD
 
             view.LaunchButton.onClick.AddListener(Dismiss);
             view.BackButton.onClick.AddListener(GoToMainMenu);
+            // 작전 개시는 도장 소리가 따로 나므로 공용 클릭음은 끈다.
+            SfxPlayer.Mute(view.LaunchButton);
         }
 
         /// <summary>이 구역의 GOAL 제목 목록. StageData.missions와 ProgressionData.objectives는 같은

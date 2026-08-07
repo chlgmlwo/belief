@@ -38,11 +38,6 @@ MonoBehaviour:
     volume: 2.8199847
     startTime: 0.62
     maxLength: 1.5
-  - kind: 6
-    clip: {fileID: 8300000, guid: 393e93dc78698804d84e4ccd2caf0422, type: 3}
-    volume: 4
-    startTime: 0
-    maxLength: 1.2277551
   - kind: 7
     clip: {fileID: 8300000, guid: 5830ccb509cc9874590ac418dad7a91c, type: 3}
     volume: 0.6577603

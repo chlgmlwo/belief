@@ -126,7 +126,12 @@ namespace Belief.Presentation.HUD
         {
             canvasGroup = GetComponent<CanvasGroup>();
             if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
-            if (button != null) button.onClick.AddListener(() => Clicked?.Invoke(BoundCard));
+            if (button != null)
+            {
+                button.onClick.AddListener(() => Clicked?.Invoke(BoundCard));
+                // 카드에는 카드 고르는 소리가 따로 있으므로 버튼 공용 클릭음은 끈다 - 둘이 겹쳐 울린다.
+                Belief.Core.SfxPlayer.Mute(button);
+            }
         }
 
         public void Bind(InformationCardData card, bool selected)

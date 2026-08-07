@@ -60,6 +60,10 @@ namespace Belief.Presentation.Mockup
 
             Wire(profileTabButton, HandleProfileTabClicked);
             Wire(logTabButton, HandleLogTabClicked);
+
+            // 문서를 펼치는 소리가 따로 나므로 공용 클릭음은 끈다.
+            Belief.Core.SfxPlayer.Mute(profileTabButton);
+            Belief.Core.SfxPlayer.Mute(logTabButton);
         }
 
         static void Wire(Button button, UnityEngine.Events.UnityAction action)

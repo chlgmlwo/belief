@@ -145,11 +145,28 @@ namespace Belief.Core
         {
             if (button == null || button.GetComponent<SfxClickMarker>() != null) return;
             button.gameObject.AddComponent<SfxClickMarker>();
-            button.onClick.AddListener(() => Play(Sfx.Click));
+            // 판정을 누르는 순간에 하는 이유는 순서 때문이다. 씬에 놓인 버튼은 훑기보다 Awake가
+            // 먼저지만 런타임에 만든 버튼은 반대라, 걸 때 검사하면 이미 걸린 것을 되돌리지 못한다.
+            button.onClick.AddListener(() =>
+            {
+                if (button != null && button.GetComponent<SfxClickMute>() == null) Play(Sfx.Click);
+            });
+        }
+
+        /// <summary>이 버튼에는 공용 클릭음을 내지 않는다 - 자기 소리를 따로 가진 버튼(카드 등)이
+        /// 두 소리를 겹쳐 내지 않게 한다.</summary>
+        public static void Mute(Button button)
+        {
+            if (button != null && button.GetComponent<SfxClickMute>() == null)
+                button.gameObject.AddComponent<SfxClickMute>();
         }
     }
 
     /// <summary>클릭음을 이미 건 버튼이라는 표식. 리스너는 중복 등록을 스스로 막지 못한다.</summary>
     [DisallowMultipleComponent]
     public class SfxClickMarker : MonoBehaviour { }
+
+    /// <summary>공용 클릭음을 내지 않는 버튼이라는 표식.</summary>
+    [DisallowMultipleComponent]
+    public class SfxClickMute : MonoBehaviour { }
 }
