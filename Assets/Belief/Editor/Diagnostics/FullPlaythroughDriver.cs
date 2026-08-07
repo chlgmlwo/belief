@@ -93,12 +93,37 @@ namespace Belief.EditorTools.Diagnostics
         static double resultShownAt = -1;
         static bool capturedThisResult, clickedThisResult;
 
+        /// <summary>플레이 도중 터진 예외·오류. 콘솔은 이 도구 자신의 진행 기록으로 금세 덮여
+        /// 나중에 뒤져도 남아 있지 않으므로, 도는 동안 붙잡아 로그에 함께 남긴다.
+        /// 같은 오류가 매 프레임 쏟아지는 경우가 흔해 첫 줄 기준으로 중복을 접는다.</summary>
+        static readonly Dictionary<string, int> caughtErrors = new Dictionary<string, int>();
+        const int MaxDistinctErrors = 30;
+
         static FullPlaythroughDriver()
         {
             EditorApplication.update -= OnUpdate;
             EditorApplication.update += OnUpdate;
             EditorApplication.playModeStateChanged -= OnPlayModeChanged;
             EditorApplication.playModeStateChanged += OnPlayModeChanged;
+            Application.logMessageReceived -= OnLogMessage;
+            Application.logMessageReceived += OnLogMessage;
+        }
+
+        static void OnLogMessage(string condition, string stack, LogType type)
+        {
+            if (!EditorPrefs.GetBool(ActiveKey, false)) return;
+            if (type != LogType.Error && type != LogType.Exception && type != LogType.Assert) return;
+
+            string key = condition.Split('\n')[0];
+            if (key.Length > 200) key = key.Substring(0, 200);
+            if (caughtErrors.ContainsKey(key)) { caughtErrors[key]++; return; }
+            if (caughtErrors.Count >= MaxDistinctErrors) return;
+
+            caughtErrors[key] = 1;
+            // 첫 발생만 스택과 함께 남긴다 - 같은 오류의 반복은 개수만 세어 끝에서 보고한다.
+            Report($"  !! [{type}] {key}");
+            string firstFrame = stack != null ? stack.Split('\n')[0] : "";
+            if (!string.IsNullOrEmpty(firstFrame)) Report("       " + firstFrame);
         }
 
         [MenuItem("BELIEF/Diagnostics/전체 플레이 자동 진행", priority = 130)]
@@ -140,6 +165,7 @@ namespace Belief.EditorTools.Diagnostics
 
             pending = null;
             resultShownAt = -1; capturedThisResult = false; clickedThisResult = false;
+            caughtErrors.Clear();
             MoveCount = 0; CardIndex = 0; TargetIndex = 0; Shots = 0;
             LastMissionId = "";
             SessionState.SetString(KeyRetries, "");
@@ -158,6 +184,10 @@ namespace Belief.EditorTools.Diagnostics
             if (!EditorPrefs.GetBool(ActiveKey, false)) return;
             EditorPrefs.SetBool(ActiveKey, false);
             Report($"=== 종료: {reason} (진행 {MoveCount}수, 스크린샷 {Shots}장) ===");
+            if (caughtErrors.Count == 0) Report("    오류/예외 없음");
+            else
+                foreach (var pair in caughtErrors.OrderByDescending(p => p.Value))
+                    Report($"    오류 x{pair.Value}: {pair.Key}");
             Report($"    LLM 호출 {IntegratedLlmPilotSession.CallsUsed}회 / 거부 {IntegratedLlmPilotSession.CallsDenied}회"
                    + $" / 모드 {IntegratedLlmPilotSession.RunMode}");
             if (Application.isPlaying) EditorApplication.isPlaying = false;
@@ -278,8 +308,15 @@ namespace Belief.EditorTools.Diagnostics
                     }
                 }
 
-                if (view.ResultPrimaryButton == null) { Stop("리포트의 진행 버튼을 찾을 수 없습니다"); return; }
-                view.ResultPrimaryButton.onClick.Invoke();
+                // 엔딩 화면에는 진행 버튼이 없다 - 남는 행동이 [메인 화면] 하나뿐이라 진행 탭은
+                // 글자 없는 탭으로 덮이고 버튼도 잠긴다. 그때는 보조 버튼을 눌러야 한다.
+                // (이걸 몰라 빈 버튼만 계속 누르며 엔딩 화면에서 무한히 맴돌았다.)
+                var button = view.ResultPrimaryButton != null && view.ResultPrimaryButton.interactable
+                    ? view.ResultPrimaryButton
+                    : view.ResultSecondaryButton;
+                if (button == null) { Stop("리포트의 진행 버튼을 찾을 수 없습니다"); return; }
+                if (button == view.ResultSecondaryButton) Report("  (진행 버튼이 없어 [메인 화면]을 누릅니다 - 엔딩)");
+                button.onClick.Invoke();
                 clickedThisResult = true;
                 return;
             }
