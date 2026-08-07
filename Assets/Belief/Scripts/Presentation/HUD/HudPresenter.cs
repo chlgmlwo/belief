@@ -212,6 +212,8 @@ namespace Belief.Presentation.HUD
 
         /// <summary>TutorialController가 카드 타일을 반복 Highlight하기 위해 읽는다.</summary>
         public IEnumerable<CardTileView> OwnedCardTiles => ownedTiles.Values;
+        /// <summary>HUD 캔버스의 루트 - 플레이 가이드가 설명할 자리를 경로로 찾을 때 쓴다.</summary>
+        public Transform CanvasRoot => canvasRoot;
 
         /// <summary>TutorialController가 "정보원에게 전달" 버튼을 강조하기 위해 읽는다 - 접선 지점이
         /// 있는 스테이지에서는 이 버튼이 항상 꺼져 있으므로 아래 ContactPointView 쪽이 쓰인다.</summary>
@@ -561,13 +563,16 @@ namespace Belief.Presentation.HUD
         /// <summary>Main Menu -> 게임 시작 -> Zone01(City) -> Zone Intro Popup -> Mission 시작 순서의
         /// 마지막 단계 - Intro Popup이 끝나 입력이 가능해지는 바로 그 시점에 시작한다. Zone01(첫 구역)이고
         /// 아직 완료 기록이 없는 최초 플레이에서만 실행되며, 두 번째 플레이부터는 아무 것도 하지 않는다.</summary>
+        /// <summary>처음 1구역에 들어왔을 때 한 번만 도는 플레이 가이드. 브리핑이 닫히기를 기다렸다
+        /// 스스로 시작하므로 여기서는 붙이기만 한다.</summary>
         void MaybeStartTutorial()
         {
-            if (TutorialController.IsCompleted) return;
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "City") return;
+            if (PlayGuideOverlay.IsCompleted) return;
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Zone1") return;
 
-            var tutorial = gameObject.AddComponent<TutorialController>();
-            tutorial.Begin(installer, targeting, this, canvasRoot, koreanFont);
+            var guide = gameObject.AddComponent<PlayGuideOverlay>();
+            guide.Begin(this, worldPresenter, GetComponent<StageBriefingPresenter>(),
+                koreanFont, skin != null ? skin.guideInformant : null);
         }
 
         void EnsurePlaybackDirector()

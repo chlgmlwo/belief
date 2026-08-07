@@ -82,6 +82,10 @@ namespace Belief.Data
         /// <summary>엔딩 전용 성공 패널 - 성공 패널에서 "사용한 기간" 쪽지·DAY 메모·빈 꼬리표를
         /// 지운 것이다. 데모가 끝난 화면에는 다음 작전을 전제로 한 서식이 남아 있으면 안 된다.</summary>
         public Sprite endingPanel;
+
+        [Header("Play Guide")]
+        /// <summary>플레이 가이드에서 말하는 정보원 - 게임 안에서는 등장하지 않는 화자다.</summary>
+        public Sprite guideInformant;
         public Sprite successPhotoFrame;
         public Sprite failurePhotoFrame;
     }

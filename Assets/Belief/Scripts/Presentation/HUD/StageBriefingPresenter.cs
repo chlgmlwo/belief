@@ -29,6 +29,10 @@ namespace Belief.Presentation.HUD
         GameObject canvasGo;
         CanvasGroup canvasGroup;
 
+        /// <summary>브리핑이 아직 화면을 덮고 있는지 - 플레이 가이드가 이것이 내려간 뒤에 시작한다
+        /// (둘 다 전체 화면이라 겹치면 서로를 가린다).</summary>
+        public bool IsShowing => canvasGo == null || canvasGo.activeSelf;
+
         void Start()
         {
             EnsureEventSystem();
