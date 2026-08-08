@@ -210,6 +210,18 @@ namespace Belief.Systems
             }
         }
 
+        /// <summary>동기판. 주로 이벤트 발행을 감싼다 - GameEventBus는 멀티캐스트 델리게이트라
+        /// 구독자 하나가 던지면 (1) 뒤에 등록된 구독자가 아예 호출되지 않고 (2) 예외가 발행한
+        /// 쪽으로 그대로 올라와 이 클래스의 남은 턴 처리까지 끊어 버린다.</summary>
+        static void Safe(Action body, string what)
+        {
+            try { body(); }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogError($"[TurnSystem] {what} 처리 중 예외가 발생했습니다(턴 마무리는 계속합니다): {ex}");
+            }
+        }
+
         /// <summary>BELIEF MVP는 턴을 구역 단위가 아니라 미션 단위로 관리한다 - 미션 하나가 끝나고
         /// 같은 구역 안에서 다음 미션이 시작될 때(씬 재로드 없이) 호출된다. 구역 내 NPC 위치/Belief/
         /// 전달 기록/보유 카드처럼 세계 상태에 속하는 것은 전혀 건드리지 않고, 턴 진행 상태만 새 미션
@@ -356,12 +368,7 @@ namespace Belief.Systems
             // 구독자(ProgressionController가 여기서 이번 턴의 결과를 확정한다) 하나가 던져도 그 뒤의
             // 턴 증가/보충까지 함께 날아가서는 안 된다. resetRequestedThisTurn은 예외가 나기 전까지
             // 구독자가 설정한 값 그대로 남으므로, 아래 판단은 평소와 같은 규칙으로 이어진다.
-            try { eventBus.Publish(new TurnEndedEvent(CurrentTurn, instantFail)); }
-            catch (Exception ex)
-            {
-                UnityEngine.Debug.LogError($"[TurnSystem] 턴 종료 이벤트 처리 중 예외가 발생했습니다"
-                    + $"(턴 마무리는 계속합니다): {ex}");
-            }
+            Safe(() => eventBus.Publish(new TurnEndedEvent(CurrentTurn, instantFail)), "턴 종료 알림");
 
             // TurnEndedEvent 구독자(ProgressionController)가 이번 턴에 성공/실패/즉시실패/턴소진 중
             // 하나를 확정하며 FreezeTurnAdvance(또는 그 결과로 ResetForNewMission)를 호출했다면, 그
@@ -380,8 +387,12 @@ namespace Belief.Systems
 
             if (!IsGameOver)
             {
-                cards.RefillIfNeeded();
-                eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns));
+                // 둘을 따로 감싼다 - 보충이 실패해도 턴 시작 신호는 나가야 하고, 반대로 보충 도중
+                // 구독자(카드 지급 알림을 받는 HUD)가 던져도 턴 시작 신호가 함께 날아가서는 안 된다.
+                // HUD는 이 신호로만 손패를 다시 그리므로, 이게 빠지면 카드는 뽑혔는데 화면의 손패에는
+                // 나타나지 않는다 - "드로우가 안 됐다"로 보이는 상태가 정확히 이것이다.
+                Safe(() => cards.RefillIfNeeded(), "손패 보충");
+                Safe(() => eventBus.Publish(new TurnStartedEvent(CurrentTurn, MaxTurns)), "턴 시작 알림");
             }
             else if (ExternallyJudged)
             {
