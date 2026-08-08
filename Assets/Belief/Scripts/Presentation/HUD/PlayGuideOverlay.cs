@@ -33,9 +33,16 @@ namespace Belief.Presentation.HUD
         static readonly Color MutedInk = new Color(0.42f, 0.39f, 0.37f, 1f);
         static readonly Color LinkColor = new Color(0.706f, 0.259f, 0.259f, 1f);
 
+        /// <summary>밝힌 자리를 두르는 테두리 색. 덮개가 주변을 82%까지 눌러 놓으므로 밝은 종이색
+        /// 한 겹이면 어떤 배경 위에서도 경계가 또렷하게 읽힌다.</summary>
+        static readonly Color FrameColor = new Color(0.98f, 0.94f, 0.86f, 1f);
+
         /// <summary>구멍을 대상보다 넉넉하게 낸다. 딱 맞게 내면 테두리가 잘려 보이고, 클릭 판정이
         /// 그려진 그림보다 작은 자리(탭이 그렇다)는 정작 설명할 그림이 덮개에 가려진다.</summary>
         const float SpotlightPadding = 34f;
+
+        /// <summary>테두리 두께. 구멍 <b>바깥쪽</b>으로 그리므로 설명할 그림을 덮지 않는다.</summary>
+        const float FrameThickness = 6f;
         const float FadeDuration = 0.22f;
 
         const float InformantSize = 250f;
@@ -64,6 +71,7 @@ namespace Belief.Presentation.HUD
         RectTransform canvasRect;
         CanvasGroup group;
         RectTransform dimTop, dimBottom, dimLeft, dimRight;
+        RectTransform frameTop, frameBottom, frameLeft, frameRight;
         RectTransform informantRect, bubbleRect, tailRect;
         TMP_Text bodyText, counterText;
         GameObject skipGo;
@@ -331,6 +339,7 @@ namespace Belief.Presentation.HUD
                 Place(dimBottom, 0, 0, 0, 0);
                 Place(dimLeft, 0, 0, 0, 0);
                 Place(dimRight, 0, 0, 0, 0);
+                ShowFrame(false);
                 PlaceSpeaker(bottom: true);
                 return;
             }
@@ -341,8 +350,25 @@ namespace Belief.Presentation.HUD
             Place(dimLeft, full.xMin, h.yMin, h.xMin, h.yMax);
             Place(dimRight, h.xMax, h.yMin, full.xMax, h.yMax);
 
+            // 테두리 - 구멍 바깥으로 한 겹 두른다. 위/아래 줄이 모서리까지 덮도록 좌우로 두께만큼
+            // 더 뻗어 나가야 네 귀퉁이가 비지 않는다.
+            const float t = FrameThickness;
+            ShowFrame(true);
+            Place(frameTop, h.xMin - t, h.yMax, h.xMax + t, h.yMax + t);
+            Place(frameBottom, h.xMin - t, h.yMin - t, h.xMax + t, h.yMin);
+            Place(frameLeft, h.xMin - t, h.yMin, h.xMin, h.yMax);
+            Place(frameRight, h.xMax, h.yMin, h.xMax + t, h.yMax);
+
             // 설명 자리가 아래쪽이면 정보원이 그 위를 가리지 않도록 위로 올라간다.
             PlaceSpeaker(bottom: h.center.y > full.center.y);
+        }
+
+        void ShowFrame(bool visible)
+        {
+            frameTop.gameObject.SetActive(visible);
+            frameBottom.gameObject.SetActive(visible);
+            frameLeft.gameObject.SetActive(visible);
+            frameRight.gameObject.SetActive(visible);
         }
 
         Rect ToCanvas(Rect screenRect)
@@ -418,6 +444,13 @@ namespace Belief.Presentation.HUD
             dimBottom = NewImage("DimBottom", canvasRect, DimColor).rectTransform;
             dimLeft = NewImage("DimLeft", canvasRect, DimColor).rectTransform;
             dimRight = NewImage("DimRight", canvasRect, DimColor).rectTransform;
+
+            // 덮개보다 뒤에 만들어야 테두리가 그 위에 그려진다 - 테두리는 구멍 경계에 딱 붙어 있어서
+            // 덮개가 위에 오면 두께가 통째로 먹힌다.
+            frameTop = NewImage("FrameTop", canvasRect, FrameColor).rectTransform;
+            frameBottom = NewImage("FrameBottom", canvasRect, FrameColor).rectTransform;
+            frameLeft = NewImage("FrameLeft", canvasRect, FrameColor).rectTransform;
+            frameRight = NewImage("FrameRight", canvasRect, FrameColor).rectTransform;
 
             var informant = NewImage("Informant", canvasRect, Color.white);
             informant.sprite = informantSprite;

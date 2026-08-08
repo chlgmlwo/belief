@@ -19,10 +19,13 @@ namespace Belief.Presentation.Mockup
         [SerializeField] HandCardSelectionController handController;
 
         GameInstaller installer;
+        Belief.Presentation.TargetingController targeting;
 
         void Start()
         {
             installer = FindFirstObjectByType<GameInstaller>();
+            // 손패를 눌러 둘지 판단하려고 읽기만 한다 - 이 브리지는 여전히 어떤 게임 상태도 바꾸지 않는다.
+            targeting = FindFirstObjectByType<Belief.Presentation.TargetingController>();
         }
 
         readonly List<InformationCardData> lastOwned = new List<InformationCardData>();
@@ -34,6 +37,13 @@ namespace Belief.Presentation.Mockup
         void LateUpdate()
         {
             if (installer == null || installer.Turns == null || proxyContainer == null) return;
+
+            // 잠금 표시는 아래 어떤 조기 반환보다도 먼저 건다 - 카드를 내면 곧바로 소멸 연출이
+            // 시작되면서(그 동안 아래에서 return한다) 전달 처리도 함께 시작되므로, 뒤에 두면 정작
+            // 잠긴 그 순간에 표시가 안 걸린다. SetLocked는 값이 바뀔 때만 실제로 움직인다.
+            bool locked = targeting != null && targeting.IsDelivering;
+            foreach (var slot in slots)
+                if (slot != null) slot.MockupView.SetLocked(locked);
 
             // 사용된 카드가 아래로 빠지는 동안에는 슬롯을 건드리지 않는다 - 지금 다시 칠하면
             // 떨어지는 카드가 이미 다음 카드의 내용으로 바뀌어 엉뚱한 카드가 떨어진다.

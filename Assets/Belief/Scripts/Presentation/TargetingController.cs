@@ -154,6 +154,14 @@ namespace Belief.Presentation
             {
                 await Execute();
             }
+            catch (Exception ex)
+            {
+                // 여기까지 예외가 올라오면 Execute 안의 Reset()이 실행되지 못한 것이다 - 골라 둔 대상의
+                // 강조와 AwaitingConfirm 단계가 그대로 남아 지도가 이상한 상태로 굳는다. 되돌려 준다.
+                // (async void라 이걸 잡지 않으면 예외가 그대로 밖으로 나가기도 한다.)
+                Debug.LogError($"[Targeting] 전달 처리 중 예외가 발생했습니다: {ex}");
+                Reset();
+            }
             finally
             {
                 IsDelivering = false;

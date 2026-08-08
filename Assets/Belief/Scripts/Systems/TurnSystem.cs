@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Belief.Data;
@@ -176,7 +177,7 @@ namespace Belief.Systems
 
             var card = SelectedCard;
             cards.Deliver(card, CurrentTurn);
-            await delivery.ExposeCardAtLocationAsync(card, location);
+            await SafeAsync(() => delivery.ExposeCardAtLocationAsync(card, location), "정보 확산");
             await FinishTurnAsync();
             return true;
         }
@@ -187,9 +188,26 @@ namespace Belief.Systems
 
             var card = SelectedCard;
             cards.Deliver(card, CurrentTurn);
-            await delivery.DeliverCardToNpcAsync(card, target);
+            await SafeAsync(() => delivery.DeliverCardToNpcAsync(card, target), "정보 전달");
             await FinishTurnAsync();
             return true;
+        }
+
+        /// <summary><b>카드는 이미 손패에서 빠진 뒤다</b>(위 두 메서드가 await보다 먼저 Deliver를 부른다).
+        /// 그래서 이 구간에서 예외가 새어 나가면 <see cref="FinishTurnAsync"/>에 영영 도달하지 못하고,
+        /// 보충도 턴 증가도 일어나지 않은 채 손패만 한 장 줄어든 상태로 굳는다 - 다시 카드를 낼수록
+        /// 3장, 2장으로 계속 깎였다. LLM 계층은 자체 폴백으로 예외를 삼키지만 그 바깥(효과 적용·
+        /// 재확산·기억 갱신)에는 아무 보호가 없었다.
+        ///
+        /// 그래서 확산/전달이 실패해도 턴 마무리는 반드시 진행한다 - 그 턴의 세계 변화가 일부
+        /// 누락되는 것이, 손패가 말라 죽는 것보다 훨씬 낫다. 원인은 Console에 남긴다.</summary>
+        static async Task SafeAsync(Func<Task> body, string what)
+        {
+            try { await body(); }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogError($"[TurnSystem] {what} 처리 중 예외가 발생했습니다(턴 마무리는 계속합니다): {ex}");
+            }
         }
 
         /// <summary>BELIEF MVP는 턴을 구역 단위가 아니라 미션 단위로 관리한다 - 미션 하나가 끝나고
@@ -309,20 +327,41 @@ namespace Belief.Systems
 
         async Task FinishTurnAsync()
         {
-            // 예전에는 여기서 Minor NPC만 확률적으로 무작위 배회시키는 별도 처리가 먼저 돌았다.
-            // NPC 등급 구분을 없애면서 모든 NPC가 아래 한 경로(판단 기반 이동)로 통일됐다.
-            await movement.MoveNpcsAsync(allNpcs.Values, CurrentTurn);
-            mission.Evaluate(BuildMissionContext());
+            // 이동/평가가 실패해도 아래 턴 마무리(선택 해제·보충·턴 증가·TurnStartedEvent)에는 반드시
+            // 도달해야 한다 - 여기서 예외가 새면 카드는 이미 빠졌는데 다음 턴이 시작되지 않아 손패가
+            // 그대로 줄어든 채 멈춘다(SafeAsync 주석 참고). 실패한 처리는 이번 턴만 건너뛴다.
+            bool instantFail = false;
+            try
+            {
+                // 예전에는 여기서 Minor NPC만 확률적으로 무작위 배회시키는 별도 처리가 먼저 돌았다.
+                // NPC 등급 구분을 없애면서 모든 NPC가 아래 한 경로(판단 기반 이동)로 통일됐다.
+                await movement.MoveNpcsAsync(allNpcs.Values, CurrentTurn);
+                mission.Evaluate(BuildMissionContext());
 
-            // 씬 레벨 즉시 실패 조건 - 계산만 여기서 하고 TurnEndedEvent에 실어 보낸다. 실제 실패
-            // 판정/GameOverEvent 발행 권한은 이 신호를 읽는 ProgressionController에 있다(최종 판정
-            // 권한 단일화) - TurnSystem은 더 이상 이 조건만으로 직접 GameOverEvent를 끝내지 않는다.
-            bool instantFail = instantFailCondition != null &&
-                instantFailCondition.GetCurrentProgress(BuildMissionContext()) >= instantFailCondition.TargetCount;
+                // 씬 레벨 즉시 실패 조건 - 계산만 여기서 하고 TurnEndedEvent에 실어 보낸다. 실제 실패
+                // 판정/GameOverEvent 발행 권한은 이 신호를 읽는 ProgressionController에 있다(최종 판정
+                // 권한 단일화) - TurnSystem은 더 이상 이 조건만으로 직접 GameOverEvent를 끝내지 않는다.
+                instantFail = instantFailCondition != null &&
+                    instantFailCondition.GetCurrentProgress(BuildMissionContext()) >= instantFailCondition.TargetCount;
+            }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogError($"[TurnSystem] 턴 종료 처리(NPC 이동/미션 평가) 중 예외가 발생했습니다"
+                    + $"(턴 마무리는 계속합니다): {ex}");
+            }
 
             SelectedCard = null;
             resetRequestedThisTurn = false;
-            eventBus.Publish(new TurnEndedEvent(CurrentTurn, instantFail));
+
+            // 구독자(ProgressionController가 여기서 이번 턴의 결과를 확정한다) 하나가 던져도 그 뒤의
+            // 턴 증가/보충까지 함께 날아가서는 안 된다. resetRequestedThisTurn은 예외가 나기 전까지
+            // 구독자가 설정한 값 그대로 남으므로, 아래 판단은 평소와 같은 규칙으로 이어진다.
+            try { eventBus.Publish(new TurnEndedEvent(CurrentTurn, instantFail)); }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogError($"[TurnSystem] 턴 종료 이벤트 처리 중 예외가 발생했습니다"
+                    + $"(턴 마무리는 계속합니다): {ex}");
+            }
 
             // TurnEndedEvent 구독자(ProgressionController)가 이번 턴에 성공/실패/즉시실패/턴소진 중
             // 하나를 확정하며 FreezeTurnAdvance(또는 그 결과로 ResetForNewMission)를 호출했다면, 그
@@ -330,9 +369,12 @@ namespace Belief.Systems
             // 권한은 ProgressionController에 있다.
             if (resetRequestedThisTurn) return;
 
-            // ---- 아래는 ProgressionController가 관여하지 않을 때(StageData 미배선 레거시/테스트
-            // 씬)만 실행되는 폴백 경로다. 정식 4개 스테이지(StageData 배선, 전부 ProgressionData에
-            // 등록됨)에서는 위 freeze가 항상 먼저 걸려 이 블록에 도달하지 않는다. ----
+            // ---- 여기부터가 <b>평범한 턴이 넘어가는 정상 경로</b>다. ProgressionController는 미션이
+            // 끝나거나(성공/실패/즉시실패/턴소진) 할 때만 freeze를 걸므로, 아무 일도 확정되지 않은
+            // 보통 턴에서는 위 return에 걸리지 않고 이리로 내려온다 - 다음 턴 카드를 뽑는
+            // RefillIfNeeded()가 바로 여기 있다. (예전 주석은 이 블록 전체를 "레거시 씬 전용 폴백"이라
+            // 적어 놨는데, 그건 아래 GameOver 판정 부분에만 해당하는 이야기다. 정식 스테이지가 이
+            // 블록에 도달하지 않는다고 믿고 지우면 손패 보충이 통째로 사라진다.) ----
             CurrentTurn++;
             StageTurn++;
 

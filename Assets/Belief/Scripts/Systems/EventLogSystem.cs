@@ -24,23 +24,26 @@ namespace Belief.Systems
 
         public EventLogSystem(IGameEventBus bus)
         {
-            bus.Subscribe<GameInitializedEvent>(OnGameInitialized);
             bus.Subscribe<TurnStartedEvent>(OnTurnStarted);
             bus.Subscribe<TurnEndedEvent>(OnTurnEnded);
             bus.Subscribe<InfoSpreadEvent>(OnInfoSpread);
             bus.Subscribe<InfoDeliveredEvent>(OnInfoDelivered);
             bus.Subscribe<CardJudgedEvent>(OnCardJudged);
-            bus.Subscribe<InformationAcquiredEvent>(OnInformationAcquired);
             bus.Subscribe<NpcRelocatedEvent>(OnNpcRelocated);
             bus.Subscribe<NpcSpokeEvent>(OnNpcSpoke);
             bus.Subscribe<WorldEventOccurred>(OnWorldEvent);
             bus.Subscribe<MissionProgressChangedEvent>(OnMissionProgressChanged);
             bus.Subscribe<MissionCompletedEvent>(OnMissionCompleted);
-            bus.Subscribe<GameOverEvent>(OnGameOver);
         }
 
-        void OnGameInitialized(GameInitializedEvent e) =>
-            Log($"BELIEF 초기화 완료 - 장소 {e.LocationCount}곳, NPC {e.NpcCount}명, 카드 {e.CardCount}장 로드됨.");
+        // 로그 문서에 남기지 않는 사건들(2026-08-08 사용자 지시). 이 문서는 "수사 중에 일어난 일"만
+        // 담는 자리라, 게임 시스템의 상태 보고는 톤을 깨고 정작 중요한 기록을 밀어낸다.
+        //   - GameInitializedEvent  : "장소 N곳, NPC N명 로드됨" 같은 부팅 보고
+        //   - InformationAcquiredEvent : 카드 지급/보충. 손패에 카드가 나타나는 것으로 이미 보이고,
+        //                             HudPresenter가 하단 안내 띠에 따로 한 번 알려 준다.
+        //   - GameOverEvent         : 승리/기간 초과. 결과 화면이 곧바로 덮으므로 완전히 중복이다.
+        // 셋 다 구독 자체를 끊었다 - Log()를 타지 않으면 Console 출력도 함께 사라지는데,
+        // 이 세 사건은 각자 이벤트를 발행하는 쪽에서 이미 추적 가능하다.
 
         /// <summary>턴 구분선 - 예전엔 `===== 턴 1 시작 =====`처럼 일반 로그와 완전히 같은 크기·색으로
         /// 나와서 수사 파일 톤과 어울리지 않고 시각적 위계도 없었다(2026-08-05 사용자 지적).
@@ -55,14 +58,6 @@ namespace Belief.Systems
         void OnInfoSpread(InfoSpreadEvent e) => Log($"'{e.Card.information.title}' 정보가 {e.Location.displayName}에 퍼졌다.");
 
         void OnInfoDelivered(InfoDeliveredEvent e) => Log($"'{e.Card.information.title}' 정보가 {e.Target.displayName}에게 전달되었다.");
-
-        void OnInformationAcquired(InformationAcquiredEvent e)
-        {
-            if (e.Cards.Count == 0) return;
-            Log(e.IsInitialSupply
-                ? $"정보 {e.Cards.Count}개를 지급받았다."
-                : $"보유 정보가 부족해 새로운 정보 {e.Cards.Count}개를 획득했다.");
-        }
 
         void OnNpcRelocated(NpcRelocatedEvent e) =>
             Log($"{KoreanParticle.WithSubject(e.Npc.displayName)} " +
@@ -102,8 +97,6 @@ namespace Belief.Systems
         }
 
         void OnMissionCompleted(MissionCompletedEvent e) => Log("임무 성공!");
-
-        void OnGameOver(GameOverEvent e) => Log(e.Won ? "게임 종료 - 승리" : "게임 종료 - 제한 기간 초과");
 
         /// <summary>
         /// 로그 한 줄을 남기고 구독자(Presentation)에게 알린다.

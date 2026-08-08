@@ -29,6 +29,10 @@ namespace Belief.Presentation.Mockup
         /// 조명을 받은 것처럼 살짝 물들인다.</summary>
         static readonly Color HoverTint = new Color(1f, 0.95f, 0.82f);
 
+        /// <summary>전달 처리 중 손패가 입력을 받지 않는 동안 눌러 두는 색. 카드 아트가 흰색 곱셈이라
+        /// 이 값이 그대로 "덜 밝은 종이"로 보인다.</summary>
+        static readonly Color LockedTint = new Color(0.60f, 0.58f, 0.56f);
+
         /// <summary>이번 턴에 쓴 카드가 아래로 빠지는 연출. 카드 높이(230)보다 넉넉히 내려야
         /// 화면 밖으로 완전히 사라진다.</summary>
         public const float ConsumeDuration = 0.32f;
@@ -38,6 +42,7 @@ namespace Belief.Presentation.Mockup
         float selectedScale = 1f;
         int collapsedSiblingIndex;
         bool hovered;
+        bool locked;
         Image background;
         CanvasGroup canvasGroup;
 
@@ -61,6 +66,23 @@ namespace Belief.Presentation.Mockup
 
         public void OnPointerEnter(PointerEventData eventData) => SetHovered(true);
         public void OnPointerExit(PointerEventData eventData) => SetHovered(false);
+
+        /// <summary>전달이 처리되는 동안 손패 전체를 눌러 둔다 - 이 구간은 LLM이 붙으면 수십 초까지
+        /// 가는데, 예전에는 카드가 평소와 똑같이 보이고 호버까지 되면서 클릭만 조용히 무시돼
+        /// "카드가 죽었다"로 읽혔다.
+        ///
+        /// <b>레이캐스트는 일부러 살려 둔다.</b> 클릭이 막히는 게 아니라 HudPresenter까지 가서
+        /// "전달하는 중입니다"라고 답해야 하기 때문이다 - 여기서 raycast를 끄면 그 안내도 사라진다.</summary>
+        public void SetLocked(bool value)
+        {
+            if (locked == value) return;
+            locked = value;
+            StartStateTween(HoverAnimDuration);
+        }
+
+        /// <summary>눌려 있는 동안에는 커서를 올려도 카드가 따라 올라오지 않는다 - 올라오면 "지금
+        /// 고를 수 있다"는 신호가 되어 잠금 표시와 정면으로 어긋난다.</summary>
+        bool HoverActive => hovered && !locked;
 
         void SetHovered(bool value)
         {
@@ -140,7 +162,10 @@ namespace Belief.Presentation.Mockup
             cardRoot.anchoredPosition = CollapsedPosition;
             cardRoot.localScale = Vector3.one;
             cardRoot.SetSiblingIndex(collapsedSiblingIndex);
-            if (background != null) background.color = Color.white;
+            // 흰색으로 못 박지 않는다 - 낙하가 도는 동안 손패가 잠겼을 수 있고(카드를 내면 바로
+            // 전달 처리가 시작되므로 사실상 항상 그렇다), 그러면 이 자리를 물려받는 다음 카드만
+            // 혼자 밝게 남는다.
+            SettleTint();
             canvasGroup.alpha = 1f;
             moveRoutine = null;
             consuming = false;
@@ -166,6 +191,7 @@ namespace Belief.Presentation.Mockup
         {
             EnsureCanvasGroup();
             canvasGroup.alpha = 1f;
+            SettleTint();
             Vector2 from = CollapsedPosition + new Vector2(xOffset, 0f);
             float t = 0f;
             while (t < 1f)
@@ -176,7 +202,20 @@ namespace Belief.Presentation.Mockup
                 yield return null;
             }
             cardRoot.anchoredPosition = CollapsedPosition;
+            SettleTint();
             moveRoutine = null;
+        }
+
+        /// <summary>색을 지금 있어야 할 값으로 즉시 맞춘다.
+        ///
+        /// 등장/이동 연출은 <b>색을 다루지 않으면서도</b> moveRoutine 자리를 빼앗아 색 트윈을 죽인다.
+        /// 실제로 그래서 새로 뽑힌 카드만 잠금 회색에 굳었다 - 전달이 끝나 SetLocked(false)가 흰색
+        /// 복귀 트윈을 시작한 바로 그 LateUpdate에서, 같은 프레임에 채워진 새 카드의 PlayDrawn이
+        /// 그 트윈을 한 프레임도 돌기 전에 중단시킨다(색은 LockedTint 그대로, 되돌릴 사람 없음).
+        /// 내용이 그대로인 옆 카드들은 연출을 걸지 않으니 멀쩡히 흰색으로 돌아와, 그 한 장만 떠 보였다.</summary>
+        void SettleTint()
+        {
+            if (background != null) background.color = TargetTint();
         }
 
         /// <summary>새로 뽑힌 카드가 손패에 채워지는 연출 - 밑에서 살짝 올라오며 나타난다.</summary>
@@ -190,6 +229,7 @@ namespace Belief.Presentation.Mockup
         IEnumerator DrawRoutine()
         {
             EnsureCanvasGroup();
+            SettleTint();
             Vector2 from = CollapsedPosition + new Vector2(0f, -DrawRiseDistance);
             float t = 0f;
             while (t < 1f)
@@ -204,6 +244,7 @@ namespace Belief.Presentation.Mockup
             cardRoot.anchoredPosition = CollapsedPosition;
             cardRoot.localScale = Vector3.one;
             canvasGroup.alpha = 1f;
+            SettleTint();
             moveRoutine = null;
         }
 
@@ -233,11 +274,11 @@ namespace Belief.Presentation.Mockup
         /// <summary>지금 상태에서 카드가 있어야 할 자리. 호버 상승은 선택 상승 위에 더해진다 -
         /// 선택된 카드를 가리켰을 때도 반응이 없으면 "이건 못 누르나" 싶어진다.</summary>
         Vector2 TargetPosition() =>
-            (IsSelected ? ExpandedPosition : CollapsedPosition) + new Vector2(0f, hovered ? HoverRaise : 0f);
+            (IsSelected ? ExpandedPosition : CollapsedPosition) + new Vector2(0f, HoverActive ? HoverRaise : 0f);
 
-        float TargetScale() => (IsSelected ? selectedScale : 1f) * (hovered ? HoverScaleMultiplier : 1f);
+        float TargetScale() => (IsSelected ? selectedScale : 1f) * (HoverActive ? HoverScaleMultiplier : 1f);
 
-        Color TargetTint() => hovered ? HoverTint : Color.white;
+        Color TargetTint() => locked ? LockedTint : (HoverActive ? HoverTint : Color.white);
 
         /// <summary>선택과 호버가 각자 코루틴을 돌리면 둘 다 매 프레임 같은 위치/크기에 써서 나중에
         /// 시작된 쪽만 남는다(선택된 카드를 가리켰다 떼면 카드가 내려앉는 식). 그래서 어느 쪽이

@@ -1652,7 +1652,15 @@ namespace Belief.Presentation.HUD
         /// 방금 보낸 카드와 화면에 펼쳐진 카드가 어긋난다.</summary>
         void OnCardClicked(InformationCardData card)
         {
-            if (targeting != null && targeting.IsDelivering) return;
+            // 예전엔 여기서 조용히 버렸다. 그런데 이 구간(전달 확정 -> NPC 전원 판단 -> 재확산 ->
+            // 이동 -> 미션 평가)은 LLM이 켜지면 수 초에서 수십 초까지 간다. 그동안 카드는 겉보기에
+            // 멀쩡한데 눌러도 아무 반응이 없어서 "카드가 죽었다"로 읽혔다 - 왜 안 되는지 말해 준다.
+            // (손패를 눌러 둔 표시는 HandCardHudBridge가 IsDelivering을 보고 함께 건다.)
+            if (targeting != null && targeting.IsDelivering)
+            {
+                ShowTransientNotice("정보를 전달하는 중입니다. 결과를 기다려 주십시오.", MutedText);
+                return;
+            }
             if (targeting.CardSelectionAllowed != null && !targeting.CardSelectionAllowed(card))
             {
                 ShowTransientNotice("지금 단계에서는 다른 행동을 할 수 없습니다.", ErrorColor);
