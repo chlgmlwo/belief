@@ -105,11 +105,38 @@ curl -X POST https://belief-llm-proxy.<계정이름>.workers.dev ^
 **한계를 분명히 해두면**: `Origin` 헤더는 브라우저가 붙이는 값이라 `curl` 같은 도구로는 위조할 수 있다.
 이 목록만으로 악용을 완전히 막지는 못한다. 실제로 비용을 묶어 주는 것은 **모델 고정과 토큰 상한**이다.
 
-더 조이려면 대시보드에서:
-- Workers & Pages → 해당 Worker → **Settings** : 무료 플랜은 하루 10만 요청 상한이 기본으로 걸려 있다
-- Security → WAF → **Rate limiting rules** : IP당 분당 요청 수 제한
+**실제 비용 천장은 결제 쪽에 있다.** AI 회사 계정을 선불 크레딧만 쓰고 자동 충전을 꺼 두면,
+위의 장치가 전부 뚫려도 충전해 둔 금액을 넘길 수 없다. 이 프로젝트는 그렇게 설정해 뒀다.
+설정이라 실수로 풀릴 수 있는 예산 상한보다 이쪽이 강하다.
+
+더 조이고 싶다면 — **주의: WAF의 Rate limiting rules 는 여기에 쓸 수 없다.** 그건 직접 소유한
+도메인(zone) 단위 기능이라 `*.workers.dev` 주소에는 걸리지 않고, 대시보드에도 해당 메뉴가 없다.
+
+호출 횟수를 조이려면 Workers의 **rate limiting 바인딩**을 써야 하는데, 이건 대시보드로는 추가할 수
+없고 `wrangler.toml` 로만 설정된다(즉 배포 방법 B가 필요하다).
+
+```toml
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 20        # 키당 허용 횟수
+  period = 60       # 10 또는 60 만 허용된다
+```
+
+```js
+// worker.js 의 origin 검사 직후
+const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+const { success } = await env.RATE_LIMITER.limit({ key: ip });
+if (!success) return json({ error: { message: "요청이 너무 잦습니다." } }, 429, cors);
+```
+
+한도는 **Cloudflare 지점(colo)별로 따로 센다** — 전 세계 총합 상한이 아니다. 남용 억제용이지
+총량 상한이 아니고, 총량은 위의 선불 크레딧이 담당한다.
 
 주소가 유출된 것 같으면 Worker를 지웠다가 다른 이름으로 다시 만들면 주소가 바뀐다.
+단 그때는 Unity의 `LlmProviderConfig_Proxy.asset` > Endpoint 를 고치고 재빌드·재배포해야 한다.
 
 ---
 
